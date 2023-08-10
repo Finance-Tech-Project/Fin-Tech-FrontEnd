@@ -1,9 +1,10 @@
 import './App.css';
+import ChartTV from './Components/Statistics/ChartTV';
 
 function App() {
 	return (
-		<div className="App">
-
+		<div>
+			<ChartTV />
 		</div>
 	);
 }

@@ -1,8 +1,13 @@
+import { Container } from '@chakra-ui/react'
 import React from 'react'
+import { Outlet } from "react-router-dom";
+
 
 const Statistics = () => {
 	return (
-		<div>Statistics</div>
+		<Container maxW="container.xl">
+			<Outlet />
+		</Container>
 	)
 }
 
