@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { VStack, Box, Container, Stack, Flex, flexbox } from "@chakra-ui/react";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets-fixed";
-import { ChartTvContainer } from "../../../Styles/ChartTVStyle";
+import { TradingViewWidgetContainer } from "../../Styles/TradingViewWidgetStyles/TradingViewWidgetStyle";
+
 
 const ChartsDashboard = () => {
 
@@ -18,16 +19,16 @@ const ChartsDashboard = () => {
 	};
 
 	return (
-		<VStack display={'flex'} justifyContent={'center'} alignItems={'center'}>
-			<ChartTvContainer>
-				<Container maxW="container.xl" height={"60vh"}>
+		<VStack>
+			<TradingViewWidgetContainer>
+				<Container maxW="container.xl" height={"60vh"} >
 					<AdvancedRealTimeChart 
 						timezone={"Asia/Jerusalem"}
 						theme="dark"
 						autosize={true}
 					></AdvancedRealTimeChart>
 				</Container>
-			</ChartTvContainer>
+			</TradingViewWidgetContainer>
 		</VStack>
 	)
 }

@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "strictNullChecks": true, // added from me
-    "noImplicitAny": true, // added from me
     "target": "es5",
     "lib": [
       "dom",

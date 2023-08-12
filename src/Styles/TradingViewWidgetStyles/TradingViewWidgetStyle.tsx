@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 
-export const ChartTvContainer = styled.div`
+export const TradingViewWidgetContainer = styled.div`
     min-width: 100%;
-   
 `;

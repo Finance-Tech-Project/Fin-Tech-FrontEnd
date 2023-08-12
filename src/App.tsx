@@ -1,10 +1,13 @@
 import './App.css';
-import ChartTV from './Components/Statistics/ChartTV';
+import LightWeightChart from './Components/TradingViewLightWeightChart/LightWeightChart';
+import TradingViewWidget from './Components/TradingViewWidget/TradingViewWidget';
+
 
 function App() {
 	return (
 		<div>
-			<ChartTV />
+			{/* <TradingViewWidget /> */}
+			{/* <LightWeightChart /> */}
 		</div>
 	);
 }
