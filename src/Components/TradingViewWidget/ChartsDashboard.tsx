@@ -19,17 +19,18 @@ const ChartsDashboard = () => {
 	};
 
 	return (
-		<VStack>
-			<TradingViewWidgetContainer>
-				<Container maxW="container.xl" height={"60vh"} >
-					<AdvancedRealTimeChart 
+		// Rsponsive widget
+		<TradingViewWidgetContainer>
+			<VStack>
+				<Container maxW="container.xl" height={"80vh"} >
+					<AdvancedRealTimeChart
 						timezone={"Asia/Jerusalem"}
 						theme="dark"
 						autosize={true}
 					></AdvancedRealTimeChart>
 				</Container>
-			</TradingViewWidgetContainer>
-		</VStack>
+			</VStack>
+		</TradingViewWidgetContainer>
 	)
 }
 

@@ -9,7 +9,7 @@ const HeaderButtons = () => {
 		<Box sx={{ display: 'flex' }}>
 			{headerButtons.map((buttonText) => {
 				return (
-					<HeaderButtonsStyle disableRipple sx={{p: 1}} key={buttonText} >{buttonText}</HeaderButtonsStyle>
+					<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
 				);
 			})}
 		</Box>

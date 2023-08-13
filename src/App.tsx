@@ -9,8 +9,8 @@ function App() {
 	return (
 		<Grid container>
 		
-				<Home />
-		
+			<Home />
+			
 			{/* <TradingViewWidget /> */}
 			{/* <LightWeightChart /> */}
 		</Grid>

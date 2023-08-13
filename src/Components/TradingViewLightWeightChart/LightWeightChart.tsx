@@ -4,7 +4,7 @@ import { priceData } from '../../Constants/LightWeightChartData/priceData';
 import { ChartOptions, ColorType, LineData, WhitespaceData } from 'lightweight-charts';
 import { volumeData } from '../../Constants/LightWeightChartData/volumeData';
 import { areaData } from '../../Constants/LightWeightChartData/areaData';
-import data from '../../data.json'
+import data from '../../DataFiles/data.json'
 
 const parseData = (param: number) => {
 	if (param === 0) {

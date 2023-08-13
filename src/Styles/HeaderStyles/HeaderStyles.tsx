@@ -12,10 +12,15 @@ export const HeaderButtonsStyle = styled(Button)(({ theme }) => ({
     color: '#fff',
     fontSize: '20px',
     fontFamily: 'Inter, sans-serif',
-    // paddingRight: '20px',
+    paddingRight: '35px',
     variant: 'text',
     textTransform: 'inherit',
-    '&:hover, &:focus': {
-        color: '#d55190' // 744edd
+    textAlign: 'center',
+    '&:hover, &:focus, &:active': {
+        boxShadow: 'none',
+        color: '#d55190', // 744edd
+        backgroundColor: 'rgba(4, 3, 28, 1)' 
     }
 }));
+
+

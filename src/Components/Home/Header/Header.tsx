@@ -1,7 +1,7 @@
 import { Box, Button, ThemeProvider } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import React from 'react'
-import { HeaderContainer } from '../../../Styles/HeaderStyles/HeaderStyles'
+import { HeaderButtonsStyle, HeaderContainer } from '../../../Styles/HeaderStyles/HeaderStyles'
 import Logo from './Logo'
 import HeaderButtons from './HeaderButtons'
 import { theme } from '../../../Constants/MaterialConstants/theme'
@@ -18,17 +18,14 @@ const Header = () => {
 						<HeaderButtons />
 					</Grid>
 					<Grid desktop={2} desktopOffset={1}>
-						<Box>
-							<Button variant="contained">Login</Button>
-							<Button variant="contained">Register</Button>
+						<Box display={'flex'} alignItems={'center'}> 
+							<HeaderButtonsStyle disableRipple>Login</HeaderButtonsStyle>
+							<HeaderButtonsStyle disableRipple>Register</HeaderButtonsStyle>
 						</Box>
 					</Grid>
-
 				</Grid>
 			</HeaderContainer>
 		</ThemeProvider>
-
-
 	)
 }
 
