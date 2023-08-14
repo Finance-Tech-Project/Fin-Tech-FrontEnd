@@ -8,7 +8,7 @@ const Home = () => {
 	return (
 		<Box sx={{ width: '100%', height: '96px'}}>
 			<Header />
-			<Tickers />
+			{/* <Tickers /> */}
 		</Box>
 		
 

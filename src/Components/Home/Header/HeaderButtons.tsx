@@ -6,7 +6,7 @@ import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 
 const HeaderButtons = () => {
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box sx={{ display: 'flex', paddingLeft: '300px' }}>
 			{headerButtons.map((buttonText) => {
 				return (
 					<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
