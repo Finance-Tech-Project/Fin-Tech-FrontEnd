@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
+
 export interface Ticker {
 	"symbol": string,
 	"Name": string,
@@ -52,7 +53,8 @@ const Tickers = () => {
 		})
 		tickersData.forEach((ticker, index) => ticker.index = index);
 		if (param) {
-			return tickersData.filter((ticker) => ticker.symbol.toLowerCase().includes(param) ? ticker : undefined);
+			return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined) 
+												|| (ticker.Name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
 		}
 		return tickersData;
 	};
@@ -86,11 +88,12 @@ const Tickers = () => {
 						<TableHead>
 							<TableRow>
 								{parseHeadData().map((column: Column) => {
+									const columnName = column.id.replace('symbol', 'Symbol');
 									return (
 										<TableCell sx={{ '&.MuiTableCell-root': {
 											backgroundColor: '#190033',
 											color: 'white'
-										}}} key={column.index}> {column.id}</TableCell>
+										}}} key={column.index}>{columnName}</TableCell>
 									);
 								})}
 							</TableRow>
@@ -106,10 +109,16 @@ const Tickers = () => {
 														const value = row[column.id];
 														return (
 															<TableCell  key={column.index} sx={{'&.MuiTableCell-root': {
+																									color: 'white',
+																									backgroundColor: '#3e3e3e',
+																									fontFamily: 'Inter, sans-serif',
 																									'&:nth-of-type(1)': {
+																										position: 'relative',
+																										zIndex: 1,
 																										borderRight: '1px solid #190033',
-																										boxShadow: '5px 0 5px -2px rgba(0,0,0,.5)',
+																										boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
 																										'&:hover': {
+																											cursor: 'pointer',
 																											borderBottom: '2px solid #190033',
 																											marginBottom: '5px'
 																										}
@@ -128,7 +137,7 @@ const Tickers = () => {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<TablePagination
+				<TablePagination sx={{border: '1px solid black', backgroundColor: '#190033', color: 'white', '.MuiSvgIcon-root': {color: 'white'}}}
 					rowsPerPageOptions={[10, 100, 1000]}
 					component="div"
 					count={parseData(data).length}
