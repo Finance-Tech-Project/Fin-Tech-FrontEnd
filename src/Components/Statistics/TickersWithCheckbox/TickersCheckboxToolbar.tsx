@@ -1,6 +1,6 @@
 import { DeleteIcon } from '@chakra-ui/icons'
-import { Box, Checkbox, IconButton, Paper, Toolbar, Tooltip, Typography } from '@mui/material'
-import React, { MouseEventHandler, SVGProps } from 'react'
+import { Checkbox, IconButton, Toolbar, Tooltip, Typography } from '@mui/material'
+import React from 'react'
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 interface ToolbarProps {
@@ -10,9 +10,7 @@ interface ToolbarProps {
     rowCount: number
 }
 
-const TickersToolbar = ({ numSelected, handleSelectAllClick, rowCount,  handleDeleteAllSelectedTickers}: ToolbarProps) => {
-
-
+const TickersCheckboxToolbar = ({ numSelected, handleSelectAllClick, rowCount,  handleDeleteAllSelectedTickers}: ToolbarProps) => {
     return (
         <Toolbar sx={{backgroundColor: 'aqua', border: '1px solid black'}}>
             <Checkbox
@@ -57,4 +55,4 @@ const TickersToolbar = ({ numSelected, handleSelectAllClick, rowCount,  handleDe
     )
 }
 
-export default TickersToolbar
+export default TickersCheckboxToolbar

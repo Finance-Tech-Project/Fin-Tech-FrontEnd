@@ -1,53 +1,34 @@
-import React, { MouseEventHandler, SVGProps, useEffect, useState } from 'react'
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import TextField from '@mui/material/TextField';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import TableBody from '@mui/material/TableBody';
-import Table from '@mui/material/Table';
+import React, { useEffect, useState } from 'react'
 import tickers from '../../../DataFiles/tickers.json'
-import TableCell from '@mui/material/TableCell';
-import TablePagination from '@mui/material/TablePagination';
-import { Box, Checkbox } from '@mui/material';
-import TickersToolbar from './TickersToolbar';
-
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
 export interface Ticker {
 	"symbol": string,
 	"Name": string,
-	"Last Price": string,
-	"Industry / Category": string,
-	"Type": string,
-	"Exchange": string,
 	index?: number
 }
 
 export interface Column {
-	id: 'symbol' | 'Name' | 'Last Price' | 'Industry / Category' | 'Type' | 'Exchange',
+	id: 'symbol' | 'Name',
 	label: string,
 	index?: number
 }
 
 export enum ColumnType {
 	"symbol" = "symbol",
-	"Name" = "Name",
-	"Last Price" = "Last Price",
-	"Industry / Category" = "Industry / Category",
-	"Type" = "Type",
-	"Exchange" = "Exchange"
+	"Name" = "Name"
 }
 
 const Tickers = () => {
+	const [data, setData] = useState('');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [data, setData] = useState('');
-	const [selected, setSelected] = useState<readonly string[]>([]);
+	const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
 
 	const parseHeadData = () => {
 		const dataTickers: Ticker[] = Object.values(tickers);
 		const headData = Object.keys(dataTickers[0]);
-		const res: Column[] = headData.map((data) => {
+		const res: Column[] = headData.slice(0, 2).map((data) => {
 			const newData: Column = {
 				id: data.toString() as ColumnType.symbol,
 				label: data,
@@ -65,10 +46,6 @@ const Tickers = () => {
 			const res: Ticker = {
 				"symbol": ticker.symbol,
 				"Name": ticker.Name,
-				"Last Price": ticker['Last Price'],
-				"Industry / Category": ticker['Industry / Category'],
-				"Type": ticker.Type,
-				"Exchange": ticker.Exchange,
 				index: 0
 			}
 			return res;
@@ -79,46 +56,6 @@ const Tickers = () => {
 		}
 		return tickersData;
 	};
-
-	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(event.target.checked);
-		if (event.target.checked) {
-			const selectedTickers: string[] = parseData(data).map((e) => e.symbol)
-			setSelected(selectedTickers);
-			return;
-		}
-		setSelected([]);
-	};
-
-	const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
-		const selectedIndex = selected.indexOf(name);
-		let newSelected: readonly string[] = [];
-
-		if (selectedIndex === -1) {
-			newSelected = newSelected.concat(selected, name);
-		} else if (selectedIndex === 0) {
-			newSelected = newSelected.concat(selected.slice(1));
-		} else if (selectedIndex === selected.length - 1) {
-			newSelected = newSelected.concat(selected.slice(0, -1));
-		} else if (selectedIndex > 0) {
-			newSelected = newSelected.concat(
-				selected.slice(0, selectedIndex),
-				selected.slice(selectedIndex + 1),
-			);
-		}
-
-		setSelected(newSelected);
-	};
-
-	const handleDeleteAllSelectedTickers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		if (!Boolean(event.currentTarget.value)) {
-			setSelected([]);
-			return;
-		}
-	};
-
-	const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
 
 	const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setData(event.target.value)
@@ -133,56 +70,61 @@ const Tickers = () => {
 		setPage(0);
 	};
 
+	const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
+		setSelectedTicker(event.currentTarget.childNodes[0].firstChild?.nodeValue);
+	};
 	useEffect(() => {
-
-	}, [data])
-	console.log(selected)
+		return () => setSelectedTicker('');
+	}, []);
+	console.log(selectedTicker)
 	return (
-		<Grid container sx={{ display: 'flex', justifyContent: 'center' }} >
+		<Grid container sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
-				<TextField variant="outlined" onChange={handleChangeData} />
-				<TickersToolbar 
-					numSelected={selected.length} 
-					handleSelectAllClick={handleSelectAllClick} 
-					rowCount={parseData(data).length} 
-					handleDeleteAllSelectedTickers={handleDeleteAllSelectedTickers}
-				/>
-				<TableContainer component={Paper} sx={{ width: '1000px' }}>
-					<Table>
+				<TextField variant="outlined" onChange={handleChangeData} sx={{paddingBottom: '20px', paddingTop: '20px'}}/>
+				<TableContainer component={Paper} sx={{ width: '500px' }}>
+					<Table stickyHeader aria-label="sticky table">
 						<TableHead>
 							<TableRow>
 								{parseHeadData().map((column: Column) => {
 									return (
-										<TableCell key={column.index}> {column.id}</TableCell>
+										<TableCell sx={{ '&.MuiTableCell-root': {
+											backgroundColor: '#190033',
+											color: 'white'
+										}}} key={column.index}> {column.id}</TableCell>
 									);
 								})}
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{parseData(data)
-								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-								.map((row, index) => {
-									const isItemSelected = isSelected(row.symbol);
-									const labelId = `enhanced-table-checkbox-${index}`;
-									return (
-										<TableRow role="checkbox" aria-checked={isItemSelected} selected={isItemSelected} key={row.index}>
-											{parseHeadData().map((column) => {
-												const value = row[column.id];
-												return (
-													<TableCell key={column.index}>
-														{value === row.symbol && <Checkbox 
-																					checked={isItemSelected} 
-																					onChange={event => handleClick(event, row.symbol)} 
-																					inputProps={{ 'aria-labelledby': labelId }} 
-																				/>}
-														{value}
-													</TableCell>
-												)
-											})}
-										</TableRow>
-									)
-								})
-							}
+								{parseData(data)
+									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((row, index) => {
+										return (
+											<TableRow onClick={handleRowClick} key={row.index} hover role="checkbox" >
+												{parseHeadData()
+													.map(((column) => {
+														const value = row[column.id];
+														return (
+															<TableCell  key={column.index} sx={{'&.MuiTableCell-root': {
+																									'&:nth-of-type(1)': {
+																										borderRight: '1px solid #190033',
+																										boxShadow: '5px 0 5px -2px rgba(0,0,0,.5)',
+																										'&:hover': {
+																											borderBottom: '2px solid #190033',
+																											marginBottom: '5px'
+																										}
+																									}
+																								}
+																							}}>
+																{value}
+															</TableCell>
+														);
+													}))
+												}
+											</TableRow>
+										);
+									})
+								}
 						</TableBody>
 					</Table>
 				</TableContainer>
@@ -196,8 +138,7 @@ const Tickers = () => {
 					onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			</Box>
-
-		</Grid >
+		</Grid>
 	)
 }
 
