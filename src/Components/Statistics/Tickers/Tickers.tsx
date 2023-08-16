@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { TabelCellTicker, TablePaginationTicker } from '../../../Styles/TickersStyles/TickersStyles';
 
 export interface Ticker {
 	"symbol": string,
@@ -108,25 +109,9 @@ const Tickers = () => {
 													.map(((column) => {
 														const value = row[column.id];
 														return (
-															<TableCell  key={column.index} sx={{'&.MuiTableCell-root': {
-																									color: 'white',
-																									backgroundColor: '#3e3e3e',
-																									fontFamily: 'Inter, sans-serif',
-																									'&:nth-of-type(1)': {
-																										position: 'relative',
-																										zIndex: 1,
-																										borderRight: '1px solid #190033',
-																										boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
-																										'&:hover': {
-																											cursor: 'pointer',
-																											borderBottom: '2px solid #190033',
-																											marginBottom: '5px'
-																										}
-																									}
-																								}
-																							}}>
+															<TabelCellTicker key={column.index}>
 																{value}
-															</TableCell>
+															</TabelCellTicker>
 														);
 													}))
 												}
@@ -137,9 +122,8 @@ const Tickers = () => {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<TablePagination sx={{border: '1px solid black', backgroundColor: '#190033', color: 'white', '.MuiSvgIcon-root': {color: 'white'}}}
+				<TablePaginationTicker 
 					rowsPerPageOptions={[10, 100, 1000]}
-					component="div"
 					count={parseData(data).length}
 					rowsPerPage={rowsPerPage}
 					page={page}
