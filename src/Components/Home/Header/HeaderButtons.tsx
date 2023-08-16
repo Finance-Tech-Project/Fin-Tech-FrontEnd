@@ -1,5 +1,5 @@
 import React from 'react'
-import { headerButtons } from '../../../Constants/HeaderConstants/headerConstants';
+import { headerButtons } from '../../../Constants/ProjectConstants/headerConstants';
 import { Box, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
@@ -9,7 +9,10 @@ const HeaderButtons = () => {
 		<Box sx={{ display: 'flex', paddingLeft: '300px' }}>
 			{headerButtons.map((buttonText) => {
 				return (
-					<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+					
+						<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+					
+					
 				);
 			})}
 		</Box>

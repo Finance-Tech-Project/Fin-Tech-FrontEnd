@@ -52,7 +52,8 @@ export const MainButtonsLink = styled(Button)(({ theme }) => ({
         boxShadow: '17px 17px 20px 2px rgba(0,11,122,0.89)',
         marginTop: '5px',
         backgroundColor: 'rgba(56, 51, 147, 0.5)'
-    }
+    },
+    // marginRight: '124px'
 }));
 
 export const MainButtonsLinkTextDescr = styled(Typography)(({ theme }) => ({
@@ -63,7 +64,9 @@ export const MainButtonsLinkTextDescr = styled(Typography)(({ theme }) => ({
     lineHeight: '30px',
     letterSpacing: '1.2px',
     textTransform: 'uppercase',
-    textAlign: 'start'
+    textAlign: 'start',
+    zIndex: 1,
+    position: 'relative'
 }));
 
 export const MainButtonsLinkTextHeader = styled(Typography)(({ theme }) => ({
@@ -72,7 +75,7 @@ export const MainButtonsLinkTextHeader = styled(Typography)(({ theme }) => ({
     fontWeight: 600,
     fontSize: '48px',
     lineHeight: '30px',
-    paddingTop: '10px',
+    paddingTop: '25px',
     textAlign: 'start'
 }));
 
