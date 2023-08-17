@@ -1,6 +1,5 @@
-import { Button, Typography, styled } from '@mui/material';
+import { Button, Typography, styled, Box } from '@mui/material';
 import EastIcon from '@mui/icons-material/East';
-
 
 export const MainHeader = styled(Typography)(({ theme }) => ({
     fontFamily: 'Inter, sans-serif',
@@ -37,9 +36,18 @@ export const MainArrowIconButton = styled(EastIcon)(({ theme }) => ({
     paddingBottom: '3px'
 }));
 
+export const MainImagePngContainer = styled(Box)(({ theme }) => ({
+    width: '80%',
+    paddingTop: '20px', 
+    [theme.breakpoints.down('laptopL')]: {
+        width: '120%'
+    }
+}));
+
 export const MainImagePng = styled('img')(({ theme }) => ({
-    width: '420px',
-    height: '320px'
+    // maxWidth: '420px',
+    // maxHeight: '320px'
+    maxWidth: '100%', maxHeight: '100%'
 }));
 
 export const MainButtonsLink = styled(Button)(({ theme }) => ({

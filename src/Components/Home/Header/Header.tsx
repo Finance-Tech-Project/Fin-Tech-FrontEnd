@@ -1,29 +1,23 @@
-import { Box, Button, ThemeProvider } from '@mui/material'
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
-import React from 'react'
-import { HeaderButtonsStyle, HeaderContainer } from '../../../Styles/HeaderStyles/HeaderStyles'
-import Logo from './Logo'
+import {  ThemeProvider } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import {  HeaderContainer } from '../../../Styles/HeaderStyles/HeaderStyles'
 import HeaderButtons from './HeaderButtons'
 import { theme } from '../../../Constants/MaterialConstants/theme'
+import HeaderButtonsResponsive from './HeaderButtonsResponsive'
 
 const Header = () => {
+	const [displaySize, setDisplaySize] = useState(0);
+	
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			setDisplaySize(window.screen.width);
+		})
+	}, []);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<HeaderContainer>
-				<Grid container sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
-					<Logo />
-
-
-					<HeaderButtons />
-
-					<Box display={'flex'} alignItems={'center'} sx={{paddingLeft: '200px'}}>
-						<HeaderButtonsStyle disableRipple>Login</HeaderButtonsStyle>
-						<HeaderButtonsStyle disableRipple>Register</HeaderButtonsStyle>
-					</Box>
-				</Grid>
-
-
-
+				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> : <HeaderButtonsResponsive/> }
 			</HeaderContainer>
 		</ThemeProvider>
 	)

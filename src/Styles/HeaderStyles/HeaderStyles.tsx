@@ -12,7 +12,8 @@ export const HeaderButtonsStyle = styled(Button)(({ theme }) => ({
     color: '#fff',
     fontSize: '20px',
     fontFamily: 'Inter, sans-serif',
-    paddingRight: '35px',
+    // paddingRight: '35px',
+    padding: 0,
     variant: 'text',
     textTransform: 'inherit',
     textAlign: 'center',
@@ -20,7 +21,11 @@ export const HeaderButtonsStyle = styled(Button)(({ theme }) => ({
         boxShadow: 'none',
         color: '#d55190', // 744edd
         backgroundColor: 'rgba(4, 3, 28, 1)' 
+    },
+    [theme.breakpoints.down('laptopL')]: {
+        fontSize: '18px',
     }
+   
 }));
 
 
