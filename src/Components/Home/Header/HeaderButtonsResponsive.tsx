@@ -1,37 +1,80 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Logo from './Logo';
-import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
-import { Box } from '@mui/material'
-import { headerButtons } from '../../../Constants/ProjectConstants/headerConstants';
+import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle, HeaderMenuResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderStyles';
+import { Box, Collapse } from '@mui/material'
+import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
+import { theme } from '../../../Constants/MaterialConstants/theme'
+import HeaderResponsive from './HeaderResponsive';
 
-const HeaderButtonsResponsive = () => {
+interface SizeProps {
+	displaySize: number
+}
+
+const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
+	const [isCklicked, setIsClicked] = useState(true);
+	
+	const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		setIsClicked(Boolean(event.currentTarget.value));
+		setIsClicked(!isCklicked);
+	};
+
+	useEffect(() => {
+
+	}, [isCklicked]);
+
 	return (
 		<Box width="100%">
-			<Grid container width="100%">
-				<Grid tabletOffset={1}>
-					<Logo />
-				</Grid>
-				<Grid container tabletOffset={6}>
-					<Grid>
-						<HeaderButtonsStyle disableRipple>Login</HeaderButtonsStyle>
+			<Box width="100%">
+				<Grid container width="100%" columns={{ tablet: 13, mobileL: 11 }} display={'flex'} alignItems={'center'} >
+					<Grid tablet={2} tabletOffset={1}
+						mobileL={2} mobileLOffset={1}
+						mobileMOffset={2.5}
+					>
+						<Logo />
 					</Grid>
-					<Grid>
-						<HeaderButtonsStyle disableRipple>Register</HeaderButtonsStyle>
-					</Grid>
-				</Grid>
-			</Grid>
-			<Grid container>
-				{headerButtons.map((buttonText) => {
-					return (
-						<Grid key={buttonText} >
-							<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+					<Grid width="100%" container display={'flex'} alignItems={'center'} 
+						tablet={3} tabletOffset={6.5}
+						mobileL={4} mobileLOffset={4}
+						mobileMOffset={1.4}
+					>
+						{headerButtonsLogin.map((button) => {
+							return (
+								<Grid key={button}
+									tabletOffset={2}
+									mobileLOffset={0.5}
+									mobileMOffset={1}
+								>
+									<HeaderButtonsStyle key={button} disableRipple>{button}</HeaderButtonsStyle>
+								</Grid>
+							);
+						})}
+						<Grid display={'flex'} alignItems={'center'}
+								mobileLOffset={1}
+								mobileMOffset={3}
+						>
+							{displaySize < theme.breakpoints.values.tablet &&
+								<HeaderMenuIconButton disableRipple onClick={handleClick}>
+									<HeaderMenuIconStyle />
+								</HeaderMenuIconButton>}
 						</Grid>
-					);
-				})}
-			</Grid>
-		</Box>
+					</Grid>
 
+				</Grid>
+				<Grid container columns={{ tablet: 25 }} paddingTop={1}>
+					{displaySize > theme.breakpoints.values.tablet - 1 && headerButtons.map((buttonText) => {
+						return (
+							<Grid key={buttonText} tabletOffset={1.65}>
+								<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+							</Grid>
+						);
+					})}
+				</Grid>
+			</Box>
+			<Collapse in={!isCklicked} timeout="auto">
+				<HeaderResponsive isCklicked={isCklicked} handleClick={handleClick}></HeaderResponsive>
+			</Collapse>
+		</Box>
 	)
 }
 

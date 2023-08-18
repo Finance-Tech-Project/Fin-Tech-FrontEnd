@@ -1,4 +1,4 @@
-import { TableCell, TablePagination, styled } from "@mui/material";
+import { TableCell, TablePagination, Theme, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     '&.MuiTableCell-root': {
@@ -19,12 +19,13 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-export const TablePaginationTicker = styled(TablePagination)(({ theme }) => ({
-    border: '1px solid black', 
-    backgroundColor: '#190033', 
-    color: 'white', 
-    '.MuiSvgIcon-root': {
-        color: 'white'
-    }
-}));
+export const TablePaginationTickerStyle = (theme: any) => ({
+   
+    // border: '1px solid black', 
+    // backgroundColor: '#190033', 
+    // color: 'white', 
+    // '.MuiSvgIcon-root': {
+    //     color: 'white'
+    // }
+});
 

@@ -6,18 +6,19 @@ import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderButtonsResponsive from './HeaderButtonsResponsive'
 
 const Header = () => {
-	const [displaySize, setDisplaySize] = useState(0);
+	const [displaySize, setDisplaySize] = useState(window.screen.width);
 	
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySize(window.screen.width);
-		})
-	}, []);
-
+		});
+		
+	}, [displaySize]);
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<HeaderContainer>
-				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> : <HeaderButtonsResponsive/> }
+				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> : <HeaderButtonsResponsive displaySize={displaySize}/> }
 			</HeaderContainer>
 		</ThemeProvider>
 	)

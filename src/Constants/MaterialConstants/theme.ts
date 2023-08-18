@@ -19,6 +19,23 @@ declare module '@mui/material/styles' {
 }
 
 export const theme = createTheme({
+	typography: {
+		fontFamily: 'Inter, sans-serif',
+	},
+	components: {
+		MuiTablePagination: {
+			styleOverrides: {
+				root: {
+					border: '1px solid black', 
+					backgroundColor: '#190033', 
+					color: 'white', 
+					'.MuiSvgIcon-root': {
+						color: 'white'
+					}
+				}
+			}
+		},
+	},
     breakpoints: {
         values: {
             mobileS: 321,
