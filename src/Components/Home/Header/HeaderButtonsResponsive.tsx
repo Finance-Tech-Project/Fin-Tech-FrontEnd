@@ -6,6 +6,7 @@ import { Box, Collapse } from '@mui/material'
 import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
+import { Link } from 'react-router-dom';
 
 interface SizeProps {
 	displaySize: number
@@ -64,14 +65,17 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 				<Grid container columns={{ tablet: 25 }} paddingTop={1}>
 					{displaySize > theme.breakpoints.values.tablet - 1 && headerButtons.map((buttonText) => {
 						return (
-							<Grid key={buttonText} tabletOffset={1.65}>
-								<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+							<Grid key={buttonText.route} tabletOffset={1.65}>
+								
+									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
+							
+								
 							</Grid>
 						);
 					})}
 				</Grid>
 			</Box>
-			<Collapse in={!isCklicked} timeout="auto">
+			<Collapse  in={!isCklicked} timeout="auto">
 				<HeaderResponsive isCklicked={isCklicked} handleClick={handleClick}></HeaderResponsive>
 			</Collapse>
 		</Box>

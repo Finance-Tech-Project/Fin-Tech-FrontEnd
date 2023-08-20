@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { Box, Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import Logo from './Logo';
+import { Link, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const HeaderButtons = () => {
+	
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 
@@ -15,7 +17,7 @@ const HeaderButtons = () => {
 					laptopL={2} laptopLOffset={0.5}
 					laptop={2} laptopOffset={0.5}
 					tablet={2} tabletOffset={0.5}
-					
+
 				>
 					<Logo />
 				</Grid>
@@ -29,14 +31,20 @@ const HeaderButtons = () => {
 				>
 					{headerButtons.map((buttonText) => {
 						return (
-							<Grid key={buttonText} display={'flex'} justifyContent={'center'}
+							<Grid key={buttonText.title} display={'flex'} justifyContent={'center'}
 								desktopLOffset={1}
 								desktopOffset={0.75}
 								laptopLOffset={0.4}
 								laptopOffset={0.3}
 								tabletOffset={0.1}
 							>
-								<HeaderButtonsStyle disableRipple key={buttonText} >{buttonText}</HeaderButtonsStyle>
+								
+								<Link id={buttonText.route} to={`/${buttonText.route}`} key={buttonText.title}>
+									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
+								</Link>
+
+
+
 							</Grid>
 						);
 					})}

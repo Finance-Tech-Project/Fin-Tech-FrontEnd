@@ -6,6 +6,7 @@ import { TabelCellTicker, TablePaginationTickerStyle } from '../../../Styles/Tic
 import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
 import { theme } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 
 export interface Ticker {
 	"symbol": string,
@@ -89,11 +90,11 @@ const Tickers = () => {
 		<MainFindTickerContainer>
 			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5 }} display={'flex'} width={'100%'}>
 				<Grid desktopL={2.36} desktopLOffset={0.8}
-						desktop={3.3} desktopOffset={0.8}
-						laptopL={3.3} laptopLOffset={0.73}
-						laptop={4.3} laptopOffset={0.41}
-						tablet={6.7} tabletOffset={0.45}
-						mobileL={8} mobileLOffset={2.15}
+					desktop={3.3} desktopOffset={0.8}
+					laptopL={3.3} laptopLOffset={0.73}
+					laptop={4.3} laptopOffset={0.41}
+					tablet={6.7} tabletOffset={0.45}
+					mobileL={8} mobileLOffset={2.15}
 				>
 					<MainFindTickerTextFieldContainer>
 						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -145,7 +146,7 @@ const Tickers = () => {
 							</Table>
 
 						</TableContainer>
-						<TablePagination 
+						<TablePagination
 							component={"div"}
 							rowsPerPageOptions={[10, 100, 1000]}
 							count={parseData(data).length}
@@ -153,18 +154,18 @@ const Tickers = () => {
 							page={page}
 							onPageChange={handleChangePage}
 							onRowsPerPageChange={handleChangeRowsPerPage}
-							
+
 						/>
 					</MainFindTickerTextFieldContainer>
 				</Grid>
 
 
 				<Grid desktopL={5} desktopLOffset={1}
-						desktop={5} desktopOffset={2.16}
-						laptopL={5} laptopLOffset={2.06}
-						laptop={5.5} laptopOffset={1.6}
-						tablet={5.3} tabletOffset={0.65}
-						mobileL={8} mobileLOffset={2.15}
+					desktop={5} desktopOffset={2.16}
+					laptopL={5} laptopLOffset={2.06}
+					laptop={5.5} laptopOffset={1.6}
+					tablet={5.3} tabletOffset={0.65}
+					mobileL={8} mobileLOffset={2.15}
 				>
 					<MainFindTickerTextContainer>
 						<MainTickersHeader>
@@ -182,9 +183,12 @@ const Tickers = () => {
 							</MainTickersDesc>
 							<MainTickersExplanation>
 								Select your stock from the table on the left and transfer it to the analytics section or simply click on the button
-								<MainButton sx={{marginTop: '0', marginLeft: '30px'}}>Analytics
-									<MainArrowIconButton></MainArrowIconButton>
-								</MainButton>
+								<Link to={`/analytics`}>
+									<MainButton sx={{ marginTop: '0', marginLeft: '30px' }}>Analytics
+										<MainArrowIconButton></MainArrowIconButton>
+									</MainButton>
+								</Link>
+
 							</MainTickersExplanation>
 						</Box>
 

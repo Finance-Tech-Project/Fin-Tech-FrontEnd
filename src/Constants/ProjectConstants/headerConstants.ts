@@ -1,2 +1,35 @@
-export const headerButtons: Array<string> = ['Home', 'Market Insight', 'Statistics', 'Analytics', 'Contacts', 'My Account'];
+export interface HeaderButtons {
+    title: string,
+    route: string
+}
+
+
+export const headerButtons: Array<HeaderButtons> = [
+    {
+        title: 'Home',
+        route: 'home'
+    },
+    {
+        title: 'Market Insight',
+        route: 'market_insight'
+    },
+    {
+        title: 'Statistics',
+        route: 'statistics'
+    },
+    {
+        title: 'Analytics',
+        route: 'analytics'
+    },
+    {
+        title: 'Contacts',
+        route: 'contacts'
+    },
+    {
+        title: 'My Account',
+        route: 'my_account'
+    }
+];
+
+
 export const headerButtonsLogin: Array<string> = ['Login', 'Register'];
