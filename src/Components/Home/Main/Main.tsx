@@ -26,6 +26,7 @@ const Main = () => {
 					</MainBackgroundColor>
 				</MainContainer>
 				<MainFindTicker />
+				
 			</Grid>
 		</ThemeProvider>
 	)

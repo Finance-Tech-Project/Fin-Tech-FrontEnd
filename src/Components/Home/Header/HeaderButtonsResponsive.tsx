@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Logo from './Logo';
-import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle, HeaderMenuResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderStyles';
+import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import { Box, Collapse } from '@mui/material'
 import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
-import { Link } from 'react-router-dom';
 
 interface SizeProps {
 	displaySize: number
@@ -31,6 +30,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 					<Grid tablet={2} tabletOffset={1}
 						mobileL={2} mobileLOffset={1}
 						mobileMOffset={2.5}
+						mobileSOffset={2}
 					>
 						<Logo />
 					</Grid>
@@ -45,6 +45,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 									tabletOffset={2}
 									mobileLOffset={0.5}
 									mobileMOffset={1}
+									mobileSOffset={2}
 								>
 									<HeaderButtonsStyle key={button} disableRipple>{button}</HeaderButtonsStyle>
 								</Grid>

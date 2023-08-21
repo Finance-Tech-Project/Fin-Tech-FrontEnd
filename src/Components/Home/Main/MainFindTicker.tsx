@@ -1,7 +1,7 @@
 import React from 'react'
 import { MainFindTickerBackgroundColor, MainFindTickerContainer } from '../../../Styles/MainStyles/MainStyles'
 import Tickers from '../../Statistics/Tickers/Tickers'
-import { Box } from '@mui/material'
+
 
 const MainFindTicker = () => {
 	return (
@@ -9,7 +9,7 @@ const MainFindTicker = () => {
 			<MainFindTickerBackgroundColor>
 			
 					<Tickers />
-			
+					
 				
 			</MainFindTickerBackgroundColor>
 

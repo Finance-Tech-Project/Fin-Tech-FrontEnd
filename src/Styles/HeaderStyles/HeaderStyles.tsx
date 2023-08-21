@@ -1,4 +1,4 @@
-import  { Box, Button, SvgIcon, Theme, styled } from '@mui/material';
+import  { Box, Button, styled } from '@mui/material';
 import LensBlurRoundedIcon from '@mui/icons-material/LensBlurRounded';
 
 export const HeaderContainer = styled(Box)(({ theme }) => ({
