@@ -31,6 +31,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 					<Grid tablet={2} tabletOffset={1}
 						mobileL={2} mobileLOffset={1}
 						mobileMOffset={2.5}
+						mobileSOffset={2}
 					>
 						<Logo />
 					</Grid>
@@ -45,6 +46,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 									tabletOffset={2}
 									mobileLOffset={0.5}
 									mobileMOffset={1}
+									mobileSOffset={2}
 								>
 									<HeaderButtonsStyle key={button} disableRipple>{button}</HeaderButtonsStyle>
 								</Grid>

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react'
 import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
-import { TabelCellTicker, TablePaginationTickerStyle } from '../../../Styles/TickersStyles/TickersStyles';
+import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
-import { theme } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 export interface Ticker {
@@ -88,13 +87,15 @@ const Tickers = () => {
 	console.log(selectedTicker)
 	return (
 		<MainFindTickerContainer>
-			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5 }} display={'flex'} width={'100%'}>
+			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
 				<Grid desktopL={2.36} desktopLOffset={0.8}
 					desktop={3.3} desktopOffset={0.8}
 					laptopL={3.3} laptopLOffset={0.73}
 					laptop={4.3} laptopOffset={0.41}
 					tablet={6.7} tabletOffset={0.45}
 					mobileL={8} mobileLOffset={2.15}
+					mobileM={11} mobileMOffset={0.5}
+					mobileS={11} mobileSOffset={0.5}
 				>
 					<MainFindTickerTextFieldContainer>
 						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -105,7 +106,7 @@ const Tickers = () => {
 						</Box>
 
 
-						<TableContainer component={Paper} sx={{ width: '500px', minHeight: '583px', maxHeight: '585px' }}>
+						<TableContainer component={Paper} sx={{ width: '100%', minHeight: '583px', maxHeight: '585px' }}>
 							<Table stickyHeader aria-label="sticky table">
 								<TableHead >
 									<TableRow>
@@ -166,6 +167,8 @@ const Tickers = () => {
 					laptop={5.5} laptopOffset={1.6}
 					tablet={5.3} tabletOffset={0.65}
 					mobileL={8} mobileLOffset={2.15}
+					mobileM={11} mobileMOffset={0.5}
+					mobileS={11} mobileSOffset={0.5}
 				>
 					<MainFindTickerTextContainer>
 						<MainTickersHeader>
