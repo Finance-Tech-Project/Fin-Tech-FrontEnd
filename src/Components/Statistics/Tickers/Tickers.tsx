@@ -1,56 +1,98 @@
 import React, { useEffect, useState } from 'react'
-import tickers from '../../../DataFiles/tickers.json'
+// import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
 import { Link } from 'react-router-dom';
+import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
+import { getAllTickers, getTickerData } from '../../../FetchActions/fetchActions';
+import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
 
-export interface Ticker {
-	"symbol": string,
-	"Name": string,
-	index?: number
-}
 
-export interface Column {
-	id: 'symbol' | 'Name',
-	label: string,
-	index?: number
-}
+// export interface Ticker {
+// 	"symbol": string,
+// 	"Name": string,
+// 	index?: number
+// }
 
-export enum ColumnType {
-	"symbol" = "symbol",
-	"Name" = "Name"
-}
+// export interface Column {
+// 	id: 'symbol' | 'Name',
+// 	label: string,
+// 	index?: number
+// }
+
+// export enum ColumnType {
+// 	"symbol" = "symbol",
+// 	"Name" = "Name"
+// }
 
 const Tickers = () => {
 	const [data, setData] = useState('');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
+	const [rows, setRows] = useState<Array<TickerType>>([]);
+	const [columns, setColumns] = useState<Array<TickerColumnType>>([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
+	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
+	// const parseHeadData = () => {
 
-	const parseHeadData = () => {
-		const dataTickers: Ticker[] = Object.values(tickers);
-		const headData = Object.keys(dataTickers[0]);
-		const res: Column[] = headData.slice(0, 2).map((data) => {
-			const newData: Column = {
-				id: data.toString() as ColumnType.symbol,
-				label: data,
-				index: 0
-			}
-			return newData;
-		});
-		res.forEach((ticker, index) => ticker.index = index);
-		return res;
+	// 	const dataTickers: Ticker[] = Object.values(tickers);
+	// 	const headData = Object.keys(dataTickers[0]);
+	// 	const res: Column[] = headData.slice(0, 2).map((data) => {
+	// 		const newData: Column = {
+	// 			id: data.toString() as ColumnType.symbol,
+	// 			label: data,
+	// 			index: 0
+	// 		}
+	// 		return newData;
+	// 	});
+	// 	res.forEach((ticker, index) => ticker.index = index);
+	// 	return res;
+	// };
+
+	// const parseData = (param: string) => {
+	// 	const data: Array<Ticker> = Object.values(tickers);
+	// 	const tickersData: Array<Ticker> = data.map((ticker) => {
+	// 		const res: Ticker = {
+	// 			"symbol": ticker.symbol,
+	// 			"Name": ticker.Name,
+	// 			index: 0
+	// 		}
+	// 		return res;
+	// 	})
+	// 	tickersData.forEach((ticker, index) => ticker.index = index);
+	// 	if (param) {
+	// 		return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
+	// 			|| (ticker.Name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
+	// 	}
+	// 	return tickersData;
+	// };
+
+	const createColumns = (allTickers: Array<TickerType> | undefined) => {
+		if (allTickers || allTickers!.length > 0) {
+			const tickersKeys = Object.keys(allTickers![0]);
+			const res: TickerColumnType[] = tickersKeys.slice(0, 2).map((data) => {
+				const newData: TickerColumnType = {
+					id: data.toString() as ColumnType.symbol,
+					label: data,
+					index: 0
+				}
+				return newData;
+			});
+			res.forEach((ticker, index) => ticker.index = index);
+			setColumns(res);
+		}
 	};
 
-	const parseData = (param: string) => {
-		const data: Array<Ticker> = Object.values(tickers);
-		const tickersData: Array<Ticker> = data.map((ticker) => {
-			const res: Ticker = {
-				"symbol": ticker.symbol,
-				"Name": ticker.Name,
+	const createRows = (param: string, allTickers: Array<TickerType> | undefined) => {
+		const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
+			const res: TickerType = {
+				symbol: ticker.symbol,
+				name: ticker.name,
 				index: 0
 			}
 			return res;
@@ -58,10 +100,41 @@ const Tickers = () => {
 		tickersData.forEach((ticker, index) => ticker.index = index);
 		if (param) {
 			return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
-				|| (ticker.Name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
+				|| (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
 		}
-		return tickersData;
+		setRows(tickersData);
 	};
+
+	const getTickers = async () => {
+		const allTickers: Array<TickerType> | undefined = await getAllTickers();
+		return allTickers;
+
+	};
+
+	const getDataTicker = async () => {
+		if (selectedTicker) {
+			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker);
+			const tickerData: Array<TickerDataType> | undefined = dataTicker?.map((ticker) => {
+				const res: TickerDataType = {
+					time: ticker.time,
+					open: ticker.open,
+					high: ticker.high,
+					low: ticker.low,
+					close: ticker.close,
+					values: ticker.values!.map((tickerValue) => {
+						return {
+							time: tickerValue.time,
+							value: tickerValue.value
+						}
+					})
+				}
+				return res;
+			})
+			setTickerData(tickerData!);
+			
+			
+		}
+	}
 
 	const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setData(event.target.value)
@@ -81,10 +154,21 @@ const Tickers = () => {
 	};
 
 	useEffect(() => {
-		return () => setSelectedTicker('');
-	}, []);
+		setIsLoading(true);
+		setTimeout(async () => {
+			if (isLoading) {
+				createColumns(await getTickers());
+				createRows(data, await getTickers());
+			}
+		}, 0)
+		getDataTicker();
+		return () => (
+			setSelectedTicker(''),
+			setIsLoading(false)
+		);
+	}, [isLoading, selectedTicker]);
 
-	console.log(selectedTicker)
+	console.log(tickerVolume)
 	return (
 		<MainFindTickerContainer>
 			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
@@ -110,7 +194,7 @@ const Tickers = () => {
 							<Table stickyHeader aria-label="sticky table">
 								<TableHead >
 									<TableRow>
-										{parseHeadData().map((column: Column) => {
+										{columns.map((column: TickerColumnType) => {
 											const columnName = column.id.replace('symbol', 'Symbol');
 											return (
 												<TableCell component="th" sx={{
@@ -124,13 +208,14 @@ const Tickers = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{parseData(data)
+									{rows
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((row) => {
 											return (
 												<TableRow onClick={handleRowClick} key={row.index} hover role="checkbox" >
-													{parseHeadData()
-														.map(((column) => {
+													{columns
+														.map(((column: TickerColumnType) => {
+
 															const value = row[column.id];
 															return (
 																<TabelCellTicker key={column.index}>
@@ -150,7 +235,7 @@ const Tickers = () => {
 						<TablePagination
 							component={"div"}
 							rowsPerPageOptions={[10, 100, 1000]}
-							count={parseData(data).length}
+							count={rows.length}
 							rowsPerPage={rowsPerPage}
 							page={page}
 							onPageChange={handleChangePage}
@@ -170,7 +255,7 @@ const Tickers = () => {
 					mobileM={11} mobileMOffset={0.5}
 					mobileS={11} mobileSOffset={0.5}
 				>
-					<MainFindTickerTextContainer>
+					{/* <MainFindTickerTextContainer>
 						<MainTickersHeader>
 							In our analytics section you can:
 						</MainTickersHeader>
@@ -194,13 +279,18 @@ const Tickers = () => {
 
 							</MainTickersExplanation>
 						</Box>
+					</MainFindTickerTextContainer> */}
 
-					</MainFindTickerTextContainer>
+					<LightWeightChart tickerData={tickerData} />
+
+
 				</Grid>
 			</Grid>
 		</MainFindTickerContainer>
 
 	)
 }
+
+
 
 export default Tickers
