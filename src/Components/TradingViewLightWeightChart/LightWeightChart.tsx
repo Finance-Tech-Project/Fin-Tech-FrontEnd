@@ -5,9 +5,12 @@ import { ChartOptions, ColorType, LineData, WhitespaceData, createChart } from '
 import { volumeData } from '../../Constants/LightWeightChartData/volumeData';
 import { areaData } from '../../Constants/LightWeightChartData/areaData';
 import data from '../../DataFiles/data.json'
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import { setTimeout } from 'timers/promises';
+import { getDefaultTickerData } from '../../FetchActions/fetchActions';
+import { delimiterDataToPeriods, parseDataTicker } from '../../FetchActions/dataProcessingFunctions';
+import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 
 
 const parseData = (param: number) => {
@@ -30,8 +33,8 @@ const parseData = (param: number) => {
 }
 
 interface Props {
-	tickerData: Array<TickerDataType>,
-	tickerVolume: Array<TickerDataVolumeType>
+	tickerData: Array<TickerDataType | TickerDataVolumeType>,
+	tickerVolume: Array<TickerDataVolumeType | TickerDataType>
 }
 
 const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
@@ -67,9 +70,14 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 	// };
 
 
+	window.setTimeout(() => {
+
+			
+	}, 0);
 
 	useEffect(() => {
-
+		console.log(delimiterDataToPeriods("1W", tickerData))
+		
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
 			height: chartContainerRef.current!.clientHeight,
@@ -93,44 +101,47 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 				}
 			}
 		});
-
-
-
 		const handleResize = async () => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth, height: chartContainerRef.current!.clientHeight });
 		};
+
+		
+
 		// const areaSeries = chart.addAreaSeries();
-		// areaSeries.setData(tickerVolume);
-		const candleStickSeries = chart.addCandlestickSeries();
-		candleStickSeries.setData(tickerData);
-		const histogramSeries = chart.addHistogramSeries({ priceScaleId: '' });
-		histogramSeries.priceScale().applyOptions({
-			// set the positioning of the volume series
-			scaleMargins: {
-				top: 0.9, // highest point of the series will be 70% away from the top
-				bottom: 0,
-			},
-		});
-		histogramSeries.setData(tickerVolume);
-		chart.timeScale().fitContent();
+			// areaSeries.setData(tickerVolume);
+			const candleStickSeries = chart.addCandlestickSeries();
+			candleStickSeries.setData(tickerData);
+			const histogramSeries = chart.addHistogramSeries({ priceScaleId: '' });
+			histogramSeries.priceScale().applyOptions({
+				// set the positioning of the volume series
+				scaleMargins: {
+					top: 0.9, // highest point of the series will be 70% away from the top
+					bottom: 0,
+				},
+			});
+			histogramSeries.setData(tickerVolume);
+			chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
 
 		return () => {
-			window.setTimeout(() => {
-				window.removeEventListener('resize', handleResize);
-				chart.remove();
-			}, 0);
-
+			window.removeEventListener('resize', handleResize);
+			chart.remove();
 		};
 
 	}, [tickerData, tickerVolume]);
 
 
 
-
+	// console.log(tickerData)
 
 	return (
 		<Box sx={{ width: '100%', height: '70%', border: '1.5px solid rgba(121, 208, 13, 0.8)' }} ref={chartContainerRef}>
+			<Box >
+				<Button variant="contained">1D</Button>
+				<Button variant="contained">1W</Button>
+				<Button variant="contained">1M</Button>
+				<Button variant="contained">1Y</Button>
+			</Box>
 			<div ref={chartContainerRef}>
 				<Chart {...chartContainerRef.current} autoSize={true}>
 					{/* <CandlestickSeries

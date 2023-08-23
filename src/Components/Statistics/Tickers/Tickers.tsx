@@ -7,8 +7,10 @@ import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTex
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
 import { Link } from 'react-router-dom';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
-import { getAllTickers, getTickerData } from '../../../FetchActions/fetchActions';
+import { getAllTickers, getDefaultTickerData, getTickerData } from '../../../FetchActions/fetchActions';
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
+import { createColumns, createRows, delimiterDataToPeriods, parseDataTicker } from '../../../FetchActions/dataProcessingFunctions';
+import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
 
 
 // export interface Ticker {
@@ -36,8 +38,8 @@ const Tickers = () => {
 	const [rows, setRows] = useState<Array<TickerType>>([]);
 	const [columns, setColumns] = useState<Array<TickerColumnType>>([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
-	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
+	const [tickerData, setTickerData] = useState<Array<TickerDataType | TickerDataVolumeType>>([]);
+	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType | TickerDataType>>([]);
 	// const parseHeadData = () => {
 
 	// 	const dataTickers: Ticker[] = Object.values(tickers);
@@ -72,76 +74,34 @@ const Tickers = () => {
 	// 	return tickersData;
 	// };
 
-	const createColumns = (allTickers: Array<TickerType> | undefined) => {
-		if (allTickers) {
-			const tickersKeys = Object.keys(allTickers![0]);
-			const res: TickerColumnType[] = tickersKeys.slice(0, 2).map((data) => {
-				const newData: TickerColumnType = {
-					id: data.toString() as ColumnType.symbol,
-					label: data,
-					index: 0
-				}
-				return newData;
-			});
-			res.forEach((ticker, index) => ticker.index = index);
-			setColumns(res);
-		}
-	};
-
-	const createRows = (param: string, allTickers: Array<TickerType> | undefined) => {
-		console.log(param)
-		if (allTickers) {
-			const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
-				const res: TickerType = {
-					symbol: ticker.symbol,
-					name: ticker.name,
-					index: 0
-				}
-				return res;
-			})
-			tickersData.forEach((ticker, index) => ticker.index = index);
-			if (param) {
-				const res = tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
-				|| (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
-				setRows(res);
-				return;
-			}
-			setRows(tickersData);
-		}
-	};
-	console.log(rows)
+	
+	
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getAllTickers();
-		createColumns(allTickers);
-		createRows(data, allTickers);
+		setColumns(createColumns(allTickers)!);
+		setRows(createRows(data, allTickers)!);
 	};
 
 	const getDataTicker = async () => {
+		getDataDefaultTicker();
 		if (selectedTicker) {
 			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker);
-			const tickerData: Array<TickerDataType> | undefined = dataTicker?.map((ticker) => {
-				const res: TickerDataType = {
-					time: ticker.time,
-					open: ticker.open,
-					high: ticker.high,
-					low: ticker.low,
-					close: ticker.close
-				}
-				ticker.values!.map((tickerValue) => {
-					tickerVolume.push({
-						time: tickerValue.time,
-						value: tickerValue.value
-					})
-					return {
-						time: tickerValue.time,
-						value: tickerValue.value
-					}
-				})
-				return res;
-			})
-			setTickerData(tickerData!);
+			setTickerVolume(parseDataTicker(VOLUME_DATA, dataTicker!));
+			setTickerData(parseDataTicker(MAIN_DATA, dataTicker!));
 		}
+		
 	}
+
+	const getDataDefaultTicker = async () => {
+		const defaultTicker: Array<TickerDataType> | undefined = await getDefaultTickerData();
+		console.log()
+		if (tickerData.length === 0) {
+			setTickerData(parseDataTicker(MAIN_DATA, defaultTicker!));
+		}
+		if (tickerVolume.length === 0) {
+			setTickerVolume(parseDataTicker(VOLUME_DATA, defaultTicker!));
+		}
+	};
 
 	const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setData(event.target.value)
@@ -164,15 +124,16 @@ const Tickers = () => {
 		setSelectedTicker('');
 		setIsLoading(false);
 	};
-
+	
 	useEffect(() => {
+		
 		setIsLoading(true);
 		isLoading && getTickers();
 		getDataTicker();
 		return () => removeValues();
 	}, [isLoading, selectedTicker, data]);
 
-
+	// console.log(tickerData)
 	return (
 		<MainFindTickerContainer>
 			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
