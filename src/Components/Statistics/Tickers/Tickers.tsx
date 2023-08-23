@@ -73,7 +73,7 @@ const Tickers = () => {
 	// };
 
 	const createColumns = (allTickers: Array<TickerType> | undefined) => {
-		if (allTickers || allTickers!.length > 0) {
+		if (allTickers) {
 			const tickersKeys = Object.keys(allTickers![0]);
 			const res: TickerColumnType[] = tickersKeys.slice(0, 2).map((data) => {
 				const newData: TickerColumnType = {
@@ -89,26 +89,31 @@ const Tickers = () => {
 	};
 
 	const createRows = (param: string, allTickers: Array<TickerType> | undefined) => {
-		const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
-			const res: TickerType = {
-				symbol: ticker.symbol,
-				name: ticker.name,
-				index: 0
-			}
-			return res;
-		})
-		tickersData.forEach((ticker, index) => ticker.index = index);
-		if (param) {
-			return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
+		console.log(param)
+		if (allTickers) {
+			const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
+				const res: TickerType = {
+					symbol: ticker.symbol,
+					name: ticker.name,
+					index: 0
+				}
+				return res;
+			})
+			tickersData.forEach((ticker, index) => ticker.index = index);
+			if (param) {
+				const res = tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
 				|| (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
+				setRows(res);
+				return;
+			}
+			setRows(tickersData);
 		}
-		setRows(tickersData);
 	};
-
+	console.log(rows)
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getAllTickers();
-		return allTickers;
-
+		createColumns(allTickers);
+		createRows(data, allTickers);
 	};
 
 	const getDataTicker = async () => {
@@ -120,19 +125,21 @@ const Tickers = () => {
 					open: ticker.open,
 					high: ticker.high,
 					low: ticker.low,
-					close: ticker.close,
-					values: ticker.values!.map((tickerValue) => {
-						return {
-							time: tickerValue.time,
-							value: tickerValue.value
-						}
-					})
+					close: ticker.close
 				}
+				ticker.values!.map((tickerValue) => {
+					tickerVolume.push({
+						time: tickerValue.time,
+						value: tickerValue.value
+					})
+					return {
+						time: tickerValue.time,
+						value: tickerValue.value
+					}
+				})
 				return res;
 			})
 			setTickerData(tickerData!);
-			
-			
 		}
 	}
 
@@ -153,22 +160,19 @@ const Tickers = () => {
 		setSelectedTicker(event.currentTarget.childNodes[0].firstChild?.nodeValue);
 	};
 
+	const removeValues = () => {
+		setSelectedTicker('');
+		setIsLoading(false);
+	};
+
 	useEffect(() => {
 		setIsLoading(true);
-		setTimeout(async () => {
-			if (isLoading) {
-				createColumns(await getTickers());
-				createRows(data, await getTickers());
-			}
-		}, 0)
+		isLoading && getTickers();
 		getDataTicker();
-		return () => (
-			setSelectedTicker(''),
-			setIsLoading(false)
-		);
-	}, [isLoading, selectedTicker]);
+		return () => removeValues();
+	}, [isLoading, selectedTicker, data]);
 
-	console.log(tickerVolume)
+
 	return (
 		<MainFindTickerContainer>
 			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
@@ -281,7 +285,7 @@ const Tickers = () => {
 						</Box>
 					</MainFindTickerTextContainer> */}
 
-					<LightWeightChart tickerData={tickerData} />
+					<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 
 
 				</Grid>
