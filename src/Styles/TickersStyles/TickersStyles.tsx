@@ -1,4 +1,5 @@
-import { TableCell, TablePagination, Theme, styled } from "@mui/material";
+
+import { Button, TableCell, TablePagination, Theme, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     '&.MuiTableCell-root': {
@@ -28,4 +29,16 @@ export const TablePaginationTickerStyle = (theme: any) => ({
     //     color: 'white'
     // }
 });
+
+export const ChartButtons = styled(Button)(({ theme }) => ({
+    color: 'white',
+    backgroundColor: 'rgba(2, 1, 31, 0.5)',
+    marginRight: '10px',
+    '&:last-child': {
+        marginRight: '0px',
+    },
+    '&:hover, &:focus, &:active': {
+        backgroundColor: 'rgba(110, 110, 114, 0.8)',
+    },
+}));
 
