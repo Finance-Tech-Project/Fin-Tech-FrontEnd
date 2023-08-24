@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from '@mui/material';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getDefaultTickerData, getTickerData } from '../../../FetchActions/fetchActions';
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
-import { createColumns, createRows, delimiterDataToPeriods, parseDataTicker } from '../../../FetchActions/dataProcessingFunctions';
+import { createCandleData, createColumns, createHistogramAreaData, createRows, delimiterDataToPeriods } from '../../../FetchActions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
 
 
@@ -34,12 +34,13 @@ const Tickers = () => {
 	const [data, setData] = useState('');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
+	const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('AAPL');
+	const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('Apple Inc.');
 	const [rows, setRows] = useState<Array<TickerType>>([]);
 	const [columns, setColumns] = useState<Array<TickerColumnType>>([]);
 	const [isLoading, setIsLoading] = useState(false);
-	const [tickerData, setTickerData] = useState<Array<TickerDataType | TickerDataVolumeType>>([]);
-	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType | TickerDataType>>([]);
+	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
+	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	// const parseHeadData = () => {
 
 	// 	const dataTickers: Ticker[] = Object.values(tickers);
@@ -74,8 +75,8 @@ const Tickers = () => {
 	// 	return tickersData;
 	// };
 
-	
-	
+
+
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getAllTickers();
 		setColumns(createColumns(allTickers)!);
@@ -86,20 +87,19 @@ const Tickers = () => {
 		getDataDefaultTicker();
 		if (selectedTicker) {
 			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker);
-			setTickerVolume(parseDataTicker(VOLUME_DATA, dataTicker!));
-			setTickerData(parseDataTicker(MAIN_DATA, dataTicker!));
+			setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
+			setTickerData(createCandleData(MAIN_DATA, dataTicker!));
 		}
-		
+
 	}
 
 	const getDataDefaultTicker = async () => {
 		const defaultTicker: Array<TickerDataType> | undefined = await getDefaultTickerData();
-		console.log()
 		if (tickerData.length === 0) {
-			setTickerData(parseDataTicker(MAIN_DATA, defaultTicker!));
+			setTickerData(createCandleData(MAIN_DATA, defaultTicker!));
 		}
 		if (tickerVolume.length === 0) {
-			setTickerVolume(parseDataTicker(VOLUME_DATA, defaultTicker!));
+			setTickerVolume(createHistogramAreaData(VOLUME_DATA, defaultTicker!));
 		}
 	};
 
@@ -118,15 +118,16 @@ const Tickers = () => {
 
 	const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
 		setSelectedTicker(event.currentTarget.childNodes[0].firstChild?.nodeValue);
+		setSelectedTickerName(event.currentTarget.childNodes[1].firstChild?.nodeValue);
 	};
 
 	const removeValues = () => {
-		setSelectedTicker('');
+		// setSelectedTicker('');
 		setIsLoading(false);
 	};
-	
+
 	useEffect(() => {
-		
+
 		setIsLoading(true);
 		isLoading && getTickers();
 		getDataTicker();
@@ -211,10 +212,10 @@ const Tickers = () => {
 				</Grid>
 
 
-				<Grid desktopL={5} desktopLOffset={1}
-					desktop={5} desktopOffset={2.16}
-					laptopL={5} laptopLOffset={2.06}
-					laptop={5.5} laptopOffset={1.6}
+				<Grid desktopL={5.5} desktopLOffset={0.5}
+					desktop={6.4} desktopOffset={1}
+					laptopL={6.25} laptopLOffset={1}
+					laptop={6.28} laptopOffset={0.8}
 					tablet={5.3} tabletOffset={0.65}
 					mobileL={8} mobileLOffset={2.15}
 					mobileM={11} mobileMOffset={0.5}
@@ -245,13 +246,32 @@ const Tickers = () => {
 							</MainTickersExplanation>
 						</Box>
 					</MainFindTickerTextContainer> */}
+					{tickerData[0] && <Box sx={{
+						width: '100%',
+						height: '95px',
+						backgroundColor: '#2c0951',
+						borderTopLeftRadius: '30px',
+						borderTopRightRadius: '30px',
+						display: 'flex',
+						// justifyContent: 'center',
+						alignItems: 'center',
+						fontFamily: 'Inter, sans-serif',
+					}}>
+						<Box sx={{minWidth: '200px', display: 'flex', flexDirection: 'column', paddingLeft: '20px' }}>
+							<Typography sx={{ color: 'red', fontSize: '2.5rem', lineHeight: '45px' }}>{selectedTicker}</Typography>
+							<Typography sx={{ color: 'white', fontSize: '1rem' }}>{selectedTickerName}</Typography>
+						</Box>
+						<Box sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+							<Typography sx={{ color: 'white', fontSize: '1rem', paddingRight: '50px' }}>Max Price: {tickerData[0].high.toFixed(2)}</Typography>
+							<Typography sx={{ color: 'white', fontSize: '1rem' }}>Min Price: {tickerData[502].high.toFixed(2)}</Typography>
+						</Box>
 
-					<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
-
-
-				</Grid>
+					</Box>}
+				
+				<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 			</Grid>
-		</MainFindTickerContainer>
+		</Grid>
+		</MainFindTickerContainer >
 
 	)
 }

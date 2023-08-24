@@ -36,8 +36,38 @@ export const createRows = (param: string, allTickers: Array<TickerType> | undefi
     }
 };
 
-export const parseDataTicker = (dataType: string, tickerData: Array<TickerDataType>) => {
-    if (dataType === MAIN_DATA) {
+// export const parseDataTicker = (dataType: string, tickerData: Array<TickerDataType>) => {
+//     if (dataType === MAIN_DATA) {
+//         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
+//             const res: TickerDataType = {
+//                 time: ticker.time,
+//                 open: ticker.open,
+//                 high: ticker.high,
+//                 low: ticker.low,
+//                 close: ticker.close
+//             }
+//             return res;
+//         });
+//         return data;
+//     }
+//     if (dataType === VOLUME_DATA) {
+//         const values: Array<TickerDataVolumeType> = [];
+//         tickerData?.forEach((ticker) => {
+//             ticker.values?.forEach((tickerValue) => {
+//                 const res: TickerDataVolumeType = {
+//                     time: tickerValue.time,
+//                     value: tickerValue.value
+//                 }
+//                 values.push(res);
+//             });
+//         });
+//         return values;
+//     }
+//     return tickerData;
+// };
+
+export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
+	if (dataType === MAIN_DATA) {
         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
             const res: TickerDataType = {
                 time: ticker.time,
@@ -50,8 +80,12 @@ export const parseDataTicker = (dataType: string, tickerData: Array<TickerDataTy
         });
         return data;
     }
-    if (dataType === VOLUME_DATA) {
-        const values: Array<TickerDataVolumeType> = [];
+	return tickerData;
+};
+
+export const createHistogramAreaData = (dataType: string, tickerData: Array<TickerDataType>): TickerDataVolumeType[] => {
+	 const values: Array<TickerDataVolumeType> = [];
+	if (dataType === VOLUME_DATA) {
         tickerData?.forEach((ticker) => {
             ticker.values?.forEach((tickerValue) => {
                 const res: TickerDataVolumeType = {
@@ -63,8 +97,9 @@ export const parseDataTicker = (dataType: string, tickerData: Array<TickerDataTy
         });
         return values;
     }
-    return tickerData;
+	return values;
 };
+
 
 export const delimiterDataToPeriods = (period: string, data: Array<TickerDataType | TickerDataVolumeType>) => {
     if (period === "1D") {
@@ -74,7 +109,7 @@ export const delimiterDataToPeriods = (period: string, data: Array<TickerDataTyp
         return data.filter((ticker) => {
             const currentTime = ticker.time.toString();
             const date = new Date(currentTime);
-            // console.log(date.getDay() === 5 && ticker.time)
+            console.log(date.getDay() === 5 && ticker.time)
             return date.getDay() === 5 && ticker;
         })
     }
@@ -86,14 +121,11 @@ export const delimiterDataToPeriods = (period: string, data: Array<TickerDataTyp
             firstDate.setTime((new Date(data[0].time).getTime()));
             plusMonth.setTime(addMonth(firstDate, 1).getTime())
         }
-        console.log(plusMonth)
+        
         if (!(firstDate.getTime() === new Date().getTime())) {
             data.forEach((ticker, index) => {
-
                 if (!(index >= data.length - 1)) {
                     const nextDate = new Date(data[index + 1].time.toString());
-                    
-                    
                     if (nextDate.getTime() > plusMonth.getTime()) {
                         res.push(ticker);
                         plusMonth.setTime(addMonth(nextDate, 1).getTime());
@@ -101,7 +133,8 @@ export const delimiterDataToPeriods = (period: string, data: Array<TickerDataTyp
                 }
             })
         }
-        console.log(res)
+        // console.log(res)
+		return res;
     }
 };
 

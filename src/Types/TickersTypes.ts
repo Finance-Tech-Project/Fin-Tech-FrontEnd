@@ -32,10 +32,10 @@ export interface TickerColumnType {
 
 export interface TickerDataType {
     time: string,
-	open: string | number,
-	high: string | number,
-	low: string | number,
-	close: string | number,
+	open: number,
+	high: number,
+	low: number,
+	close: number,
     values?: Array<TickerDataVolumeType>
 }
 
