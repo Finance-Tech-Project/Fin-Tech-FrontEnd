@@ -76,7 +76,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 	}, 0);
 
 	useEffect(() => {
-		console.log(delimiterDataToPeriods("1W", tickerData))
+		delimiterDataToPeriods("1M", tickerData)
 		
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
