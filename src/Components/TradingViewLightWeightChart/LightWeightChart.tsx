@@ -72,7 +72,6 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 		const barChart = chart.addBarSeries({});
 		barChart.setData(tickerData);
 	};
-
 	const areaSeries = (chart: IChartApi) => {
 		const areaChart = chart.addAreaSeries({});
 		const lineData: Array<TickerDataVolumeType> = tickerData.map((ticker) => ({
