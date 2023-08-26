@@ -1,5 +1,4 @@
-
-import { Button, TableCell, TablePagination, Theme, styled } from "@mui/material";
+import { Button, TableCell, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     '&.MuiTableCell-root': {
@@ -20,16 +19,6 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     }
 }));
 
-export const TablePaginationTickerStyle = (theme: any) => ({
-   
-    // border: '1px solid black', 
-    // backgroundColor: '#190033', 
-    // color: 'white', 
-    // '.MuiSvgIcon-root': {
-    //     color: 'white'
-    // }
-});
-
 export const ChartButtons = styled(Button)(({ theme }) => ({
     color: 'white',
     backgroundColor: 'rgba(2, 1, 31, 0.5)',
@@ -39,6 +28,12 @@ export const ChartButtons = styled(Button)(({ theme }) => ({
     },
     '&:hover, &:focus, &:active': {
         backgroundColor: 'rgba(110, 110, 114, 0.8)',
+    },
+    [theme.breakpoints.up('mobileS')]: {
+        marginRight: '0px',
+    },
+    [theme.breakpoints.up('mobileM')]: {
+        marginRight: '5px',
     },
 }));
 

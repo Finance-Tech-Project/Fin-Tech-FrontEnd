@@ -7,13 +7,8 @@ const MainFindTicker = () => {
 	return (
 		<MainFindTickerContainer>
 			<MainFindTickerBackgroundColor>
-			
-					<Tickers />
-					
-				
+				<Tickers />
 			</MainFindTickerBackgroundColor>
-
-
 		</MainFindTickerContainer>
 	)
 }

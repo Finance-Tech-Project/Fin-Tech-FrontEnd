@@ -38,13 +38,13 @@ export const theme = createTheme({
 	},
     breakpoints: {
         values: {
-            mobileS: 321,
-            mobileM: 376,
-            mobileL: 426,
-            tablet: 769,
-            laptop: 1025,
-            laptopL: 1441,
-            desktop: 1921,
+            mobileS: 320,
+            mobileM: 375,
+            mobileL: 425,
+            tablet: 768,
+            laptop: 1024,
+            laptopL: 1440,
+            desktop: 1920,
             desktopL: 2560
         }
     }

@@ -1,4 +1,4 @@
-import { Button, Typography, styled, Box, TextField } from '@mui/material';
+import { Button, Typography, styled, Box, TextField, Theme } from '@mui/material';
 
 export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     paddingTop: '50px',
@@ -14,19 +14,40 @@ export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({
     display: 'flex', 
     flexDirection: 'column', 
     maxWidth: '500px',
-    [theme.breakpoints.down('tablet')]: {
-        flexDirection: 'column'
+    [theme.breakpoints.up('tablet')]: {
+        flexDirection: 'column',
+        maxWidth: '700px',
     }
 }));
+
+export const MainFindTickerTextWrapper = styled(Box)(({ theme }) => ({
+    [theme.breakpoints.up('laptop')]: {
+        // display: 'flex'
+    }
+}));
+
+export const MainFindTickerTextGridTitleStyle = (theme: Theme) => ({
+    [theme.breakpoints.up('laptop')]: {
+    //    width: '55%'
+    }
+});
+
+export const MainFindTickerTextGridDescrStyle = (theme: Theme) => ({
+    [theme.breakpoints.up('laptop')]: {
+    //    width: '50%'
+    }
+});
 
 export const MainFindTickerTextContainer = styled(Box)(({ theme }) => ({
     width: '100%', 
     display: 'flex', 
     flexDirection: 'column', 
-    alignItems: 'flex-end',
     [theme.breakpoints.down('tablet')]: {
         alignItems: 'center',
-    }
+    },
+    // [theme.breakpoints.down('laptop')]: {
+    //     flexDirection: 'row', 
+    // }
 }));
 
 export const MainTickersTextField = styled(TextField)(({ theme }) => ({
@@ -61,43 +82,55 @@ export const MainTickersHeader = styled(Typography)(({ theme }) => ({
     color: 'RGB(255,196,0)',
     fontSize: '50px',
     fontWeight: 600,
-    textAlign: 'right',
-    [theme.breakpoints.down('laptopL')]: {
-        fontSize: '40px',
-    },
-    [theme.breakpoints.down('laptop')]: {
-        fontSize: '25px',
-        paddingBottom: '50px',
-    },
-    [theme.breakpoints.down('tablet')]: {
-        paddingTop: '50px',
+    textAlign: 'center',
+    [theme.breakpoints.up('mobileS')]: {
+        paddingTop: '30px',
+        paddingBottom: '30px',
         textAlign: 'center',
+        fontSize: '1.7rem',
     },
+    [theme.breakpoints.up('laptop')]: {
+        fontSize: '2rem',
+    }
 }));
 
 export const MainTickersDesc = styled(Typography)(({ theme }) => ({
     color: 'white',
     fontSize: '30px',
     fontWeight: 400,
-    textAlign: 'right',
-    [theme.breakpoints.down('laptop')]: {
-        fontSize: '25px',
-    },
-    [theme.breakpoints.down('tablet')]: {
+    [theme.breakpoints.up('mobileS')]: {
         textAlign: 'center',
+        fontSize: '1.35rem',
     },
+    [theme.breakpoints.up('laptop')]: {
+       textAlign: 'start',
+        fontSize: '1.5rem',
+    }
 }));
+
+
 
 export const MainTickersExplanation = styled(Typography)(({ theme }) => ({
     paddingTop: '130px',
-    color: 'RGB(255,100,0)',
+    color: 'rgb(255, 100, 0)',
     fontSize: '20px',
     fontWeight: 300,
     textAlign: 'right',
     lineHeight: '50px',
-    [theme.breakpoints.down('laptop')]: {
-        fontSize: '18px',
+    [theme.breakpoints.up('mobileS')]: {
+        paddingTop: '30px',
+        paddingBottom: '30px',
+        textAlign: 'center',
+        fontSize: '1.2rem',
+        lineHeight: '20px'
+    },
+    [theme.breakpoints.up('mobileM')]: {
         lineHeight: '30px',
-        paddingTop: '80px',
+    },
+    [theme.breakpoints.up('laptop')]: {
+        lineHeight: '45px',
+    },
+    [theme.breakpoints.up('tablet')]: {
+        textAlign: 'center',
     }
 }));

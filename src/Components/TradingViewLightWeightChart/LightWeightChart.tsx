@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
 import { chartButtonsPeriod, chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
+import { ChartContainer, ChartContainerSeriesButtonsContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyle';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
@@ -85,7 +86,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
-			height: 600, // height: chartContainerRef.current!.clientHeight,
+			height: 598, // height: chartContainerRef.current!.clientHeight,
 			layout: {
 				background: { type: ColorType.Solid, color: 'rgba(23, 27, 27, 1)' },
 				textColor: "#d1d4dc",
@@ -115,9 +116,8 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 		{ selectedSeries === 'candles' && defaultSeries(chart) }
 		{ selectedSeries === 'bar' && barSeries(chart) }
 		{ selectedSeries === 'area' && areaSeries(chart) }
-		window.setTimeout(() => {
+	
 			chart.timeScale().fitContent();
-		}, 0);
 		
 		window.addEventListener('resize', handleResize);
 
@@ -130,29 +130,29 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 
 	return (
 
-		<Box sx={{ width: '100%', maxheight: '650px', border: '1.5px solid rgba(121, 208, 13, 0.8)' }} ref={chartContainerRef}>
-			<Box sx={{ display: 'flex', justifyContent: 'space-between', backgroundColor: 'rgba(23, 27, 27, 1)', borderBottom: '0.5px solid rgba(86, 92, 92, 0.7)' }} >
-				<Box>
+		<ChartContainer ref={chartContainerRef}>
+			<ChartContainerWrapper>
+				{/* <Box>
 					{chartButtonsPeriod.map((button) => {
 						return (
 							<ChartButtons key={button} variant="contained">{button}</ChartButtons>
 						);
 					})}
-				</Box>
+				</Box> */}
 
-				<Box>
+				<ChartContainerSeriesButtonsContainer>
 					{chartButtonsSeries.map((button) => {
 						return (
 							<ChartButtons key={button} onClick={handleChangeSeries} variant="contained">{button}</ChartButtons>
 						);
 					})}
-				</Box>
-			</Box>
+				</ChartContainerSeriesButtonsContainer>
+			</ChartContainerWrapper>
 			
 				<Chart {...chartContainerRef.current} autoSize={true}>
 				</Chart>
 		
-		</Box>
+		</ChartContainer>
 	)
 }
 

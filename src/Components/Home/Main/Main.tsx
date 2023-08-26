@@ -22,7 +22,7 @@ const Main = () => {
 				<MainContainer>
 					<MainBackgroundColor>
 						<MainContext displaySize={displaySize}/>
-						{displaySize > theme.breakpoints.values.tablet && <MainButtons />}
+						{displaySize > theme.breakpoints.values.laptop - 1 && <MainButtons />}
 					</MainBackgroundColor>
 				</MainContainer>
 				<MainFindTicker />

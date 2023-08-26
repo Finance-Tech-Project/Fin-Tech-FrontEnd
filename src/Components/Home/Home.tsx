@@ -14,8 +14,6 @@ const Home = () => {
 			{/* <Tickers /> */}
 			<Main />
 		</Box>
-		
-
 	)
 }
 

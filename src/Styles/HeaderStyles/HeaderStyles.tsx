@@ -51,3 +51,10 @@ export const HeaderMenuResponsiveContainer = styled(Box)(({ theme }) => ({
     top: '96px', 
     opacity: '0.9'
 }));
+
+export const HeaderButtonsResponsiveContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    [theme.breakpoints.up('mobileS')]: {
+        paddingTop: '15px',
+    }
+}));

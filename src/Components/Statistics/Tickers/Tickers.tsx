@@ -1,34 +1,17 @@
 import React, { useEffect, useState } from 'react'
-// import tickers from '../../../DataFiles/tickers.json'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
-import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
+import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainFindTickerTextGridDescrStyle, MainFindTickerTextGridTitleStyle, MainFindTickerTextWrapper, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
 import { Link } from 'react-router-dom';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getDefaultTickerData, getTickerData } from '../../../FetchActions/fetchActions';
-import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
+import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
 import { createCandleData, createColumns, createHistogramAreaData, createRows, delimiterDataToPeriods } from '../../../FetchActions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
-
-
-// export interface Ticker {
-// 	"symbol": string,
-// 	"Name": string,
-// 	index?: number
-// }
-
-// export interface Column {
-// 	id: 'symbol' | 'Name',
-// 	label: string,
-// 	index?: number
-// }
-
-// export enum ColumnType {
-// 	"symbol" = "symbol",
-// 	"Name" = "Name"
-// }
+import { MainHeaderChartContainer, MainHeaderChartTickerDescr, MainHeaderChartTickerDescrContainer, MainHeaderChartTickerName, MainHeaderChartTickerNameContainer } from '../../../Styles/MainStyles/MainChartStyle';
+import { theme } from '../../../Constants/MaterialConstants/theme';
 
 const Tickers = () => {
 	const [data, setData] = useState('');
@@ -41,41 +24,6 @@ const Tickers = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
-	// const parseHeadData = () => {
-
-	// 	const dataTickers: Ticker[] = Object.values(tickers);
-	// 	const headData = Object.keys(dataTickers[0]);
-	// 	const res: Column[] = headData.slice(0, 2).map((data) => {
-	// 		const newData: Column = {
-	// 			id: data.toString() as ColumnType.symbol,
-	// 			label: data,
-	// 			index: 0
-	// 		}
-	// 		return newData;
-	// 	});
-	// 	res.forEach((ticker, index) => ticker.index = index);
-	// 	return res;
-	// };
-
-	// const parseData = (param: string) => {
-	// 	const data: Array<Ticker> = Object.values(tickers);
-	// 	const tickersData: Array<Ticker> = data.map((ticker) => {
-	// 		const res: Ticker = {
-	// 			"symbol": ticker.symbol,
-	// 			"Name": ticker.Name,
-	// 			index: 0
-	// 		}
-	// 		return res;
-	// 	})
-	// 	tickersData.forEach((ticker, index) => ticker.index = index);
-	// 	if (param) {
-	// 		return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
-	// 			|| (ticker.Name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
-	// 	}
-	// 	return tickersData;
-	// };
-
-
 
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getAllTickers();
@@ -90,7 +38,6 @@ const Tickers = () => {
 			setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
 			setTickerData(createCandleData(MAIN_DATA, dataTicker!));
 		}
-
 	}
 
 	const getDataDefaultTicker = async () => {
@@ -136,142 +83,165 @@ const Tickers = () => {
 
 	// console.log(tickerData)
 	return (
-		<MainFindTickerContainer>
-			<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
-				<Grid desktopL={2.36} desktopLOffset={0.8}
-					desktop={3.3} desktopOffset={0.8}
-					laptopL={3.3} laptopLOffset={0.73}
-					laptop={4.3} laptopOffset={0.41}
-					tablet={6.7} tabletOffset={0.45}
-					mobileL={8} mobileLOffset={2.15}
-					mobileM={11} mobileMOffset={0.5}
-					mobileS={11} mobileSOffset={0.5}
-				>
-					<MainFindTickerTextFieldContainer>
-						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<MainTickersTextField variant="outlined" onChange={handleChangeData} />
-							<MainTickersTextFieldHeader>
-								Find your Tickers
-							</MainTickersTextFieldHeader>
-						</Box>
+		<Box>
 
-
-						<TableContainer component={Paper} sx={{ width: '100%', minHeight: '583px', maxHeight: '585px' }}>
-							<Table stickyHeader aria-label="sticky table">
-								<TableHead >
-									<TableRow>
-										{columns.map((column: TickerColumnType) => {
-											const columnName = column.id.replace('symbol', 'Symbol');
-											return (
-												<TableCell component="th" sx={{
-													'&.MuiTableCell-root': {
-														backgroundColor: '#190033',
-														color: 'white'
-													}
-												}} key={column.index}>{columnName}</TableCell>
-											);
-										})}
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{rows
-										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((row) => {
-											return (
-												<TableRow onClick={handleRowClick} key={row.index} hover role="checkbox" >
-													{columns
-														.map(((column: TickerColumnType) => {
-
-															const value = row[column.id];
-															return (
-																<TabelCellTicker key={column.index}>
-																	{value}
-																</TabelCellTicker>
-															);
-														}))
-													}
-												</TableRow>
-											);
-										})
-									}
-								</TableBody>
-							</Table>
-
-						</TableContainer>
-						<TablePagination
-							component={"div"}
-							rowsPerPageOptions={[10, 100, 1000]}
-							count={rows.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-
-						/>
-					</MainFindTickerTextFieldContainer>
+			<Grid container>
+				<Grid mobileL={12} tablet={12} laptop={12}>
+					<MainTickersHeader>
+						In our stock page section you can:
+					</MainTickersHeader>
 				</Grid>
 
-
-				<Grid desktopL={5.5} desktopLOffset={0.5}
-					desktop={6.4} desktopOffset={1}
-					laptopL={6.25} laptopLOffset={1}
-					laptop={6.28} laptopOffset={0.8}
-					tablet={5.3} tabletOffset={0.65}
-					mobileL={8} mobileLOffset={2.15}
-					mobileM={11} mobileMOffset={0.5}
-					mobileS={11} mobileSOffset={0.5}
-				>
-					{/* <MainFindTickerTextContainer>
-						<MainTickersHeader>
-							In our analytics section you can:
-						</MainTickersHeader>
-						<Box sx={{ maxWidth: '750px' }}>
-							<MainTickersDesc>
-								Evaluate the dependencies of your stocks.
-							</MainTickersDesc>
-							<MainTickersDesc>
-								View all stock data for any period. Evaluate the dependencies of two stocks at once.
-							</MainTickersDesc>
-							<MainTickersDesc>
-								Create your stocks portfolio. Make informed investment decisions based on the data-driven analysis of stock market trends.
-							</MainTickersDesc>
-							<MainTickersExplanation>
-								Select your stock from the table on the left and transfer it to the analytics section or simply click on the button
-								<Link to={`/analytics`}>
-									<MainButton sx={{ marginTop: '0', marginLeft: '30px' }}>Analytics
-										<MainArrowIconButton></MainArrowIconButton>
-									</MainButton>
-								</Link>
-
-							</MainTickersExplanation>
-						</Box>
-					</MainFindTickerTextContainer> */}
-					{tickerData[0] && <Box sx={{
-						width: '100%',
-						height: '95px',
-						backgroundColor: '#2c0951',
-						borderTopLeftRadius: '30px',
-						borderTopRightRadius: '30px',
-						display: 'flex',
-						// justifyContent: 'center',
-						alignItems: 'center',
-						fontFamily: 'Inter, sans-serif',
-					}}>
-						<Box sx={{minWidth: '200px', display: 'flex', flexDirection: 'column', paddingLeft: '20px' }}>
-							<Typography sx={{ color: 'red', fontSize: '2.5rem', lineHeight: '45px' }}>{selectedTicker}</Typography>
-							<Typography sx={{ color: 'white', fontSize: '1rem' }}>{selectedTickerName}</Typography>
-						</Box>
-						<Box sx={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-							<Typography sx={{ color: 'white', fontSize: '1rem', paddingRight: '50px' }}>Max Price: {tickerData[0].high.toFixed(2)}</Typography>
-							<Typography sx={{ color: 'white', fontSize: '1rem' }}>Min Price: {tickerData[502].high.toFixed(2)}</Typography>
-						</Box>
-
-					</Box>}
-				
-				<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 			</Grid>
-		</Grid>
-		</MainFindTickerContainer >
+			<MainFindTickerTextWrapper>
+				<Grid container columns={{ tablet: 13, laptop: 12 }} 
+						sx={() => MainFindTickerTextGridTitleStyle(theme)}>
+					<Grid mobileS={9} mobileSOffset={1.75}
+						mobileM={10} mobileMOffset={1}
+						mobileL={11} mobileLOffset={0.5}
+						tablet={12} tabletOffset={0.5}
+						laptop={9} laptopOffset={0.55}
+						laptopL={5} laptopLOffset={0.55}
+					>
+						<MainFindTickerTextContainer>
+							<Box>
+								<MainTickersDesc>
+									View all stocks data for any period.
+								</MainTickersDesc>
+								<MainTickersDesc>
+									Add your stock to portfolio. Make informed investment decisions based on the data-driven analysis of stock market trends.
+								</MainTickersDesc>
+								<MainTickersDesc>View a block of stock page and recommendations along with historical data for any ticker for any period of time.</MainTickersDesc>
+
+							</Box>
+						</MainFindTickerTextContainer>
+					</Grid>
+				</Grid>
+
+				<Grid container columns={{laptop: 15}} sx={() => MainFindTickerTextGridDescrStyle(theme)}>
+					<Grid mobileS={9} mobileSOffset={1.75}
+						mobileM={9.5} mobileMOffset={1.25}
+						mobileL={10} mobileLOffset={1}
+						tablet={11} tabletOffset={0.5}
+						laptop={12} laptopOffset={4.5}
+					>
+						<MainTickersExplanation>
+							Select your stock from the table of stocks and transfer it to the stocks section or simply click on the button
+							<Link to={`/analytics`}>
+								<MainButton marginLeft>Stocks
+									<MainArrowIconButton></MainArrowIconButton>
+								</MainButton>
+							</Link>
+						</MainTickersExplanation>
+					</Grid>
+				</Grid>
+			</MainFindTickerTextWrapper>
+
+			<MainFindTickerContainer>
+
+				<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'}>
+					<Grid mobileS={11} mobileSOffset={0.5}
+						mobileM={11} mobileMOffset={0.5}
+						mobileL={10} mobileLOffset={1.15}
+						tablet={12} tabletOffset={0.75}
+						laptop={4.3} laptopOffset={0.41}
+						laptopL={3.3} laptopLOffset={0.73}
+						desktop={3.3} desktopOffset={0.8}
+						desktopL={2.36} desktopLOffset={0.8}
+					>
+						<MainFindTickerTextFieldContainer>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+								<MainTickersTextField variant="outlined" onChange={handleChangeData} />
+								<MainTickersTextFieldHeader>
+									Find your Ticker
+								</MainTickersTextFieldHeader>
+							</Box>
+
+
+							<TableContainer component={Paper} sx={{ width: '100%', minHeight: '583px', maxHeight: '585px' }}>
+								<Table stickyHeader aria-label="sticky table">
+									<TableHead >
+										<TableRow>
+											{columns.map((column: TickerColumnType) => {
+												const columnName = column.id.replace('symbol', 'Symbol');
+												return (
+													<TableCell component="th" sx={{
+														'&.MuiTableCell-root': {
+															backgroundColor: '#190033',
+															color: 'white'
+														}
+													}} key={column.index}>{columnName}</TableCell>
+												);
+											})}
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										{rows
+											.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+											.map((row) => {
+												return (
+													<TableRow onClick={handleRowClick} key={row.index} hover role="checkbox" >
+														{columns
+															.map(((column: TickerColumnType) => {
+
+																const value = row[column.id];
+																return (
+																	<TabelCellTicker key={column.index}>
+																		{value}
+																	</TabelCellTicker>
+																);
+															}))
+														}
+													</TableRow>
+												);
+											})
+										}
+									</TableBody>
+								</Table>
+
+							</TableContainer>
+							<TablePagination
+								component={"div"}
+								rowsPerPageOptions={[10, 100, 1000]}
+								count={rows.length}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+
+							/>
+						</MainFindTickerTextFieldContainer>
+					</Grid>
+
+
+					<Grid mobileS={11} mobileSOffset={0.5}
+						mobileM={11} mobileMOffset={0.5}
+						mobileL={10} mobileLOffset={1.15}
+						tablet={12} tabletOffset={0.75}
+						laptop={6.28} laptopOffset={0.8}
+						laptopL={6.25} laptopLOffset={1}
+						desktop={6.4} desktopOffset={1}
+						desktopL={5.5} desktopLOffset={0.5}
+					>
+
+						<MainHeaderChartContainer>
+							<MainHeaderChartTickerNameContainer>
+								{tickerData[0] && <MainHeaderChartTickerName color fontSize>{selectedTicker}</MainHeaderChartTickerName>}
+								{tickerData[0] && <MainHeaderChartTickerName>{selectedTickerName}</MainHeaderChartTickerName>}
+							</MainHeaderChartTickerNameContainer>
+							<MainHeaderChartTickerDescrContainer>
+								{tickerData[0] && <MainHeaderChartTickerDescr>Max Price: {tickerData[0].high.toFixed(2)}</MainHeaderChartTickerDescr>}
+								{tickerData[0] && <MainHeaderChartTickerDescr>Min Price: {tickerData[502].high.toFixed(2)}</MainHeaderChartTickerDescr>}
+							</MainHeaderChartTickerDescrContainer>
+
+						</MainHeaderChartContainer>
+
+						<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
+					</Grid>
+				</Grid>
+			</MainFindTickerContainer >
+		</Box>
+
 
 	)
 }
