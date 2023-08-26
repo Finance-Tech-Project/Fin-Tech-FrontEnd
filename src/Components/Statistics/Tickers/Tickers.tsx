@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
-import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainFindTickerTextGridDescrStyle, MainFindTickerTextGridTitleStyle, MainFindTickerTextWrapper, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
+import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainFindTickerTextGridDescrStyle, MainFindTickerTextGridTitleStyle, MainFindTickerTextWrapper, MainTickerImagePng, MainTickerImagePngContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
 import { Link } from 'react-router-dom';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
@@ -12,8 +12,9 @@ import { createCandleData, createColumns, createHistogramAreaData, createRows, d
 import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
 import { MainHeaderChartContainer, MainHeaderChartTickerDescr, MainHeaderChartTickerDescrContainer, MainHeaderChartTickerName, MainHeaderChartTickerNameContainer } from '../../../Styles/MainStyles/MainChartStyle';
 import { theme } from '../../../Constants/MaterialConstants/theme';
+import { DisplaySizeProps } from '../../../Types/MainComponentTypes/MainTypes';
 
-const Tickers = () => {
+const Tickers = ({ displaySize }: DisplaySizeProps) => {
 	const [data, setData] = useState('');
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -101,7 +102,7 @@ const Tickers = () => {
 						mobileL={11} mobileLOffset={0.5}
 						tablet={12} tabletOffset={0.5}
 						laptop={9} laptopOffset={0.55}
-						laptopL={5} laptopLOffset={0.55}
+						laptopL={4.2} laptopLOffset={0.7}
 					>
 						<MainFindTickerTextContainer>
 							<Box>
@@ -112,8 +113,12 @@ const Tickers = () => {
 									Add your stock to portfolio. Make informed investment decisions based on the data-driven analysis of stock market trends.
 								</MainTickersDesc>
 								<MainTickersDesc>View a block of stock page and recommendations along with historical data for any ticker for any period of time.</MainTickersDesc>
-
 							</Box>
+							{ displaySize > theme.breakpoints.values.laptopL -1 && 
+								<MainTickerImagePngContainer>
+									<MainTickerImagePng ></MainTickerImagePng>
+								</MainTickerImagePngContainer>
+							}
 						</MainFindTickerTextContainer>
 					</Grid>
 				</Grid>

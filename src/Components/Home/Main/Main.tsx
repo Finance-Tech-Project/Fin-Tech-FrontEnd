@@ -25,7 +25,7 @@ const Main = () => {
 						{displaySize > theme.breakpoints.values.laptop - 1 && <MainButtons />}
 					</MainBackgroundColor>
 				</MainContainer>
-				<MainFindTicker />
+				<MainFindTicker displaySize={displaySize}/>
 				
 			</Grid>
 		</ThemeProvider>

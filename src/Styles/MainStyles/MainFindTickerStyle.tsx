@@ -134,3 +134,13 @@ export const MainTickersExplanation = styled(Typography)(({ theme }) => ({
         textAlign: 'center',
     }
 }));
+
+export const MainTickerImagePngContainer = styled(Box)(({ theme }) => ({
+   
+}));
+
+export const MainTickerImagePng = styled('img')(({ theme }) => ({
+    maxWidth: '100%',
+    maxHeight: '100%'
+}));
+
