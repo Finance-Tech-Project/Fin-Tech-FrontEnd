@@ -14,8 +14,8 @@ export const headerButtons: Array<HeaderButtons> = [
         route: 'market_insight'
     },
     {
-        title: 'Statistics',
-        route: 'statistics'
+        title: 'Stocks',
+        route: 'stocks'
     },
     {
         title: 'Analytics',

@@ -1,8 +1,8 @@
 import React from 'react'
 import Header from './Header/Header'
 import { Box } from '@mui/material'
-import TickersCheckbox from '../Statistics/TickersWithCheckbox/TickersCheckbox'
-import Tickers from '../Statistics/Tickers/Tickers'
+import TickersCheckbox from '../TickersWithCheckbox/TickersCheckbox'
+import Tickers from '../Tickers/Tickers'
 import Main from './Main/Main'
 
 const Home = () => {

@@ -1,0 +1,27 @@
+import { Box, styled } from "@mui/material";
+
+export const ChartContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    maxheight: '650px',
+    border: '1.5px solid rgba(70, 75, 114, 0.8)'
+}));
+
+export const ChartContainerWrapper = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(44, 9, 81, 1)',
+    borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)'
+}));
+
+export const ChartContainerSeriesButtonsContainer = styled(Box)(({ theme }) => ({
+
+    [theme.breakpoints.up('mobileS')]: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    [theme.breakpoints.up('mobileM')]: {
+        width: '100%',
+        justifyContent: 'space-between',
+    },
+}));

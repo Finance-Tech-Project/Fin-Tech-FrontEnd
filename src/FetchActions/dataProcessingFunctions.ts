@@ -1,9 +1,11 @@
 import { MAIN_DATA, VOLUME_DATA } from "../Constants/fetchConstants";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
 
+// This function creates an object for columns in table with Material UI.
 export const createColumns = (allTickers: Array<TickerType> | undefined) => {
     if (allTickers) {
         const tickersKeys = Object.keys(allTickers![0]);
+        //Creates a new object with fields for column needs.
         const res: TickerColumnType[] = tickersKeys.slice(0, 2).map((data) => {
             const newData: TickerColumnType = {
                 id: data.toString() as ColumnType.symbol,
@@ -12,13 +14,16 @@ export const createColumns = (allTickers: Array<TickerType> | undefined) => {
             }
             return newData;
         });
+        //Assigning an index to array elements
         res.forEach((ticker, index) => ticker.index = index);
         return res;
     }
 };
 
+// This function creates an object for rows in table with Material UI.
 export const createRows = (param: string, allTickers: Array<TickerType> | undefined) => {
     if (allTickers) {
+        //Creates a new object with fields for rows needs.
         const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
             const res: TickerType = {
                 symbol: ticker.symbol,
@@ -28,6 +33,7 @@ export const createRows = (param: string, allTickers: Array<TickerType> | undefi
             return res;
         })
         tickersData.forEach((ticker, index) => ticker.index = index);
+        //Ticker search by letters entered in the text field by symbol and company name
         if (param) {
             return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
                 || (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));

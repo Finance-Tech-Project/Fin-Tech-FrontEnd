@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material';
 import { MainArrowIconButton, MainButton, MainDescr, MainHeader, MainHeaderContainer, MainImagePng, MainImagePngContainer } from '../../../Styles/MainStyles/MainContextStyle';
 import pngBackground_3 from '../../../Images/PngImages/pngBackground_3.png';
 import { theme } from '../../../Constants/MaterialConstants/theme';
-import { DisplaySizeProps } from '../../../Types/MainComponentTypes/MainTypes';
+import { DisplaySizeProps } from '../../../Types/MainTypes';
 
 
 

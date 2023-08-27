@@ -10,7 +10,6 @@ const HeaderButtons = () => {
 	
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-
 			<Grid container columns={{ desktopL: 21.5, desktop: 18.5, laptopL: 16, laptop: 13.25, tablet: 11.5 }} sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
 				<Grid tablet={2} tabletOffset={0.5}
 					laptop={2} laptopOffset={0.2}

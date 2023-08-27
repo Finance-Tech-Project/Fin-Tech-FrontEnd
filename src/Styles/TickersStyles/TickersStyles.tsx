@@ -1,4 +1,4 @@
-import { Button, TableCell, styled } from "@mui/material";
+import { Button, TableCell, Typography, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     '&.MuiTableCell-root': {
@@ -22,18 +22,11 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
 export const ChartButtons = styled(Button)(({ theme }) => ({
     color: 'white',
     backgroundColor: 'rgba(2, 1, 31, 0.5)',
-    marginRight: '10px',
-    '&:last-child': {
-        marginRight: '0px',
-    },
     '&:hover, &:focus, &:active': {
         backgroundColor: 'rgba(110, 110, 114, 0.8)',
     },
-    [theme.breakpoints.up('mobileS')]: {
-        marginRight: '0px',
-    },
     [theme.breakpoints.up('mobileM')]: {
-        marginRight: '5px',
+        width: '100%',
     },
 }));
 

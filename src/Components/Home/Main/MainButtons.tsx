@@ -1,5 +1,12 @@
 import { mainButtons } from '../../../Constants/ProjectConstants/mainButtonsConstants';
-import { MainButtonsContainer, MainButtonsLink, MainButtonsLinkIconNumberContainer, MainButtonsLinkTextContainer, MainButtonsLinkTextDescr, MainButtonsLinkTextHeader } from '../../../Styles/MainStyles/MainContextStyle';
+import { 
+	MainButtonsContainer, 
+	MainButtonsLink, 
+	MainButtonsLinkIconNumberContainer, 
+	MainButtonsLinkTextContainer, 
+	MainButtonsLinkTextDescr, 
+	MainButtonsLinkTextHeader 
+} from '../../../Styles/MainStyles/MainContextStyle';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 

@@ -1,8 +1,9 @@
-import { Box, Typography, TypographyOwnProps, TypographyProps, TypographyPropsVariantOverrides, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
 export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     minHeight: '95px',
+    border: '1.5px solid rgba(70, 75, 114, 0.8)',
     backgroundColor: '#2c0951',
     borderTopLeftRadius: '30px',
     borderTopRightRadius: '30px',
