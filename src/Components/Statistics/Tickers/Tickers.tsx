@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { MainFindTickerContainer, MainFindTickerTextContainer, MainFindTickerTextFieldContainer, MainFindTickerTextGridDescrStyle, MainFindTickerTextGridTitleStyle, MainFindTickerTextWrapper, MainTickerImagePng, MainTickerImagePngContainer, MainTickersDesc, MainTickersExplanation, MainTickersHeader, MainTickersTextField, MainTickersTextFieldHeader } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { MainArrowIconButton, MainButton } from '../../../Styles/MainStyles/MainContextStyle';
@@ -8,11 +8,12 @@ import { Link } from 'react-router-dom';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getDefaultTickerData, getTickerData } from '../../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../../Types/TickersTypes';
-import { createCandleData, createColumns, createHistogramAreaData, createRows, delimiterDataToPeriods } from '../../../FetchActions/dataProcessingFunctions';
+import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../../FetchActions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
 import { MainHeaderChartContainer, MainHeaderChartTickerDescr, MainHeaderChartTickerDescrContainer, MainHeaderChartTickerName, MainHeaderChartTickerNameContainer } from '../../../Styles/MainStyles/MainChartStyle';
 import { theme } from '../../../Constants/MaterialConstants/theme';
 import { DisplaySizeProps } from '../../../Types/MainComponentTypes/MainTypes';
+import tickerImagePng from '../../../Images/PngImages/3-2-finance-picture.png';
 
 const Tickers = ({ displaySize }: DisplaySizeProps) => {
 	const [data, setData] = useState('');
@@ -80,6 +81,7 @@ const Tickers = ({ displaySize }: DisplaySizeProps) => {
 		isLoading && getTickers();
 		getDataTicker();
 		return () => removeValues();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
 
 	// console.log(tickerData)
@@ -87,57 +89,64 @@ const Tickers = ({ displaySize }: DisplaySizeProps) => {
 		<Box>
 
 			<Grid container>
-				<Grid mobileL={12} tablet={12} laptop={12}>
+				<Grid mobileL={11} mobileLOffset={0.5} tablet={12} laptop={12} laptopL={12} desktop={12} desktopOffset={0}>
 					<MainTickersHeader>
 						In our stock page section you can:
 					</MainTickersHeader>
 				</Grid>
-
 			</Grid>
+
 			<MainFindTickerTextWrapper>
-				<Grid container columns={{ tablet: 13, laptop: 12 }} 
-						sx={() => MainFindTickerTextGridTitleStyle(theme)}>
+				<Grid container columns={{ tablet: 13, laptop: 12, laptopL: 13 }}
+					sx={() => MainFindTickerTextGridTitleStyle(theme)}>
 					<Grid mobileS={9} mobileSOffset={1.75}
 						mobileM={10} mobileMOffset={1}
-						mobileL={11} mobileLOffset={0.5}
+						mobileL={10} mobileLOffset={1}
 						tablet={12} tabletOffset={0.5}
-						laptop={9} laptopOffset={0.55}
-						laptopL={4.2} laptopLOffset={0.7}
+						laptop={11} laptopOffset={0.5}
+						laptopL={11} laptopLOffset={0.9}
+						desktop={11.5} desktopOffset={0.8}
 					>
 						<MainFindTickerTextContainer>
 							<Box>
 								<MainTickersDesc>
 									View all stocks data for any period.
-								</MainTickersDesc>
-								<MainTickersDesc>
 									Add your stock to portfolio. Make informed investment decisions based on the data-driven analysis of stock market trends.
+									View a block of stock page and recommendations along with historical data for any ticker for any period of time.
 								</MainTickersDesc>
-								<MainTickersDesc>View a block of stock page and recommendations along with historical data for any ticker for any period of time.</MainTickersDesc>
 							</Box>
-							{ displaySize > theme.breakpoints.values.laptopL -1 && 
-								<MainTickerImagePngContainer>
-									<MainTickerImagePng ></MainTickerImagePng>
-								</MainTickerImagePngContainer>
-							}
+
 						</MainFindTickerTextContainer>
 					</Grid>
 				</Grid>
 
-				<Grid container columns={{laptop: 15}} sx={() => MainFindTickerTextGridDescrStyle(theme)}>
+				<Grid container columns={{ laptop: 15, laptopL: 12, desktop: 15 }} sx={() => MainFindTickerTextGridDescrStyle(theme)}>
 					<Grid mobileS={9} mobileSOffset={1.75}
 						mobileM={9.5} mobileMOffset={1.25}
-						mobileL={10} mobileLOffset={1}
-						tablet={11} tabletOffset={0.5}
-						laptop={12} laptopOffset={4.5}
+						mobileL={10.5} mobileLOffset={0.65}
+						tablet={7} tabletOffset={0.7}
+						laptop={10} laptopOffset={0.8}
+						laptopL={8} laptopLOffset={1}
+						desktop={11} desktopOffset={1}
 					>
 						<MainTickersExplanation>
-							Select your stock from the table of stocks and transfer it to the stocks section or simply click on the button
-							<Link to={`/analytics`}>
-								<MainButton marginLeft>Stocks
-									<MainArrowIconButton></MainArrowIconButton>
-								</MainButton>
-							</Link>
+							Select your stock from the table of stocks and transfer it to the stocks section or simply click on the button.
 						</MainTickersExplanation>
+					</Grid>
+					<Grid mobileS={2} mobileSOffset={2.2}
+							mobileM={2} mobileMOffset={2.5}
+							mobileL={2} mobileLOffset={3}
+							tablet={2} tabletOffset={0.5}
+							laptop={2} laptopOffset={0.35}
+							laptopL={1} laptopLOffset={0.08}
+							desktop={2} desktopOffset={0.5}
+					>
+							
+						<Link to={`/analytics`}>
+							<MainButton>Stocks
+								<MainArrowIconButton></MainArrowIconButton>
+							</MainButton>
+						</Link>
 					</Grid>
 				</Grid>
 			</MainFindTickerTextWrapper>
@@ -163,7 +172,7 @@ const Tickers = ({ displaySize }: DisplaySizeProps) => {
 							</Box>
 
 
-							<TableContainer component={Paper} sx={{ width: '100%', minHeight: '583px', maxHeight: '585px' }}>
+							<TableContainer component={Paper} sx={{ width: '100%', minHeight: '580px', maxHeight: '580px' }}>
 								<Table stickyHeader aria-label="sticky table">
 									<TableHead >
 										<TableRow>

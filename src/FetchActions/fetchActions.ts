@@ -1,5 +1,5 @@
 import { ALL_TICKERS, BASE_URL, DEFAULT_TICKER_NAME, TICKER_DATA } from "../Constants/fetchConstants";
-import { TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
+import { TickerDataType, TickerType } from "../Types/TickersTypes";
 
 export const getAllTickers = async () => {
     try {

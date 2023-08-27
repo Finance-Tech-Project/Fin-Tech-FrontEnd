@@ -1,10 +1,10 @@
+/* eslint-disable no-lone-blocks */
 import { Chart } from 'lightweight-charts-react-wrapper';
 import React, { useEffect, useRef, useState } from 'react'
 import { ColorType, IChartApi, createChart } from 'lightweight-charts';
-import { Box } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
-import { chartButtonsPeriod, chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
+import { chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
 import { ChartContainer, ChartContainerSeriesButtonsContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyle';
 
 interface Props {
@@ -86,7 +86,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
-			height: 598, // height: chartContainerRef.current!.clientHeight,
+			height: 580, // height: chartContainerRef.current!.clientHeight,
 			layout: {
 				background: { type: ColorType.Solid, color: 'rgba(23, 27, 27, 1)' },
 				textColor: "#d1d4dc",

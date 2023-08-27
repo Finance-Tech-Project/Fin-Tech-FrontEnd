@@ -1,4 +1,4 @@
-import { Button, Typography, styled, Box, TextField, Theme } from '@mui/material';
+import { Typography, styled, Box, TextField, Theme } from '@mui/material';
 
 export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     paddingTop: '50px',
@@ -103,8 +103,16 @@ export const MainTickersDesc = styled(Typography)(({ theme }) => ({
         fontSize: '1.35rem',
     },
     [theme.breakpoints.up('laptop')]: {
-       textAlign: 'start',
+       textAlign: 'center',
         fontSize: '1.5rem',
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        textAlign: 'center',
+        fontSize: '1.7rem',
+    },
+    [theme.breakpoints.up('desktop')]: {
+        textAlign: 'center',
+        fontSize: '1.7rem',
     }
 }));
 
@@ -127,11 +135,24 @@ export const MainTickersExplanation = styled(Typography)(({ theme }) => ({
     [theme.breakpoints.up('mobileM')]: {
         lineHeight: '30px',
     },
-    [theme.breakpoints.up('laptop')]: {
-        lineHeight: '45px',
-    },
     [theme.breakpoints.up('tablet')]: {
-        textAlign: 'center',
+        textAlign: 'start',
+        paddingTop: '15px',
+    },
+    [theme.breakpoints.up('laptop')]: {
+        lineHeight: '35px',
+        paddingTop: '10px',
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        lineHeight: '30px',
+        textAlign: 'start',
+        paddingTop: '15px'
+    },
+    [theme.breakpoints.up('desktop')]: {
+        lineHeight: '30px',
+        textAlign: 'start',
+        paddingTop: '15px',
+        fontSize: '1.4rem',
     }
 }));
 

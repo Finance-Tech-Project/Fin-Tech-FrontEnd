@@ -16,11 +16,6 @@ export const MainHeaderContainer = styled(Box)(({ theme }) => ({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    [theme.breakpoints.up('mobileL')]: {
-        '&:last-child': {
-            alignItems: 'flex-end',
-        }
-    },
     [theme.breakpoints.up('tablet')]: {
         alignItems: 'center',
         '&:last-child': {
@@ -50,7 +45,7 @@ export const MainHeader = styled(Typography)(({ theme }) => ({
         
     },
     [theme.breakpoints.up('mobileL')]: {
-        textAlign: 'start'
+        textAlign: 'center'
         
     },
     [theme.breakpoints.up('tablet')]: {
@@ -86,7 +81,7 @@ export const MainDescr = styled(Typography)(({ theme }) => ({
     [theme.breakpoints.up('mobileM')]: {
         lineHeight: '27px',
         fontSize: '20px',
-        textAlign: 'start'
+        textAlign: 'center'
     },
     [theme.breakpoints.up('tablet')]: {
         textAlign: 'center'
@@ -105,8 +100,8 @@ export const MainDescr = styled(Typography)(({ theme }) => ({
 }));
 
 export const MainButton = styled(Button, {
-    shouldForwardProp: (prop) => prop !== 'marginLeft'
-})<any>(({ theme, marginLeft }) => ({
+    shouldForwardProp: (prop) => prop !== 'marginTop'
+})<any>(({ theme, marginTop }) => ({
     marginTop: '50px',
     variant: 'contained',
     width: '200px',
@@ -116,15 +111,18 @@ export const MainButton = styled(Button, {
     color: 'white',
     borderRadius: '6px',
     [theme.breakpoints.up('mobileS')]: {
-        marginTop: '20px'
+        marginTop: '10px'
+    },
+    [theme.breakpoints.up('mobileM')]: {
+        marginTop: '0',
+        ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('tablet')]: {
         marginTop: '20px',
-        ...(marginLeft && {marginLeft: '110px'})
+        ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('laptop')]: {
-        marginTop: '20px',
-        ...(marginLeft && {marginLeft: '90px'})
+        ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('desktop')]: {
         marginTop: '40px'

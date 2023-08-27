@@ -1,15 +1,3 @@
-// export interface Ticker {
-// 	symbol: string,
-// 	name: string,
-// 	index?: number
-// }
-
-// export interface Column {
-// 	id: 'symbol' | 'name',
-// 	label: string,
-// 	index?: number
-// }
-
 export enum ColumnType {
 	"symbol" = "symbol",
 	"name" = "name"

@@ -36,36 +36,6 @@ export const createRows = (param: string, allTickers: Array<TickerType> | undefi
     }
 };
 
-// export const parseDataTicker = (dataType: string, tickerData: Array<TickerDataType>) => {
-//     if (dataType === MAIN_DATA) {
-//         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
-//             const res: TickerDataType = {
-//                 time: ticker.time,
-//                 open: ticker.open,
-//                 high: ticker.high,
-//                 low: ticker.low,
-//                 close: ticker.close
-//             }
-//             return res;
-//         });
-//         return data;
-//     }
-//     if (dataType === VOLUME_DATA) {
-//         const values: Array<TickerDataVolumeType> = [];
-//         tickerData?.forEach((ticker) => {
-//             ticker.values?.forEach((tickerValue) => {
-//                 const res: TickerDataVolumeType = {
-//                     time: tickerValue.time,
-//                     value: tickerValue.value
-//                 }
-//                 values.push(res);
-//             });
-//         });
-//         return values;
-//     }
-//     return tickerData;
-// };
-
 export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
 	if (dataType === MAIN_DATA) {
         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
