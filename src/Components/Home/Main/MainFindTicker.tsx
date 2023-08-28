@@ -1,10 +1,9 @@
 import React from 'react'
 import { MainFindTickerBackgroundColor, MainFindTickerContainer } from '../../../Styles/MainStyles/MainStyles'
-
 import Tickers from '../../Tickers/Tickers'
-import { DisplaySizeProps } from '../../../Types/MainTypes'
 
-const MainFindTicker = ({ displaySize }: DisplaySizeProps) => {
+
+const MainFindTicker = () => {
 	return (
 		<MainFindTickerContainer>
 			<MainFindTickerBackgroundColor>

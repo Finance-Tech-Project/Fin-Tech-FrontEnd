@@ -32,4 +32,13 @@ export const headerButtons: Array<HeaderButtons> = [
 ];
 
 
-export const headerButtonsLogin: Array<string> = ['Login', 'Register'];
+export const headerButtonsLogin: Array<HeaderButtons> = [
+    {
+        title: 'Login',
+        route: 'login'
+    },
+    {
+        title: 'Register',
+        route: 'register'
+    }
+];

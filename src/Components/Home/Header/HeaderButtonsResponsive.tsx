@@ -41,13 +41,13 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 					>
 						{headerButtonsLogin.map((button) => {
 							return (
-								<Grid key={button}
+								<Grid key={button.title}
 									mobileSOffset={1.65}
 									mobileMOffset={1}
 									mobileLOffset={1.2}
 									tabletOffset={2}
 								>
-									<HeaderButtonsStyle key={button} disableRipple>{button}</HeaderButtonsStyle>
+									<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
 								</Grid>
 							);
 						})}

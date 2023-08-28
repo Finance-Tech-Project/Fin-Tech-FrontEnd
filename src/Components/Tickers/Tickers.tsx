@@ -8,7 +8,7 @@ import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../FetchActions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
-import MainTickerTitle from './MainTickerTitle';
+import MainTickerTitle from '../Home/Main/MainTickerTitle';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
 
 const Tickers = () => {

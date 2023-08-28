@@ -49,6 +49,13 @@ export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
     },
 }));
 
+export const MainHeaderChartTickerDescrWrapper = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    minHeight: '70px'
+}));
+
 export const MainHeaderChartTickerPriceContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between'

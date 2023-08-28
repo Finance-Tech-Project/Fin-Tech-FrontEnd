@@ -54,12 +54,15 @@ const HeaderButtons = () => {
 					<Box display={'flex'} alignItems={'center'} sx={{ width: '100%' }}>
 						{headerButtonsLogin.map((button) => {
 							return (
-								<Grid key={button} desktopL={4} desktopLOffset={2}
+								<Grid key={button.title} desktopL={4} desktopLOffset={2}
 									desktop={4} desktopOffset={2}
 									laptopL={4} laptopLOffset={3}
 									laptop={4} laptopOffset={1.5}
 								>
-									<HeaderButtonsStyle key={button} disableRipple>{button}</HeaderButtonsStyle>
+									<Link to={`/${button.route}`}>
+										<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
+									</Link>
+									
 								</Grid>
 							);
 						})}

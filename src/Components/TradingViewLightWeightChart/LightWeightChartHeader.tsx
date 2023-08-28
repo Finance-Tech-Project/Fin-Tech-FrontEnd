@@ -1,7 +1,15 @@
 import React from 'react'
-import { MainHeaderChartContainer, MainHeaderChartTickerDescr, MainHeaderChartTickerDescrContainer, MainHeaderChartTickerName, MainHeaderChartTickerNameContainer, MainHeaderChartTickerPriceContainer } from '../../Styles/MainStyles/MainChartStyle'
 import { Box } from '@mui/material'
 import { TickerDataType } from '../../Types/TickersTypes'
+import { 
+	MainHeaderChartContainer, 
+	MainHeaderChartTickerDescr, 
+	MainHeaderChartTickerDescrContainer, 
+	MainHeaderChartTickerDescrWrapper, 
+	MainHeaderChartTickerName, 
+	MainHeaderChartTickerNameContainer, 
+	MainHeaderChartTickerPriceContainer 
+} from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
 
 interface Props {
 	selectedTicker: string | null | undefined,
@@ -17,21 +25,21 @@ const LightWeightChartHeader = ({selectedTicker, selectedTickerName, tickerData}
 				<MainHeaderChartTickerName>{selectedTickerName}</MainHeaderChartTickerName>
 			</MainHeaderChartTickerNameContainer>
 			<MainHeaderChartTickerDescrContainer>
-				<Box display={'flex'} flexDirection="column" justifyContent={'flex-end'} sx={{ minHeight: '70px' }}>
+				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Max Price: </MainHeaderChartTickerDescr>
 						{tickerData[0] && <MainHeaderChartTickerDescr>{tickerData[0].high.toFixed(2)}</MainHeaderChartTickerDescr>}
 					</MainHeaderChartTickerPriceContainer>
 					{tickerData[0] && <MainHeaderChartTickerDescr>Date from: {tickerData[0].time.toString()}</MainHeaderChartTickerDescr>}
-				</Box>
+				</MainHeaderChartTickerDescrWrapper>
 
-				<Box display={'flex'} flexDirection="column" justifyContent={'flex-end'} sx={{ minHeight: '70px' }}>
+				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Min Price: </MainHeaderChartTickerDescr>
 						{tickerData[502] && <MainHeaderChartTickerDescr>{tickerData[502].low.toFixed(2)}</MainHeaderChartTickerDescr>}
 					</MainHeaderChartTickerPriceContainer>
 					{tickerData[502] && <MainHeaderChartTickerDescr>Date to: {tickerData[502].time.toString()}</MainHeaderChartTickerDescr>}
-				</Box>
+				</MainHeaderChartTickerDescrWrapper>
 			</MainHeaderChartTickerDescrContainer>
 		</MainHeaderChartContainer>
 	)
