@@ -26,8 +26,12 @@ export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({
     paddingLeft: '20px',
     [theme.breakpoints.up('mobileS')]: {
         paddingLeft: '0px',
+        paddingTop: '10px',
         textAlign: 'center',
     },
+    [theme.breakpoints.up('tablet')]: {
+        paddingTop: '10px'
+    }
 }));
 
 export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
@@ -36,13 +40,18 @@ export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'center', 
     alignItems: 'center',
     [theme.breakpoints.up('mobileS')]: {
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     [theme.breakpoints.up('tablet')]: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '80%',
     },
+}));
+
+export const MainHeaderChartTickerPriceContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between'
 }));
 
 export const MainHeaderChartTickerName = styled(Typography, { 
@@ -58,7 +67,7 @@ export const MainHeaderChartTickerDescr = styled(Typography)(({ theme }) => ({
     fontSize: '1rem', 
     paddingRight: '50px',
     '&:last-child': {
-        paddingRight: '0px',
+        paddingRight: '0px'
     },
     [theme.breakpoints.up('mobileS')]: {
         paddingRight: '0px',

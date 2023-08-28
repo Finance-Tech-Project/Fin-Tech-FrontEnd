@@ -8,8 +8,8 @@ import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../FetchActions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
-import { MainHeaderChartContainer, MainHeaderChartTickerDescr, MainHeaderChartTickerDescrContainer, MainHeaderChartTickerName, MainHeaderChartTickerNameContainer } from '../../Styles/MainStyles/MainChartStyle';
 import MainTickerTitle from './MainTickerTitle';
+import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
 
 const Tickers = () => {
 	const [data, setData] = useState('');
@@ -60,7 +60,6 @@ const Tickers = () => {
 	};
 
 	useEffect(() => {
-
 		setIsLoading(true);
 		isLoading && getTickers();
 		getDataTicker();
@@ -68,7 +67,7 @@ const Tickers = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
 
-	console.log(tickerData)
+	console.log(tickerData[0])
 	return (
 		<Box>
 			<MainTickerTitle />
@@ -91,7 +90,7 @@ const Tickers = () => {
 								</MainTickersTextFieldHeader>
 							</Box>
 
-							<TableContainer component={Paper} sx={{ width: '100%', height: '606.5px', backgroundColor: '#2c0951'}}>
+							<TableContainer component={Paper} sx={{ width: '100%', height: '606.5px', backgroundColor: '#2c0951' }}>
 								<Table stickyHeader aria-label="sticky table">
 									<TableHead >
 										<TableRow>
@@ -153,17 +152,7 @@ const Tickers = () => {
 						desktop={6.4} desktopOffset={1}
 						desktopL={5.5} desktopLOffset={0.5}
 					>
-						<MainHeaderChartContainer>
-							<MainHeaderChartTickerNameContainer>
-								{tickerData[0] && <MainHeaderChartTickerName color fontSize>{selectedTicker}</MainHeaderChartTickerName>}
-								{tickerData[0] && <MainHeaderChartTickerName>{selectedTickerName}</MainHeaderChartTickerName>}
-							</MainHeaderChartTickerNameContainer>
-							<MainHeaderChartTickerDescrContainer>
-								{tickerData[0] && <MainHeaderChartTickerDescr>Max Price: {tickerData[0].high.toFixed(2)}</MainHeaderChartTickerDescr>}
-								{tickerData[0] && <MainHeaderChartTickerDescr>Min Price: {tickerData[502].low.toFixed(2)}</MainHeaderChartTickerDescr>}
-							</MainHeaderChartTickerDescrContainer>
-						</MainHeaderChartContainer>
-
+						<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} tickerData={tickerData}/>
 						<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 					</Grid>
 				</Grid>
@@ -171,7 +160,5 @@ const Tickers = () => {
 		</Box>
 	)
 }
-
-
 
 export default Tickers

@@ -1,11 +1,11 @@
 /* eslint-disable no-lone-blocks */
-import { Chart, LineSeries } from 'lightweight-charts-react-wrapper';
+import { Chart } from 'lightweight-charts-react-wrapper';
 import React, { useEffect, useRef, useState } from 'react'
 import { ColorType, createChart } from 'lightweight-charts';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
-import { chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
-import { ChartContainer, ChartContainerSeriesButtonsContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
+import { chartButtonsPeriod, chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
+import { ChartButtonsContainer, ChartContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { changeChartTypeSeries } from '../../FetchActions/lightWeightSeriesFunctions';
 
 interface Props {
@@ -65,21 +65,21 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 
 		<ChartContainer ref={chartContainerRef}>
 			<ChartContainerWrapper>
-				{/* <Box>
+				<ChartButtonsContainer>
 					{chartButtonsPeriod.map((button) => {
 						return (
 							<ChartButtons key={button} variant="contained">{button}</ChartButtons>
 						);
 					})}
-				</Box> */}
+				</ChartButtonsContainer>
 
-				<ChartContainerSeriesButtonsContainer>
+				<ChartButtonsContainer>
 					{chartButtonsSeries.map((button) => {
 						return (
 							<ChartButtons key={button} onClick={handleChangeSeries} variant="contained">{button}</ChartButtons>
 						);
 					})}
-				</ChartContainerSeriesButtonsContainer>
+				</ChartButtonsContainer>
 			</ChartContainerWrapper>
 
 			<Chart {...chartContainerRef.current} autoSize={true}>

@@ -13,15 +13,13 @@ export const ChartContainerWrapper = styled(Box)(({ theme }) => ({
     borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)'
 }));
 
-export const ChartContainerSeriesButtonsContainer = styled(Box)(({ theme }) => ({
-
+export const ChartButtonsContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
     [theme.breakpoints.up('mobileS')]: {
-        width: '100%',
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column'
     },
-    [theme.breakpoints.up('mobileM')]: {
-        width: '100%',
-        justifyContent: 'space-between',
+    [theme.breakpoints.up('tablet')]: {
+        flexDirection: 'row'
     },
 }));
