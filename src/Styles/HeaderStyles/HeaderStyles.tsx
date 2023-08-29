@@ -49,7 +49,8 @@ export const HeaderMenuResponsiveContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     position: 'absolute', 
     top: '96px', 
-    opacity: '0.9'
+    opacity: '0.9',
+    zIndex: 2
 }));
 
 export const HeaderButtonsResponsiveContainer = styled(Box)(({ theme }) => ({

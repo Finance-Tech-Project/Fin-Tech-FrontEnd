@@ -10,6 +10,7 @@ import { createCandleData, createColumns, createHistogramAreaData, createRows } 
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 import MainTickerTitle from '../Home/Main/MainTickerTitle';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 const Tickers = () => {
 	const [data, setData] = useState('');
@@ -90,7 +91,7 @@ const Tickers = () => {
 								</MainTickersTextFieldHeader>
 							</Box>
 
-							<TableContainer component={Paper} sx={{ width: '100%', height: '606.5px', backgroundColor: '#2c0951' }}>
+							<TableContainer component={Paper} sx={{ width: '100%', height: '607.5px', backgroundColor: '#2c0951' }}>
 								<Table stickyHeader aria-label="sticky table">
 									<TableHead >
 										<TableRow>
@@ -132,6 +133,9 @@ const Tickers = () => {
 							</TableContainer>
 
 							<TablePagination
+								sx={{width: '100%', [theme.breakpoints.between('mobileL', 'laptopL')]: {
+									overflow: 'hidden'
+								},}}
 								component={"div"}
 								rowsPerPageOptions={[10, 100, 1000]}
 								count={rows.length}

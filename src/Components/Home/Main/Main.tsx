@@ -9,19 +9,19 @@ import MainFindTicker from './MainFindTicker';
 
 const Main = () => {
 	const [displaySize, setDisplaySize] = useState(window.screen.width);
-	
+
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySize(window.screen.width);
 		});
-		
+
 	}, [displaySize]);
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container>
 				<MainContainer>
 					<MainBackgroundColor>
-						<MainContext displaySize={displaySize}/>
+						<MainContext displaySize={displaySize} />
 						{displaySize > theme.breakpoints.values.laptop - 1 && <MainButtons />}
 					</MainBackgroundColor>
 				</MainContainer>

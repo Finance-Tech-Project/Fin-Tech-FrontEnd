@@ -6,6 +6,7 @@ import { Box, Collapse } from '@mui/material'
 import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
+import { Link } from 'react-router-dom';
 
 interface SizeProps {
 	displaySize: number
@@ -34,7 +35,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 					>
 						<Logo />
 					</Grid>
-					<Grid width="100%" container display={'flex'} alignItems={'center'} columns={{tablet: 10, mobileL: 15 }}
+					<Grid width="100%" container display={'flex'} alignItems={'center'} columns={{ tablet: 10, mobileL: 15 }}
 						mobileMOffset={0.5}
 						mobileL={8} mobileLOffset={0.82}
 						tablet={4} tabletOffset={2.6}
@@ -47,7 +48,10 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 									mobileLOffset={1.2}
 									tabletOffset={2}
 								>
-									<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
+									<Link to={`/${button.route}`}>
+										<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
+									</Link>
+
 								</Grid>
 							);
 						})}
@@ -67,10 +71,12 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 				<Grid container columns={{ tablet: 25 }} paddingTop={1}>
 					{displaySize > theme.breakpoints.values.tablet - 1 && headerButtons.map((buttonText) => {
 						return (
-							<Grid key={buttonText.route} 
+							<Grid key={buttonText.route}
 								tabletOffset={1}
 							>
-								<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
+								<Link to={`/${buttonText.route}`}>
+									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
+								</Link>
 							</Grid>
 						);
 					})}

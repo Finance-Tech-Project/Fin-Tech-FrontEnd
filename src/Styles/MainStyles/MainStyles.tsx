@@ -59,13 +59,12 @@ export const MainBackgroundColor = styled(Box)(({ theme }) => ({
 export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     background: `url(${MainBG}) center center/cover no-repeat`,
     width: '100%',
-    minHeight: '835px',
-    
+    minHeight: '1200px'
 }));
 
 export const MainFindTickerBackgroundColor = styled(Box)(({ theme }) => ({
     width: '100%',
-    minHeight: '835px',
+    minHeight: '1200px',
     background: 'rgba(25, 0, 51, 0.25)',
 }));
 

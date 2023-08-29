@@ -11,8 +11,7 @@ import Analytics from './Components/Analytics/Analytics';
 import Contacts from './Components/Contacts/Contacts';
 import MyAccount from './Components/MyAccount/MyAccount';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
-import Login from './Components/LoginRegister/Login';
-import Register from './Components/LoginRegister/Register';
+
 
 function App() {
 	

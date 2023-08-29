@@ -128,7 +128,7 @@ export const MainButton = styled(Button, {
         marginTop: '10px'
     },
     [theme.breakpoints.up('desktopL')]: {
-        marginTop: '8px'
+        marginTop: '15px'
     },
 }));
 

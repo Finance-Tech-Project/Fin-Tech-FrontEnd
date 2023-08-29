@@ -4,6 +4,7 @@ import { Box } from '@mui/material'
 import TickersCheckbox from '../TickersWithCheckbox/TickersCheckbox'
 import Tickers from '../Tickers/Tickers'
 import Main from './Main/Main'
+import Footer from '../Footer/Footer'
 
 const Home = () => {
 	
@@ -13,6 +14,7 @@ const Home = () => {
 			{/* <TickersCheckbox /> */}
 			{/* <Tickers /> */}
 			<Main />
+			<Footer />
 		</Box>
 	)
 }

@@ -7,6 +7,9 @@ export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     [theme.breakpoints.down('tablet')]: {
        flexDirection: 'column'
+    },
+    [theme.breakpoints.down('laptop')]: {
+        paddingBottom: '50px'
     }
 }));
 

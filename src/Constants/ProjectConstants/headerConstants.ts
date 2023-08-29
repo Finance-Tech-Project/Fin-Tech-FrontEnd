@@ -34,11 +34,11 @@ export const headerButtons: Array<HeaderButtons> = [
 
 export const headerButtonsLogin: Array<HeaderButtons> = [
     {
-        title: 'Login',
-        route: 'login'
+        title: 'Sign In',
+        route: 'signIn'
     },
     {
-        title: 'Register',
-        route: 'register'
+        title: 'Sign Up',
+        route: 'signUp'
     }
 ];
