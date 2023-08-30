@@ -42,3 +42,18 @@ export const headerButtonsLogin: Array<HeaderButtons> = [
         route: 'signUp'
     }
 ];
+
+export const avatarMenuButtons: Array<HeaderButtons> = [
+    {
+        title: 'Sign Up',
+        route: 'signUp'
+    },
+    {
+        title: 'My Account',
+        route: 'my_account'
+    },
+    {
+        title: 'Logout',
+        route: ''
+    }
+];

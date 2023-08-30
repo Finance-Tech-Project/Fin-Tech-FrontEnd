@@ -12,6 +12,7 @@ const Header = () => {
 		window.addEventListener('resize', () => {
 			setDisplaySize(window.screen.width);
 		});
+
 		
 	}, [displaySize]);
 	

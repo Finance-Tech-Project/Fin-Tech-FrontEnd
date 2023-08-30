@@ -9,12 +9,11 @@ import HeaderAvatar from './HeaderAvatar';
 const HeaderButtons = () => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<Grid container columns={{ desktopL: 25, desktop: 18.5, laptopL: 16, laptop: 13.25, tablet: 11.5 }} sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
-				<Grid tablet={2} tabletOffset={0.5}
-					laptop={2} laptopOffset={0.2}
-					laptopL={2} laptopLOffset={0.7}
-					desktop={2} desktopOffset={1}
-					desktopL={2} desktopLOffset={1.5}
+			<Grid container  sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
+				<Grid 
+					laptop={0.5} laptopOffset={0.5}
+					laptopL={0.5} laptopLOffset={0.5}
+					desktopL={0.5} desktopLOffset={0.5}
 				>
 					<Link to={`/home`}>
 						<HeaderButtonsStyle disableRipple>
@@ -23,21 +22,18 @@ const HeaderButtons = () => {
 					</Link>
 				</Grid>
 
-				<Grid container columns={{ desktopL: 19, desktop: 16, laptopL: 15, laptop: 15, tablet: 9 }} sx={{ width: '100%' }}
-					tablet={4} tabletOffset={0}
-					laptop={8} laptopOffset={0.85}
-					laptopL={8} laptopLOffset={1.8}
-					desktop={8} desktopOffset={2.5}
-					desktopL={9} desktopLOffset={4.5}
+				<Grid container  sx={{ width: '100%' }}
+						laptop={7} laptopOffset={1.8}
+						laptopL={6} laptopLOffset={2.5}
+						desktopL={6} desktopLOffset={2}
 				>
 					{headerButtons.map((buttonText) => {
 						return (
-							<Grid key={buttonText.title} display={'flex'} justifyContent={'center'}
-								tabletOffset={0.1}
-								laptopOffset={0.3}
-								laptopLOffset={0.4}
-								desktopOffset={0.75}
-								desktopLOffset={1.2}
+							<Grid key={buttonText.route} display={'flex'} justifyContent={'center'}
+								laptopOffset={0.2}
+								laptopLOffset={0.3}
+								desktopOffset={0.5}
+								desktopLOffset={1}
 							>
 								<Link id={buttonText.route} to={`/${buttonText.route}`} key={buttonText.title}>
 									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
@@ -47,37 +43,32 @@ const HeaderButtons = () => {
 					})}
 				</Grid>
 
-				<Grid container columns={{ desktop: 12, desktopL: 14 }}
-					tablet={2} tabletOffset={0.5}
-					laptop={2} laptopOffset={0}
-					laptopL={2} laptopLOffset={0.8}
-					desktop={3} desktopOffset={2}
-					desktopL={4} desktopLOffset={4}
+				<Grid container 
+					laptop={1} laptopOffset={0.3}
+					laptopL={1.5} laptopLOffset={0.5}
+					desktopL={1.5} desktopLOffset={1.5}
 				>
 					<Box display={'flex'} alignItems={'center'} sx={{ width: '100%' }}>
-						<HeaderAvatar />
-
 						{headerButtonsLogin.map((button) => {
 							return (
-
 								<>
 									{
 										button.route === 'signIn' &&
-										<Grid key={button.title} desktopL={6} desktopLOffset={4}
-											desktop={4} desktopOffset={2}
-											laptopL={6} laptopLOffset={2}
-											laptop={4} laptopOffset={1.5}
-										>
+										<Grid key={button.route}>
 											<Link to={`/${button.route}`}>
 												<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
 											</Link>
 										</Grid>
 									}
 								</>
-
-
 							);
 						})}
+						<Grid 
+							laptopOffset={9}
+							laptopLOffset={3}
+						>
+							<HeaderAvatar />
+						</Grid>
 					</Box>
 				</Grid>
 			</Grid>

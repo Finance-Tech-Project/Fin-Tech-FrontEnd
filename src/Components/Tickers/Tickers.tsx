@@ -68,7 +68,6 @@ const Tickers = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
 
-	console.log(tickerData[0])
 	return (
 		<Box>
 			<MainTickerTitle />

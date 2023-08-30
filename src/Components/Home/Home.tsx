@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from './Header/Header'
 import { Box } from '@mui/material'
 import TickersCheckbox from '../TickersWithCheckbox/TickersCheckbox'
@@ -9,7 +9,7 @@ import Footer from '../Footer/Footer'
 const Home = () => {
 	
 	return (
-		<Box sx={{ width: '100%', height: '96px'}}>
+		<Box sx={{ width: '100%'}}>
 			<Header />
 			{/* <TickersCheckbox /> */}
 			{/* <Tickers /> */}

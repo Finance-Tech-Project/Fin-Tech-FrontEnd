@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Avatar, Menu, MenuItem } from '@mui/material';
+import { Avatar, Box, Link, Menu, MenuItem } from '@mui/material';
 import { theme } from '../../../Constants/MaterialConstants/theme';
+import { avatarMenuButtons } from '../../../Constants/ProjectConstants/headerConstants';
+
 
 const HeaderAvatar = () => {
     const [openCloseAvatarMenu, setOpenCloseAvatarMenu] = useState<boolean>(false);
@@ -20,16 +22,22 @@ const HeaderAvatar = () => {
     return (
         <Grid>
             <Avatar sx={{
-                backgroundColor: 'rgba(195, 0, 93, 0.8)', [theme.breakpoints.down('tablet')]: {
+                backgroundColor: 'rgba(195, 0, 93, 0.8)',
+                [theme.breakpoints.only('tablet')]: {
                     width: '30px',
                     height: '30px'
-                }   
+                },
+                [theme.breakpoints.down('tablet')]: {
+                    width: '30px',
+                    height: '30px'
+                },
+                cursor: 'pointer'
             }}
                 onClick={handleOpenAvatarMenu}
                 src="/broken-image.jpg"
             />
             <Menu
-                sx={{ '& .MuiPaper-root': { backgroundColor: 'rgba(4, 3, 28, 0.8)', color: 'white' } }}
+                sx={{ '& .MuiPaper-root': { backgroundColor: 'rgba(4, 3, 28, 0.8)', color: 'white', paddingTop: '20px' } }}
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={openCloseAvatarMenu}
@@ -38,9 +46,13 @@ const HeaderAvatar = () => {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleCloseAvatarMenu}>Profile</MenuItem>
-                <MenuItem onClick={handleCloseAvatarMenu}>My account</MenuItem>
-                <MenuItem onClick={handleCloseAvatarMenu}>Logout</MenuItem>
+                {avatarMenuButtons.map((button) => {
+                    return (
+                        <Link key={button.title} href={`/${button.route}`} sx={{ color: 'white', textDecoration: 'none', '&:hover': { color: '#d55190' } }}>
+                            <MenuItem key={button.title} onClick={handleCloseAvatarMenu}>{button.title}</MenuItem>
+                        </Link>
+                    );
+                })}
             </Menu>
         </Grid>
     )

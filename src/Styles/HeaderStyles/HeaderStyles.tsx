@@ -57,5 +57,8 @@ export const HeaderButtonsResponsiveContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     [theme.breakpoints.up('mobileS')]: {
         paddingTop: '15px',
+    },
+    [theme.breakpoints.up('mobileL')]: {
+        paddingTop: '0px',
     }
 }));
