@@ -7,6 +7,7 @@ import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectCon
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
 import { Link } from 'react-router-dom';
+import HeaderAvatar from './HeaderAvatar';
 
 interface SizeProps {
 	displaySize: number
@@ -27,38 +28,45 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 	return (
 		<Box width="100%">
 			<HeaderButtonsResponsiveContainer>
-				<Grid container width="100%" columns={{ tablet: 13, mobileL: 8 }} display={'flex'} alignItems={'center'} >
+				<Grid container width="100%" columns={{ tablet: 13, mobileL: 15 }} display={'flex'} alignItems={'center'} >
 					<Grid mobileSOffset={2}
 						mobileMOffset={1.75}
-						mobileL={2} mobileLOffset={1.5}
+						mobileL={2} mobileLOffset={0.5}
 						tablet={5} tabletOffset={0.65}
 					>
 						<Logo />
 					</Grid>
+					
 					<Grid width="100%" container display={'flex'} alignItems={'center'} columns={{ tablet: 10, mobileL: 15 }}
 						mobileMOffset={0.5}
-						mobileL={8} mobileLOffset={0.82}
+						mobileL={4} mobileLOffset={8}
 						tablet={4} tabletOffset={2.6}
 					>
+						<HeaderAvatar />
 						{headerButtonsLogin.map((button) => {
 							return (
-								<Grid key={button.title}
-									mobileSOffset={1.65}
-									mobileMOffset={1}
-									mobileLOffset={1.2}
-									tabletOffset={2}
-								>
-									<Link to={`/${button.route}`}>
-										<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
-									</Link>
+								<>
+									{
+										button.route === 'signIn' &&
+										<Grid key={button.title}
+											mobileSOffset={1.65}
+											mobileMOffset={1}
+											mobileLOffset={1}
+											tabletOffset={2}
+										>
+											<Link to={`/${button.route}`}>
+												<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
+											</Link>
+										</Grid>
+									}
+								</>
 
-								</Grid>
 							);
 						})}
 						<Grid display={'flex'} alignItems={'center'}
 							mobileSOffset={0.7}
 							mobileMOffset={3}
-							mobileL={2} mobileLOffset={4.5}
+							mobileL={2} mobileLOffset={0}
 						>
 							{displaySize < theme.breakpoints.values.tablet &&
 								<HeaderMenuIconButton disableRipple onClick={handleClick}>
@@ -66,8 +74,8 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 								</HeaderMenuIconButton>}
 						</Grid>
 					</Grid>
-
 				</Grid>
+
 				<Grid container columns={{ tablet: 25 }} paddingTop={1}>
 					{displaySize > theme.breakpoints.values.tablet - 1 && headerButtons.map((buttonText) => {
 						return (
