@@ -1,41 +1,41 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Logo from './Logo';
-import { HeaderButtonsResponsiveContainer, HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
-import { Box, Collapse, Menu, MenuItem, Modal } from '@mui/material'
-import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
+import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
+import { Box, Collapse } from '@mui/material'
+import { headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
 import { Link } from 'react-router-dom';
 import HeaderAvatar from './HeaderAvatar';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import { GridContainerStyle, GridLoginMenuContainerStyle, HeaderButtonsResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
 
 interface SizeProps {
 	displaySize: number
 }
 
 const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
-	const [isCklicked, setIsClicked] = useState(true);
+	const [isClicked, setIsClicked] = useState(true);
+	
+	const handleClickAway = () => {
+		setIsClicked(true);
+	};
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setIsClicked(Boolean(event.currentTarget.value));
-		setIsClicked(!isCklicked);
+		setIsClicked(!isClicked);
 	};
 
 	useEffect(() => {
-		window.addEventListener('click', (event) => {
-			console.log(event.target)
-		})
-	}, [isCklicked]);
-
+		
+	}, [isClicked]);
+	
 	return (
 		<Box width="100%">
 			<HeaderButtonsResponsiveContainer>
-				<Grid container width="100%" display={'flex'} alignItems={'center'} sx={{
-					[theme.breakpoints.up('mobileS')]: {
-						display: 'flex',
-						justifyContent: 'center'
-					},
-				}}>
+				<Grid container sx={() => GridContainerStyle(theme)}>
 					<Grid
 						mobileL={4} mobileLOffset={0.5}
 						tablet={4} tabletOffset={1}
@@ -47,32 +47,16 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 						</Link>
 					</Grid>
 
-					<Grid width="100%" container display={'flex'} alignItems={'center'} sx={{
-						[theme.breakpoints.up('mobileS')]: {
-							display: 'flex',
-							justifyContent: 'space-around'
-						},
-					}}
+					<Grid container sx={() => GridLoginMenuContainerStyle(theme)} 
 						mobileL={6} mobileLOffset={1.5}
 						tablet={4} tabletOffset={2.5}
 					>
-						{headerButtonsLogin.map((button) => {
-							return (
-								<>
-									{
-										button.route === 'signIn' &&
-										<Grid key={button.title}
-											mobileMOffset={1}
-										>
-											<Link key={button.title} to={`/${button.route}`}>
-												<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
-											</Link>
-										</Grid>
-									}
-								</>
+						<Grid mobileMOffset={1}>
+							<Link to={`/${headerButtonsLogin[0].route}`}>
+								<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
+							</Link>
+						</Grid>
 
-							);
-						})}
 						<Grid
 							mobileMOffset={0.5}
 							mobileLOffset={0.5}
@@ -81,22 +65,30 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 							<HeaderAvatar />
 						</Grid>
 
-
 						<Grid display={'flex'} alignItems={'center'}
 							mobileLOffset={0}
 							tabletOffset={0.5}
 						>
-							<HeaderMenuIconButton disableRipple onClick={handleClick}>
-								<HeaderMenuIconStyle />
-							</HeaderMenuIconButton>
+							{/* 
+								Listener if the click occurs outside of the element and
+								call function handleClickAway wich sets the isClicked parameter to true
+							*/}
+							<ClickAwayListener onClickAway={handleClickAway}>
+								<HeaderMenuIconButton disableRipple onClick={handleClick}>
+									<HeaderMenuIconStyle />
+								</HeaderMenuIconButton>
+							</ClickAwayListener>
+
 						</Grid>
 					</Grid>
 				</Grid>
 			</HeaderButtonsResponsiveContainer>
 
-			<Collapse in={!isCklicked} timeout="auto">
-				<HeaderResponsive isCklicked={isCklicked} handleClick={handleClick}></HeaderResponsive>
-			</Collapse>
+			{!isClicked && (
+				<Collapse in={!isClicked} timeout="auto">
+					<HeaderResponsive isClicked={isClicked} handleClick={handleClick}></HeaderResponsive>
+				</Collapse>
+			)}
 		</Box>
 	)
 }

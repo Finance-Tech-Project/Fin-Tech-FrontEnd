@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Avatar, Box, Link, Menu, MenuItem } from '@mui/material';
+import { Avatar, Link, Menu, MenuItem } from '@mui/material';
 import { theme } from '../../../Constants/MaterialConstants/theme';
 import { avatarMenuButtons } from '../../../Constants/ProjectConstants/headerConstants';
 

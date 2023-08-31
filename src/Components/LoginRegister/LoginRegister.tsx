@@ -28,7 +28,8 @@ const LoginRegister = ({ pathRoute }: Props) => {
 				<LoginRegisterContainer>
 					<LoginRegisterWrapper>
 						<LoginRegisterWrapperShadow>
-							{displaySize > theme.breakpoints.values.laptop - 1 &&
+							{
+								displaySize > theme.breakpoints.values.laptop - 1 &&
 								<LoginBG>
 									<LoginBgBlackout></LoginBgBlackout>
 								</LoginBG>

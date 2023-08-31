@@ -9,8 +9,8 @@ import HeaderAvatar from './HeaderAvatar';
 const HeaderButtons = () => {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<Grid container  sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
-				<Grid 
+			<Grid container sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
+				<Grid
 					laptop={0.5} laptopOffset={0.5}
 					laptopL={0.5} laptopLOffset={0.5}
 					desktopL={0.5} desktopLOffset={0.5}
@@ -22,10 +22,10 @@ const HeaderButtons = () => {
 					</Link>
 				</Grid>
 
-				<Grid container  sx={{ width: '100%' }}
-						laptop={7} laptopOffset={1.8}
-						laptopL={6} laptopLOffset={2.5}
-						desktopL={6} desktopLOffset={2}
+				<Grid container sx={{ width: '100%' }}
+					laptop={7} laptopOffset={1.8}
+					laptopL={6} laptopLOffset={2.5}
+					desktopL={6} desktopLOffset={2}
 				>
 					{headerButtons.map((buttonText) => {
 						return (
@@ -43,36 +43,29 @@ const HeaderButtons = () => {
 					})}
 				</Grid>
 
-				<Grid container 
+				<Grid container
 					laptop={1} laptopOffset={0.3}
 					laptopL={1.5} laptopLOffset={0.5}
 					desktopL={1.5} desktopLOffset={1.5}
 				>
 					<Box display={'flex'} alignItems={'center'} sx={{ width: '100%' }}>
-						{headerButtonsLogin.map((button) => {
-							return (
-								<>
-									{
-										button.route === 'signIn' &&
-										<Grid key={button.route}>
-											<Link to={`/${button.route}`}>
-												<HeaderButtonsStyle key={button.title} disableRipple>{button.title}</HeaderButtonsStyle>
-											</Link>
-										</Grid>
-									}
-								</>
-							);
-						})}
-						<Grid 
+						<Grid>
+							<Link to={`/${headerButtonsLogin[0].route}`}>
+								<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
+							</Link>
+						</Grid>
+
+
+						<Grid
 							laptopOffset={9}
 							laptopLOffset={3}
 						>
 							<HeaderAvatar />
 						</Grid>
 					</Box>
-				</Grid>
-			</Grid>
-		</Box>
+				</Grid >
+			</Grid >
+		</Box >
 	)
 }
 

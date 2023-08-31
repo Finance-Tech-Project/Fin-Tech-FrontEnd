@@ -1,7 +1,5 @@
 import './App.css';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
-import LightWeightChart from './Components/TradingViewLightWeightChart/LightWeightChart';
-import TradingViewWidget from './Components/TradingViewWidget/TradingViewWidget';
 import Home from './Components/Home/Home';
 import { Routes, Route } from 'react-router-dom';
 import { headerButtons, headerButtonsLogin } from './Constants/ProjectConstants/headerConstants';
@@ -11,13 +9,9 @@ import Analytics from './Components/Analytics/Analytics';
 import Contacts from './Components/Contacts/Contacts';
 import MyAccount from './Components/MyAccount/MyAccount';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
-import { useEffect } from 'react';
 
-
-function App() {
-	
+function App() {	
 	return (
-
 		<Grid container>
 			<Routes>
 				<Route path='/' element={<Home />} />
@@ -34,13 +28,7 @@ function App() {
 					);
 				})};
 			</Routes>
-
-
-			{/* <TradingViewWidget /> */}
-			{/* <LightWeightChart /> */}
 		</Grid>
-
-
 	);
 }
 
