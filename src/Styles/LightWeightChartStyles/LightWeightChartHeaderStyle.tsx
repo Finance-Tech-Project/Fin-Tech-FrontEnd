@@ -20,10 +20,10 @@ export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({
-    minWidth: '200px', 
+    minWidth: '250px', 
     display: 'flex', 
     flexDirection: 'column',
-    paddingLeft: '20px',
+    paddingLeft: '25px',
     [theme.breakpoints.up('mobileS')]: {
         paddingLeft: '0px',
         paddingTop: '10px',

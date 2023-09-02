@@ -16,6 +16,7 @@ export const ChartContainerWrapper = styled(Box)(({ theme }) => ({
 
 export const ChartButtonsContainer = styled(Box)(({ theme }) => ({
     width: '100%',
+    display: 'flex',
     [theme.breakpoints.up('mobileS')]: {
         display: 'flex',
         flexDirection: 'column'

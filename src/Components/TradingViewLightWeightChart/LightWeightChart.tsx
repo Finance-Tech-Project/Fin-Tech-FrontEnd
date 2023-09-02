@@ -7,6 +7,7 @@ import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
 import { chartButtonsPeriod, chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
 import { ChartButtonsContainer, ChartContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { changeChartTypeSeries } from '../../FetchActions/lightWeightSeriesFunctions';
+import LightWeightChartButtons from './LightWeightChartButtons';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
@@ -62,25 +63,8 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 	}, [tickerData, tickerVolume, selectedSeries]);
 
 	return (
-
 		<ChartContainer ref={chartContainerRef}>
-			<ChartContainerWrapper>
-				<ChartButtonsContainer>
-					{chartButtonsPeriod.map((button) => {
-						return (
-							<ChartButtons key={button} variant="contained">{button}</ChartButtons>
-						);
-					})}
-				</ChartButtonsContainer>
-
-				<ChartButtonsContainer>
-					{chartButtonsSeries.map((button) => {
-						return (
-							<ChartButtons key={button} onClick={handleChangeSeries} variant="contained">{button}</ChartButtons>
-						);
-					})}
-				</ChartButtonsContainer>
-			</ChartContainerWrapper>
+			<LightWeightChartButtons  handleChangeSeries={handleChangeSeries}/>
 
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>

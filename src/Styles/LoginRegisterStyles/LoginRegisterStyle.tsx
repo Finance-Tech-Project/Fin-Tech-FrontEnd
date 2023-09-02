@@ -4,12 +4,20 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 export const LoginRegisterContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    height: '81.1vh',
+    height: '100vh',
     minHeight: '750px',
     background: 'linear-gradient(180deg, rgba(17,3,54,1) 0%, rgba(46,16,105,1) 50%)',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    // [theme.breakpoints.up('desktop')]: {
+    //     minHeight: '750px',
+    //     height: '81.1vh',
+    // },
+    // [theme.breakpoints.up('desktopL')]: {
+    //     minHeight: '850px',
+    //     height: '86.3vh',
+    // },
 }));
 
 export const LoginAndRegisterContainer = styled(Box)(({ theme }) => ({

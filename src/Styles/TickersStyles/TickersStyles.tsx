@@ -20,6 +20,7 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
 }));
 
 export const ChartButtons = styled(Button)(({ theme }) => ({
+    width: '100%',
     color: 'white',
     backgroundColor: 'rgba(2, 1, 31, 0.5)',
     '&:hover, &:focus, &:active': {
