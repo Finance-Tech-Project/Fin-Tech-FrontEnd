@@ -1,21 +1,22 @@
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { 
-    LoginCheckbox, 
+import {
+    LoginCheckbox,
     LoginFormControlLabel,
     LoginGridLinksContainerStyle
 } from '../../Styles/LoginRegisterStyles/LoginStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
-import { 
-    LoginAndRegisterContainer, 
-    LoginRegisterAvatar, 
-    LoginRegisterAvatarIcon, 
-    LoginRegisterButton, 
-    LoginRegisterGridContainerStyle, 
-    LoginRegisterGridStyle, 
-    LoginRegisterLink, 
-    LoginRegisterTextField, 
-    LoginRegisterTypography 
+import {
+    LoginAndRegisterContainer,
+    LoginRegisterAvatar,
+    LoginRegisterAvatarIcon,
+    LoginRegisterButton,
+    LoginRegisterGridContainerStyle,
+    LoginRegisterGridStyle,
+    LoginRegisterLink,
+    LoginRegisterTextField,
+    LoginRegisterTypography
 } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
+import { Link } from '@mui/material';
 
 const Login = () => {
     return (
@@ -29,21 +30,21 @@ const Login = () => {
                         Sign In
                     </LoginRegisterTypography>
 
-                    <LoginRegisterTextField 
-                        variant='outlined' 
-                        margin="normal" 
-                        fullWidth label="Nickname" 
-                        autoComplete="Nickname" 
-                        required 
+                    <LoginRegisterTextField
+                        variant='outlined'
+                        margin="normal"
+                        fullWidth label="Nickname"
+                        autoComplete="Nickname"
+                        required
                     />
 
-                    <LoginRegisterTextField 
-                        variant='outlined' 
-                        margin="normal" 
-                        fullWidth 
-                        label="Password" 
-                        autoComplete="Password" 
-                        required 
+                    <LoginRegisterTextField
+                        variant='outlined'
+                        margin="normal"
+                        fullWidth
+                        label="Password"
+                        autoComplete="Password"
+                        required
                     />
 
                     <LoginFormControlLabel
@@ -51,7 +52,7 @@ const Login = () => {
                         label="Remember me"
                     />
 
-                    <LoginRegisterButton 
+                    <LoginRegisterButton
                         type="submit"
                         fullWidth
                         variant="contained"
@@ -62,11 +63,11 @@ const Login = () => {
                 </Grid>
 
                 <Grid container sx={() => LoginGridLinksContainerStyle(theme)}>
-                    {/* <Grid>
-                                <Link href="#" variant="body2" sx={{fontSize: '1rem'}}>
-                                    Forgot password?
-                                </Link>
-                            </Grid> */}
+                    <Grid>
+                        <Link href="#" variant="body2" sx={{ fontSize: '1rem' }}>
+                            Forgot password?
+                        </Link>
+                    </Grid>
                     <Grid>
                         <LoginRegisterLink href="/signUp" variant="body2">
                             {"Don't have an account? Sign Up"}

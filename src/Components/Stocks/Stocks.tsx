@@ -66,7 +66,15 @@ const Stocks = () => {
 				<StocksBlackoutContainer>
 					<StocksTitle />
 
-					<Box sx={{ maxWidth: '1200px', paddingTop: '80px' }}>
+					<Box sx={{
+						maxWidth: '1200px', paddingTop: '80px', border: '2px solid rgba(70, 75, 114, 0.8)',
+						borderTopLeftRadius: '120px',
+						borderBottomRightRadius: '120px',
+						padding: '60px',
+						backgroundColor: 'rgba(4, 3, 28, 0.6)',
+						boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
+						marginTop: '50px'
+					}}>
 						<Box sx={{ paddingBottom: '50px', display: 'flex', justifyContent: 'space-between' }}>
 							<StocksAutocomplete
 								onChange={(event) => handleChangeTickerValue(event)}
@@ -74,7 +82,7 @@ const Stocks = () => {
 								componentsProps={{
 									paper: {
 										sx: {
-											bgcolor: "rgba(44, 9, 81, 1)", 
+											bgcolor: "rgba(44, 9, 81, 1)",
 											color: 'white'
 										}
 									}
@@ -89,8 +97,8 @@ const Stocks = () => {
 								disablePortal
 								getOptionLabel={(option: any) => option.symbol}
 								options={autocompleteTickers}
-								noOptionsText={<Typography sx={{color: 'white'}}>No tickers found</Typography>}
-								loadingText={<Typography sx={{color: 'white'}}>Loading...</Typography>}
+								noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
+								loadingText={<Typography sx={{ color: 'white' }}>Loading...</Typography>}
 								renderInput={(params) =>
 									<TextField {...params} key={params.id} label="Tickers"
 										InputProps={{
@@ -101,7 +109,7 @@ const Stocks = () => {
 													{params.InputProps.endAdornment}
 												</React.Fragment>
 											)
-										}} 
+										}}
 									/>
 								}
 							/>
