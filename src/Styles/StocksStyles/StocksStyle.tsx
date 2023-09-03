@@ -1,6 +1,5 @@
-import { Autocomplete, Box, Typography, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 import Main_BG_4 from "../../Images/MainBG_4.jpg";
-import Main_BG_6 from "../../Images/MainBG_6.jpg";
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export const StocksContainer = styled(Box)(({ theme }) => ({
@@ -46,28 +45,3 @@ export const StockTitleDescr = styled(Typography)(({ theme }) => ({
 	fontWeight: 400,
 }));
 
-export const StocksAutocomplete = styled(Autocomplete)(({ theme }) => ({
-	width: 300,
-	'.MuiInputBase-input': {
-		color: 'white',
-		borderColor: 'white',
-	},
-	'& .MuiOutlinedInput-root': {
-		'& fieldset': {
-			borderColor: 'rgba(70, 75, 114, 0.8)',
-			borderWidth: '1.5px'
-		},
-		'&:hover fieldset': {
-			borderColor: '#7276ff',
-		},
-		'&.Mui-focused fieldset': {
-			borderColor: 'rgba(70, 75, 114, 0.8)',
-		},
-	},
-	'& .MuiFormLabel-root': {
-		color: 'white',
-	},
-	'& .MuiButtonBase-root': {
-		color: 'white',
-	}
-}));

@@ -1,4 +1,4 @@
-import { Button, TableCell, Typography, styled } from "@mui/material";
+import { Button, TableCell, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     '&.MuiTableCell-root': {

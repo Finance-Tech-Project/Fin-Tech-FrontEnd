@@ -67,7 +67,7 @@ const Tickers = () => {
 		return () => removeValues();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
-	
+
 	return (
 		<Box>
 			<MainTickerTitle />
