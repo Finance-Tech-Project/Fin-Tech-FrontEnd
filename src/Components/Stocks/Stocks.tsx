@@ -4,7 +4,7 @@ import { StocksBlackoutContainer, StocksContainer } from "../../Styles/StocksSty
 import Footer from "../Footer/Footer";
 import StocksTitle from "./StocksTitle";
 import StocksChart from "./StocksChart";
-import StocksStatistics from "../../Styles/StocksStyles/StocksStatistics";
+import StocksStatistics from "./StocksStatistics";
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from "../../Constants/MaterialConstants/theme";
 
