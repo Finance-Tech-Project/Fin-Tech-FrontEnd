@@ -14,55 +14,18 @@ interface AutocompleteOption {
 	company: string
 }
 
-const StocksChart = () => {
-	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
-	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
-	const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('AAPL');
-	const [isLoading, setIsLoading] = useState(false);
-	const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('Apple Inc.');
-	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
+interface Props {
+	tickerData: Array<TickerDataType>,
+	tickerVolume: Array<TickerDataVolumeType>,
+	selectedTicker: string | null | undefined,
+	selectedTickerName: string | null | undefined,
+	autocompleteTickers: AutocompleteOption[],
+	handleChangeTickerValue: (event: React.SyntheticEvent<Element, Event>) => void
+}
+
+const StocksChart = ({tickerData, tickerVolume, selectedTicker, selectedTickerName, handleChangeTickerValue, autocompleteTickers}: Props) => {
 	const [open, setOpen] = useState(false);
 	const loading = open && autocompleteTickers.length === 0;
-
-	const getDataTicker = async () => {
-		if (selectedTicker) {
-			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker!);
-			setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
-			setTickerData(createCandleData(MAIN_DATA, dataTicker!));
-		}
-	}
-
-	const getTickers = async () => {
-		const allTickers: Array<TickerType> | undefined = await getAllTickers();
-		const res: AutocompleteOption[] | undefined = allTickers?.map((ticker) => {
-			const autocompleteTickers: AutocompleteOption = {
-				symbol: ticker.symbol,
-				company: ticker.name
-			}
-			return autocompleteTickers;
-		});
-		setAutocompleteTickers(res!);
-	};
-
-	const handleChangeTickerValue = (event: React.SyntheticEvent<Element, Event>) => {
-		setSelectedTicker(event.currentTarget.childNodes[0].nodeValue!);
-		if (!event.currentTarget.childNodes[0].nodeValue!) {
-			setSelectedTicker('AAPL');
-			setSelectedTickerName('Apple Inc.');
-		}
-		autocompleteTickers.forEach((ticker) => {
-			if (ticker.symbol === event.currentTarget.childNodes[0].nodeValue!) {
-				setSelectedTickerName(ticker.company);
-			}
-		})
-	};
-
-	useEffect(() => {
-		setIsLoading(true);
-		isLoading && getTickers();
-		getDataTicker();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, selectedTicker, selectedTickerName]);
 
 	return (
 		<StocksChartContainer>

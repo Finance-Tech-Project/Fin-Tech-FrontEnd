@@ -9,6 +9,7 @@ import Analytics from './Components/Analytics/Analytics';
 import Contacts from './Components/Contacts/Contacts';
 import MyAccount from './Components/MyAccount/MyAccount';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
+import { useEffect } from 'react';
 
 function App() {	
 	return (

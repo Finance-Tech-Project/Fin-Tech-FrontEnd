@@ -10,12 +10,13 @@ import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 const StocksStatistics = () => {
 	return (
 		<StocksStatisticsContainer>
-			<Typography variant='h4' sx={{ color: 'yellow', textAlign: 'start', padding: '20px' }}>Statistics</Typography>
+			<Typography variant='h4' sx={{ color: 'yellow', textAlign: 'start', padding: '10px 0 10px 0' }}>Statistics</Typography>
+			<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 			<Box sx={{ width: '100%', display: 'flex' }}>
-				
+
 				<StocksStatisticsLeftTableContainer>
 
-					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951' }}>
+					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '20px' }}>
 						<Table>
 							<TableHead >
 								<TableRow>
@@ -121,10 +122,7 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-								<TableRow>
-									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
-									<TabelCellTicker>15.55%</TabelCellTicker>
-								</TableRow>
+							
 							</TableBody>
 						</Table>
 					</TableContainer>
@@ -136,7 +134,7 @@ const StocksStatistics = () => {
 
 
 				<StocksStatisticsLeftTableContainer>
-					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951' }}>
+					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '20px' }}>
 						<Table>
 							<TableHead >
 								<TableRow>
@@ -157,7 +155,6 @@ const StocksStatistics = () => {
 										}
 									}}></TableCell>
 								</TableRow>
-
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>
@@ -218,7 +215,7 @@ const StocksStatistics = () => {
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -230,17 +227,13 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
 								<TableRow>
 									<TabelCellTicker>52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>-44.52%</TabelCellTicker>
-								</TableRow>
-								<TableRow>
-									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
-									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
 								<TableRow>
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
@@ -251,13 +244,7 @@ const StocksStatistics = () => {
 					</TableContainer>
 				</StocksStatisticsLeftTableContainer>
 			</Box>
-
-
-
-
 		</StocksStatisticsContainer>
-
-
 	)
 }
 
