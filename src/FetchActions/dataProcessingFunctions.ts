@@ -55,7 +55,7 @@ export const createColumnsForHistoricalTable = (ticker: Array<TickerDataType>) =
                 column.id = "date"
                 column.lable = "date"
             }
-           
+
             if (key.toString().toLocaleLowerCase() === 'values') {
                 column.id = 'volume'
                 column.lable = 'volume'
@@ -80,7 +80,8 @@ export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): His
                 high: data.high,
                 low: data.low,
                 close: data.close,
-                volume: values[0].value
+                volume: transformVolume(values[0].value)!
+                
             }
             return row;
         });
@@ -92,10 +93,12 @@ export const transformFirstLetterToUpperCase = (word: string): string => {
     return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-// export const transformVolume = (volume: string | number) => {
-    
-//     return Intl.NumberFormat(volume.toString())
-// };
+export const transformVolume = (volume: string | number) => {
+    if (typeof volume === 'number') {
+        const res = Intl.NumberFormat().format(volume).replace(/\s/g, ',')
+        return res;
+    }
+}
 
 export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
     if (dataType === MAIN_DATA) {

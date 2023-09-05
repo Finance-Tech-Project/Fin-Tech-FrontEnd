@@ -9,5 +9,5 @@ export interface HistoricalTableType {
     high: number,
     low: number,
     close: number,
-    volume: number
+    volume: number | string
 }

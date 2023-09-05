@@ -94,11 +94,10 @@ const Stocks = () => {
 							<Grid desktop={5} desktopOffset={1}>
 								<StocksStatistics />
 							</Grid>
-
-
 						</Grid>
+
 						<Grid container sx={{ width: '99%' }}>
-							<Grid desktopL={11} desktopLOffset={0.25}>
+							<Grid desktopL={8} desktopLOffset={0.25}>
 								<StocksHistoricalTable historicalTableColumns={historicalTableColumns} historicalTableRows={historicalTableRows}/>
 							</Grid>
 						</Grid>
