@@ -70,13 +70,12 @@ export const createColumnsForHistoricalTable = (ticker: Array<TickerDataType>) =
     }
 };
 
-export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>) => {
+export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): HistoricalTableType[] | undefined => {
     if (ticker) {
         const res: HistoricalTableType[] = ticker.map((data) => {
-            
             const values = Object.values(data.values!)
             const row: HistoricalTableType = {
-                date: data.time,
+                date: transformDate(data.time),
                 open: data.open,
                 high: data.high,
                 low: data.low,
@@ -85,10 +84,18 @@ export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>) => {
             }
             return row;
         });
-        console.log(res)
         return res;
     }
 };
+
+export const transformFirstLetterToUpperCase = (word: string): string => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+// export const transformVolume = (volume: string | number) => {
+    
+//     return Intl.NumberFormat(volume.toString())
+// };
 
 export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
     if (dataType === MAIN_DATA) {
@@ -124,45 +131,51 @@ export const createHistogramAreaData = (dataType: string, tickerData: Array<Tick
     return values;
 };
 
-
-export const delimiterDataToPeriods = (period: string, data: Array<TickerDataType | TickerDataVolumeType>) => {
-    if (period === "1D") {
-        return data;
-    }
-    if (period === "1W") {
-        return data.filter((ticker) => {
-            const currentTime = ticker.time.toString();
-            const date = new Date(currentTime);
-            console.log(date.getDay() === 5 && ticker.time)
-            return date.getDay() === 5 && ticker;
-        })
-    }
-    if (period === "1M") {
-        const res: (TickerDataType | TickerDataVolumeType)[] = [];
-        const firstDate = new Date();
-        const plusMonth = new Date();
-        if (data[0]) {
-            firstDate.setTime((new Date(data[0].time).getTime()));
-            plusMonth.setTime(addMonth(firstDate, 1).getTime())
-        }
-
-        if (!(firstDate.getTime() === new Date().getTime())) {
-            data.forEach((ticker, index) => {
-                if (!(index >= data.length - 1)) {
-                    const nextDate = new Date(data[index + 1].time.toString());
-                    if (nextDate.getTime() > plusMonth.getTime()) {
-                        res.push(ticker);
-                        plusMonth.setTime(addMonth(nextDate, 1).getTime());
-                    }
-                }
-            })
-        }
-        // console.log(res)
-        return res;
-    }
+export const transformDate = (date: string) => {
+    const arr = new Date(date).toString().split(" ");
+    const res = arr[1] + " " + arr[2] + ", " + arr[3];
+    return res;
 };
 
-const addMonth = (date: Date, months: number): Date => {
-    date.setMonth(date.getMonth() + months);
-    return date;
-};
+
+// export const delimiterDataToPeriods = (period: string, data: Array<TickerDataType | TickerDataVolumeType>) => {
+//     if (period === "1D") {
+//         return data;
+//     }
+//     if (period === "1W") {
+//         return data.filter((ticker) => {
+//             const currentTime = ticker.time.toString();
+//             const date = new Date(currentTime);
+//             console.log(date.getDay() === 5 && ticker.time)
+//             return date.getDay() === 5 && ticker;
+//         })
+//     }
+//     if (period === "1M") {
+//         const res: (TickerDataType | TickerDataVolumeType)[] = [];
+//         const firstDate = new Date();
+//         const plusMonth = new Date();
+//         if (data[0]) {
+//             firstDate.setTime((new Date(data[0].time).getTime()));
+//             plusMonth.setTime(addMonth(firstDate, 1).getTime())
+//         }
+
+//         if (!(firstDate.getTime() === new Date().getTime())) {
+//             data.forEach((ticker, index) => {
+//                 if (!(index >= data.length - 1)) {
+//                     const nextDate = new Date(data[index + 1].time.toString());
+//                     if (nextDate.getTime() > plusMonth.getTime()) {
+//                         res.push(ticker);
+//                         plusMonth.setTime(addMonth(nextDate, 1).getTime());
+//                     }
+//                 }
+//             })
+//         }
+//         // console.log(res)
+//         return res;
+//     }
+// };
+
+// const addMonth = (date: Date, months: number): Date => {
+//     date.setMonth(date.getMonth() + months);
+//     return date;
+// };

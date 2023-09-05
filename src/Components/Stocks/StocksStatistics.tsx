@@ -15,19 +15,18 @@ const StocksStatistics = () => {
 			<Box sx={{ width: '100%', display: 'flex' }}>
 
 				<StocksStatisticsLeftTableContainer>
-
 					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '20px' }}>
-						<Table>
+						<Table stickyHeader aria-label="sticky table">
 							<TableHead >
 								<TableRow>
-									<TableCell sx={{
+									<TabelCellTicker sx={{
 										'&.MuiTableCell-root': {
 											fontFamily: 'Inter, sans-serif',
 											backgroundColor: '#190033',
 											color: 'white',
 											fontSize: '1rem'
 										}
-									}}> Stock Price History </TableCell>
+									}}> Stock Price History </TabelCellTicker>
 									<TableCell sx={{
 										'&.MuiTableCell-root': {
 											fontFamily: 'Inter, sans-serif',
@@ -37,11 +36,10 @@ const StocksStatistics = () => {
 										}
 									}}></TableCell>
 								</TableRow>
-
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -53,7 +51,7 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -74,7 +72,7 @@ const StocksStatistics = () => {
 					</TableContainer>
 
 					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '50px' }}>
-						<Table>
+						<Table stickyHeader aria-label="sticky table">
 							<TableHead >
 								<TableRow>
 									<TableCell sx={{
@@ -94,11 +92,10 @@ const StocksStatistics = () => {
 										}
 									}}></TableCell>
 								</TableRow>
-
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -110,7 +107,7 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -122,7 +119,6 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-							
 							</TableBody>
 						</Table>
 					</TableContainer>
@@ -132,11 +128,10 @@ const StocksStatistics = () => {
 					<Divider orientation='vertical' sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 				</Box>
 
-
 				<StocksStatisticsLeftTableContainer>
 					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '20px' }}>
-						<Table>
-							<TableHead >
+						<Table stickyHeader aria-label="sticky table">
+							<TableHead>
 								<TableRow>
 									<TableCell sx={{
 										'&.MuiTableCell-root': {
@@ -158,7 +153,7 @@ const StocksStatistics = () => {
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -170,7 +165,7 @@ const StocksStatistics = () => {
 									<TabelCellTicker>S&P500 52-Week Change 3</TabelCellTicker>
 									<TabelCellTicker>15.55%</TabelCellTicker>
 								</TableRow>
-								<TableRow hover>
+								<TableRow>
 									<TabelCellTicker>Beta (5Y Monthly)</TabelCellTicker>
 									<TabelCellTicker>0.45</TabelCellTicker>
 								</TableRow>
@@ -191,7 +186,7 @@ const StocksStatistics = () => {
 					</TableContainer>
 
 					<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '50px' }}>
-						<Table>
+						<Table stickyHeader aria-label="sticky table">
 							<TableHead >
 								<TableRow>
 									<TableCell sx={{
@@ -211,7 +206,6 @@ const StocksStatistics = () => {
 										}
 									}}></TableCell>
 								</TableRow>
-
 							</TableHead>
 
 							<TableBody sx={{ width: '100%' }}>

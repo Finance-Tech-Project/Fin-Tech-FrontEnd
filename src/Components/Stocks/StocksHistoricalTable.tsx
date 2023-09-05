@@ -3,6 +3,7 @@ import { StocksHistoricalTableContainer } from '../../Styles/StocksStyles/Stocks
 import { Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
+import { transformDate, transformFirstLetterToUpperCase, transformVolume } from '../../FetchActions/dataProcessingFunctions'
 
 interface Props {
     historicalTableColumns: HistoricalTableColumnType[] | undefined,
@@ -16,7 +17,7 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
             <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 
             <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951' }}>
-                <Table>
+                <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             {historicalTableColumns?.map((column) => {
@@ -26,7 +27,7 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                                             backgroundColor: '#190033',
                                             color: 'white'
                                         }
-                                    }} key={column.id}>{column.lable}</TableCell>
+                                    }} key={column.id}>{transformFirstLetterToUpperCase(column.lable)}</TableCell>
                                 );
                             })}
                         </TableRow>
@@ -37,12 +38,12 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                             return (
                                 <TableRow key={row.date}>
                                     {historicalTableColumns?.map((column) => {
-                                        console.log(column.id)
+                                      
+                                        
                                         const value = row[column.id];
-                                       
                                         return (
                                             <TabelCellTicker key={column.id}>
-                                                {value}
+                                                {typeof value === 'number' ? value.toFixed(2) : value}
                                             </TabelCellTicker>
                                         );
                                     })}
