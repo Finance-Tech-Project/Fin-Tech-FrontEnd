@@ -32,7 +32,7 @@ export const StocksChartContainer = styled(Box)(({ theme }) => ({
     borderTopLeftRadius: '120px',
     borderBottomRightRadius: '120px',
     padding: '60px',
-    paddingTop: '50px',
+    paddingBottom: '61px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
     marginTop: '50px'

@@ -100,15 +100,18 @@ const Stocks = () => {
 						<Grid container sx={{ width: '99%' }}>
 							<Grid 
 								desktop={7} desktopOffset={0.2}
-								desktopL={8} desktopLOffset={0.25}>
+								desktopL={7} desktopLOffset={0.25}
+							>
 								<StocksHistoricalTable historicalTableColumns={historicalTableColumns} historicalTableRows={historicalTableRows}/>
 							</Grid>
 
-							<Grid desktop={3} desktopOffset={1}>
+							<Grid 
+								desktop={3} desktopOffset={1}
+								desktopL={3} desktopLOffset={1}
+							>
 								<StocksRecommendationTrends />
 							</Grid>
 						</Grid>
-
 					</StocksBlackoutContainer>
 				</StocksContainer>
 				<Footer />
