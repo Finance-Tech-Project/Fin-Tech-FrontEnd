@@ -14,6 +14,7 @@ import { getAllTickers, getTickerData } from "../../FetchActions/fetchActions";
 import { MAIN_DATA, VOLUME_DATA } from "../../Constants/fetchConstants";
 import { createCandleData, createColumnsForHistoricalTable, createHistogramAreaData, createRowsForHistoricalTable } from "../../FetchActions/dataProcessingFunctions";
 import { HistoricalTableColumnType, HistoricalTableType } from "../../Types/HistoricalTableTypes";
+import StocksRecommendationTrends from "./StocksRecommendationTrends";
 
 interface AutocompleteOption {
 	symbol: string,
@@ -97,8 +98,14 @@ const Stocks = () => {
 						</Grid>
 
 						<Grid container sx={{ width: '99%' }}>
-							<Grid desktopL={8} desktopLOffset={0.25}>
+							<Grid 
+								desktop={7} desktopOffset={0.2}
+								desktopL={8} desktopLOffset={0.25}>
 								<StocksHistoricalTable historicalTableColumns={historicalTableColumns} historicalTableRows={historicalTableRows}/>
+							</Grid>
+
+							<Grid desktop={3} desktopOffset={1}>
+								<StocksRecommendationTrends />
 							</Grid>
 						</Grid>
 

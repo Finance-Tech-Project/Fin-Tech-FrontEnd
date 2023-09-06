@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { StocksHistoricalTableContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
-import { Box, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
+import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
+import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
-import { transformDate, transformFirstLetterToUpperCase, transformVolume } from '../../FetchActions/dataProcessingFunctions'
-import { theme } from '../../Constants/MaterialConstants/theme'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { transformFirstLetterToUpperCase } from '../../FetchActions/dataProcessingFunctions'
+import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 
 interface Props {
     historicalTableColumns: HistoricalTableColumnType[] | undefined,
@@ -18,7 +18,13 @@ interface Props {
 const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: Props) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+    const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs('2022-04-17'));
+    const [dateTo, setDateTo] = React.useState<Dayjs | null | unknown>(dayjs('2023-04-17'));
+    const [period, setPeriod] = React.useState('');
+
+    const handleChangePeriod = (event: SelectChangeEvent) => {
+        setPeriod(event.target.value as string);
+    };
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -35,37 +41,13 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                 <Typography variant='h4' sx={{ color: 'yellow', textAlign: 'start', padding: '10px 0 10px 0' }}>Historical data</Typography>
                 <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 
-                <Box sx={{ padding: '20px 0 20px 0' }}>
-                    <DatePicker
-                        sx={{
-                            width: '320px',
-                            '.MuiInputBase-input': {
-                                color: 'white',
-                                borderColor: 'white',
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                    borderColor: 'rgba(70, 75, 114, 0.8)',
-                                    borderWidth: '1.5px'
-                                },
-                                '&:hover fieldset': {
-                                    borderColor: '#7276ff',
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'rgba(70, 75, 114, 0.8)',
-                                },
-                            },
-                            '& .MuiFormLabel-root': {
-                                color: 'white',
-                            },
-                            '& .MuiButtonBase-root': {
-                                color: 'white',
-                            }
-                        }}
+                <Box sx={{ padding: '20px 0 20px 0', display: 'flex', justifyContent: 'space-between'}}>
+                    <StocksHistoricalTableDatePicker
                         slotProps={{
                             layout: {
                                 sx: {
                                     '& .MuiDateCalendar-root': {
+                                        width: '103%',
                                         color: 'white',
                                         backgroundColor: '#190033'
                                     },
@@ -79,40 +61,16 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                             }
                         }}
                         label="Date from"
-                        value={value}
-                        onChange={(newValue) => setValue(newValue)}
+                        value={dateFrom}
+                        onChange={(newDate) => setDateFrom(newDate)}
                     />
 
-<DatePicker
-                        sx={{
-                            width: '320px',
-                            '.MuiInputBase-input': {
-                                color: 'white',
-                                borderColor: 'white',
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                    borderColor: 'rgba(70, 75, 114, 0.8)',
-                                    borderWidth: '1.5px'
-                                },
-                                '&:hover fieldset': {
-                                    borderColor: '#7276ff',
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'rgba(70, 75, 114, 0.8)',
-                                },
-                            },
-                            '& .MuiFormLabel-root': {
-                                color: 'white',
-                            },
-                            '& .MuiButtonBase-root': {
-                                color: 'white',
-                            }
-                        }}
+                    <StocksHistoricalTableDatePicker
                         slotProps={{
                             layout: {
                                 sx: {
                                     '& .MuiDateCalendar-root': {
+                                        width: '103%',
                                         color: 'white',
                                         backgroundColor: '#190033'
                                     },
@@ -126,9 +84,59 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                             }
                         }}
                         label="Date to"
-                        value={value}
-                        onChange={(newValue) => setValue(newValue)}
+                        value={dateTo}
+                        onChange={(newDate) => setDateTo(newDate)}
                     />
+
+                    <FormControl sx={{width: '120px'}}>
+                        <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
+                        <Select
+                            MenuProps={{
+                                sx: {
+                                    '& .MuiList-root': {
+                                        bgcolor: "rgba(44, 9, 81, 1)",
+                                        color: 'white'
+                                    }
+                                }
+                            }}
+                            sx={{
+                                '.MuiInputBase-input': {
+                                    color: 'white',
+                                    borderColor: 'white',
+                                },
+                                '& .MuiFormLabel-root': {
+                                    color: 'white',
+                                },
+                                '& .MuiSvgIcon-root': {
+                                    color: 'white',
+                                },
+                                '.MuiPopover-paper': {
+                                    backgroundColor: '#190033'
+                                },
+                                '&.MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: 'rgba(70, 75, 114, 0.8)',
+                                        borderWidth: '1.5px'
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#7276ff',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: 'rgba(70, 75, 114, 0.8)',
+                                    }
+                                }
+                            }}
+                            value={period}
+                            label="Frequency"
+                            onChange={handleChangePeriod}
+                        >
+                            <MenuItem value={'Daily'}>Daily</MenuItem>
+                            <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                            <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <MainButton marginTop>Apply</MainButton>
                 </Box>
 
                 <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', maxHeight: '620px' }}>
@@ -139,6 +147,7 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                                     return (
                                         <TableCell component="th" sx={{
                                             '&.MuiTableCell-root': {
+                                                textAlign: 'center',
                                                 backgroundColor: '#190033',
                                                 color: 'white'
                                             }
@@ -157,7 +166,7 @@ const StocksHistoricalTable = ({ historicalTableColumns, historicalTableRows }: 
                                             {historicalTableColumns?.map((column) => {
                                                 const value = row[column.id];
                                                 return (
-                                                    <TabelCellTicker key={column.id}>
+                                                    <TabelCellTicker sx={{textAlign: 'center'}} key={column.id}>
                                                         {typeof value === 'number' ? value.toFixed(2) : value}
                                                     </TabelCellTicker>
                                                 );

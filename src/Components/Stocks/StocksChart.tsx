@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { StocksChartContainer, StocksChartSearchTickerContainer, StocksAutocomplete } from '../../Styles/StocksStyles/StocksChartStyle';
 import { CircularProgress, Paper, TextField, Typography } from '@mui/material';
-import { TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
-import { createCandleData, createHistogramAreaData } from '../../FetchActions/dataProcessingFunctions';
-import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
-import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
-import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
+import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
+import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 
 interface AutocompleteOption {
 	symbol: string,

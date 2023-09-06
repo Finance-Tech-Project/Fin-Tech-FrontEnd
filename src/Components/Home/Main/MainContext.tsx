@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { ThemeProvider } from '@mui/material';
 import { MainArrowIconButton, MainButton, MainDescr, MainHeader, MainHeaderContainer, MainImagePng, MainImagePngContainer } from '../../../Styles/MainStyles/MainContextStyle';
@@ -6,10 +5,7 @@ import pngBackground_3 from '../../../Images/PngImages/pngBackground_3.png';
 import { theme } from '../../../Constants/MaterialConstants/theme';
 import { DisplaySizeProps } from '../../../Types/MainTypes';
 
-
-
-const MainContext = ({ displaySize }: DisplaySizeProps) => {
-	
+const MainContext = ({ displaySize }: DisplaySizeProps) => {	
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container columns={{ desktopL: 16,  laptopL: 13.8, laptop: 15, tablet: 12.5, mobileL: 13.5 }} 
