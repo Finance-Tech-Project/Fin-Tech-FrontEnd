@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
-import { MainFindTickerContainer, MainFindTickerTextFieldContainer, MainTickersTextField, MainTickersTextFieldHeader } from '../../Styles/MainStyles/MainFindTickerStyle';
+import { MainFindTickerContainer, MainFindTickerTableContainer, MainFindTickerTextFieldContainer, MainTickersTextField, MainTickersTextFieldHeader } from '../../Styles/MainStyles/MainFindTickerStyle';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
@@ -10,7 +10,6 @@ import { createCandleData, createColumns, createHistogramAreaData, createRows } 
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 import MainTickerTitle from '../Home/Main/MainTickerTitle';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
-import { theme } from '../../Constants/MaterialConstants/theme';
 
 const Tickers = () => {
 	const [data, setData] = useState('');
@@ -67,30 +66,40 @@ const Tickers = () => {
 		return () => removeValues();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
-	
+
 	return (
 		<Box>
 			<MainTickerTitle />
 			<MainFindTickerContainer>
-				<Grid container columns={{ desktopL: 10.16, laptop: 12.2, tablet: 13.5, mobileM: 12 }} display={'flex'} width={'100%'} height={'100%'}>
-					<Grid mobileS={11} mobileSOffset={0.5}
-						mobileM={11} mobileMOffset={0.5}
-						mobileL={10} mobileLOffset={1.15}
-						tablet={12} tabletOffset={0.75}
-						laptop={4.3} laptopOffset={0.41}
-						laptopL={3.3} laptopLOffset={0.73}
-						desktop={3.3} desktopOffset={0.8}
-						desktopL={2.36} desktopLOffset={0.8}
-					>
-						<MainFindTickerTextFieldContainer>
-							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-								<MainTickersTextField variant="outlined" onChange={handleChangeData} />
-								<MainTickersTextFieldHeader>
-									Find your Ticker
-								</MainTickersTextFieldHeader>
-							</Box>
 
-							<TableContainer component={Paper} sx={{ width: '100%', height: '607.5px', backgroundColor: '#2c0951' }}>
+
+				<Box sx={{
+					width: '85%',
+					border: '2px solid rgba(70, 75, 114, 0.8)',
+					padding: '40px',
+					borderTopLeftRadius: '120px',
+					borderBottomRightRadius: '120px',
+					backgroundColor: 'rgba(4, 3, 28, 0.6)',
+					boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)'
+				}}>
+			
+					<Grid container  display={'flex'} width={'100%'} height={'100%'}>
+						<Grid sx={{width: '100%',}}
+							laptopL={11} laptopLOffset={0.5}
+							desktop={11} desktopOffset={0.5}
+							desktopL={11} desktopLOffset={0.5}
+						>
+							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', }}>
+								<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker"/>
+							</Box>
+						</Grid>
+
+						<Grid sx={{ height: '100%' }}
+							laptopL={4} laptopLOffset={0.5}
+							desktop={4} desktopOffset={0.5}
+							desktopL={4} desktopLOffset={0.5}
+						>
+							<MainFindTickerTableContainer >
 								<Table stickyHeader aria-label="sticky table">
 									<TableHead >
 										<TableRow>
@@ -117,7 +126,7 @@ const Tickers = () => {
 															.map(((column: TickerColumnType) => {
 																const value = row[column.id];
 																return (
-																	<TabelCellTicker key={column.index}>
+																	<TabelCellTicker key={column.index} sx={{ height: '29.5px' }}>
 																		{value}
 																	</TabelCellTicker>
 																);
@@ -129,12 +138,10 @@ const Tickers = () => {
 										}
 									</TableBody>
 								</Table>
-							</TableContainer>
+							</MainFindTickerTableContainer>
 
 							<TablePagination
-								sx={{width: '100%', [theme.breakpoints.between('mobileL', 'laptopL')]: {
-									overflow: 'hidden'
-								},}}
+								sx={{ width: '100%' }}
 								component={"div"}
 								rowsPerPageOptions={[10, 100, 1000]}
 								count={rows.length}
@@ -143,22 +150,19 @@ const Tickers = () => {
 								onPageChange={handleChangePage}
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
-						</MainFindTickerTextFieldContainer>
-					</Grid>
+						</Grid>
 
-					<Grid mobileS={11} mobileSOffset={0.5}
-						mobileM={11} mobileMOffset={0.5}
-						mobileL={10} mobileLOffset={1.15}
-						tablet={12} tabletOffset={0.75}
-						laptop={6.28} laptopOffset={0.8}
-						laptopL={6.25} laptopLOffset={1}
-						desktop={6.4} desktopOffset={1}
-						desktopL={5.5} desktopLOffset={0.5}
-					>
-						<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} tickerData={tickerData}/>
-						<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
+						<Grid 
+							laptopL={6.5} laptopLOffset={0.5}
+							desktop={6.5} desktopOffset={0.5}
+							desktopL={6.5} desktopLOffset={0.5}
+						>
+							<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} tickerData={tickerData} />
+							<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
+						</Grid>
 					</Grid>
-				</Grid>
+				</Box>
+
 			</MainFindTickerContainer >
 		</Box>
 	)

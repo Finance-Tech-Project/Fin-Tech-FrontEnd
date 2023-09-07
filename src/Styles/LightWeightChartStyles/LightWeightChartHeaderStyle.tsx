@@ -15,6 +15,13 @@ export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
         flexDirection: 'column',
     },
     [theme.breakpoints.up('tablet')]: {
+        marginTop: '0px',
+        flexDirection: 'row'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up('laptopL')]: {
         flexDirection: 'row'
     },
 }));
@@ -30,7 +37,16 @@ export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({
         textAlign: 'center',
     },
     [theme.breakpoints.up('tablet')]: {
-        paddingTop: '10px'
+        paddingTop: '10px',
+        textAlign: 'start',
+        paddingLeft: '20px',
+    },
+    [theme.breakpoints.up('laptop')]: {
+        textAlign: 'center'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        textAlign: 'start',
+        paddingLeft: '20px',
     }
 }));
 
@@ -46,6 +62,12 @@ export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '80%',
+    },
+    [theme.breakpoints.up('laptop')]: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        width: '80%',
+        paddingBottom: '10px'
     },
 }));
 

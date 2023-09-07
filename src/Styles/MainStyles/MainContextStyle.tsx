@@ -115,14 +115,15 @@ export const MainButton = styled(Button, {
         marginTop: '10px'
     },
     [theme.breakpoints.up('mobileM')]: {
-        marginTop: '0',
+        marginTop: '10px',
         ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('tablet')]: {
-        marginTop: '20px',
+        marginTop: '45px',
         ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('laptop')]: {
+        marginTop: '20px',
         ...(marginTop && {marginTop: '20px'})
     },
     [theme.breakpoints.up('desktop')]: {

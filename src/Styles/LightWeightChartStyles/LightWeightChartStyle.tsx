@@ -11,7 +11,13 @@ export const ChartContainerWrapper = styled(Box)(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     backgroundColor: 'rgba(44, 9, 81, 1)',
-    borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)'
+    borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)',
+    [theme.breakpoints.up('laptop')]: {
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        flexDirection: 'row'
+    },
 }));
 
 export const ChartButtonsContainer = styled(Box)(({ theme }) => ({
@@ -24,4 +30,5 @@ export const ChartButtonsContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('tablet')]: {
         flexDirection: 'row'
     },
+    
 }));

@@ -38,7 +38,7 @@ export const MainTickersDesc = styled(Typography)(({ theme }) => ({
         fontSize: '1.35rem',
     },
     [theme.breakpoints.up('laptop')]: {
-       textAlign: 'center',
+       textAlign: 'left',
         fontSize: '1.5rem',
     },
     [theme.breakpoints.up('laptopL')]: {

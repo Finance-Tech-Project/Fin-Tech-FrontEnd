@@ -3,9 +3,8 @@ import { Chart } from 'lightweight-charts-react-wrapper';
 import React, { useEffect, useRef, useState } from 'react'
 import { ColorType, createChart } from 'lightweight-charts';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
-import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
-import { chartButtonsPeriod, chartButtonsSeries } from '../../Constants/ProjectConstants/chartButtonsConstants';
-import { ChartButtonsContainer, ChartContainer, ChartContainerWrapper } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
+
+import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { changeChartTypeSeries } from '../../FetchActions/lightWeightSeriesFunctions';
 import LightWeightChartButtons from './LightWeightChartButtons';
 
@@ -65,10 +64,8 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 	return (
 		<ChartContainer ref={chartContainerRef}>
 			<LightWeightChartButtons  handleChangeSeries={handleChangeSeries}/>
-
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
-
 		</ChartContainer>
 	)
 }

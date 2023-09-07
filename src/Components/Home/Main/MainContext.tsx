@@ -26,7 +26,7 @@ const MainContext = ({ displaySize }: DisplaySizeProps) => {
 						<MainDescr>
 							Make informed investment decisions with data analysis
 						</MainDescr>
-						<MainButton marginTop>Get Started
+						<MainButton>Get Started
 							<MainArrowIconButton></MainArrowIconButton>
 						</MainButton>
 					</MainHeaderContainer>
