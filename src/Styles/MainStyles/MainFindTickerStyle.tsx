@@ -18,6 +18,36 @@ export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     }
 }));
 
+export const MainFindTickerWrapper = styled(Box)(({ theme }) => ({
+    width: '85%',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    padding: '40px',
+    borderTopLeftRadius: '120px',
+    borderBottomRightRadius: '120px',
+    backgroundColor: 'rgba(4, 3, 28, 0.6)',
+    boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
+    [theme.breakpoints.up('mobileS')]: {
+        width: '65%',
+        paddingTop: '60px',
+        paddingBottom: '60px',
+    },
+    [theme.breakpoints.up('mobileM')]: {
+        width: '70%',
+        paddingTop: '60px',
+        paddingBottom: '60px',
+    },
+    [theme.breakpoints.up('mobileL')]: {
+        width: '70%',
+        paddingTop: '60px',
+        paddingBottom: '60px',
+    },
+    [theme.breakpoints.up('tablet')]: {
+        width: '85%',
+        paddingTop: '60px',
+        paddingBottom: '60px',
+    },
+}));
+
 export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -35,7 +65,7 @@ export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({
 
 export const MainFindTickerTableContainer = styled(TableContainer)(({ theme }) => ({
     width: '100%',
-    minHeight: '682px',
+    minHeight: '685px',
     // height: '607.5px',
     backgroundColor: '#2c0951',
     // [theme.breakpoints.up('laptop')]: {

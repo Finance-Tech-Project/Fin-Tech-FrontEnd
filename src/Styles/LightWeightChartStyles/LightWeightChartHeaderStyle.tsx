@@ -15,14 +15,16 @@ export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
         flexDirection: 'column',
     },
     [theme.breakpoints.up('tablet')]: {
-        marginTop: '0px',
+        marginTop: '20px',
         flexDirection: 'row'
     },
     [theme.breakpoints.up('laptop')]: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        marginTop: '20px',
     },
     [theme.breakpoints.up('laptopL')]: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: '0px'
     },
 }));
 

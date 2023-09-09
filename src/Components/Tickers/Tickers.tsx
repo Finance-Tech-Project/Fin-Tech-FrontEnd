@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
-import { MainFindTickerContainer, MainFindTickerTableContainer, MainFindTickerTextFieldContainer, MainTickersTextField, MainTickersTextFieldHeader } from '../../Styles/MainStyles/MainFindTickerStyle';
+import { MainFindTickerContainer, MainFindTickerTableContainer, MainFindTickerTextFieldContainer, MainFindTickerWrapper, MainTickersTextField, MainTickersTextFieldHeader } from '../../Styles/MainStyles/MainFindTickerStyle';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
@@ -67,24 +67,18 @@ const Tickers = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
 
+	
 	return (
 		<Box>
 			<MainTickerTitle />
 			<MainFindTickerContainer>
 
 
-				<Box sx={{
-					width: '85%',
-					border: '2px solid rgba(70, 75, 114, 0.8)',
-					padding: '40px',
-					borderTopLeftRadius: '120px',
-					borderBottomRightRadius: '120px',
-					backgroundColor: 'rgba(4, 3, 28, 0.6)',
-					boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)'
-				}}>
-			
+				<MainFindTickerWrapper>
 					<Grid container  display={'flex'} width={'100%'} height={'100%'}>
 						<Grid sx={{width: '100%',}}
+							tablet={11} tabletOffset={0.5}
+							laptop={11} laptopOffset={0.5}
 							laptopL={11} laptopLOffset={0.5}
 							desktop={11} desktopOffset={0.5}
 							desktopL={11} desktopLOffset={0.5}
@@ -95,6 +89,8 @@ const Tickers = () => {
 						</Grid>
 
 						<Grid sx={{ height: '100%' }}
+							tablet={11} tabletOffset={0.5}
+							laptop={11} laptopOffset={0.5}
 							laptopL={4} laptopLOffset={0.5}
 							desktop={4} desktopOffset={0.5}
 							desktopL={4} desktopLOffset={0.5}
@@ -126,7 +122,7 @@ const Tickers = () => {
 															.map(((column: TickerColumnType) => {
 																const value = row[column.id];
 																return (
-																	<TabelCellTicker key={column.index} sx={{ height: '29.5px' }}>
+																	<TabelCellTicker key={column.index}>
 																		{value}
 																	</TabelCellTicker>
 																);
@@ -153,6 +149,8 @@ const Tickers = () => {
 						</Grid>
 
 						<Grid 
+							tablet={11} tabletOffset={0.5}
+							laptop={11} laptopOffset={0.5}
 							laptopL={6.5} laptopLOffset={0.5}
 							desktop={6.5} desktopOffset={0.5}
 							desktopL={6.5} desktopLOffset={0.5}
@@ -161,7 +159,7 @@ const Tickers = () => {
 							<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 						</Grid>
 					</Grid>
-				</Box>
+				</MainFindTickerWrapper>
 
 			</MainFindTickerContainer >
 		</Box>
