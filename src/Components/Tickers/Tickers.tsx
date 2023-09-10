@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
-import { MainFindTickerContainer, MainFindTickerTableContainer, MainFindTickerTextFieldContainer, MainFindTickerWrapper, MainTickersTextField, MainTickersTextFieldHeader } from '../../Styles/MainStyles/MainFindTickerStyle';
+import { MainFindTickerContainer, MainFindTickerTableContainer, MainFindTickerWrapper, MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
 import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
@@ -22,6 +22,10 @@ const Tickers = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
+	const [dateFrom, setDateFrom] = useState<string>('Loading...');
+	const [dateTo, setDateTo] = useState<string>('Loading...');
+	const [maxPrice, setMaxPrice] = useState<string | number>('Loading...');
+	const [minPrice, setMinPrice] = useState<string | number>('Loading...');
 
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getAllTickers();
@@ -34,6 +38,16 @@ const Tickers = () => {
 			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker!);
 			setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
 			setTickerData(createCandleData(MAIN_DATA, dataTicker!));
+			
+			if (dataTicker && dataTicker[0].time && dataTicker[dataTicker.length - 1].time) {
+				setDateFrom(dataTicker[0].time);
+				setDateTo(dataTicker[dataTicker.length - 1].time);
+			}
+
+			if (dataTicker && dataTicker[dataTicker.length - 1].high && dataTicker[dataTicker.length - 1].low) {
+				setMaxPrice(dataTicker[dataTicker.length - 1].high.toFixed(2));
+				setMinPrice(dataTicker[dataTicker.length - 1].low.toFixed(2));
+			}
 		}
 	}
 
@@ -67,33 +81,24 @@ const Tickers = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, selectedTicker, data]);
 
-	
+	console.log(maxPrice);
 	return (
 		<Box>
 			<MainTickerTitle />
 			<MainFindTickerContainer>
-
-
 				<MainFindTickerWrapper>
-					<Grid container  display={'flex'} width={'100%'} height={'100%'}>
-						<Grid sx={{width: '100%',}}
+					<Grid container display={'flex'} width={'100%'} height={'100%'}>
+						<Grid sx={{ width: '100%' }}
 							tablet={11} tabletOffset={0.5}
-							laptop={11} laptopOffset={0.5}
-							laptopL={11} laptopLOffset={0.5}
-							desktop={11} desktopOffset={0.5}
-							desktopL={11} desktopLOffset={0.5}
 						>
 							<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', }}>
-								<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker"/>
+								<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker" />
 							</Box>
 						</Grid>
 
 						<Grid sx={{ height: '100%' }}
 							tablet={11} tabletOffset={0.5}
-							laptop={11} laptopOffset={0.5}
 							laptopL={4} laptopLOffset={0.5}
-							desktop={4} desktopOffset={0.5}
-							desktopL={4} desktopLOffset={0.5}
 						>
 							<MainFindTickerTableContainer >
 								<Table stickyHeader aria-label="sticky table">
@@ -148,19 +153,22 @@ const Tickers = () => {
 							/>
 						</Grid>
 
-						<Grid 
+						<Grid
 							tablet={11} tabletOffset={0.5}
-							laptop={11} laptopOffset={0.5}
 							laptopL={6.5} laptopLOffset={0.5}
-							desktop={6.5} desktopOffset={0.5}
-							desktopL={6.5} desktopLOffset={0.5}
 						>
-							<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} tickerData={tickerData} />
+							<LightWeightChartHeader
+								selectedTicker={selectedTicker}
+								selectedTickerName={selectedTickerName}
+								dateFrom={dateFrom}
+								dateTo={dateTo}
+								maxPrice={maxPrice}
+								minPrice={minPrice}
+							/>
 							<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 						</Grid>
 					</Grid>
 				</MainFindTickerWrapper>
-
 			</MainFindTickerContainer >
 		</Box>
 	)

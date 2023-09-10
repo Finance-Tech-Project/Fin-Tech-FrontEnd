@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-import { TickerDataType } from '../../Types/TickersTypes'
 import { 
 	MainHeaderChartContainer, 
 	MainHeaderChartTickerDescr, 
@@ -13,10 +11,13 @@ import {
 interface Props {
 	selectedTicker: string | null | undefined,
 	selectedTickerName: string | null | undefined,
-	tickerData: Array<TickerDataType>
+	dateFrom: string,
+	dateTo: string,
+	maxPrice: string | number,
+	minPrice: string | number
 }
 
-const LightWeightChartHeader = ({selectedTicker, selectedTickerName, tickerData}: Props) => {
+const LightWeightChartHeader = ({selectedTicker, selectedTickerName, dateFrom, dateTo, maxPrice, minPrice}: Props) => {
 	
 	return (
 		<MainHeaderChartContainer>
@@ -28,17 +29,17 @@ const LightWeightChartHeader = ({selectedTicker, selectedTickerName, tickerData}
 				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Max Price: </MainHeaderChartTickerDescr>
-						{/* {tickerData[0] && <MainHeaderChartTickerDescr>{tickerData[502].high.toFixed(2)}</MainHeaderChartTickerDescr>} */}
+						<MainHeaderChartTickerDescr>{maxPrice}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					{/* {tickerData[0] && <MainHeaderChartTickerDescr>Date from: {tickerData[0].time.toString()}</MainHeaderChartTickerDescr>} */}
+					<MainHeaderChartTickerDescr>Date from: {dateFrom}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 
 				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Min Price: </MainHeaderChartTickerDescr>
-						{/* {tickerData[502] && <MainHeaderChartTickerDescr>{tickerData[502].low.toFixed(2)}</MainHeaderChartTickerDescr>} */}
+						<MainHeaderChartTickerDescr>{minPrice}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					{/* {tickerData[tickerData.length - 1] && <MainHeaderChartTickerDescr>Date to: {tickerData[tickerData.length - 1].time.toString()}</MainHeaderChartTickerDescr>} */}
+					<MainHeaderChartTickerDescr>Date to: {dateTo}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 			</MainHeaderChartTickerDescrContainer>
 		</MainHeaderChartContainer>
