@@ -1,6 +1,6 @@
 import { Typography, styled, Box, TextField, TableContainer } from '@mui/material';
 
-export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
+export const MainTickersTableContainer = styled(Box)(({ theme }) => ({
     paddingTop: '50px',
     paddingBottom: '50px',
     height: '100%',
@@ -18,7 +18,7 @@ export const MainFindTickerContainer = styled(Box)(({ theme }) => ({
     }
 }));
 
-export const MainFindTickerWrapper = styled(Box)(({ theme }) => ({
+export const MainTickersTableWrapper = styled(Box)(({ theme }) => ({
     width: '85%',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     padding: '40px',

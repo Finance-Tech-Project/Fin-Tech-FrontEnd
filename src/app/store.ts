@@ -1,9 +1,15 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { intervalDataReducer } from '../Reducers/intervalDataReducer';
+import { historicalDataReducer } from '../Reducers/historicalDataReducer';
+import { selectedSymbolReducer } from '../Reducers/selectedSymbolReducer';
+
 
 
 export const store = configureStore({
 	reducer: {
-
+		intervalDataReducer: intervalDataReducer,
+		historicalDataReducer: historicalDataReducer,
+		selectedSymbolReducer: selectedSymbolReducer
 	},
 });
 

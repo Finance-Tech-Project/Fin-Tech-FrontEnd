@@ -5,17 +5,21 @@ import MainContext from './MainContext';
 import { ThemeProvider } from '@mui/material';
 import MainButtons from './MainButtons';
 import { theme } from '../../../Constants/MaterialConstants/theme';
-import MainFindTicker from './MainFindTicker';
+import MainTickersTableAndChart from './MainTickersTableAndChart';
+
+
+
 
 const Main = () => {
 	const [displaySize, setDisplaySize] = useState(window.screen.width);
-
+	
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySize(window.screen.width);
 		});
 
 	}, [displaySize]);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container>
@@ -25,7 +29,7 @@ const Main = () => {
 						{displaySize > theme.breakpoints.values.laptop - 1 && <MainButtons />}
 					</MainBackgroundColor>
 				</MainContainer>
-				<MainFindTicker />
+				<MainTickersTableAndChart />
 			</Grid>
 		</ThemeProvider>
 	)

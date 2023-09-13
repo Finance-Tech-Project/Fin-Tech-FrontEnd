@@ -3,7 +3,9 @@ import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 
 export const lineSeries = (chart: IChartApi,  data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>) => {
     const lineChart = chart.addLineSeries({ color: 'rgb(54, 116, 217)' });
+    
     const lineData: Array<TickerDataVolumeType> = data.map((ticker) => ({
+        
         time: ticker.time,
         value: (ticker.close + ticker.open) / 2,
     }));
@@ -75,7 +77,7 @@ export const barSeries = (chart: IChartApi, data: Array<TickerDataType>, volume:
 export const areaSeries = (chart: IChartApi, data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>) => {
     const areaChart = chart.addAreaSeries({ lineColor: '#2962FF', topColor: 'rgba(56, 33, 110,0.6)', bottomColor: 'rgba(56, 33, 110, 0.1)' });
     const lineData: Array<TickerDataVolumeType> = data.map((ticker) => ({
-        time: ticker.time,
+        time    : ticker.time,
         value: (ticker.close + ticker.open) / 2,
     }));
     areaChart.setData(lineData);

@@ -5,7 +5,7 @@ import { ColorType, createChart } from 'lightweight-charts';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 
 import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
-import { changeChartTypeSeries } from '../../FetchActions/lightWeightSeriesFunctions';
+import { changeChartTypeSeries } from '../../Functions/lightWeightSeriesFunctions';
 import LightWeightChartButtons from './LightWeightChartButtons';
 
 interface Props {
@@ -60,7 +60,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 		};
 
 	}, [tickerData, tickerVolume, selectedSeries]);
-
+	
 	return (
 		<ChartContainer ref={chartContainerRef}>
 			<LightWeightChartButtons  handleChangeSeries={handleChangeSeries}/>

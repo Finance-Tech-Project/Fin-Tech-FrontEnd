@@ -1,11 +1,11 @@
 export enum ColumnType {
-	"symbol" = "symbol",
-	"name" = "name"
+	"name" = "name",
+    "companyName" = "companyName",
 }
 
 export interface TickerType {
-    symbol: string,
     name: string,
+    companyName : string,
     industryCategory?: string,
     type?: string,
     exchange?: string,
@@ -13,18 +13,19 @@ export interface TickerType {
 }
 
 export interface TickerColumnType {
-    id: 'symbol' | 'name',
+    id: 'name',
     label: string,
     index?: number
 }
 
 export interface TickerDataType {
-    time: string,
+    time: string |  "date",
 	open: number,
 	high: number,
 	low: number,
 	close: number,
-    values?: Array<TickerDataVolumeType>
+    volume?: number,
+    date?: "date"
 }
 
 export interface TickerDataVolumeType {

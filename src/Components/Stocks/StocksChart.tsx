@@ -5,11 +5,7 @@ import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
-
-interface AutocompleteOption {
-	symbol: string,
-	company: string
-}
+import { AutocompleteOption } from './Stocks';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
@@ -17,10 +13,14 @@ interface Props {
 	selectedTicker: string | null | undefined,
 	selectedTickerName: string | null | undefined,
 	autocompleteTickers: AutocompleteOption[],
-	handleChangeTickerValue: (event: React.SyntheticEvent<Element, Event>) => void
+	handleChangeTickerValue: (event: React.SyntheticEvent<Element, Event>) => void,
+	dateFrom: string,
+	dateTo: string,
+	maxPrice: string | number,
+	minPrice: string | number
 }
 
-const StocksChart = ({tickerData, tickerVolume, selectedTicker, selectedTickerName, handleChangeTickerValue, autocompleteTickers}: Props) => {
+const StocksChart = ({tickerData, tickerVolume, selectedTicker, selectedTickerName, handleChangeTickerValue, autocompleteTickers, dateFrom, dateTo, maxPrice, minPrice}: Props) => {
 	const [open, setOpen] = useState(false);
 	const loading = open && autocompleteTickers.length === 0;
 
@@ -68,7 +68,7 @@ const StocksChart = ({tickerData, tickerVolume, selectedTicker, selectedTickerNa
 				<MainButton marginTop>Add to portfolio</MainButton>
 			</StocksChartSearchTickerContainer>
 
-			<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} tickerData={tickerData} />
+			<LightWeightChartHeader selectedTicker={selectedTicker} selectedTickerName={selectedTickerName} dateFrom={dateFrom} dateTo={dateTo} maxPrice={maxPrice} minPrice={minPrice}/>
 			<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 		</StocksChartContainer>
 	)

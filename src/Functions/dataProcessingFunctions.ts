@@ -9,7 +9,7 @@ export const createColumns = (allTickers: Array<TickerType> | undefined) => {
         //Creates a new object with fields for column needs.
         const res: TickerColumnType[] = tickersKeys.slice(0, 2).map((data) => {
             const newData: TickerColumnType = {
-                id: data.toString() as ColumnType.symbol,
+                id: data.toString() as ColumnType.name,
                 label: data,
                 index: 0
             }
@@ -27,8 +27,8 @@ export const createRows = (param: string, allTickers: Array<TickerType> | undefi
         //Creates a new object with fields for rows needs.
         const tickersData: Array<TickerType> = allTickers!.map((ticker) => {
             const res: TickerType = {
-                symbol: ticker.symbol,
                 name: ticker.name,
+                companyName: ticker.companyName,
                 index: 0
             }
             return res;
@@ -36,8 +36,8 @@ export const createRows = (param: string, allTickers: Array<TickerType> | undefi
         tickersData.forEach((ticker, index) => ticker.index = index);
         //Ticker search by letters entered in the text field by symbol and company name
         if (param) {
-            return tickersData.filter((ticker) => (ticker.symbol.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
-                || (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
+            return tickersData.filter((ticker) => (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
+                || (ticker.companyName.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
         }
         return tickersData;
     }
@@ -73,15 +73,15 @@ export const createColumnsForHistoricalTable = (ticker: Array<TickerDataType>) =
 export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): HistoricalTableType[] | undefined => {
     if (ticker) {
         const res: HistoricalTableType[] = ticker.map((data) => {
-            const values = Object.values(data.values!)
+
             const row: HistoricalTableType = {
                 date: transformDate(data.time),
                 open: data.open,
                 high: data.high,
                 low: data.low,
                 close: data.close,
-                volume: transformVolume(values[0].value)!
-                
+                volume: transformVolume(data.volume!)!
+
             }
             return row;
         });
@@ -103,7 +103,9 @@ export const transformVolume = (volume: string | number) => {
 export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
     if (dataType === MAIN_DATA) {
         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
+
             const res: TickerDataType = {
+
                 time: ticker.time,
                 open: ticker.open,
                 high: ticker.high,
@@ -117,21 +119,21 @@ export const createCandleData = (dataType: string, tickerData: Array<TickerDataT
     return tickerData;
 };
 
-export const createHistogramAreaData = (dataType: string, tickerData: Array<TickerDataType>): TickerDataVolumeType[] => {
-    const values: Array<TickerDataVolumeType> = [];
-    if (dataType === VOLUME_DATA) {
-        tickerData?.forEach((ticker) => {
-            ticker.values?.forEach((tickerValue) => {
-                const res: TickerDataVolumeType = {
-                    time: tickerValue.time,
-                    value: tickerValue.value
-                }
-                values.push(res);
-            });
+export const createHistogramAreaData = (dataType: string, tickerData: Array<TickerDataType>) => {
+
+    
+        const data: Array<TickerDataVolumeType> = tickerData?.map((ticker) => {
+
+            const res: TickerDataVolumeType = {
+                time: ticker.time,
+                value: ticker.volume!
+            }
+            return res;
+
         });
-        return values;
-    }
-    return values;
+        return data;
+    
+    
 };
 
 export const transformDate = (date: string) => {

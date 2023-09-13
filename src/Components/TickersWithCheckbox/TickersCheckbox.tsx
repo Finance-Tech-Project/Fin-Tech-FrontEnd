@@ -12,8 +12,8 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, Checkbox } from '@mui/material';
 import TickersToolbar from './TickersCheckboxToolbar';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
-import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../FetchActions/dataProcessingFunctions';
-import { getAllTickers, getTickerData } from '../../FetchActions/fetchActions';
+import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../Functions/dataProcessingFunctions';
+import { getAllTickers, getTickerData } from '../../Actions/fetchActions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 
 export interface IsSelected {
@@ -49,7 +49,7 @@ const TickersCheckbox = () => {
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(event.target.checked);
 		if (event.target.checked) {
-			const selectedTickers: string[] = rows.map((e) => e.symbol)
+			const selectedTickers: string[] = rows.map((e) => e.name)
 			setSelected(selectedTickers);
 			return;
 		}
@@ -132,7 +132,7 @@ const TickersCheckbox = () => {
 							{rows
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.map((row, index) => {
-									const isItemSelected = isSelected(row.symbol);
+									const isItemSelected = isSelected(row.name);
 									const labelId = `enhanced-table-checkbox-${index}`;
 									return (
 										<TableRow role="checkbox" aria-checked={isItemSelected} selected={isItemSelected} key={row.index} onClick={handleRowClick}>
@@ -140,9 +140,9 @@ const TickersCheckbox = () => {
 												const value = row[column.id];
 												return (
 													<TableCell key={column.index}>
-														{value === row.symbol && <Checkbox 
+														{value === row.name && <Checkbox 
 																					checked={isItemSelected} 
-																					onChange={event => handleClick(event, row.symbol)} 
+																					onChange={event => handleClick(event, row.name)} 
 																					inputProps={{ 'aria-labelledby': labelId }} 
 																				/>}
 														{value}

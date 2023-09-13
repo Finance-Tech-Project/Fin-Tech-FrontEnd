@@ -3,7 +3,7 @@ import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from 
 import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
-import { transformFirstLetterToUpperCase } from '../../FetchActions/dataProcessingFunctions'
+import { transformFirstLetterToUpperCase } from '../../Functions/dataProcessingFunctions'
 import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
