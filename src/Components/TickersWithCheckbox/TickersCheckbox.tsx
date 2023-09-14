@@ -13,7 +13,7 @@ import { Box, Checkbox } from '@mui/material';
 import TickersToolbar from './TickersCheckboxToolbar';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../Functions/dataProcessingFunctions';
-import { getAllTickers, getTickerData } from '../../Actions/fetchActions';
+import { getAllTickers } from '../../Actions/fetchActions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 
 export interface IsSelected {
@@ -38,13 +38,13 @@ const TickersCheckbox = () => {
 		setRows(createRows(data, allTickers)!);
 	};
 
-	const getDataTicker = async () => {
-		if (selectedTicker) {
-			const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker);
-			setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
-			setTickerData(createCandleData(MAIN_DATA, dataTicker!));
-		}
-	}
+	// const getDataTicker = async () => {
+	// 	if (selectedTicker) {
+	// 		const dataTicker: Array<TickerDataType> | undefined = await getTickerData(selectedTicker);
+	// 		setTickerVolume(createHistogramAreaData(VOLUME_DATA, dataTicker!));
+	// 		setTickerData(createCandleData(MAIN_DATA, dataTicker!));
+	// 	}
+	// }
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		console.log(event.target.checked);

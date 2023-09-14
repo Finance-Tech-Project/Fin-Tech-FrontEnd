@@ -1,29 +1,29 @@
-import { 
-	MainHeaderChartContainer, 
-	MainHeaderChartTickerDescr, 
-	MainHeaderChartTickerDescrContainer, 
-	MainHeaderChartTickerDescrWrapper, 
-	MainHeaderChartTickerName, 
-	MainHeaderChartTickerNameContainer, 
-	MainHeaderChartTickerPriceContainer 
+import {
+	MainHeaderChartContainer,
+	MainHeaderChartTickerDescr,
+	MainHeaderChartTickerDescrContainer,
+	MainHeaderChartTickerDescrWrapper,
+	MainHeaderChartTickerName,
+	MainHeaderChartTickerNameContainer,
+	MainHeaderChartTickerPriceContainer
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
-	selectedTicker: string | null | undefined,
-	selectedTickerName: string | null | undefined,
 	dateFrom: string,
 	dateTo: string,
 	maxPrice: string | number,
 	minPrice: string | number
 }
 
-const LightWeightChartHeader = ({selectedTicker, selectedTickerName, dateFrom, dateTo, maxPrice, minPrice}: Props) => {
-	
+const LightWeightChartHeader = ({ dateFrom, dateTo, maxPrice, minPrice }: Props) => {
+	const { symbolName, companyName } = useAppSelector(state => state.selectedSymbolReducer);
+
 	return (
 		<MainHeaderChartContainer>
 			<MainHeaderChartTickerNameContainer>
-				<MainHeaderChartTickerName color fontSize>{selectedTicker}</MainHeaderChartTickerName>
-				<MainHeaderChartTickerName>{selectedTickerName}</MainHeaderChartTickerName>
+				<MainHeaderChartTickerName color fontSize>{symbolName}</MainHeaderChartTickerName>
+				<MainHeaderChartTickerName>{companyName}</MainHeaderChartTickerName>
 			</MainHeaderChartTickerNameContainer>
 			<MainHeaderChartTickerDescrContainer>
 				<MainHeaderChartTickerDescrWrapper>

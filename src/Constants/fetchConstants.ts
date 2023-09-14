@@ -11,5 +11,3 @@ export const SYMBOLS = "/symbols";
 
 export const DEFAULT_DATE_FROM = getDefaultPeriod()[0];
 export const DEFAULT_DATE_TO = getDefaultPeriod()[1];
-
-// http://fin-tech.eu-north-1.elasticbeanstalk.com/quote/history?dateFrom=2021-09-10&dateTo=2023-09-10&ticker=AAPL

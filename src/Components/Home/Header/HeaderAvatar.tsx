@@ -7,7 +7,7 @@ import { avatarMenuButtons } from '../../../Constants/ProjectConstants/headerCon
 
 const HeaderAvatar = () => {
     const [openCloseAvatarMenu, setOpenCloseAvatarMenu] = useState<boolean>(false);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleOpenAvatarMenu = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         setAnchorEl(event.currentTarget);

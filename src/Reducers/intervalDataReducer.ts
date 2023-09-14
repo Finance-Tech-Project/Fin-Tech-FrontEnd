@@ -3,7 +3,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 const initialInterval: string | null | undefined = "1D";
 
 const intervalDataSlice = createSlice({
-    name: "intervallData",
+    name: "intervalData",
     initialState: initialInterval,
     reducers: {
         putDataInterval(state, action: PayloadAction<string | null | undefined>) {

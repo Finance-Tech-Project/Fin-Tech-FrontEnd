@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 const MainTickersTableAndChart = () => {
 	const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
-	const { symbolName, companyName } = useAppSelector(state => state.selectedSymbolReducer);
+	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const [data, setData] = useState('');
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType> | undefined>([]);
@@ -36,33 +36,34 @@ const MainTickersTableAndChart = () => {
 		dispatch(putSymbolCompanyName(event.currentTarget.childNodes[1].firstChild?.nodeValue!));
 	};
 
-	const getDataTicker = () => {
-		if (checkInterval().length > 0) {
-			setTickerVolume(createHistogramAreaData(VOLUME_DATA, checkInterval()));
-			setTickerData(createCandleData(MAIN_DATA, checkInterval()));
+	const setSymbolData = () => {
+		const symbolDataInInterval: TickerDataType[] = getDataInInterval();
+		if (symbolDataInInterval.length > 0) {
+			setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
+			setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
 
-			setDateFrom(checkInterval()[0].time);
-			setDateTo(checkInterval()[checkInterval().length - 1].time);
+			setDateFrom(symbolDataInInterval[0].time);
+			setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
 
-			setMaxPrice(checkInterval()[checkInterval().length - 1].high.toFixed(2));
-			setMinPrice(checkInterval()[checkInterval().length - 1].low.toFixed(2));
+			setMaxPrice(symbolDataInInterval[symbolDataInInterval.length - 1].high.toFixed(2));
+			setMinPrice(symbolDataInInterval[symbolDataInInterval.length - 1].low.toFixed(2));
 		}
 	};
 
-	const checkInterval = () => {
+	const getDataInInterval = () => {
 		return interval === "1D" ? dailyData : interval === "1W" ? weeklyData : interval === "1M" ? monthlyData : interval === "1Y" ? yearlyData : dailyData;
 	};
 
 	useEffect(() => {
 		setIsLoading(true);
 		
-		if (checkInterval().length > 0) {
-			getDataTicker();
+		if (getDataInInterval().length > 0) {
+			setSymbolData();
 		}
 
 		return () => setIsLoading(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, data, interval, symbolName, dailyData, checkInterval().length > 0]);
+	}, [isLoading, data, interval, symbolName, dailyData, getDataInInterval().length > 0]);
 
 	return (
 
@@ -97,8 +98,6 @@ const MainTickersTableAndChart = () => {
 									laptopL={6.5} laptopLOffset={0.5}
 								>
 									<LightWeightChartHeader
-										selectedTicker={symbolName}
-										selectedTickerName={companyName}
 										dateFrom={dateFrom}
 										dateTo={dateTo}
 										maxPrice={maxPrice}

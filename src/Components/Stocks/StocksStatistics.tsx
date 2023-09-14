@@ -3,10 +3,6 @@ import { StocksStatisticsContainer, StocksStatisticsLeftTableContainer } from '.
 import { Box, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 
-
-
-
-
 const StocksStatistics = () => {
 	return (
 		<StocksStatisticsContainer>

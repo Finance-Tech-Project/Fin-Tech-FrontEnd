@@ -17,7 +17,7 @@ const Home = () => {
 	useEffect(() => {
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName]);
-	console.log(symbolName);
+	
 	return (
 		<Box sx={{ width: '100%' }}>
 
