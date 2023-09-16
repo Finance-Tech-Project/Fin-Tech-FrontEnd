@@ -8,6 +8,6 @@ export const ALL_SYMBOLS = "/allsymbols";
 export const QUOTE_HISTORY = "/quote/history";
 export const START = "/start";
 export const SYMBOLS = "/symbols";
-
+export const SEARCH_SYMBOLS = "/searchSymbol/?search=";
 export const DEFAULT_DATE_FROM = getDefaultPeriod()[0];
 export const DEFAULT_DATE_TO = getDefaultPeriod()[1];

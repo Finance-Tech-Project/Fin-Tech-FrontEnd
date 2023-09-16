@@ -13,7 +13,6 @@ import { Box, Checkbox } from '@mui/material';
 import TickersToolbar from './TickersCheckboxToolbar';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../Functions/dataProcessingFunctions';
-import { getAllTickers } from '../../Actions/fetchActions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 
 export interface IsSelected {
@@ -33,9 +32,9 @@ const TickersCheckbox = () => {
 	const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('Apple Inc.');
 
 	const getTickers = async () => {
-		const allTickers: Array<TickerType> | undefined = await getAllTickers();
-		setColumns(createColumns(allTickers)!);
-		setRows(createRows(data, allTickers)!);
+		// const allTickers: Array<TickerType> | undefined = await getAllTickers();
+		// setColumns(createColumns(allTickers)!);
+		// setRows(createRows(data, allTickers)!);
 	};
 
 	// const getDataTicker = async () => {

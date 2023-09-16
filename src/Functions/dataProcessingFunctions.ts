@@ -73,7 +73,6 @@ export const createColumnsForHistoricalTable = (ticker: Array<TickerDataType>) =
 export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): HistoricalTableType[] | undefined => {
     if (ticker) {
         const res: HistoricalTableType[] = ticker.map((data) => {
-
             const row: HistoricalTableType = {
                 date: transformDate(data.time),
                 open: data.open,
@@ -103,9 +102,7 @@ export const transformVolume = (volume: string | number) => {
 export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
     if (dataType === MAIN_DATA) {
         const data: Array<TickerDataType> = tickerData?.map((ticker) => {
-
             const res: TickerDataType = {
-
                 time: ticker.time,
                 open: ticker.open,
                 high: ticker.high,
@@ -120,26 +117,24 @@ export const createCandleData = (dataType: string, tickerData: Array<TickerDataT
 };
 
 export const createHistogramAreaData = (dataType: string, tickerData: Array<TickerDataType>) => {
-
-    
-        const data: Array<TickerDataVolumeType> = tickerData?.map((ticker) => {
-
-            const res: TickerDataVolumeType = {
-                time: ticker.time,
-                value: ticker.volume!
-            }
-            return res;
-
-        });
-        return data;
-    
-    
+    const data: Array<TickerDataVolumeType> = tickerData?.map((ticker) => {
+        const res: TickerDataVolumeType = {
+            time: ticker.time,
+            value: ticker.volume!
+        }
+        return res;
+    });
+    return data;
 };
 
 export const transformDate = (date: string) => {
     const arr = new Date(date).toString().split(" ");
     const res = arr[1] + " " + arr[2] + ", " + arr[3];
     return res;
+};
+
+export const findMaxMinPrice = (symbolData: TickerDataType[], param: string) => {
+    return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0] : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0];
 };
 
 

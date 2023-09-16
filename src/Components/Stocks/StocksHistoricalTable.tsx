@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
@@ -6,11 +6,11 @@ import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { createColumnsForHistoricalTable, createRowsForHistoricalTable, transformFirstLetterToUpperCase } from '../../Functions/dataProcessingFunctions'
 import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
-import { DateValidationError, DateView, LocalizationProvider, PickerChangeHandlerContext, TimeView } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
-import { TickerType } from '../../Types/TickersTypes'
-import { getAllTickers } from '../../Actions/fetchActions'
+import { TickerDataType, TickerType } from '../../Types/TickersTypes'
+
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { putDataInterval } from '../../Reducers/intervalDataReducer'
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
@@ -60,10 +60,11 @@ const StocksHistoricalTable = () => {
     };
 
     const setSymbolData = () => {
-        setHistoricalTableRows(createRowsForHistoricalTable(getDataInInterval()));
-        setHistoricalTableColumns(createColumnsForHistoricalTable(getDataInInterval()));
-        setDateFrom(getDataInInterval()[0].time);
-        setDateTo(getDataInInterval()[getDataInInterval().length - 1].time);
+        const symbolDataInInterval: TickerDataType[] = getDataInInterval();
+        setHistoricalTableRows(createRowsForHistoricalTable(symbolDataInInterval));
+        setHistoricalTableColumns(createColumnsForHistoricalTable(symbolDataInInterval));
+        setDateFrom(symbolDataInInterval[0].time);
+        setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
     };
 
     const handleClickOnApplyButton = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

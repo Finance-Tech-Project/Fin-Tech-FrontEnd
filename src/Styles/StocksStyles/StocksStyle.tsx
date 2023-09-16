@@ -15,7 +15,7 @@ export const StocksBlackoutContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const StocksTitleContainer = styled(Box)(({ theme }) => ({
-	width: '80%',
+	width: '100%',
 	border: '2px solid rgba(70, 75, 114, 0.8)',
 	borderTopLeftRadius: '120px',
 	borderBottomRightRadius: '120px',

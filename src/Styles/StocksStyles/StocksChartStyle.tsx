@@ -4,7 +4,7 @@ export const StocksAutocomplete = styled(Autocomplete)(({ theme }) => ({
     width: 300,
     '.MuiInputBase-input': {
         color: 'white',
-        borderColor: 'white',
+        borderColor: 'white'
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
@@ -12,22 +12,22 @@ export const StocksAutocomplete = styled(Autocomplete)(({ theme }) => ({
             borderWidth: '1.5px'
         },
         '&:hover fieldset': {
-            borderColor: '#7276ff',
+            borderColor: '#7276ff'
         },
         '&.Mui-focused fieldset': {
-            borderColor: 'rgba(70, 75, 114, 0.8)',
-        },
+            borderColor: 'rgba(70, 75, 114, 0.8)'   
+        }
     },
     '& .MuiFormLabel-root': {
-        color: 'white',
+        color: 'white'
     },
     '& .MuiButtonBase-root': {
-        color: 'white',
+        color: 'white'
     }
 }));
 
 export const StocksChartContainer = styled(Box)(({ theme }) => ({
-    width: '100%', 
+    width: '94.5%', 
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderTopLeftRadius: '120px',
     borderBottomRightRadius: '120px',

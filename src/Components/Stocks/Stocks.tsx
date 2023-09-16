@@ -8,7 +8,7 @@ import StocksStatistics from "./StocksStatistics";
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from "../../Constants/MaterialConstants/theme";
 import StocksHistoricalTable from "./StocksHistoricalTable";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import StocksRecommendationTrends from "./StocksRecommendationTrends";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getSymbolDataForDefaultPeriod } from "../../Actions/fetchDispatchActions";
@@ -16,37 +16,49 @@ import { getSymbolDataForDefaultPeriod } from "../../Actions/fetchDispatchAction
 const Stocks = () => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const dispatch = useAppDispatch();
-	
+	const [getStatsClick, setGetStatsClick] = useState<boolean>(false);
+
+	const handleClickStatistics = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		setGetStatsClick((prev) => prev !== Boolean(event.currentTarget));
+	};
+
 	useEffect(() => {
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName]);
-	
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Box width={'100%'} height={'100%'}>
 				<Header />
 				<StocksContainer>
 					<StocksBlackoutContainer>
-						<StocksTitle />
-						<Grid container>
-							<Grid desktop={5} desktopOffset={0.25}>
-								<StocksChart />
-							</Grid>
 
-							<Grid desktop={5} desktopOffset={1}>
-								<StocksStatistics />
+						<Grid container sx={{ width: '100%' }}>
+							<Grid
+								desktopL={11} desktopLOffset={0.5}
+							>
+								<StocksTitle />
+							</Grid>
+						</Grid>
+
+						<Grid container sx={{ width: '100%' }}>
+							<Grid
+								desktop={10.5} desktopOffset={0.5}
+								desktopL={11} desktopLOffset={0.5}
+							>
+								{getStatsClick ? <StocksStatistics handleClickStatistics={handleClickStatistics}/> : <StocksChart handleClickStatistics={handleClickStatistics}/>}
 							</Grid>
 						</Grid>
 
 						<Grid container sx={{ width: '99%' }}>
-							<Grid 
+							<Grid
 								desktop={7} desktopOffset={0.2}
 								desktopL={7} desktopLOffset={0.25}
 							>
 								<StocksHistoricalTable />
 							</Grid>
 
-							<Grid 
+							<Grid
 								desktop={3} desktopOffset={1}
 								desktopL={3} desktopLOffset={1}
 							>

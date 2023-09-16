@@ -31,7 +31,7 @@ const LightWeightChartHeader = ({ dateFrom, dateTo, maxPrice, minPrice }: Props)
 						<MainHeaderChartTickerDescr>Max Price: </MainHeaderChartTickerDescr>
 						<MainHeaderChartTickerDescr>{maxPrice}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					<MainHeaderChartTickerDescr>Date from: {dateFrom}</MainHeaderChartTickerDescr>
+					<MainHeaderChartTickerDescr>Date from: {dateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 
 				<MainHeaderChartTickerDescrWrapper>
@@ -39,7 +39,7 @@ const LightWeightChartHeader = ({ dateFrom, dateTo, maxPrice, minPrice }: Props)
 						<MainHeaderChartTickerDescr>Min Price: </MainHeaderChartTickerDescr>
 						<MainHeaderChartTickerDescr>{minPrice}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					<MainHeaderChartTickerDescr>Date to: {dateTo}</MainHeaderChartTickerDescr>
+					<MainHeaderChartTickerDescr>Date to: {dateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 			</MainHeaderChartTickerDescrContainer>
 		</MainHeaderChartContainer>
