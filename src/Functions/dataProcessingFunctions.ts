@@ -1,5 +1,6 @@
 import { MAIN_DATA, VOLUME_DATA } from "../Constants/fetchConstants";
 import { HistoricalTableColumnType, HistoricalTableType } from "../Types/HistoricalTableTypes";
+import { Statistics, StatisticsColumn, StatisticsRows } from "../Types/StatisticsTypes";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
 
 // This function creates an object for columns in table with Material UI.
@@ -135,6 +136,36 @@ export const transformDate = (date: string) => {
 
 export const findMaxMinPrice = (symbolData: TickerDataType[], param: string) => {
     return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0] : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0];
+};
+
+export const createColumnsForStatistic = (statsObject: Statistics[] | undefined) => {
+    if (statsObject) {
+        const res: StatisticsColumn[] = statsObject!.map((item, index) => {
+            const column: StatisticsColumn = {
+                id: "valuationMeasures",
+                label: "",
+                index: index
+            };
+            column.id = item.statisticName as typeof column.id;
+            return column;
+        })
+        return res;
+    }
+};
+
+export const createRowsForStatistic = (statsObject: Map<string, string | number | null> | undefined) => {
+    if (statsObject) {
+        
+        const res: StatisticsRows[] = [];
+        statsObject.forEach((value, key) => {
+            const rows: StatisticsRows = {
+                title: key,
+                value: value
+            };
+            res.push(rows);
+        })
+        return res;
+    }
 };
 
 

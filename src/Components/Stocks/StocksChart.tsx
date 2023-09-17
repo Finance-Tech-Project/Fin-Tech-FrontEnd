@@ -21,8 +21,6 @@ interface Props {
 	handleClickStatistics: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-
-
 const StocksChart = ({ handleClickStatistics }: Props) => {
 	const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -94,15 +92,13 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 		getTickers();
 	}, [letters]);
 
-
-
 	useEffect(() => {
 		if (getDataInInterval().length > 0) {
 			getDataTicker();
 		}
 
 	}, [symbolName, interval, dailyData, getDataInInterval().length > 0]);
-	console.log(letters)
+	
 	return (
 		<StocksChartContainer>
 			<StocksChartSearchTickerContainer>
