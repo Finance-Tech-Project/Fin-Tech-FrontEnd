@@ -155,7 +155,6 @@ export const createColumnsForStatistic = (statsObject: Statistics[] | undefined)
 
 export const createRowsForStatistic = (statsObject: Map<string, string | number | null> | undefined) => {
     if (statsObject) {
-        
         const res: StatisticsRows[] = [];
         statsObject.forEach((value, key) => {
             const rows: StatisticsRows = {

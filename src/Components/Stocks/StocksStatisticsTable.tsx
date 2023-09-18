@@ -3,17 +3,20 @@ import React, { useEffect, useState } from 'react'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { Statistics, StatisticsColumn, StatisticsRows } from '../../Types/StatisticsTypes'
 import { createColumnsForStatistic, createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
+import { transformTextForStatistics } from '../../Functions/utilsFunctions'
 
 interface Props {
 	columnName: StatisticsColumn,
 	statistics: Statistics[] | undefined,
+	columnsLength: number
 }
 
-const StocksStatisticsTable = ({ statistics, columnName }: Props) => {
+const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props) => {
 	const [rows, setRows] = useState<Array<StatisticsRows> | undefined>([]);
 
 	useEffect(() => {
-		setRows(createRowsForStatistic(statistics![columnName.index!].statisticData));
+		columnName && setRows(createRowsForStatistic(statistics![columnName.index!].statisticData));
+		
 	}, [statistics]); 
 	
 	return (
@@ -26,9 +29,9 @@ const StocksStatisticsTable = ({ statistics, columnName }: Props) => {
 							fontFamily: 'Inter, sans-serif',
 							backgroundColor: '#190033',
 							color: 'white',
-							fontSize: '1rem'
+							fontSize: '1.2rem'
 						}
-					}}> {columnName.id} </TabelCellTicker>
+					}}> {columnsLength > 0 && transformTextForStatistics(columnName.id)} </TabelCellTicker>
 					<TableCell sx={{
 						'&.MuiTableCell-root': {
 							fontFamily: 'Inter, sans-serif',
@@ -44,7 +47,7 @@ const StocksStatisticsTable = ({ statistics, columnName }: Props) => {
 				{rows?.map((row) => {
 					return (
 						<TableRow key={row.title}>
-							<TabelCellTicker>{row.title}</TabelCellTicker>
+							<TabelCellTicker>{transformTextForStatistics(row.title)}</TabelCellTicker>
 							<TabelCellTicker>{row.value}</TabelCellTicker>
 						</TableRow>
 					);
