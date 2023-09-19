@@ -2,7 +2,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { Statistics, StatisticsColumn, StatisticsRows } from '../../Types/StatisticsTypes'
-import { createColumnsForStatistic, createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
+import { createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
 import { transformTextForStatistics } from '../../Functions/utilsFunctions'
 
 interface Props {

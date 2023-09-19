@@ -48,7 +48,9 @@ export const getTikersForMainPage = async () => {
 
 export const getStatisticsForSymbol = async (symbolName: string) => {
     try {
-        const response = await fetch(`${BASE_URL.concat(STATISTICS).concat(symbolName)}`);
+        const response = await fetch(`${BASE_URL.concat(STATISTICS).concat(symbolName)}`, 
+           { method: "POST"}
+        );
         const data = await response.json();
         const arr: Statistics[] = [];
         Object.keys(data).forEach((item, index) => {

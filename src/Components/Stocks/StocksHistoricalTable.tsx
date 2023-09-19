@@ -9,7 +9,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
-import { TickerDataType, TickerType } from '../../Types/TickersTypes'
+import { TickerDataType } from '../../Types/TickersTypes'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { putDataInterval } from '../../Reducers/intervalDataReducer'
@@ -189,7 +189,7 @@ const StocksHistoricalTable = () => {
                     <MainButton onClick={handleClickOnApplyButton} marginTop>Apply</MainButton>
                 </Box>
 
-                <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', maxHeight: '620px' }}>
+                <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px' }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>

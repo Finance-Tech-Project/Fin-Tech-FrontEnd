@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { StocksStatisticsContainer, StocksStatisticsTableContainer } from '../../Styles/StocksStyles/SocksStatisticsStyle'
-import { Box, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
-import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
+import { Box, Divider, Paper, TableContainer, Typography } from '@mui/material'
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { useAppSelector } from '../../app/hooks'
 import { getStatisticsForSymbol } from '../../Actions/fetchActions'
-import { Statistics, StatisticsColumn, StatisticsRows } from '../../Types/StatisticsTypes'
-import { createColumnsForStatistic, createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
+import { Statistics, StatisticsColumn } from '../../Types/StatisticsTypes'
+import { createColumnsForStatistic } from '../../Functions/dataProcessingFunctions'
 import StocksStatisticsTable from './StocksStatisticsTable'
 import { transformTextForStatistics } from '../../Functions/utilsFunctions'
 
@@ -34,7 +33,7 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 			setColumns(createColumnsForStatistic(await stats)!);
 			
 		}, 0);
-		columns[0] && transformTextForStatistics(columns[0].id);
+		
 	}, [(columns[0] !== undefined)]);
 	
 	return (

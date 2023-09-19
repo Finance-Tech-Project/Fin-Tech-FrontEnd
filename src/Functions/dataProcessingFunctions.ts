@@ -159,7 +159,7 @@ export const createRowsForStatistic = (statsObject: Map<string, string | number 
         statsObject.forEach((value, key) => {
             const rows: StatisticsRows = {
                 title: key,
-                value: value
+                value: value === null ? "N/A" : value
             };
             res.push(rows);
         })
