@@ -31,11 +31,9 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 	useEffect(() => {
 		setTimeout(async () => {
 			setColumns(createColumnsForStatistic(await stats)!);
-			
 		}, 0);
-		
 	}, [(columns[0] !== undefined)]);
-	
+
 	return (
 		<StocksStatisticsContainer>
 			<Box sx={{ width: '98.5%', }}>
@@ -53,7 +51,7 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 							<StocksStatisticsTable columnsLength={columns.length} columnName={columns[0]} statistics={statistics} />
 						</TableContainer>
 
-						<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951' }}>
+						<TableContainer component={Paper} sx={{ width: '100%',	 backgroundColor: '#2c0951' }}>
 							<StocksStatisticsTable columnsLength={columns.length} columnName={columns[7]} statistics={statistics} />
 						</TableContainer>
 					</Box>
@@ -84,7 +82,7 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 				</Box>
 
 				<StocksStatisticsTableContainer>
-					<Box sx={{ height: '97%', backgroundColor: '#3e3e3e' }}>
+					<Box sx={{ height: '96.5%', backgroundColor: '#3e3e3e', borderBottom: '1px solid white', '&:hover': { borderBottom: '2px solid #190033', marginBottom: '5px' } }}>
 						<TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', marginTop: '50px' }}>
 							<StocksStatisticsTable columnsLength={columns.length} columnName={columns[2]} statistics={statistics} />
 						</TableContainer>

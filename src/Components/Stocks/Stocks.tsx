@@ -8,23 +8,15 @@ import StocksStatistics from "./StocksStatistics";
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from "../../Constants/MaterialConstants/theme";
 import StocksHistoricalTable from "./StocksHistoricalTable";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import StocksRecommendationTrends from "./StocksRecommendationTrends";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { getSymbolDataForDefaultPeriod } from "../../Actions/fetchDispatchActions";
 
 const Stocks = () => {
-	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
-	const dispatch = useAppDispatch();
 	const [getStatsClick, setGetStatsClick] = useState<boolean>(false);
 
 	const handleClickStatistics = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setGetStatsClick((prev) => prev !== Boolean(event.currentTarget));
 	};
-
-	useEffect(() => {
-		dispatch(getSymbolDataForDefaultPeriod(symbolName));
-	}, [symbolName]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -47,7 +39,7 @@ const Stocks = () => {
 								desktop={10.8} desktopOffset={0.5}
 								desktopL={11} desktopLOffset={0.5}
 							>
-								{getStatsClick ? <StocksStatistics handleClickStatistics={handleClickStatistics}/> : <StocksChart handleClickStatistics={handleClickStatistics}/>}
+								{getStatsClick ? <StocksStatistics handleClickStatistics={handleClickStatistics} /> : <StocksChart handleClickStatistics={handleClickStatistics} />}
 							</Grid>
 						</Grid>
 

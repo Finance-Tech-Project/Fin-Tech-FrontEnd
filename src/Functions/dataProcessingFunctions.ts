@@ -1,4 +1,5 @@
 import { MAIN_DATA, VOLUME_DATA } from "../Constants/fetchConstants";
+import { Data } from "../Types/DataReducerTypes";
 import { HistoricalTableColumnType, HistoricalTableType } from "../Types/HistoricalTableTypes";
 import { Statistics, StatisticsColumn, StatisticsRows } from "../Types/StatisticsTypes";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
@@ -209,3 +210,8 @@ export const createRowsForStatistic = (statsObject: Map<string, string | number 
 //     date.setMonth(date.getMonth() + months);
 //     return date;
 // };
+
+
+ export const getDataInInterval = (data: Data, interval: string) => {
+    return interval === "1D" ? data.dailyData : interval === "1W" ? data.weeklyData : interval === "1M" ? data.monthlyData : interval === "1Y" ? data.yearlyData : data.dailyData;
+};

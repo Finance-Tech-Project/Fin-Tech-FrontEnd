@@ -16,9 +16,16 @@ export const transformTextForStatistics = (word: string | undefined) => {
         if (tableTitle.includes("Eps")) {
             tableTitle = tableTitle.replace("Eps", 'EPS');
         }
-        let pattern = /(\d+\s\w+)|(\d+\w+)/g
+        let pattern = /(\d\d\w+)/g
         if (tableTitle.match(pattern)) {
-            tableTitle = tableTitle.replace(pattern, '(' + tableTitle.match(pattern)?.toString() + ')');
+            const days = tableTitle.split(/\d/)
+            days[2] = days[2].replace("d", "D");
+            days[1] = "10";
+            tableTitle = days.join(" ");
+        }
+        pattern = /(\d+\s\w+)|(\d+\w+)/g
+        if (tableTitle.match(pattern)) {
+            tableTitle = tableTitle.replace(pattern, ' (' + tableTitle.match(pattern)?.toString() + ')');
         }
         if (tableTitle.includes("Sand P")) {
             tableTitle = tableTitle.replace("Sand P", 'S&P500');
@@ -38,6 +45,25 @@ export const transformTextForStatistics = (word: string | undefined) => {
         if (tableTitle.includes("Percent")) {
             tableTitle = tableTitle.replace("Percent", '%');
         }
+        if (tableTitle.includes("Prev Month")) {
+            const currentDate = new Date();
+            const beforeOneMonth = new Date();
+            beforeOneMonth.setMonth(currentDate.getMonth() - 2)
+            const arr = beforeOneMonth.toString().split(" ").splice(1, 3);
+            arr[0] = arr[0] + ",";
+            const res = arr.join(" ");
+            tableTitle = tableTitle.replace("Prev Month", "(".concat(res).concat(")"));
+        }
         return tableTitle;
     }
+};
+
+export const transformDateForStatistics = (date: string | number | null) => {
+    let pattern = /\d+.\d+.\d+/g;
+    if (typeof date === "string") {
+        if (date.match(pattern)) {
+            return date.split("-").reverse().join("-")
+        }
+    }
+    return date;
 };

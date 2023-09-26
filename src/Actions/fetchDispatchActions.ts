@@ -3,7 +3,7 @@ import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../R
 import { TickerDataType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
 
-export const getSymbolDataForDefaultPeriod = (tickerSymbol: string) => {
+export const getSymbolDataForDefaultPeriod = (tickerSymbol: string, forHowManyStocks: number) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${BASE_URL + QUOTE_HISTORY + "?dateFrom=" + DEFAULT_DATE_FROM + "&dateTo=" + DEFAULT_DATE_TO + "&ticker=" + tickerSymbol}`);
@@ -22,10 +22,17 @@ export const getSymbolDataForDefaultPeriod = (tickerSymbol: string) => {
                         return tickerData;
                     });
                 });
-                dispatch(putDailyData(res[0]));
-                dispatch(putWeeklyData(res[1]));
-                dispatch(putMonthlyData(res[2]));
-                dispatch(putYearlyData(res[3]));
+                if (forHowManyStocks === 1) {
+                    dispatch(putDailyData({ data: res[0], forHowManyStocks: 1 }));
+                    dispatch(putWeeklyData({ data: res[1], forHowManyStocks: 1 }));
+                    dispatch(putMonthlyData({ data: res[2], forHowManyStocks: 1 }));
+                    dispatch(putYearlyData({ data: res[3], forHowManyStocks: 1 }));
+                } else {
+                    dispatch(putDailyData({ data: res[0], forHowManyStocks: 2 }));
+                    dispatch(putWeeklyData({ data: res[1], forHowManyStocks: 2 }));
+                    dispatch(putMonthlyData({ data: res[2], forHowManyStocks: 2 }));
+                    dispatch(putYearlyData({ data: res[3], forHowManyStocks: 2 }));
+                }
             }
         } catch (error) {
 
@@ -33,7 +40,7 @@ export const getSymbolDataForDefaultPeriod = (tickerSymbol: string) => {
     }
 }
 
-export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: string, dateTo: string) => {
+export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: string, dateTo: string, forHowManyStocks: number) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${BASE_URL + QUOTE_HISTORY + "?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&ticker=" + tickerSymbol}`);
@@ -52,10 +59,17 @@ export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: stri
                         return tickerData;
                     });
                 });
-                dispatch(putDailyData(res[0]));
-                dispatch(putWeeklyData(res[1]));
-                dispatch(putMonthlyData(res[2]));
-                dispatch(putYearlyData(res[3]));
+                if (forHowManyStocks === 1) {
+                    dispatch(putDailyData({ data: res[0], forHowManyStocks: 1 }));
+                    dispatch(putWeeklyData({ data: res[1], forHowManyStocks: 1 }));
+                    dispatch(putMonthlyData({ data: res[2], forHowManyStocks: 1 }));
+                    dispatch(putYearlyData({ data: res[3], forHowManyStocks: 1 }));
+                } else {
+                    dispatch(putDailyData({ data: res[0], forHowManyStocks: 2 }));
+                    dispatch(putWeeklyData({ data: res[1], forHowManyStocks: 2 }));
+                    dispatch(putMonthlyData({ data: res[2], forHowManyStocks: 2 }));
+                    dispatch(putYearlyData({ data: res[3], forHowManyStocks: 2 }));
+                }
             }
         } catch (error) {
 

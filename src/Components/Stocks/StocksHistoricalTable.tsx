@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
@@ -10,24 +10,20 @@ import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { TickerDataType } from '../../Types/TickersTypes'
-
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { putDataInterval } from '../../Reducers/intervalDataReducer'
-import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
-import { FieldChangeHandlerContext } from '@mui/x-date-pickers/internals'
-import { getMinDateForHistory } from '../../Functions/getDefaultPeriod'
+import { getSymbolDataForDefaultPeriod, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
+import { getMinDateForHistory, getPeriod } from '../../Functions/getPeriod'
+import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer'
+import { SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 
 interface Props {
     historicalTableColumns: HistoricalTableColumnType[] | undefined,
     historicalTableRows: HistoricalTableType[] | undefined
 }
-interface AutocompleteOption {
-    name: string,
-    companyName: string
-}
 
 const StocksHistoricalTable = () => {
-    const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer);
+    const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer.dataStock);
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
     const interval = useAppSelector(state => state.intervalDataReducer);
     const [page, setPage] = useState(0);
@@ -71,8 +67,17 @@ const StocksHistoricalTable = () => {
         const from = new Date(dateFrom as string).toISOString().split("T").splice(0, 1)[0];
         const to = new Date(dateTo as string).toISOString().split("T").splice(0, 1)[0];
         if (Boolean(!event.currentTarget.value)) {
-            dispatch(getSymbolDataForPeriodRange(symbolName, from, to));
+            dispatch(putCurrentDateFrom(from));
+            dispatch(putCurrentDateTo(to));
+            dispatch(getSymbolDataForPeriodRange(symbolName, from, to, 1));
         }
+    };
+
+    const removeValuesInUnmounted = () => {
+        setIsMounted(false);
+        dispatch(putCurrentDateFrom(getPeriod(2)[0]));
+        dispatch(putCurrentDateTo(getPeriod(2)[1]));
+        !isMounted && dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
     };
 
     useEffect(() => {
@@ -80,9 +85,9 @@ const StocksHistoricalTable = () => {
         if (getDataInInterval().length > 0) {
             setSymbolData();
         }
-        return () => setIsMounted(false); 
+        return () => removeValuesInUnmounted();
     }, [symbolName, dailyData, interval, isMounted, getDataInInterval().length > 0]);
-   
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <StocksHistoricalTableContainer>
@@ -148,33 +153,7 @@ const StocksHistoricalTable = () => {
                                     }
                                 }
                             }}
-                            sx={{
-                                '.MuiInputBase-input': {
-                                    color: 'white',
-                                    borderColor: 'white',
-                                },
-                                '& .MuiFormLabel-root': {
-                                    color: 'white',
-                                },
-                                '& .MuiSvgIcon-root': {
-                                    color: 'white',
-                                },
-                                '.MuiPopover-paper': {
-                                    backgroundColor: '#190033'
-                                },
-                                '&.MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: 'rgba(70, 75, 114, 0.8)',
-                                        borderWidth: '1.5px'
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: '#7276ff',
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: 'rgba(70, 75, 114, 0.8)',
-                                    }
-                                }
-                            }}
+                            sx={() => SelectStyle(theme)}
                             value={period}
                             label="Frequency"
                             onChange={handleChangePeriod}

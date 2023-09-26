@@ -1,3 +1,4 @@
+import { findMaxMinPrice } from '../../Functions/dataProcessingFunctions';
 import {
 	MainHeaderChartContainer,
 	MainHeaderChartTickerDescr,
@@ -7,17 +8,16 @@ import {
 	MainHeaderChartTickerNameContainer,
 	MainHeaderChartTickerPriceContainer
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
+import { TickerDataType } from '../../Types/TickersTypes';
 import { useAppSelector } from '../../app/hooks';
 
 interface Props {
-	dateFrom: string,
-	dateTo: string,
-	maxPrice: string | number,
-	minPrice: string | number
+	data: TickerDataType[]
 }
 
-const LightWeightChartHeader = ({ dateFrom, dateTo, maxPrice, minPrice }: Props) => {
+const LightWeightChartHeader = ({ data }: Props) => {
 	const { symbolName, companyName } = useAppSelector(state => state.selectedSymbolReducer);
+	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 
 	return (
 		<MainHeaderChartContainer>
@@ -29,17 +29,17 @@ const LightWeightChartHeader = ({ dateFrom, dateTo, maxPrice, minPrice }: Props)
 				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Max Price: </MainHeaderChartTickerDescr>
-						<MainHeaderChartTickerDescr>{maxPrice}</MainHeaderChartTickerDescr>
+						<MainHeaderChartTickerDescr>{findMaxMinPrice(data, "max")}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					<MainHeaderChartTickerDescr>Date from: {dateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+					<MainHeaderChartTickerDescr>Date from: {currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 
 				<MainHeaderChartTickerDescrWrapper>
 					<MainHeaderChartTickerPriceContainer>
 						<MainHeaderChartTickerDescr>Min Price: </MainHeaderChartTickerDescr>
-						<MainHeaderChartTickerDescr>{minPrice}</MainHeaderChartTickerDescr>
+						<MainHeaderChartTickerDescr>{findMaxMinPrice(data, "min")}</MainHeaderChartTickerDescr>
 					</MainHeaderChartTickerPriceContainer>
-					<MainHeaderChartTickerDescr>Date to: {dateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+					<MainHeaderChartTickerDescr>Date to: {currentDateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 				</MainHeaderChartTickerDescrWrapper>
 			</MainHeaderChartTickerDescrContainer>
 		</MainHeaderChartContainer>

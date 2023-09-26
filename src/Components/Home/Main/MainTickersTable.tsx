@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { MainFindTickerTableContainer } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { TickerColumnType, TickerType } from '../../../Types/TickersTypes';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
-import { createColumns, createRows } from '../../../Functions/dataProcessingFunctions';
+import { createColumns, createRows, transformFirstLetterToUpperCase } from '../../../Functions/dataProcessingFunctions';
 import { getTikersForMainPage } from '../../../Actions/fetchActions';
 
 interface Props {
@@ -56,7 +56,7 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
                                             backgroundColor: '#190033',
                                             color: 'white'
                                         }
-                                    }} key={column.index}>{columnName}</TableCell>
+                                    }} key={column.index}>{transformFirstLetterToUpperCase(columnName).replace("CompanyName", "Company Name")}</TableCell>
                                 );
                             })}
                         </TableRow>

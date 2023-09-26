@@ -1,23 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import Header from './Header/Header'
 import { Box } from '@mui/material'
 import TickersCheckbox from '../TickersWithCheckbox/TickersCheckbox'
 import Main from './Main/Main'
 import Footer from '../Footer/Footer'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-
-import { TickerDataType } from '../../Types/TickersTypes'
-import { useSelector } from 'react-redux'
 import { getSymbolDataForDefaultPeriod } from '../../Actions/fetchDispatchActions'
 
 const Home = () => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		dispatch(getSymbolDataForDefaultPeriod(symbolName));
-	}, [symbolName]);
-	
+	useMemo(() => {
+		dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
+	}, [symbolName, currentDateFrom, currentDateTo]);
+
 	return (
 		<Box sx={{ width: '100%' }}>
 

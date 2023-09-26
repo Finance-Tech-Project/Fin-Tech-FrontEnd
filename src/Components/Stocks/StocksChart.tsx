@@ -8,7 +8,7 @@ import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
 import { putSymbolCompanyName, putSymbolName } from '../../Reducers/selectedSymbolReducer';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createCandleData, createHistogramAreaData, findMaxMinPrice } from '../../Functions/dataProcessingFunctions';
+import { createCandleData, createHistogramAreaData, findMaxMinPrice, getDataInInterval } from '../../Functions/dataProcessingFunctions';
 import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 import { makeStyles, createStyles } from '@mui/styles';
 
@@ -22,21 +22,14 @@ interface Props {
 }
 
 const StocksChart = ({ handleClickStatistics }: Props) => {
-	const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer);
+	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
-	// const [open, setOpen] = useState(false);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
-	// const loading = open && autocompleteTickers.length === 0 || autocompleteTickers.length > 0;
 	const dispatch = useAppDispatch();
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
-	const [dateFrom, setDateFrom] = useState<string>('Loading...');
-	const [dateTo, setDateTo] = useState<string>('Loading...');
-	const [maxPrice, setMaxPrice] = useState<string | number>('Loading...');
-	const [minPrice, setMinPrice] = useState<string | number>('Loading...');
 	const [letters, setLetters] = useState<string>('');
-
 
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getSeacrhedSymbols(letters);
@@ -63,8 +56,6 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			dispatch(putSymbolName("AAPL"));
 			dispatch(putSymbolCompanyName("Apple Inc."));
 		}
-
-
 		autocompleteTickers.forEach((ticker) => {
 			if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
 				dispatch(putSymbolCompanyName(ticker.companyName));
@@ -73,19 +64,9 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	};
 
 	const getDataTicker = () => {
-		const symbolDataInInterval: TickerDataType[] = getDataInInterval();
-		setTickerVolume(createHistogramAreaData(VOLUME_DATA, getDataInInterval()));
-		setTickerData(createCandleData(MAIN_DATA, getDataInInterval()));
-
-		setDateFrom(symbolDataInInterval[0].time);
-		setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
-
-		setMaxPrice(findMaxMinPrice(symbolDataInInterval, "max"));
-		setMinPrice(findMaxMinPrice(symbolDataInInterval, "min"));
-	};
-
-	const getDataInInterval = () => {
-		return interval === "1D" ? dailyData : interval === "1W" ? weeklyData : interval === "1M" ? monthlyData : interval === "1Y" ? yearlyData : dailyData;
+		const symbolDataInInterval: TickerDataType[] = getDataInInterval(data, interval);
+		setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
+		setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
 	};
 
 	useMemo(() => {
@@ -93,12 +74,11 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	}, [letters]);
 
 	useEffect(() => {
-		if (getDataInInterval().length > 0) {
+		if (getDataInInterval(data, interval).length > 0) {
 			getDataTicker();
 		}
+	}, [symbolName, interval, data, getDataInInterval(data, interval).length > 0]);
 
-	}, [symbolName, interval, dailyData, getDataInInterval().length > 0]);
-	
 	return (
 		<StocksChartContainer>
 			<StocksChartSearchTickerContainer>
@@ -123,19 +103,11 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 							}
 						}
 					}}
-					// onOpen={() => {
-					// 	setOpen(true);
-					// }}
-					// onClose={() => {
-					// 	setOpen(false);
-					// }}
-					// loading={loading}
 					disablePortal={true}
 					getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
 					isOptionEqualToValue={(option: any) => option.name || option.companyName}
 					options={autocompleteTickers}
 					noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
-					// loadingText={<Typography sx={{ color: 'white' }}>Loading...</Typography>}
 					renderOption={(props, option: any) => (
 						<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
 							<Box sx={{ width: '100%', paddingBottom: '10px' }} >
@@ -147,15 +119,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 					)}
 					renderInput={(params) =>
 						<TextField {...params} key={params.id} label="Tickers"
-							InputProps={{
-								...params.InputProps,
-								// endAdornment: (
-								// 	<React.Fragment>
-								// 		{loading ? <CircularProgress sx={{ color: 'white' }} size={20} /> : null}
-								// 		{params.InputProps.endAdornment}
-								// 	</React.Fragment>
-								// )
-							}}
+							InputProps={{ ...params.InputProps }}
 						/>
 					}
 				/>
@@ -166,7 +130,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 
 			</StocksChartSearchTickerContainer>
 
-			<LightWeightChartHeader dateFrom={dateFrom} dateTo={dateTo} maxPrice={maxPrice} minPrice={minPrice} />
+			<LightWeightChartHeader data={getDataInInterval(data, interval)} />
 			<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
 		</StocksChartContainer>
 	)

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { MainTickersTableAndChartBackgroundColor, MainTickersTableAndChartContainer } from '../../../Styles/MainStyles/MainStyles'
 import { TickerDataType, TickerDataVolumeType } from '../../../Types/TickersTypes';
-import { createCandleData, createColumns, createHistogramAreaData } from '../../../Functions/dataProcessingFunctions';
+import { createCandleData, createColumns, createHistogramAreaData, findMaxMinPrice, getDataInInterval } from '../../../Functions/dataProcessingFunctions';
 import MainTickersTitle from './MainTickerTitle';
 import { MainTickersTableContainer, MainTickersTableWrapper, MainTickersTextField } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import MainTickersTable from './MainTickersTable';
@@ -14,16 +14,12 @@ import { putSymbolCompanyName, putSymbolName } from '../../../Reducers/selectedS
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 
 const MainTickersTableAndChart = () => {
-	const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer);
+	const historicalData = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const [data, setData] = useState('');
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType> | undefined>([]);
-	const [dateFrom, setDateFrom] = useState<string>('Loading...');
-	const [dateTo, setDateTo] = useState<string>('Loading...');
-	const [maxPrice, setMaxPrice] = useState<string | number>('Loading...');
-	const [minPrice, setMinPrice] = useState<string | number>('Loading...');
 	const [isLoading, setIsLoading] = useState(false);
 	const dispatch = useAppDispatch();
 
@@ -37,33 +33,24 @@ const MainTickersTableAndChart = () => {
 	};
 
 	const setSymbolData = () => {
-		const symbolDataInInterval: TickerDataType[] = getDataInInterval();
+		const symbolDataInInterval: TickerDataType[] = getDataInInterval(historicalData, interval);
 		if (symbolDataInInterval.length > 0) {
 			setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
 			setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
-
-			setDateFrom(symbolDataInInterval[0].time);
-			setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
-
-			setMaxPrice(symbolDataInInterval[symbolDataInInterval.length - 1].high.toFixed(2));
-			setMinPrice(symbolDataInInterval[symbolDataInInterval.length - 1].low.toFixed(2));
 		}
 	};
 
-	const getDataInInterval = () => {
-		return interval === "1D" ? dailyData : interval === "1W" ? weeklyData : interval === "1M" ? monthlyData : interval === "1Y" ? yearlyData : dailyData;
-	};
 
 	useEffect(() => {
 		setIsLoading(true);
-		
-		if (getDataInInterval().length > 0) {
+
+		if (getDataInInterval(historicalData, interval).length > 0) {
 			setSymbolData();
 		}
 
 		return () => setIsLoading(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isLoading, data, interval, symbolName, dailyData, getDataInInterval().length > 0]);
+	}, [isLoading, data, interval, symbolName, historicalData, getDataInInterval(historicalData, interval).length > 0]);
 
 	return (
 
@@ -98,15 +85,10 @@ const MainTickersTableAndChart = () => {
 									laptopL={6.5} laptopLOffset={0.5}
 								>
 									<LightWeightChartHeader
-										dateFrom={dateFrom}
-										dateTo={dateTo}
-										maxPrice={maxPrice}
-										minPrice={minPrice}
+										data={getDataInInterval(historicalData, interval)}
 									/>
 
 									<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume!} />
-
-
 								</Grid>
 							</Grid>
 						</MainTickersTableWrapper>

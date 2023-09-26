@@ -1,39 +1,63 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataType } from "../Types/TickersTypes";
+import { Data } from "../Types/DataReducerTypes";
 
 interface HistoricalDataState {
-    dailyData: Array<TickerDataType>,
-    weeklyData: Array<TickerDataType>,
-    monthlyData: Array<TickerDataType>,
-    yearlyData: Array<TickerDataType>
+    dataStock: Data
+    dataStockToCompare: Data
 }
 
 const initialHistoricalData: HistoricalDataState = {
-    dailyData: [],
-    weeklyData: [],
-    monthlyData: [],
-    yearlyData: []
+    dataStock: {
+        dailyData: [],
+        weeklyData: [],
+        monthlyData: [],
+        yearlyData: []
+    },
+    dataStockToCompare: {
+        dailyData: [],
+        weeklyData: [],
+        monthlyData: [],
+        yearlyData: []
+    }
 };
+
+interface PayloadObject {
+    data: Array<TickerDataType>,
+    forHowManyStocks: number
+}
 
 const historicalDataSlice = createSlice({
     name: "historicalData",
     initialState: initialHistoricalData,
     reducers: {
-        putDailyData(state, action: PayloadAction<Array<TickerDataType>> ) {
-            state.dailyData = action.payload;
-            return state;
+        putDailyData(state, action: PayloadAction<PayloadObject>) {
+            if (action.payload.forHowManyStocks === 1) {
+                state.dataStock.dailyData = action.payload.data;
+            } else {
+                state.dataStockToCompare.dailyData = action.payload.data;
+            }
         },
-        putWeeklyData(state, action: PayloadAction<Array<TickerDataType>>) {
-            state.weeklyData = action.payload;
-            return state;
+        putWeeklyData(state, action: PayloadAction<PayloadObject>) {
+            if (action.payload.forHowManyStocks === 1) {
+                state.dataStock.weeklyData = action.payload.data;
+            } else {
+                state.dataStockToCompare.weeklyData = action.payload.data;
+            }
         },
-        putMonthlyData(state, action: PayloadAction<Array<TickerDataType>>) {
-            state.monthlyData = action.payload;
-            return state;
+        putMonthlyData(state, action: PayloadAction<PayloadObject>) {
+            if (action.payload.forHowManyStocks === 1) {
+                state.dataStock.monthlyData = action.payload.data;
+            } else {
+                state.dataStockToCompare.monthlyData = action.payload.data;
+            }
         },
-        putYearlyData(state, action: PayloadAction<Array<TickerDataType>>) {
-            state.yearlyData = action.payload;
-            return state;
+        putYearlyData(state, action: PayloadAction<PayloadObject>) {
+            if (action.payload.forHowManyStocks === 1) {
+                state.dataStock.yearlyData = action.payload.data;
+            } else {
+                state.dataStockToCompare.yearlyData = action.payload.data;
+            }
         }
     }
 });

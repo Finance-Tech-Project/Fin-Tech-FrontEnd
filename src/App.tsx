@@ -9,8 +9,19 @@ import Analytics from './Components/Analytics/Analytics';
 import Contacts from './Components/Contacts/Contacts';
 import MyAccount from './Components/MyAccount/MyAccount';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import { useEffect } from 'react';
+import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
 
-function App() {	
+
+function App() {
+	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
+	}, [symbolName]);
+
 	return (
 		<Grid container>
 			<Routes>

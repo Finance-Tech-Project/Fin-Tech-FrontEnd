@@ -1,7 +1,7 @@
-export const getDefaultPeriod = () => {
+export const getPeriod = (years: number) => {
     const currentDate = new Date();
     const beforeTwoYearsDate = new Date() ;
-    beforeTwoYearsDate.setFullYear(currentDate.getFullYear() - 2)
+    beforeTwoYearsDate.setFullYear(currentDate.getFullYear() - years)
     const dateDefaultPeriod = [beforeTwoYearsDate.toISOString().split("T").splice(0, 1)[0], currentDate.toISOString().split("T").splice(0, 1)[0]];
     return dateDefaultPeriod;
 }

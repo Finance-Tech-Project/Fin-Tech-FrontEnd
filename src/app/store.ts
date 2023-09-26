@@ -2,6 +2,8 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { intervalDataReducer } from '../Reducers/intervalDataReducer';
 import { historicalDataReducer } from '../Reducers/historicalDataReducer';
 import { selectedSymbolReducer } from '../Reducers/selectedSymbolReducer';
+import { dateDataReducer } from '../Reducers/dateDataReducer';
+import { analyticInterfaceReducer } from '../Reducers/analyticIterfaceReducer';
 
 
 
@@ -9,7 +11,9 @@ export const store = configureStore({
 	reducer: {
 		intervalDataReducer: intervalDataReducer,
 		historicalDataReducer: historicalDataReducer,
-		selectedSymbolReducer: selectedSymbolReducer
+		selectedSymbolReducer: selectedSymbolReducer,
+		dateDataReducer: dateDataReducer,
+		analyticInterfaceReducer: analyticInterfaceReducer
 	},
 });
 
