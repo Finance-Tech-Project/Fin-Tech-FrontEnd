@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, CircularProgress, ThemeProvider } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
 import Header from '../Home/Header/Header'
@@ -17,6 +18,7 @@ import { AnalyticInterface } from '../../Types/AnalyticTypes'
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete'
 import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
+import { putSeriesNameForSimpleIncome } from '../../Reducers/analyticIterfaceReducer'
 
 const Analytics = () => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -29,6 +31,7 @@ const Analytics = () => {
 	const [analyticChartData, setAnalyticChartData] = useState<any[]>([]);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
+	
 	const dispatch = useAppDispatch();
 
 	const getDataTicker = () => {
@@ -37,20 +40,25 @@ const Analytics = () => {
 		setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
 	};
 
-	const getData = async () => {
+	const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
 
+		if (!Boolean(event.currentTarget.value)) {
+			dispatch(putSeriesNameForSimpleIncome("simpleIncome"));
+			setTimeout(async () => {
+				const data = await getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo);
+				data && setAnalyticChartData(data);
+			}, 0);
+		}
+	};
+
+	const getData = async () => {
 		const data = await getDataForAnalyticChartAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo);
 		data && setAnalyticChartData(data);
-
-		if (simpleIncome.period > 0) {
-			const data = await getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo);
-			data && setAnalyticChartData(data);
-		}
 	};
 
 	useMemo(() => {
 		getData();
-	}, [symbolName, movAvg.period, currentDateFrom, currentDateTo, simpleIncome.period]);
+	}, [symbolName, movAvg.period, currentDateFrom, currentDateTo]);
 
 	useEffect(() => {
 		if (getDataInInterval(data, interval).length > 0) {
@@ -61,7 +69,7 @@ const Analytics = () => {
 	useEffect(() => {
 		dispatch(getSymbolDataForPeriodRange(symbolName, currentDateFrom, currentDateTo, 1));
 	}, [symbolName, currentDateFrom, currentDateTo]);
-
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
@@ -69,6 +77,7 @@ const Analytics = () => {
 					<Header />
 					<Grid container>
 						<Grid
+							desktop={11} desktopOffset={0.5}
 							desktopL={11} desktopLOffset={0.5}
 						>
 							<StocksChartContainer>
@@ -89,7 +98,7 @@ const Analytics = () => {
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
 											/>
-											<AnalyticChartInteface  />
+											<AnalyticChartInteface handleGetSimpleIncome={handleGetSimpleIncome} />
 										</Box>
 									</React.Fragment>
 								)}

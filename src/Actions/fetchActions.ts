@@ -1,6 +1,6 @@
 import { ANALYTICS_AVG, ANALYTICS_SIMPLE_INCOME, BASE_URL, SEARCH_SYMBOLS, START, STATISTICS, SYMBOLS } from "../Constants/fetchConstants";
 import { Statistics } from "../Types/StatisticsTypes";
-import { TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
+import { TickerType } from "../Types/TickersTypes";
 
 export const getSeacrhedSymbols = async (letters: string) => {
     try {

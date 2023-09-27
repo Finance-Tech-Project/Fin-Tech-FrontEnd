@@ -1,7 +1,7 @@
-import { IChartApi } from "lightweight-charts";
+import { IChartApi, LineStyle, PriceLineOptions } from "lightweight-charts";
 import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 
-export const lineSeries = (chart: IChartApi,  data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>) => {
+export const lineSeries = (chart: IChartApi, data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>) => {
     const lineChart = chart.addLineSeries({ color: 'rgb(54, 116, 217)' });
     const lineData: Array<TickerDataVolumeType> = data.map((ticker) => ({
         time: ticker.time,
@@ -12,7 +12,7 @@ export const lineSeries = (chart: IChartApi,  data: Array<TickerDataType>, volum
     const histogramSeries = chart.addHistogramSeries({ priceScaleId: '', color: 'rgb(54, 116, 217)' });
     histogramSeries.priceScale().applyOptions({
         scaleMargins: {
-            top: 0.8, 
+            top: 0.8,
             bottom: 0,
         }
     });
@@ -83,22 +83,31 @@ export const areaSeries = (chart: IChartApi, data: Array<TickerDataType>, volume
     const histogramSeries = chart.addHistogramSeries({ priceScaleId: '', color: 'rgb(54, 116, 217)' });
     histogramSeries.priceScale().applyOptions({
         scaleMargins: {
-            top: 0.8, 
+            top: 0.8,
             bottom: 0,
         }
     });
     histogramSeries.setData(volume);
 };
 
-export const changeChartTypeSeries = (seriesName: string, data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>, chart: IChartApi) => {
+export const changeChartTypeSeries = (
+    seriesName: string,
+    data: Array<TickerDataType>,
+    volume: Array<TickerDataVolumeType>,
+    chart: IChartApi,
+    color: string,
+    dataSimpleIncome: Array<TickerDataVolumeType>
+) => {
     if (seriesName === 'candles') {
         return defaultSeries(chart, data, volume);
     } else if (seriesName === 'line') {
-       return lineSeries(chart, data, volume);
+        return lineSeries(chart, data, volume);
     } else if (seriesName === 'bar') {
         return barSeries(chart, data, volume);
     } else if (seriesName === 'area') {
         return areaSeries(chart, data, volume);
+    } else if (seriesName === 'simpleIncome') {
+        return simpleIncomChart(chart, dataSimpleIncome, color);
     }
 };
 
@@ -107,3 +116,33 @@ export const addMyLineSeries = (chart: IChartApi, volume: Array<TickerDataVolume
     lineChart.setData(volume);
     return lineChart;
 };
+
+export function simpleIncomChart(chart: IChartApi, data: TickerDataVolumeType[], color: string) {
+    if (data.length > 0) {
+        const lineChart = addMyLineSeries(chart, data, color);
+        const zeroLine: PriceLineOptions = {
+            price: 0.00,
+            color: '#be1238',
+            lineWidth: 2,
+            lineStyle: LineStyle.Solid,
+            axisLabelVisible: true,
+            title: 'zero %',
+            lineVisible: true,
+            axisLabelColor: color,
+            axisLabelTextColor: ''
+        };
+        lineChart.createPriceLine(zeroLine);
+        lineChart.applyOptions({
+            // autoscaleInfoProvider: () => ({
+            //     priceRange: {
+            //         minValue: -50,
+            //         maxValue: 500
+            //     }
+            // }),
+            priceFormat: {
+                type: "percent"
+            }
+        });
+        return lineChart;
+    }
+}

@@ -7,7 +7,8 @@ interface AnalyticInterface {
     },
     simpleIncome: {
         color: string
-        period: number
+        period: number,
+        seriesName: string
     }
 }
 
@@ -18,7 +19,8 @@ const initialAnalyticInterface: AnalyticInterface = {
     },
     simpleIncome: {
         color: 'yellow',
-        period: 0
+        period: 0,
+        seriesName: '',
     }
 };
 
@@ -31,9 +33,12 @@ const analyticInterfaceSlice = createSlice({
         },
         putSimpleIncomePeriod(state, action: PayloadAction<number>) {
             state.simpleIncome.period = action.payload;
+        },
+        putSeriesNameForSimpleIncome(state, action: PayloadAction<string>) {
+            state.simpleIncome.seriesName = action.payload;
         }
     },
 });
 
-export const { putMovAvgPeriod, putSimpleIncomePeriod } = analyticInterfaceSlice.actions;
+export const { putMovAvgPeriod, putSimpleIncomePeriod, putSeriesNameForSimpleIncome } = analyticInterfaceSlice.actions;
 export const analyticInterfaceReducer = analyticInterfaceSlice.reducer;

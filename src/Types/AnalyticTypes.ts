@@ -1,4 +1,5 @@
 export interface AnalyticInterface {
     color: string,
-    period: number
+    period: number,
+    seriesName?: string
 }

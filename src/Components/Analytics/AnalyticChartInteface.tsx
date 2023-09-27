@@ -1,12 +1,19 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putMovAvgPeriod, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 
-const AnalyticChartInteface = () => {
+interface Props {
+    handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
     const [number, setNumber] = useState<number | string>('');
+    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
     const dispatch = useAppDispatch();
@@ -15,28 +22,29 @@ const AnalyticChartInteface = () => {
         dispatch(putMovAvgPeriod(50));
         setChecked50Days(true);
         setChecked200Days(false);
-        dispatch(putSimpleIncomePeriod(0));
-        setNumber('');
+        // dispatch(putSimpleIncomePeriod(0));
+        // setNumber('');
     };
 
     const handleChange200Days = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(putMovAvgPeriod(200));
         setChecked200Days(true);
         setChecked50Days(false);
-        dispatch(putSimpleIncomePeriod(0));
-        setNumber('');
+        // dispatch(putSimpleIncomePeriod(0));
+        // setNumber('');
     };
 
     const handleChangeTextFieldNumber = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNumber(+event.target.value);
-        +event.target.value >= 21 || +event.target.value === 0 && setNumber('');
+        // if (+event.target.value >= 21 || +event.target.value === 0) {
+        //     setNumber('');
+        // }
+        dispatch(putSimpleIncomePeriod(+event.target.value));
     };
 
- 
-
-    useEffect(() => {
-        dispatch(putSimpleIncomePeriod(+number));
-    }, [number]);
+    // useEffect(() => {
+    //     dispatch(putSimpleIncomePeriod(+number));
+    // }, [number]);
    
     return (
         <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '640px', width: '450px', backgroundColor: 'rgba(2, 1, 31, 1)' }}>
@@ -79,6 +87,7 @@ const AnalyticChartInteface = () => {
                     onChange={(event) => handleChangeTextFieldNumber(event)}
                 >
                 </MainTickersTextField>
+                <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>
             </Box>
         </Box>
     )

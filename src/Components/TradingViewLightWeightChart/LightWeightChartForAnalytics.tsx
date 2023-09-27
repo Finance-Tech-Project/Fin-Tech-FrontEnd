@@ -1,9 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ColorType, LineStyle, PriceLineOptions, createChart } from 'lightweight-charts';
 import React, { useEffect, useRef, useState } from 'react'
 import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { Chart } from 'lightweight-charts-react-wrapper';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
-import { addMyLineSeries, changeChartTypeSeries } from '../../Functions/lightWeightSeriesFunctions';
+import { addMyLineSeries, changeChartTypeSeries, simpleIncomChart } from '../../Functions/lightWeightSeriesFunctions';
 import LightWeightChartButtonsForAnalytics from './LightWeightChartButtonsForAnalytics';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -17,12 +18,12 @@ interface Props {
 
 const LightWeightChartForAnalytics = ({ data, tickerData, tickerVolume }: Props) => {
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
-	const simpleIncom: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
 	const [selectedSeries, setSelectedSeries] = useState<string | undefined>('candles')
 	const dispatch = useAppDispatch();
-	
+
 	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setSelectedSeries(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim());
 	};
@@ -49,10 +50,12 @@ const LightWeightChartForAnalytics = ({ data, tickerData, tickerVolume }: Props)
 				horzLines: {
 					color: "rgba(86, 92, 92, 0.7)"
 				}
-			}
+			},
+
 		});
 
 		if (movAvg.period > 0) {
+			setSelectedSeries('candles');
 			const lineChart = addMyLineSeries(chart, data!, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
@@ -66,42 +69,29 @@ const LightWeightChartForAnalytics = ({ data, tickerData, tickerVolume }: Props)
 				axisLabelTextColor: ''
 			};
 			lineChart.createPriceLine(zeroLine);
-			if (interval !== "1D" || simpleIncom.period > 0) {
+			if (interval !== "1D" || simpleIncome.period > 0) {
 				dispatch(putMovAvgPeriod(0));
+				lineChart.removePriceLine(lineChart.createPriceLine(zeroLine));
 				chart.removeSeries(lineChart);
 			}
 		}
 
-		if (simpleIncom.period > 0) {
-			const lineChart = addMyLineSeries(chart, data!, simpleIncom	.color);
-			const zeroLine: PriceLineOptions = {
-				price: 0.00,
-				color: '#be1238',
-				lineWidth: 2,
-				lineStyle: LineStyle.Solid,
-				axisLabelVisible: true,
-				title: 'zero %',
-				lineVisible: true,
-				axisLabelColor: simpleIncom	.color,
-				axisLabelTextColor: ''
-			};
-			lineChart.createPriceLine(zeroLine);
-			lineChart.applyOptions({
-				priceFormat: {
-					type: "percent"
-				}
-			});
-			if (interval !== "1D" || movAvg.period > 0) {
-				dispatch(putSimpleIncomePeriod(0));
-				chart.removeSeries(lineChart);
-			}
+
+		if (interval !== "1D" || movAvg.period > 0 || selectedSeries !== 'simpleIncome') {
+			// dispatch(putSimpleIncomePeriod(0));
+			chart.removeSeries(simpleIncomChart(chart, data!, simpleIncome.color)!);
 		}
-	
+
+		if (simpleIncome.seriesName === 'simpleIncome') {
+			setSelectedSeries(simpleIncome.seriesName);
+		}
+
+
 		const handleResize = async () => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
 		};
 
-		changeChartTypeSeries(selectedSeries!, tickerData, tickerVolume, chart);
+		changeChartTypeSeries(selectedSeries!, tickerData, tickerVolume, chart, simpleIncome.color, data!);
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
 
@@ -110,13 +100,13 @@ const LightWeightChartForAnalytics = ({ data, tickerData, tickerVolume }: Props)
 			chart.remove();
 		};
 
-	}, [data, tickerData, tickerVolume, selectedSeries, movAvg.period, interval, simpleIncom.period]);
-	
+	}, [data, tickerData, tickerVolume, selectedSeries, movAvg.period, interval, simpleIncome.period, simpleIncome.seriesName]);
+
 	return (
 		<ChartContainer ref={chartContainerRef}>
 
 			<LightWeightChartButtonsForAnalytics handleChangeSeries={handleChangeSeries} />
-			<Chart {...chartContainerRef.current}  autoSize={true}>
+			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
 		</ChartContainer>
 	)
