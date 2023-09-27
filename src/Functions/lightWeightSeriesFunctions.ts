@@ -95,8 +95,8 @@ export const changeChartTypeSeries = (
     data: Array<TickerDataType>,
     volume: Array<TickerDataVolumeType>,
     chart: IChartApi,
-    color: string,
-    dataSimpleIncome: Array<TickerDataVolumeType>
+    color?: string,
+    dataSimpleIncome?: Array<TickerDataVolumeType>
 ) => {
     if (seriesName === 'candles') {
         return defaultSeries(chart, data, volume);
@@ -107,7 +107,7 @@ export const changeChartTypeSeries = (
     } else if (seriesName === 'area') {
         return areaSeries(chart, data, volume);
     } else if (seriesName === 'simpleIncome') {
-        return simpleIncomChart(chart, dataSimpleIncome, color);
+        return simpleIncomeChart(chart, dataSimpleIncome!, color!);
     }
 };
 
@@ -117,7 +117,7 @@ export const addMyLineSeries = (chart: IChartApi, volume: Array<TickerDataVolume
     return lineChart;
 };
 
-export function simpleIncomChart(chart: IChartApi, data: TickerDataVolumeType[], color: string) {
+export const simpleIncomeChart = (chart: IChartApi, data: TickerDataVolumeType[], color: string) => {
     if (data.length > 0) {
         const lineChart = addMyLineSeries(chart, data, color);
         const zeroLine: PriceLineOptions = {

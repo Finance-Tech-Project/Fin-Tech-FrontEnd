@@ -22,30 +22,29 @@ const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
         dispatch(putMovAvgPeriod(50));
         setChecked50Days(true);
         setChecked200Days(false);
-        // dispatch(putSimpleIncomePeriod(0));
-        // setNumber('');
+        setNumber('');
     };
 
     const handleChange200Days = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(putMovAvgPeriod(200));
         setChecked200Days(true);
         setChecked50Days(false);
-        // dispatch(putSimpleIncomePeriod(0));
-        // setNumber('');
+        setNumber('');
     };
 
     const handleChangeTextFieldNumber = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNumber(+event.target.value);
-        // if (+event.target.value >= 21 || +event.target.value === 0) {
-        //     setNumber('');
-        // }
         dispatch(putSimpleIncomePeriod(+event.target.value));
+        if (+event.target.value >= 21 || +event.target.value === 0) {
+            setNumber('');
+        }
+        if (+event.target.value > 0) {
+            dispatch(putMovAvgPeriod(0));
+            setChecked50Days(false);
+            setChecked200Days(false); 
+        }
     };
 
-    // useEffect(() => {
-    //     dispatch(putSimpleIncomePeriod(+number));
-    // }, [number]);
-   
     return (
         <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '640px', width: '450px', backgroundColor: 'rgba(2, 1, 31, 1)' }}>
             <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>

@@ -13,7 +13,6 @@ const LightWeightChartButtonsForAnalytics = ({ handleChangeSeries }: Props) => {
 	const dispatch = useAppDispatch();
 
 	const handleChangeTimeRange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		
 		chartButtonForAnalytic.forEach((button) => {
 			if (button.title === event.currentTarget.childNodes[0].textContent) {
 				dispatch(putCurrentDateFrom(button.dateFrom));
