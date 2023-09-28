@@ -4,13 +4,15 @@ import { ChartButtonForAnalytic, chartButtonForAnalytic, chartButtonsSeries } fr
 import { ChartButtons } from '../../Styles/TickersStyles/TickersStyles';
 import { useAppDispatch } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
+import { putSeriesName } from '../../Reducers/chartSeriesReducer';
+import { ChartSeriesNames } from '../../Enums/Enums';
 
-interface Props {
-	handleChangeSeries: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
-
-const LightWeightChartButtonsForAnalytics = ({ handleChangeSeries }: Props) => {
+const LightWeightChartButtonsForAnalytics = () => {
 	const dispatch = useAppDispatch();
+
+	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		dispatch(putSeriesName(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim()! as ChartSeriesNames));
+	};
 
 	const handleChangeTimeRange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		chartButtonForAnalytic.forEach((button) => {

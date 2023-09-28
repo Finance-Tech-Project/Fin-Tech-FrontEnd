@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { StocksStatisticsContainer, StocksStatisticsTableContainer } from '../../Styles/StocksStyles/SocksStatisticsStyle'
 import { Box, Divider, Paper, TableContainer, Typography } from '@mui/material'
@@ -7,7 +8,6 @@ import { getStatisticsForSymbol } from '../../Actions/fetchActions'
 import { Statistics, StatisticsColumn } from '../../Types/StatisticsTypes'
 import { createColumnsForStatistic } from '../../Functions/dataProcessingFunctions'
 import StocksStatisticsTable from './StocksStatisticsTable'
-import { transformTextForStatistics } from '../../Functions/utilsFunctions'
 
 interface Props {
 	handleClickStatistics: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;

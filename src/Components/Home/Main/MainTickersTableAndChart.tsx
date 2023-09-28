@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MainTickersTableAndChartBackgroundColor, MainTickersTableAndChartContainer } from '../../../Styles/MainStyles/MainStyles'
 import { TickerDataType, TickerDataVolumeType } from '../../../Types/TickersTypes';
-import { createCandleData, createColumns, createHistogramAreaData, findMaxMinPrice, getDataInInterval } from '../../../Functions/dataProcessingFunctions';
 import MainTickersTitle from './MainTickerTitle';
 import { MainTickersTableContainer, MainTickersTableWrapper, MainTickersTextField } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import MainTickersTable from './MainTickersTable';
@@ -9,9 +8,10 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Box } from '@mui/material';
 import LightWeightChartHeader from '../../TradingViewLightWeightChart/LightWeightChartHeader';
 import LightWeightChart from '../../TradingViewLightWeightChart/LightWeightChart';
-import { MAIN_DATA, VOLUME_DATA } from '../../../Constants/fetchConstants';
 import { putSymbolCompanyName, putSymbolName } from '../../../Reducers/selectedSymbolReducer';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { getDataInInterval } from '../../../Functions/utilsFunctions';
+import { createCandlesData, createHistogramLineAreaData } from '../../../Functions/dataProcessingFunctions';
 
 const MainTickersTableAndChart = () => {
 	const historicalData = useAppSelector(state => state.historicalDataReducer.dataStock);
@@ -35,12 +35,11 @@ const MainTickersTableAndChart = () => {
 	const setSymbolData = () => {
 		const symbolDataInInterval: TickerDataType[] = getDataInInterval(historicalData, interval);
 		if (symbolDataInInterval.length > 0) {
-			setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
-			setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
+			setTickerVolume(createHistogramLineAreaData(symbolDataInInterval));
+			setTickerData(createCandlesData(symbolDataInInterval));
 		}
 	};
-
-
+	
 	useEffect(() => {
 		setIsLoading(true);
 

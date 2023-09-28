@@ -12,8 +12,6 @@ import TablePagination from '@mui/material/TablePagination';
 import { Box, Checkbox } from '@mui/material';
 import TickersToolbar from './TickersCheckboxToolbar';
 import { TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
-import { createCandleData, createColumns, createHistogramAreaData, createRows } from '../../Functions/dataProcessingFunctions';
-import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
 
 export interface IsSelected {
 	isSelected: (name: string) => boolean

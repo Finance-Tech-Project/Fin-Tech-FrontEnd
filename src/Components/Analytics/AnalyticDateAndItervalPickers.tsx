@@ -13,7 +13,6 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
 
-
 const AnalyticDateAndIntervalPickers = () => {
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
@@ -24,7 +23,11 @@ const AnalyticDateAndIntervalPickers = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === 'Daily' ? '1D' : event.target.value === 'Weekly' ? '1W' : event.target.value === 'Monthly' ? '1M' : event.target.value === 'Yearly' ? '1Y' : '1D';
+        const interval = event.target.value === 'Daily' 
+                            ? '1D' : event.target.value === 'Weekly' 
+                            ? '1W' : event.target.value === 'Monthly' 
+                            ? '1M' : event.target.value === 'Yearly' 
+                            ? '1Y' : '1D';
         dispatch(putDataInterval(interval as string))
     };
 

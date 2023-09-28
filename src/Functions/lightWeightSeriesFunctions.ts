@@ -1,5 +1,6 @@
 import { IChartApi, LineStyle, PriceLineOptions } from "lightweight-charts";
 import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
+import { ChartSeriesNames } from "../Enums/Enums";
 
 export const lineSeries = (chart: IChartApi, data: Array<TickerDataType>, volume: Array<TickerDataVolumeType>) => {
     const lineChart = chart.addLineSeries({ color: 'rgb(54, 116, 217)' });
@@ -96,18 +97,19 @@ export const changeChartTypeSeries = (
     volume: Array<TickerDataVolumeType>,
     chart: IChartApi,
     color?: string,
-    dataSimpleIncome?: Array<TickerDataVolumeType>
+    dataSimpleIncome?: Array<TickerDataVolumeType>,
+    movAvgPeriod?: number
 ) => {
-    if (seriesName === 'candles') {
+    if (seriesName === ChartSeriesNames.CandlesSeries) {
         return defaultSeries(chart, data, volume);
-    } else if (seriesName === 'line') {
+    } else if (seriesName === ChartSeriesNames.LineSeries) {
         return lineSeries(chart, data, volume);
-    } else if (seriesName === 'bar') {
+    } else if (seriesName === ChartSeriesNames.BarSeries) {
         return barSeries(chart, data, volume);
-    } else if (seriesName === 'area') {
+    } else if (seriesName === ChartSeriesNames.AreaSeries) {
         return areaSeries(chart, data, volume);
-    } else if (seriesName === 'simpleIncome') {
-        return simpleIncomeChart(chart, dataSimpleIncome!, color!);
+    } else if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
+        return simpleIncomeChart(chart, dataSimpleIncome!, color!, movAvgPeriod!, seriesName);
     }
 };
 
@@ -117,7 +119,13 @@ export const addMyLineSeries = (chart: IChartApi, volume: Array<TickerDataVolume
     return lineChart;
 };
 
-export const simpleIncomeChart = (chart: IChartApi, data: TickerDataVolumeType[], color: string) => {
+export const simpleIncomeChart = (
+    chart: IChartApi, data: 
+    TickerDataVolumeType[], 
+    color: string, 
+    movAvgPeriod: number, 
+    seriesName: ChartSeriesNames
+) => {
     if (data.length > 0) {
         const lineChart = addMyLineSeries(chart, data, color);
         const zeroLine: PriceLineOptions = {
@@ -143,6 +151,16 @@ export const simpleIncomeChart = (chart: IChartApi, data: TickerDataVolumeType[]
                 type: "percent"
             }
         });
+        if (movAvgPeriod === 0 && seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
+            const areaSeries = chart.addAreaSeries({
+                lastValueVisible: false,
+                crosshairMarkerVisible: false,
+                lineColor: 'transparent',
+                topColor: 'rgba(56, 33, 110,0.6)',
+                bottomColor: 'rgba(56, 33, 110, 0.1)',
+            });
+            areaSeries.setData(data);
+        }
         return lineChart;
     }
 }

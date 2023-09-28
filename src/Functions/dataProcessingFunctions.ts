@@ -1,8 +1,7 @@
-import { MAIN_DATA, VOLUME_DATA } from "../Constants/fetchConstants";
-import { Data } from "../Types/DataReducerTypes";
 import { HistoricalTableColumnType, HistoricalTableType } from "../Types/HistoricalTableTypes";
 import { Statistics, StatisticsColumn, StatisticsRows } from "../Types/StatisticsTypes";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
+import { transformDate, transformVolume } from "./utilsFunctions";
 
 // This function creates an object for columns in table with Material UI.
 export const createColumns = (allTickers: Array<TickerType> | undefined) => {
@@ -57,7 +56,6 @@ export const createColumnsForHistoricalTable = (ticker: Array<TickerDataType>) =
                 column.id = "date"
                 column.lable = "date"
             }
-
             if (key.toString().toLocaleLowerCase() === 'values') {
                 column.id = 'volume'
                 column.lable = 'volume'
@@ -82,7 +80,6 @@ export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): His
                 low: data.low,
                 close: data.close,
                 volume: transformVolume(data.volume!)!
-
             }
             return row;
         });
@@ -90,35 +87,21 @@ export const createRowsForHistoricalTable = (ticker: Array<TickerDataType>): His
     }
 };
 
-export const transformFirstLetterToUpperCase = (word: string): string => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-};
-
-export const transformVolume = (volume: string | number) => {
-    if (typeof volume === 'number') {
-        const res = Intl.NumberFormat().format(volume).replace(/\s/g, ',')
+export const createCandlesData = (tickerData: Array<TickerDataType>) => {
+    const data: Array<TickerDataType> = tickerData?.map((ticker) => {
+        const res: TickerDataType = {
+            time: ticker.time,
+            open: ticker.open,
+            high: ticker.high,
+            low: ticker.low,
+            close: ticker.close
+        }
         return res;
-    }
-}
-
-export const createCandleData = (dataType: string, tickerData: Array<TickerDataType>) => {
-    if (dataType === MAIN_DATA) {
-        const data: Array<TickerDataType> = tickerData?.map((ticker) => {
-            const res: TickerDataType = {
-                time: ticker.time,
-                open: ticker.open,
-                high: ticker.high,
-                low: ticker.low,
-                close: ticker.close
-            }
-            return res;
-        });
-        return data;
-    }
-    return tickerData;
+    });
+    return data;
 };
 
-export const createHistogramAreaData = (dataType: string, tickerData: Array<TickerDataType>) => {
+export const createHistogramLineAreaData = (tickerData: Array<TickerDataType>) => {
     const data: Array<TickerDataVolumeType> = tickerData?.map((ticker) => {
         const res: TickerDataVolumeType = {
             time: ticker.time,
@@ -127,16 +110,6 @@ export const createHistogramAreaData = (dataType: string, tickerData: Array<Tick
         return res;
     });
     return data;
-};
-
-export const transformDate = (date: string) => {
-    const arr = new Date(date).toString().split(" ");
-    const res = arr[1] + " " + arr[2] + ", " + arr[3];
-    return res;
-};
-
-export const findMaxMinPrice = (symbolData: TickerDataType[], param: string) => {
-    return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0] : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0];
 };
 
 export const createColumnsForStatistic = (statsObject: Statistics[] | undefined) => {
@@ -168,50 +141,3 @@ export const createRowsForStatistic = (statsObject: Map<string, string | number 
     }
 };
 
-
-// export const delimiterDataToPeriods = (period: string, data: Array<TickerDataType | TickerDataVolumeType>) => {
-//     if (period === "1D") {
-//         return data;
-//     }
-//     if (period === "1W") {
-//         return data.filter((ticker) => {
-//             const currentTime = ticker.time.toString();
-//             const date = new Date(currentTime);
-//             console.log(date.getDay() === 5 && ticker.time)
-//             return date.getDay() === 5 && ticker;
-//         })
-//     }
-//     if (period === "1M") {
-//         const res: (TickerDataType | TickerDataVolumeType)[] = [];
-//         const firstDate = new Date();
-//         const plusMonth = new Date();
-//         if (data[0]) {
-//             firstDate.setTime((new Date(data[0].time).getTime()));
-//             plusMonth.setTime(addMonth(firstDate, 1).getTime())
-//         }
-
-//         if (!(firstDate.getTime() === new Date().getTime())) {
-//             data.forEach((ticker, index) => {
-//                 if (!(index >= data.length - 1)) {
-//                     const nextDate = new Date(data[index + 1].time.toString());
-//                     if (nextDate.getTime() > plusMonth.getTime()) {
-//                         res.push(ticker);
-//                         plusMonth.setTime(addMonth(nextDate, 1).getTime());
-//                     }
-//                 }
-//             })
-//         }
-//         // console.log(res)
-//         return res;
-//     }
-// };
-
-// const addMonth = (date: Date, months: number): Date => {
-//     date.setMonth(date.getMonth() + months);
-//     return date;
-// };
-
-
- export const getDataInInterval = (data: Data, interval: string) => {
-    return interval === "1D" ? data.dailyData : interval === "1W" ? data.weeklyData : interval === "1M" ? data.monthlyData : interval === "1Y" ? data.yearlyData : data.dailyData;
-};

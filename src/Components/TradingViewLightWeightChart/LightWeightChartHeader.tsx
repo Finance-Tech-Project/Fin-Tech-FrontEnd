@@ -1,4 +1,4 @@
-import { findMaxMinPrice } from '../../Functions/dataProcessingFunctions';
+import { findMaxMinPrice } from '../../Functions/utilsFunctions';
 import {
 	MainHeaderChartContainer,
 	MainHeaderChartTickerDescr,

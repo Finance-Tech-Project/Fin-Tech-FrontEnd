@@ -8,15 +8,23 @@ import StocksStatistics from "./StocksStatistics";
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from "../../Constants/MaterialConstants/theme";
 import StocksHistoricalTable from "./StocksHistoricalTable";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import StocksRecommendationTrends from "./StocksRecommendationTrends";
+import { useAppDispatch } from "../../app/hooks";
+import { putSeriesName } from "../../Reducers/chartSeriesReducer";
+import { ChartSeriesNames } from "../../Enums/Enums";
 
 const Stocks = () => {
 	const [getStatsClick, setGetStatsClick] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
 
 	const handleClickStatistics = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setGetStatsClick((prev) => prev !== Boolean(event.currentTarget));
 	};
+
+	useMemo(() => {
+		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+	}, [dispatch]);
 
 	return (
 		<ThemeProvider theme={theme}>

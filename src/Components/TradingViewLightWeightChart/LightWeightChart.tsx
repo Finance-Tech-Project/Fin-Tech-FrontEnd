@@ -1,12 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-lone-blocks */
 import { Chart } from 'lightweight-charts-react-wrapper';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { ColorType, createChart } from 'lightweight-charts';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
 
 import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { changeChartTypeSeries } from '../../Functions/lightWeightSeriesFunctions';
 import LightWeightChartButtons from './LightWeightChartButtons';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
@@ -15,12 +17,8 @@ interface Props {
 
 const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 	const chartContainerRef = useRef<HTMLDivElement>(null);
-	const [selectedSeries, setSelectedSeries] = useState<string | undefined>('candles')
-
-	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		setSelectedSeries(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim());
-	};
-
+	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
+	
 	useEffect(() => {
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
@@ -50,7 +48,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
 		};
 
-		changeChartTypeSeries(selectedSeries!, tickerData, tickerVolume, chart);
+		changeChartTypeSeries(seriesName!, tickerData, tickerVolume, chart);
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
 
@@ -58,12 +56,11 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 			window.removeEventListener('resize', handleResize);
 			chart.remove();
 		};
+	}, [tickerData, tickerVolume, seriesName]);
 
-	}, [tickerData, tickerVolume, selectedSeries]);
-	
 	return (
 		<ChartContainer ref={chartContainerRef}>
-			<LightWeightChartButtons  handleChangeSeries={handleChangeSeries}/>
+			<LightWeightChartButtons />
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
 		</ChartContainer>

@@ -1,8 +1,5 @@
 import { getPeriod } from "../Functions/getPeriod";
 
-export const MAIN_DATA = "main_data";
-export const VOLUME_DATA = "volume_data";
-
 export const BASE_URL = "http://fin-tech.eu-north-1.elasticbeanstalk.com";
 export const QUOTE_HISTORY = "/quote/history";
 export const START = "/start";

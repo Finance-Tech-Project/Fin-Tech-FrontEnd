@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataType } from "../Types/TickersTypes";
-import { Data } from "../Types/DataReducerTypes";
+import { SymbolData } from "../Types/DataReducerTypes";
 
 interface HistoricalDataState {
-    dataStock: Data
-    dataStockToCompare: Data
+    dataStock: SymbolData
+    dataStockToCompare: SymbolData
 }
 
 const initialHistoricalData: HistoricalDataState = {

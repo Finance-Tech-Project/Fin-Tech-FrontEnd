@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useMemo, useState } from 'react'
 import { useAppDispatch } from '../../app/hooks';
 import { putSymbolCompanyName, putSymbolName } from '../../Reducers/selectedSymbolReducer';

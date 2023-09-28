@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
-import { createColumnsForHistoricalTable, createRowsForHistoricalTable, transformFirstLetterToUpperCase } from '../../Functions/dataProcessingFunctions'
+import { createColumnsForHistoricalTable, createRowsForHistoricalTable } from '../../Functions/dataProcessingFunctions'
 import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -16,14 +17,10 @@ import { getSymbolDataForDefaultPeriod, getSymbolDataForPeriodRange } from '../.
 import { getMinDateForHistory, getPeriod } from '../../Functions/getPeriod'
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer'
 import { SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
-
-interface Props {
-    historicalTableColumns: HistoricalTableColumnType[] | undefined,
-    historicalTableRows: HistoricalTableType[] | undefined
-}
+import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
 
 const StocksHistoricalTable = () => {
-    const { dailyData, weeklyData, monthlyData, yearlyData } = useAppSelector(state => state.historicalDataReducer.dataStock);
+    const data = useAppSelector(state => state.historicalDataReducer.dataStock);
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
     const interval = useAppSelector(state => state.intervalDataReducer);
     const [page, setPage] = useState(0);
@@ -38,7 +35,11 @@ const StocksHistoricalTable = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === 'Daily' ? '1D' : event.target.value === 'Weekly' ? '1W' : event.target.value === 'Monthly' ? '1M' : event.target.value === 'Yearly' ? '1Y' : '1D';
+        const interval = event.target.value === 'Daily' 
+                            ? '1D' : event.target.value === 'Weekly' 
+                            ? '1W' : event.target.value === 'Monthly' 
+                            ? '1M' : event.target.value === 'Yearly' 
+                            ? '1Y' : '1D';
         dispatch(putDataInterval(interval as string))
     };
 
@@ -51,12 +52,8 @@ const StocksHistoricalTable = () => {
         setPage(0);
     };
 
-    const getDataInInterval = () => {
-        return interval === "1D" ? dailyData : interval === "1W" ? weeklyData : interval === "1M" ? monthlyData : interval === "1Y" ? yearlyData : dailyData;
-    };
-
     const setSymbolData = () => {
-        const symbolDataInInterval: TickerDataType[] = getDataInInterval();
+        const symbolDataInInterval: TickerDataType[] = getDataInInterval(data, interval);
         setHistoricalTableRows(createRowsForHistoricalTable(symbolDataInInterval));
         setHistoricalTableColumns(createColumnsForHistoricalTable(symbolDataInInterval));
         setDateFrom(symbolDataInInterval[0].time);
@@ -82,11 +79,11 @@ const StocksHistoricalTable = () => {
 
     useEffect(() => {
         setIsMounted(true);
-        if (getDataInInterval().length > 0) {
+        if (getDataInInterval(data, interval).length > 0) {
             setSymbolData();
         }
         return () => removeValuesInUnmounted();
-    }, [symbolName, dailyData, interval, isMounted, getDataInInterval().length > 0]);
+    }, [symbolName, data, interval, isMounted, getDataInInterval(data, interval).length > 0]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -11,14 +11,15 @@ import { AnalyticBlackoutContainer, AnalyticContainer } from '../../Styles/Analy
 import { StocksChartContainer } from '../../Styles/StocksStyles/StocksChartStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from '../../Constants/MaterialConstants/theme'
-import { createCandleData, createHistogramAreaData, getDataInInterval } from '../../Functions/dataProcessingFunctions'
-import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants'
+import { createCandlesData, createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions'
 import AnalyticChartInteface from './AnalyticChartInteface'
 import { AnalyticInterface } from '../../Types/AnalyticTypes'
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete'
 import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
-import { putSeriesNameForSimpleIncome } from '../../Reducers/analyticIterfaceReducer'
+import { putSeriesName } from '../../Reducers/chartSeriesReducer'
+import { ChartSeriesNames } from '../../Enums/Enums'
+import { getDataInInterval } from '../../Functions/utilsFunctions'
 
 const Analytics = () => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -31,19 +32,17 @@ const Analytics = () => {
 	const [analyticChartData, setAnalyticChartData] = useState<any[]>([]);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
-	
 	const dispatch = useAppDispatch();
 
 	const getDataTicker = () => {
 		const symbolDataInInterval: TickerDataType[] = getDataInInterval(data, interval);
-		setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
-		setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
+		setTickerVolume(createHistogramLineAreaData(symbolDataInInterval));
+		setTickerData(createCandlesData(symbolDataInInterval));
 	};
 
 	const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
-
 		if (!Boolean(event.currentTarget.value)) {
-			dispatch(putSeriesNameForSimpleIncome("simpleIncome"));
+			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
 			setTimeout(async () => {
 				const data = await getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo);
 				data && setAnalyticChartData(data);
@@ -55,6 +54,10 @@ const Analytics = () => {
 		const data = await getDataForAnalyticChartAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo);
 		data && setAnalyticChartData(data);
 	};
+
+	useMemo(() => {
+		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+	}, [dispatch]);
 
 	useMemo(() => {
 		getData();
@@ -94,7 +97,7 @@ const Analytics = () => {
 										<LightWeightChartHeader data={getDataInInterval(data, interval)} />
 										<Box sx={{ display: 'flex' }}>
 											<LightWeightChartForAnalytics
-												data={analyticChartData}
+												analyticChartData={analyticChartData}
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
 											/>

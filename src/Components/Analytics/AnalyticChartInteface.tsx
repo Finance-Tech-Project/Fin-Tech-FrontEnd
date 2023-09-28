@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import React, { useState } from 'react'
+import { useAppDispatch } from '../../app/hooks';
 import { putMovAvgPeriod, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
-import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 
 interface Props {
@@ -13,7 +12,6 @@ interface Props {
 
 const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
     const [number, setNumber] = useState<number | string>('');
-    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
     const dispatch = useAppDispatch();

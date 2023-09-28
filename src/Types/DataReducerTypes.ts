@@ -1,6 +1,6 @@
 import { TickerDataType } from "./TickersTypes";
 
-export interface Data {
+export interface SymbolData {
     dailyData: Array<TickerDataType>,
     weeklyData: Array<TickerDataType>,
     monthlyData: Array<TickerDataType>,

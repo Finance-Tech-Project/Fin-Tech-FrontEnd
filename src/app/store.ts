@@ -4,6 +4,7 @@ import { historicalDataReducer } from '../Reducers/historicalDataReducer';
 import { selectedSymbolReducer } from '../Reducers/selectedSymbolReducer';
 import { dateDataReducer } from '../Reducers/dateDataReducer';
 import { analyticInterfaceReducer } from '../Reducers/analyticIterfaceReducer';
+import { chartSeriesReducer } from '../Reducers/chartSeriesReducer';
 
 
 
@@ -13,7 +14,8 @@ export const store = configureStore({
 		historicalDataReducer: historicalDataReducer,
 		selectedSymbolReducer: selectedSymbolReducer,
 		dateDataReducer: dateDataReducer,
-		analyticInterfaceReducer: analyticInterfaceReducer
+		analyticInterfaceReducer: analyticInterfaceReducer,
+		chartSeriesReducer: chartSeriesReducer
 	},
 });
 

@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { StocksChartContainer, StocksChartSearchTickerContainer, StocksAutocomplete } from '../../Styles/StocksStyles/StocksChartStyle';
-import { Box, Button, CircularProgress, Divider, FormControl, Paper, TextField, Typography, createFilterOptions } from '@mui/material';
+import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
 import LightWeightChart from '../TradingViewLightWeightChart/LightWeightChart';
@@ -8,9 +9,8 @@ import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
 import { putSymbolCompanyName, putSymbolName } from '../../Reducers/selectedSymbolReducer';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { createCandleData, createHistogramAreaData, findMaxMinPrice, getDataInInterval } from '../../Functions/dataProcessingFunctions';
-import { MAIN_DATA, VOLUME_DATA } from '../../Constants/fetchConstants';
-import { makeStyles, createStyles } from '@mui/styles';
+import { createCandlesData, createHistogramLineAreaData} from '../../Functions/dataProcessingFunctions';
+import { getDataInInterval } from '../../Functions/utilsFunctions';
 
 interface AutocompleteOption {
 	name: string,
@@ -24,7 +24,7 @@ interface Props {
 const StocksChart = ({ handleClickStatistics }: Props) => {
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
-	const interval = useAppSelector(state => state.intervalDataReducer);
+	const interval: string = useAppSelector(state => state.intervalDataReducer);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
 	const dispatch = useAppDispatch();
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
@@ -65,8 +65,8 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 
 	const getDataTicker = () => {
 		const symbolDataInInterval: TickerDataType[] = getDataInInterval(data, interval);
-		setTickerVolume(createHistogramAreaData(VOLUME_DATA, symbolDataInInterval));
-		setTickerData(createCandleData(MAIN_DATA, symbolDataInInterval));
+		setTickerVolume(createHistogramLineAreaData(symbolDataInInterval));
+		setTickerData(createCandlesData(symbolDataInInterval));
 	};
 
 	useMemo(() => {

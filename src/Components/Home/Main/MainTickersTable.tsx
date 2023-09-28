@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material'
 import React, { useEffect, useMemo, useState } from 'react'
 import { MainFindTickerTableContainer } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { TickerColumnType, TickerType } from '../../../Types/TickersTypes';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
-import { createColumns, createRows, transformFirstLetterToUpperCase } from '../../../Functions/dataProcessingFunctions';
+import { createColumns, createRows } from '../../../Functions/dataProcessingFunctions';
 import { getTikersForMainPage } from '../../../Actions/fetchActions';
+import { transformFirstLetterToUpperCase } from '../../../Functions/utilsFunctions';
 
 interface Props {
     data: string,

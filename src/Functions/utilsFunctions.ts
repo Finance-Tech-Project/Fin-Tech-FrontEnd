@@ -1,14 +1,17 @@
+import { SymbolData } from "../Types/DataReducerTypes";
+import { TickerDataType } from "../Types/TickersTypes";
+
 export const transformTextForStatistics = (word: string | undefined) => {
     if (word) {
         let tableTitle = word.charAt(0).toUpperCase().concat(word.slice(1, word.length)).replace(/([A-Z])/g, ' $1').trim();
         if (tableTitle.includes("P E")) {
-            tableTitle = tableTitle.replace(/(\P \E)/g, 'P/E');
+            tableTitle = tableTitle.replace(/(\P \\E)/g, 'P/E');
         }
         if (tableTitle.includes("Peg")) {
             tableTitle = tableTitle.replace("Peg", 'PEG');
         }
         if (tableTitle.includes(" To ")) {
-            tableTitle = tableTitle.replace(/(\ T\o )/g, '/');
+            tableTitle = tableTitle.replace(/(\\ T\\o )/g, '/');
         }
         if (tableTitle.includes("Ebitda")) {
             tableTitle = tableTitle.replace("Ebitda", 'EBITDA');
@@ -66,4 +69,33 @@ export const transformDateForStatistics = (date: string | number | null) => {
         }
     }
     return date;
+};
+
+export const transformDate = (date: string) => {
+    const arr = new Date(date).toString().split(" ");
+    const res = arr[1] + " " + arr[2] + ", " + arr[3];
+    return res;
+};
+
+export const findMaxMinPrice = (symbolData: TickerDataType[], param: string) => {
+    return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0] : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0];
+};
+
+export const transformFirstLetterToUpperCase = (word: string): string => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
+export const transformVolume = (volume: string | number) => {
+    if (typeof volume === 'number') {
+        const res = Intl.NumberFormat().format(volume).replace(/\s/g, ',')
+        return res;
+    }
+}
+
+export const getDataInInterval = (data: SymbolData, interval: string) => {
+    return interval === "1D" 
+            ? data.dailyData : interval === "1W" 
+            ? data.weeklyData : interval === "1M" 
+            ? data.monthlyData : interval === "1Y" 
+            ? data.yearlyData : data.dailyData;
 };
