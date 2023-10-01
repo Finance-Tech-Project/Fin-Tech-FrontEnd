@@ -4,8 +4,8 @@ import { useAppDispatch } from '../../app/hooks';
 import { putSymbolCompanyName, putSymbolName } from '../../Reducers/selectedSymbolReducer';
 import { TickerType } from '../../Types/TickersTypes';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
-import { StocksAutocomplete } from '../../Styles/StocksStyles/StocksChartStyle';
 import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
+import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 interface AutocompleteOption {
     name: string,
@@ -54,7 +54,7 @@ const AnalyticOneStockAutocomplete = () => {
     }, [letters]);
 
     return (
-        <StocksAutocomplete
+        <GeneralAutocomplete
             filterOptions={(options: any) => options}
             ListboxProps={{
                 style: {

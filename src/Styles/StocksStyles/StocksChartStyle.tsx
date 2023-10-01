@@ -1,30 +1,4 @@
-import { Autocomplete, Box, styled } from "@mui/material";
-
-export const StocksAutocomplete = styled(Autocomplete)(({ theme }) => ({
-    width: 300,
-    '.MuiInputBase-input': {
-        color: 'white',
-        borderColor: 'white'
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: 'rgba(70, 75, 114, 0.8)',
-            borderWidth: '1.5px'
-        },
-        '&:hover fieldset': {
-            borderColor: '#7276ff'
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: 'rgba(70, 75, 114, 0.8)'   
-        }
-    },
-    '& .MuiFormLabel-root': {
-        color: 'white'
-    },
-    '& .MuiButtonBase-root': {
-        color: 'white'
-    }
-}));
+import { Box, styled } from "@mui/material";
 
 export const StocksChartContainer = styled(Box)(({ theme }) => ({
     width: '94.5%', 

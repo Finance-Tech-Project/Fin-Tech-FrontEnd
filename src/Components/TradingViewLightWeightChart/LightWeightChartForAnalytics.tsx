@@ -11,19 +11,23 @@ import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
 import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
+import AnalyticChartInteface from '../Analytics/AnalyticChartInteface';
+import { Box } from '@mui/material';
 
 interface Props {
 	analyticChartData: TickerDataVolumeType[] | undefined,
 	tickerData: Array<TickerDataType>,
-	tickerVolume: Array<TickerDataVolumeType>
+	tickerVolume: Array<TickerDataVolumeType>,
+	handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVolume }: Props) => {
+const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVolume, handleGetSimpleIncome }: Props) => {
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
+	const boxRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -52,7 +56,9 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 		});
 
 		if (movAvg.period > 0) {
-			dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
+				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+			}
 			dispatch(putSimpleIncomePeriod(0));
 			chart.removeSeries(simpleIncomeChart(chart, analyticChartData!, simpleIncome.color, movAvg.period, seriesName)!);
 			const lineChart = addMyLineSeries(chart, analyticChartData!, movAvg.color);
@@ -83,11 +89,11 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 		};
 
 		changeChartTypeSeries(
-			seriesName!, 
-			tickerData, 
-			tickerVolume, 
-			chart, 
-			simpleIncome.color, 
+			seriesName!,
+			tickerData,
+			tickerVolume,
+			chart,
+			simpleIncome.color,
 			analyticChartData!,
 			movAvg.period
 		);
@@ -100,9 +106,9 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 		};
 
 	}, [analyticChartData, tickerData, tickerVolume, seriesName, movAvg.period, interval, simpleIncome.period]);
-	
+
 	return (
-		<ChartContainer ref={chartContainerRef}>
+		<ChartContainer ref={chartContainerRef} >
 			<LightWeightChartButtonsForAnalytics />
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>

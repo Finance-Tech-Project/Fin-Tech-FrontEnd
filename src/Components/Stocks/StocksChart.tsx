@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
-import { StocksChartContainer, StocksChartSearchTickerContainer, StocksAutocomplete } from '../../Styles/StocksStyles/StocksChartStyle';
+import { StocksChartContainer, StocksChartSearchTickerContainer } from '../../Styles/StocksStyles/StocksChartStyle';
 import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
@@ -11,6 +11,7 @@ import { putSymbolCompanyName, putSymbolName } from '../../Reducers/selectedSymb
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createCandlesData, createHistogramLineAreaData} from '../../Functions/dataProcessingFunctions';
 import { getDataInInterval } from '../../Functions/utilsFunctions';
+import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 interface AutocompleteOption {
 	name: string,
@@ -82,7 +83,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	return (
 		<StocksChartContainer>
 			<StocksChartSearchTickerContainer>
-				<StocksAutocomplete
+				<GeneralAutocomplete
 					filterOptions={(options: any) => options}
 					ListboxProps={{
 						style: {

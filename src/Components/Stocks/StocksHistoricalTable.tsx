@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { StocksHistoricalTableContainer, StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
+import { StocksHistoricalTableContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
@@ -16,8 +16,9 @@ import { putDataInterval } from '../../Reducers/intervalDataReducer'
 import { getSymbolDataForDefaultPeriod, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
 import { getMinDateForHistory, getPeriod } from '../../Functions/getPeriod'
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer'
-import { SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
+import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
+import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums'
 
 const StocksHistoricalTable = () => {
     const data = useAppSelector(state => state.historicalDataReducer.dataStock);
@@ -35,11 +36,11 @@ const StocksHistoricalTable = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === 'Daily' 
-                            ? '1D' : event.target.value === 'Weekly' 
-                            ? '1W' : event.target.value === 'Monthly' 
-                            ? '1M' : event.target.value === 'Yearly' 
-                            ? '1Y' : '1D';
+        const interval = event.target.value === IntervalsFullName.Dayily 
+                            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly 
+                            ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly 
+                            ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
+                            ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
         dispatch(putDataInterval(interval as string))
     };
 
@@ -92,48 +93,16 @@ const StocksHistoricalTable = () => {
                 <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 
                 <Box sx={{ padding: '20px 0 20px 0', display: 'flex', justifyContent: 'space-between' }}>
-                    <StocksHistoricalTableDatePicker
-                        slotProps={{
-                            layout: {
-                                sx: {
-                                    '& .MuiDateCalendar-root': {
-                                        width: '103%',
-                                        color: 'white',
-                                        backgroundColor: '#190033'
-                                    },
-                                    '& .MuiButtonBase-root': {
-                                        color: 'white',
-                                    },
-                                    '& .MuiTypography-root': {
-                                        color: 'white',
-                                    }
-                                }
-                            }
-                        }}
+                    <GeneralDatePicker
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
                         label="Date from"
                         minDate={dayjs(getMinDateForHistory())}
                         value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
                         onChange={(newDate) => setDateFrom(newDate)}
                     />
 
-                    <StocksHistoricalTableDatePicker
-                        slotProps={{
-                            layout: {
-                                sx: {
-                                    '& .MuiDateCalendar-root': {
-                                        width: '103%',
-                                        color: 'white',
-                                        backgroundColor: '#190033'
-                                    },
-                                    '& .MuiButtonBase-root': {
-                                        color: 'white',
-                                    },
-                                    '& .MuiTypography-root': {
-                                        color: 'white',
-                                    }
-                                }
-                            }
-                        }}
+                    <GeneralDatePicker
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
                         label="Date to"
                         value={dayjs(dateTo as string, 'YYYY-MM-DD')}
                         onChange={(newDate) => setDateTo(newDate)}

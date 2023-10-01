@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
-import { StocksAutocomplete } from '../../Styles/StocksStyles/StocksChartStyle'
 import { useAppDispatch } from '../../app/hooks';
 import { putSymbolCompanyName, putSymbolName, putSymbolsNamesToCompare } from '../../Reducers/selectedSymbolReducer';
 import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { TickerType } from '../../Types/TickersTypes';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
+import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 interface AutocompleteOption {
 	name: string,
@@ -77,7 +77,7 @@ const AnalyticAutocomplete = () => {
 	
 	return (
 		<React.Fragment>
-			<StocksAutocomplete
+			<GeneralAutocomplete
 				filterOptions={(options: any) => options}
 				ListboxProps={{
 					style: {
@@ -121,7 +121,7 @@ const AnalyticAutocomplete = () => {
 				}
 			/>
 
-			<StocksAutocomplete
+			<GeneralAutocomplete
 				filterOptions={(options: any) => options}
 				ListboxProps={{
 					style: {

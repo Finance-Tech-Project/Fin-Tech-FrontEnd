@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../app/hooks';
 import { putMovAvgPeriod, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
-
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 interface Props {
     handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
@@ -39,17 +39,19 @@ const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
         if (+event.target.value > 0) {
             dispatch(putMovAvgPeriod(0));
             setChecked50Days(false);
-            setChecked200Days(false); 
+            setChecked200Days(false);
         }
     };
 
     return (
-        <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '640px', width: '450px', backgroundColor: 'rgba(2, 1, 31, 1)' }}>
-            <Box sx={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '120px', marginRight: '20px' }}></Divider>
+
+        <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '735px', backgroundColor: 'rgba(44, 9, 81, 1)' }}>
+            <Box sx={{ padding: '25px', display: 'flex', flexDirection: 'column' }}>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '10px' }}>
                     <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>
                 </Box>
+                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '100%', marginRight: '20px' }}></Divider>
                 <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <FormGroup sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <FormControlLabel sx={{
@@ -70,11 +72,14 @@ const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
                         />
                     </FormGroup>
                 </Box>
+                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '100%', marginRight: '20px' }}></Divider>
 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px' }}>
-                    <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '120px', marginRight: '20px' }}></Divider>
+
+                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
+                   
                     <Typography sx={{ color: 'white' }} variant='h5'>Simple Income</Typography>
                 </Box>
+                <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '100%', marginRight: '20px', marginBottom: '10px' }}></Divider>
                 <MainTickersTextField
                     type="number"
                     variant="outlined"
@@ -85,8 +90,11 @@ const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
                 >
                 </MainTickersTextField>
                 <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>
+                <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '100%', marginRight: '20px', marginTop: '10px' }}></Divider>
             </Box>
         </Box>
+
+
     )
 }
 

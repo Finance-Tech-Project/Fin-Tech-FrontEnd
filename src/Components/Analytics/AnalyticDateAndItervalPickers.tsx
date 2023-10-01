@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { StocksHistoricalTableDatePicker } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -8,10 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
+import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
+import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 
 const AnalyticDateAndIntervalPickers = () => {
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -23,11 +23,11 @@ const AnalyticDateAndIntervalPickers = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === 'Daily' 
-                            ? '1D' : event.target.value === 'Weekly' 
-                            ? '1W' : event.target.value === 'Monthly' 
-                            ? '1M' : event.target.value === 'Yearly' 
-                            ? '1Y' : '1D';
+        const interval = event.target.value === IntervalsFullName.Dayily 
+                            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly 
+                            ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly 
+                            ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
+                            ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
         dispatch(putDataInterval(interval as string))
     };
 
@@ -48,48 +48,16 @@ const AnalyticDateAndIntervalPickers = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <StocksHistoricalTableDatePicker
-                slotProps={{
-                    layout: {
-                        sx: {
-                            '& .MuiDateCalendar-root': {
-                                width: '103%',
-                                color: 'white',
-                                backgroundColor: '#190033'
-                            },
-                            '& .MuiButtonBase-root': {
-                                color: 'white',
-                            },
-                            '& .MuiTypography-root': {
-                                color: 'white',
-                            }
-                        }
-                    }
-                }}
+            <GeneralDatePicker
+                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
                 label="Date from"
                 minDate={dayjs(getMinDateForHistory())}
                 value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
                 onChange={(newDate) => setDateFrom(newDate)}
             />
 
-            <StocksHistoricalTableDatePicker
-                slotProps={{
-                    layout: {
-                        sx: {
-                            '& .MuiDateCalendar-root': {
-                                width: '103%',
-                                color: 'white',
-                                backgroundColor: '#190033'
-                            },
-                            '& .MuiButtonBase-root': {
-                                color: 'white',
-                            },
-                            '& .MuiTypography-root': {
-                                color: 'white',
-                            }
-                        }
-                    }
-                }}
+            <GeneralDatePicker
+                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
                 label="Date to"
                 value={dayjs(dateTo as string, 'YYYY-MM-DD')}
                 onChange={(newDate) => setDateTo(newDate)}

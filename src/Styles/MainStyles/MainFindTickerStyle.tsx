@@ -66,23 +66,12 @@ export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({
 export const MainFindTickerTableContainer = styled(TableContainer)(({ theme }) => ({
     width: '100%',
     minHeight: '685px',
-    // height: '607.5px',
-    backgroundColor: '#2c0951',
-    // [theme.breakpoints.up('laptop')]: {
-    //     height: '682px',
-    // },
-    // [theme.breakpoints.up('laptopL')]: {
-    //     height: '607.5px',
-    // },
-    // [theme.breakpoints.up('desktop')]: {
-    //     height: '607.5px',
-    // }
+    backgroundColor: '#2c0951'
 }));
 
 export const MainTickersTextField = styled(TextField)(({ theme }) => ({
     width: '100%',
     paddingBottom: '20px',
-    // paddingTop: '20px',
     '.MuiInputBase-input': {
         color: 'white',
         borderColor: 'white',

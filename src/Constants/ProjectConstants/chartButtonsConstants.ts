@@ -1,7 +1,19 @@
+import { ChartSeriesNames, IntervalsAbbreviation } from "../../Enums/Enums";
 import { getPeriod } from "../../Functions/getPeriod";
 
-export const chartButtonsPeriod: Array<string> = ["1D", "1W", "1M", "1Y"];
-export const chartButtonsSeries: Array<string> = ["Candles", "Line", "Bar", "Area"];
+export const chartButtonsPeriod: Array<IntervalsAbbreviation> = [
+    IntervalsAbbreviation.Dayily, 
+    IntervalsAbbreviation.Weekly, 
+    IntervalsAbbreviation.Monthly, 
+    IntervalsAbbreviation.Yearly
+];
+
+export const chartButtonsSeries: Array<ChartSeriesNames> = [
+    ChartSeriesNames.CandlesSeries, 
+    ChartSeriesNames.LineSeries, 
+    ChartSeriesNames.BarSeries, 
+    ChartSeriesNames.AreaSeries
+];
 
 export interface ChartButtonForAnalytic {
     title: string,

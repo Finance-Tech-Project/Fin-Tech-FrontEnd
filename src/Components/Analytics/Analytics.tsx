@@ -25,7 +25,6 @@ const Analytics = () => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
-	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 
@@ -44,7 +43,7 @@ const Analytics = () => {
 		if (!Boolean(event.currentTarget.value)) {
 			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
 			setTimeout(async () => {
-				const data = await getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo);
+				const data = await getDataForAnalyticChartSimpleIncome(symbolName, 1500, currentDateFrom, currentDateTo);
 				data && setAnalyticChartData(data);
 			}, 0);
 		}
@@ -72,7 +71,7 @@ const Analytics = () => {
 	useEffect(() => {
 		dispatch(getSymbolDataForPeriodRange(symbolName, currentDateFrom, currentDateTo, 1));
 	}, [symbolName, currentDateFrom, currentDateTo]);
-	
+
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
@@ -84,28 +83,47 @@ const Analytics = () => {
 							desktopL={11} desktopLOffset={0.5}
 						>
 							<StocksChartContainer>
-								<Box sx={{ paddingBottom: '50px', display: 'flex', justifyContent: 'space-between' }}>
-									<AnalyticOneStockAutocomplete />
-									<AnalyticDateAndIntervalPickers />
-								</Box>
-								{analyticChartData.length === 0 ? (
-									<Box sx={{ display: 'flex', width: '100%', height: '640px', justifyContent: 'center', alignItems: 'center' }}>
-										<CircularProgress sx={{ color: 'white' }} size={60} />
+								<Grid
+									desktop={11} desktopOffset={0.5}
+									desktopL={11} desktopLOffset={0.5}
+								>
+									<Box sx={{ paddingBottom: '50px', display: 'flex', justifyContent: 'space-between' }}>
+										<AnalyticOneStockAutocomplete />
+										<AnalyticDateAndIntervalPickers />
 									</Box>
-								) : (
-									<React.Fragment>
-										<LightWeightChartHeader data={getDataInInterval(data, interval)} />
-										<Box sx={{ display: 'flex' }}>
-											<LightWeightChartForAnalytics
-												analyticChartData={analyticChartData}
-												tickerData={tickerData}
-												tickerVolume={tickerVolume}
-											/>
-											<AnalyticChartInteface handleGetSimpleIncome={handleGetSimpleIncome} />
-										</Box>
-									</React.Fragment>
-								)}
+								</Grid>
+								<Grid container width="100%">
+									<Grid
+										desktop={8} desktopOffset={0.5}
+										desktopL={8.5} desktopLOffset={0.5}
+									>
+										{analyticChartData.length === 0 ? (
+											<Box sx={{ display: 'flex', width: '100%', height: '640px', justifyContent: 'center', alignItems: 'center' }}>
+												<CircularProgress sx={{ color: 'white' }} size={60} />
+											</Box>
+										) : (
+											<Box>
+												<LightWeightChartHeader data={getDataInInterval(data, interval)}/>
+												<LightWeightChartForAnalytics
+													analyticChartData={analyticChartData}
+													tickerData={tickerData}
+													tickerVolume={tickerVolume}
+													handleGetSimpleIncome={handleGetSimpleIncome}
+												/>
+											</Box>
+										)}
+									</Grid>
+
+									<Grid 
+										desktop={3} 
+										desktopL={2.5} 
+									>
+										<AnalyticChartInteface handleGetSimpleIncome={handleGetSimpleIncome} />
+									</Grid>
+								</Grid>
+
 							</StocksChartContainer>
+
 						</Grid>
 					</Grid>
 				</AnalyticBlackoutContainer>

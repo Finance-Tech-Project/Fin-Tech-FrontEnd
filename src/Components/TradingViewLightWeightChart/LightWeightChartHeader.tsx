@@ -20,7 +20,7 @@ const LightWeightChartHeader = ({ data }: Props) => {
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 
 	return (
-		<MainHeaderChartContainer>
+		<MainHeaderChartContainer borderTopRightRadius>
 			<MainHeaderChartTickerNameContainer>
 				<MainHeaderChartTickerName color fontSize>{symbolName}</MainHeaderChartTickerName>
 				<MainHeaderChartTickerName>{companyName}</MainHeaderChartTickerName>

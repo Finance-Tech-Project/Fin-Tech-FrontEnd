@@ -1,6 +1,8 @@
 import { Box, Typography, styled } from "@mui/material";
 
-export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
+export const MainHeaderChartContainer = styled(Box, { 
+    shouldForwardProp: (prop) => prop !== 'borderTopRightRadius'
+})<any>(({ theme, borderTopRightRadius }) => ({
     width: '100%',
     minHeight: '95px',
     border: '1.5px solid rgba(70, 75, 114, 0.8)',
@@ -10,6 +12,7 @@ export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     fontFamily: 'Inter, sans-serif',
+    ...(borderTopRightRadius && {borderTopRightRadius: '0px'}),
     [theme.breakpoints.up('mobileS')]: {
         marginTop: '20px',
         flexDirection: 'column',

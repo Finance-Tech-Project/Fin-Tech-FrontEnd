@@ -1,3 +1,4 @@
+import { IntervalsAbbreviation } from "../Enums/Enums";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
 
@@ -93,9 +94,9 @@ export const transformVolume = (volume: string | number) => {
 }
 
 export const getDataInInterval = (data: SymbolData, interval: string) => {
-    return interval === "1D" 
-            ? data.dailyData : interval === "1W" 
-            ? data.weeklyData : interval === "1M" 
-            ? data.monthlyData : interval === "1Y" 
+    return interval === IntervalsAbbreviation.Dayily
+            ? data.dailyData : interval === IntervalsAbbreviation.Weekly
+            ? data.weeklyData : interval === IntervalsAbbreviation.Monthly
+            ? data.monthlyData : interval === IntervalsAbbreviation.Yearly
             ? data.yearlyData : data.dailyData;
 };

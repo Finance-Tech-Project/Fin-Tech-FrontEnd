@@ -1,4 +1,4 @@
-import { BASE_URL, DEFAULT_DATE_FROM, DEFAULT_DATE_TO, QUOTE_HISTORY } from "../Constants/fetchConstants";
+import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO, FetchConstants } from "../Enums/Enums";
 import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../Reducers/historicalDataReducer";
 import { TickerDataType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
@@ -6,7 +6,15 @@ import { AppDispatch } from "../app/store"
 export const getSymbolDataForDefaultPeriod = (tickerSymbol: string, forHowManyStocks: number) => {
     return async (dispatch: AppDispatch) => {
         try {
-            const response = await fetch(`${BASE_URL + QUOTE_HISTORY + "?dateFrom=" + DEFAULT_DATE_FROM + "&dateTo=" + DEFAULT_DATE_TO + "&ticker=" + tickerSymbol}`);
+            const response = await fetch(`${
+                FetchConstants.BASE_URL + 
+                FetchConstants.QUOTE_HISTORY + 
+                FetchConstants.DATE_FROM + 
+                DEFAULT_DATE_FROM + 
+                FetchConstants.DATE_TO + 
+                DEFAULT_DATE_TO + 
+                FetchConstants.TICKER + tickerSymbol
+            }`);
             if (response.ok) {
                 const data: Array<Array<TickerDataType>> = await response.json();
                 const res: Array<Array<TickerDataType>> = data.map((item) => {
@@ -43,7 +51,13 @@ export const getSymbolDataForDefaultPeriod = (tickerSymbol: string, forHowManySt
 export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: string, dateTo: string, forHowManyStocks: number) => {
     return async (dispatch: AppDispatch) => {
         try {
-            const response = await fetch(`${BASE_URL + QUOTE_HISTORY + "?dateFrom=" + dateFrom + "&dateTo=" + dateTo + "&ticker=" + tickerSymbol}`);
+            const response = await fetch(`${
+                FetchConstants.BASE_URL + 
+                FetchConstants.QUOTE_HISTORY + 
+                FetchConstants.DATE_FROM + dateFrom + 
+                FetchConstants.DATE_TO + dateTo + 
+                FetchConstants.TICKER + tickerSymbol
+            }`);
             if (response.ok) {
                 const data: Array<Array<TickerDataType>> = await response.json();
                 const res: Array<Array<TickerDataType>> = data.map((item) => {
