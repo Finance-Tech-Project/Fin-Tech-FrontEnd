@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgPeriod, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -15,6 +15,7 @@ interface Props {
 
 const AnalyticChartInteface = () => {
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+    const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
@@ -25,6 +26,7 @@ const AnalyticChartInteface = () => {
 
     const handleChange50Days = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(putMovAvgPeriod(50));
+        dispatch(putSimpleIncomeData([]));
         setChecked50Days(true);
         setChecked200Days(false);
         setNumber('');
@@ -32,6 +34,7 @@ const AnalyticChartInteface = () => {
 
     const handleChange200Days = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(putMovAvgPeriod(200));
+        dispatch(putSimpleIncomeData([]));
         setChecked200Days(true);
         setChecked50Days(false);
         setNumber('');
@@ -48,18 +51,37 @@ const AnalyticChartInteface = () => {
             setChecked50Days(false);
             setChecked200Days(false);
         }
+       
     };
 
+
     const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
-		if (!Boolean(event.currentTarget.value)) {
-			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
-			dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo));
-		}
-	};
+
+        if (!Boolean(event.currentTarget.value)) {
+            setChecked50Days(false);
+            setChecked200Days(false);
+            dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+            dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo));
+        }
+    };
 
     useEffect(() => {
-        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName,  movAvg.period, currentDateFrom, currentDateTo))
-    }, [movAvg.period]);
+        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo))
+        if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome && number !== '') {
+           
+            dispatch(putSimpleIncomeData([]));
+        }
+    }, [movAvg.period, seriesName]);
+
+
+
+    function handleFocus(event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>): void {
+        if (!Boolean(event.target.value)) {
+            dispatch(putMovAvgPeriod(0));
+            setChecked50Days(false);
+            setChecked200Days(false);
+        }
+    }
 
     return (
 
@@ -94,7 +116,7 @@ const AnalyticChartInteface = () => {
 
 
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
-                   
+
                     <Typography sx={{ color: 'white' }} variant='h5'>Simple Income</Typography>
                 </Box>
                 <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '100%', marginRight: '20px', marginBottom: '10px' }}></Divider>
@@ -105,6 +127,8 @@ const AnalyticChartInteface = () => {
                     sx={{ marginTop: '10px' }}
                     value={number}
                     onChange={(event) => handleChangeTextFieldNumber(event)}
+                    onFocus={handleFocus}
+                    
                 >
                 </MainTickersTextField>
                 <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>

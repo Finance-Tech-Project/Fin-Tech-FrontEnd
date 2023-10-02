@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
-import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import AnalyticChartInteface from '../Analytics/AnalyticChartInteface';
 import { Box } from '@mui/material';
 import { createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions';
@@ -52,10 +52,13 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 				}
 			}
 		});
+	
 		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeData));
 		const movAvgData = JSON.parse(JSON.stringify(movAvg.movAvgData));
 
-		if (movAvg.period > 0 && movAvg.movAvgData) {
+		
+
+		if (movAvg.period > 0) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 			}
@@ -70,7 +73,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 			// 	return res;
 			// })
 			
-			console.log(movAvgData);
+			
 			const lineChart = addMyLineSeries(chart, movAvgData!, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
