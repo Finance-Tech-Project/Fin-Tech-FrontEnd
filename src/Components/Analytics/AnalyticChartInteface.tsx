@@ -1,16 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import { useAppDispatch } from '../../app/hooks';
+import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putMovAvgPeriod, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
+import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSimpleIncome } from '../../Actions/fetchDispatchActions';
+import { putSeriesName } from '../../Reducers/chartSeriesReducer';
+import { ChartSeriesNames } from '../../Enums/Enums';
 interface Props {
     handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
+const AnalyticChartInteface = () => {
+    const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+    const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
+    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+    const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [number, setNumber] = useState<number | string>('');
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
@@ -42,6 +49,17 @@ const AnalyticChartInteface = ({ handleGetSimpleIncome }: Props) => {
             setChecked200Days(false);
         }
     };
+
+    const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
+		if (!Boolean(event.currentTarget.value)) {
+			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+			dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo));
+		}
+	};
+
+    useEffect(() => {
+        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName,  movAvg.period, currentDateFrom, currentDateTo))
+    }, [movAvg.period]);
 
     return (
 

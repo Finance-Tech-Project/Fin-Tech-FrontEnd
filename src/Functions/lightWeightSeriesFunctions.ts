@@ -97,7 +97,8 @@ export const changeChartTypeSeries = (
     volume: Array<TickerDataVolumeType>,
     chart: IChartApi,
     color?: string,
-    dataSimpleIncome?: Array<TickerDataVolumeType>,
+    movAvgData?: TickerDataVolumeType[],
+    simpleIncomeData?: TickerDataVolumeType[],
     movAvgPeriod?: number
 ) => {
     if (seriesName === ChartSeriesNames.CandlesSeries) {
@@ -109,7 +110,7 @@ export const changeChartTypeSeries = (
     } else if (seriesName === ChartSeriesNames.AreaSeries) {
         return areaSeries(chart, data, volume);
     } else if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
-        return simpleIncomeChart(chart, dataSimpleIncome!, color!, movAvgPeriod!, seriesName);
+        return simpleIncomeChart(chart, simpleIncomeData!, color!, movAvgPeriod!, seriesName);
     }
 };
 

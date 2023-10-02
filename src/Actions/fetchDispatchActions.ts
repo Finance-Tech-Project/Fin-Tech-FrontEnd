@@ -1,6 +1,7 @@
 import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO, FetchConstants } from "../Enums/Enums";
+import { putMovAvgData, putSimpleIncomeData } from "../Reducers/analyticIterfaceReducer";
 import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../Reducers/historicalDataReducer";
-import { TickerDataType } from "../Types/TickersTypes";
+import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
 
 export const getSymbolDataForDefaultPeriod = (tickerSymbol: string, forHowManyStocks: number) => {
@@ -90,3 +91,45 @@ export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: stri
         }
     }
 }
+
+export const getDataForAnalyticCharMovAvg = (symbolName: string, period: number, dateFrom: string, dateTo: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const response = await fetch(`${
+                FetchConstants.BASE_URL + 
+                FetchConstants.ANALYTICS_AVG + 
+                FetchConstants.DATE_FROM + dateFrom + 
+                FetchConstants.DATE_TO + dateTo + 
+                FetchConstants.TICKER + symbolName + 
+                FetchConstants.PERIOD + period
+            }`);
+            if (response.ok) {
+                const data: TickerDataVolumeType[] = await response.json();
+                dispatch(putMovAvgData(data));
+            }
+        } catch (error) {
+    
+        }
+    }
+};
+
+export const getDataForAnalyticChartSimpleIncome = (symbolName: string, period: number, dateFrom: string, dateTo: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const response = await fetch(`${
+                FetchConstants.BASE_URL + 
+                FetchConstants.ANALYTICS_SIMPLE_INCOME + 
+                FetchConstants.DATE_FROM + dateFrom + 
+                FetchConstants.DATE_TO + dateTo + 
+                FetchConstants.TICKER + symbolName + 
+                FetchConstants.PERIOD + period
+            }`);
+            if (response.ok) {
+                const data: TickerDataVolumeType[] = await response.json();
+               dispatch(putSimpleIncomeData(data));
+            }
+        } catch (error) {
+    
+        }
+    }
+};

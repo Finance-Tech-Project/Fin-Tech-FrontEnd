@@ -13,21 +13,19 @@ import { ChartSeriesNames } from '../../Enums/Enums';
 import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import AnalyticChartInteface from '../Analytics/AnalyticChartInteface';
 import { Box } from '@mui/material';
+import { createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions';
 
 interface Props {
-	analyticChartData: TickerDataVolumeType[] | undefined,
 	tickerData: Array<TickerDataType>,
-	tickerVolume: Array<TickerDataVolumeType>,
-	handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void
+	tickerVolume: Array<TickerDataVolumeType>
 }
 
-const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVolume, handleGetSimpleIncome }: Props) => {
+const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
-	const boxRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -54,14 +52,26 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 				}
 			}
 		});
+		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeData));
+		const movAvgData = JSON.parse(JSON.stringify(movAvg.movAvgData));
 
-		if (movAvg.period > 0) {
+		if (movAvg.period > 0 && movAvg.movAvgData) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 			}
 			dispatch(putSimpleIncomePeriod(0));
-			chart.removeSeries(simpleIncomeChart(chart, analyticChartData!, simpleIncome.color, movAvg.period, seriesName)!);
-			const lineChart = addMyLineSeries(chart, analyticChartData!, movAvg.color);
+			
+			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData, simpleIncome.color, movAvg.period, seriesName)!);
+			// const movAvgData = movAvg.movAvgData.map((data) => {
+			// 	const res: TickerDataVolumeType = {
+			// 		time: data.time,
+			// 		value: data.value!
+			// 	}
+			// 	return res;
+			// })
+			
+			console.log(movAvgData);
+			const lineChart = addMyLineSeries(chart, movAvgData!, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
 				color: '#be1238',
@@ -81,7 +91,7 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 		}
 
 		if (interval !== "1D" || movAvg.period > 0 || seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
-			chart.removeSeries(simpleIncomeChart(chart, analyticChartData!, simpleIncome.color, movAvg.period, seriesName)!);
+			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData!, simpleIncome.color, movAvg.period, seriesName)!);
 		}
 
 		const handleResize = async () => {
@@ -94,7 +104,8 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 			tickerVolume,
 			chart,
 			simpleIncome.color,
-			analyticChartData!,
+			movAvgData,
+			simpleIncomeData,
 			movAvg.period
 		);
 		chart.timeScale().fitContent();
@@ -105,7 +116,7 @@ const LightWeightChartForAnalytics = ({ analyticChartData, tickerData, tickerVol
 			chart.remove();
 		};
 
-	}, [analyticChartData, tickerData, tickerVolume, seriesName, movAvg.period, interval, simpleIncome.period]);
+	}, [tickerData, tickerVolume, seriesName, movAvg.period, interval, simpleIncome.period, movAvg.movAvgData, simpleIncome.simpleIncomeData]);
 
 	return (
 		<ChartContainer ref={chartContainerRef} >
