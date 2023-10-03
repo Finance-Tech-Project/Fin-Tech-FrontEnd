@@ -12,7 +12,7 @@ interface AutocompleteOption {
 	companyName: string
 }
 
-const AnalyticAutocomplete = () => {
+const AnalyticTwoStocksAutocomplete = () => {
 	const dispatch = useAppDispatch();
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
 	const [lettersFirstSymbol, setLettersFirstSymbol] = useState<string>('');
@@ -168,4 +168,4 @@ const AnalyticAutocomplete = () => {
 	)
 }
 
-export default AnalyticAutocomplete
+export default AnalyticTwoStocksAutocomplete

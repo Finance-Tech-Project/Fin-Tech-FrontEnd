@@ -54,47 +54,9 @@ export const getStatisticsForSymbol = async (symbolName: string) => {
                     statisticData: new Map(Object.entries(data[item])),
                     index: index
                 };
-                arr.push(statsItem)
+                arr.push(statsItem);
             })
             return arr;
-        }
-    } catch (error) {
-
-    }
-};
-
-export const getDataForAnalyticChartAvg = async (symbolName: string, period: number, dateFrom: string, dateTo: string) => {
-    try {
-        const response = await fetch(`${
-            FetchConstants.BASE_URL + 
-            FetchConstants.ANALYTICS_AVG + 
-            FetchConstants.DATE_FROM + dateFrom + 
-            FetchConstants.DATE_TO + dateTo + 
-            FetchConstants.TICKER + symbolName + 
-            FetchConstants.PERIOD + period
-        }`);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        }
-    } catch (error) {
-
-    }
-};
-
-export const getDataForAnalyticChartSimpleIncome = async (symbolName: string, period: number, dateFrom: string, dateTo: string) => {
-    try {
-        const response = await fetch(`${
-            FetchConstants.BASE_URL + 
-            FetchConstants.ANALYTICS_SIMPLE_INCOME + 
-            FetchConstants.DATE_FROM + dateFrom + 
-            FetchConstants.DATE_TO + dateTo + 
-            FetchConstants.TICKER + symbolName + 
-            FetchConstants.PERIOD + period
-        }`);
-        if (response.ok) {
-            const data = await response.json();
-            return data;
         }
     } catch (error) {
 

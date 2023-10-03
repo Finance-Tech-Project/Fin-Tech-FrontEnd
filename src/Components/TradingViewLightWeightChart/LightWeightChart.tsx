@@ -57,7 +57,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 			chart.remove();
 		};
 	}, [tickerData, tickerVolume, seriesName]);
-
+	
 	return (
 		<ChartContainer ref={chartContainerRef}>
 			<LightWeightChartButtons />

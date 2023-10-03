@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgData, putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSimpleIncome } from '../../Actions/fetchDispatchActions';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
+
 interface Props {
-    handleGetSimpleIncome: (event: React.MouseEvent<HTMLButtonElement>) => void;
+    isClickedToCompare: boolean
 }
 
-const AnalyticChartInteface = () => {
+const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
-    const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
@@ -51,12 +51,9 @@ const AnalyticChartInteface = () => {
             setChecked50Days(false);
             setChecked200Days(false);
         }
-       
     };
 
-
     const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
-
         if (!Boolean(event.currentTarget.value)) {
             setChecked50Days(false);
             setChecked200Days(false);
@@ -66,18 +63,14 @@ const AnalyticChartInteface = () => {
     };
 
     useEffect(() => {
-        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo))
-        if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome && number !== '') {
-           
-            dispatch(putSimpleIncomeData([]));
-        }
-    }, [movAvg.period, seriesName]);
-
-
+        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo));
+        simpleIncome.period === 0 && setNumber('');
+    }, [movAvg.period, simpleIncome.period, currentDateFrom, currentDateTo]);
 
     function handleFocus(event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>): void {
         if (!Boolean(event.target.value)) {
             dispatch(putMovAvgPeriod(0));
+            dispatch(putMovAvgData([]));
             setChecked50Days(false);
             setChecked200Days(false);
         }
@@ -87,39 +80,46 @@ const AnalyticChartInteface = () => {
 
         <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '735px', backgroundColor: 'rgba(44, 9, 81, 1)' }}>
             <Box sx={{ padding: '25px', display: 'flex', flexDirection: 'column' }}>
+                {!isClickedToCompare && (
+                    <React.Fragment>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '10px' }}>
+                            <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>
+                            <Box sx={{ width: '25%' }}>
+                                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '90%' }}></Divider>
+                            </Box>
+                        </Box>
 
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingBottom: '10px' }}>
-                    <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>
-                </Box>
-                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '100%', marginRight: '20px' }}></Divider>
-                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <FormGroup sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <FormControlLabel sx={{
-                            color: 'white',
-                            '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' }
-                        }}
-                            control={<Checkbox checked={checked50Days} onChange={handleChange50Days} />}
-                            label="50 days period"
-                        />
-                        <FormControlLabel sx={{
-                            color: 'white',
-                            marginRight: 0,
-                            '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' },
-                        }}
-                            control={<Checkbox checked={checked200Days} onChange={handleChange200Days} />}
-                            label="200 days period"
+                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <FormGroup sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <FormControlLabel sx={{
+                                    color: 'white',
+                                    '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' }
+                                }}
+                                    control={<Checkbox checked={checked50Days} onChange={handleChange50Days} />}
+                                    label="50 days period"
+                                />
+                                <FormControlLabel sx={{
+                                    color: 'white',
+                                    marginRight: 0,
+                                    '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' },
+                                }}
+                                    control={<Checkbox checked={checked200Days} onChange={handleChange200Days} />}
+                                    label="200 days period"
 
-                        />
-                    </FormGroup>
-                </Box>
-                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '100%', marginRight: '20px' }}></Divider>
+                                />
+                            </FormGroup>
+                        </Box>
+                    </React.Fragment>
+                )}
 
 
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
-
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
                     <Typography sx={{ color: 'white' }} variant='h5'>Simple Income</Typography>
+                    <Box sx={{ width: '25%' }}>
+                        <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '90%' }}></Divider>
+                    </Box>
                 </Box>
-                <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '100%', marginRight: '20px', marginBottom: '10px' }}></Divider>
+
                 <MainTickersTextField
                     type="number"
                     variant="outlined"
@@ -128,11 +128,9 @@ const AnalyticChartInteface = () => {
                     value={number}
                     onChange={(event) => handleChangeTextFieldNumber(event)}
                     onFocus={handleFocus}
-                    
                 >
                 </MainTickersTextField>
                 <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>
-                <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '100%', marginRight: '20px', marginTop: '10px' }}></Divider>
             </Box>
         </Box>
 

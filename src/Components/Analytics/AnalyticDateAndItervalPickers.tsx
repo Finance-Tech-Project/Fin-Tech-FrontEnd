@@ -13,7 +13,12 @@ import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
 import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 
-const AnalyticDateAndIntervalPickers = () => {
+interface Props {
+    handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    isClickedToCompare: boolean
+}
+
+const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClickedToCompare }: Props) => {
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -23,11 +28,11 @@ const AnalyticDateAndIntervalPickers = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === IntervalsFullName.Dayily 
-                            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly 
-                            ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly 
-                            ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
-                            ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
+        const interval = event.target.value === IntervalsFullName.Dayily
+            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly
+                ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly
+                    ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
+                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
         dispatch(putDataInterval(interval as string))
     };
 
@@ -48,48 +53,60 @@ const AnalyticDateAndIntervalPickers = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <GeneralDatePicker
-                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
-                label="Date from"
-                minDate={dayjs(getMinDateForHistory())}
-                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
-                onChange={(newDate) => setDateFrom(newDate)}
-            />
+            {!isClickedToCompare && (
+                <React.Fragment>
+                    <GeneralDatePicker
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                        label="Date from"
+                        minDate={dayjs(getMinDateForHistory())}
+                        value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                        onChange={(newDate) => setDateFrom(newDate)}
+                    />
 
-            <GeneralDatePicker
-                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
-                label="Date to"
-                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
-                onChange={(newDate) => setDateTo(newDate)}
-            />
-            <FormControl sx={{ width: '120px' }}>
-                <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
-                <Select
-                    MenuProps={{
-                        sx: {
-                            '& .MuiList-root': {
-                                bgcolor: "rgba(44, 9, 81, 1)",
-                                color: 'white'
-                            }
-                        }
-                    }}
-                    sx={() => SelectStyle(theme)}
-                    value={period}
-                    label="Frequency"
-                    onChange={handleChangePeriod}
-                >
-                    <MenuItem value={'Daily'}>Daily</MenuItem>
-                    <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                    <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                    <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                </Select>
-            </FormControl>
+                    <GeneralDatePicker
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                        label="Date to"
+                        value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                        onChange={(newDate) => setDateTo(newDate)}
+                    />
 
-            <Box>
-                <MainButton onClick={handleClickOnApplyButton} marginTop sx={{marginRight: '20px'}}>Apply</MainButton>
-                <MainButton marginTop>Compare two stocks</MainButton>
-            </Box>
+                    <FormControl sx={{ width: '120px' }}>
+                        <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
+                        <Select
+                            MenuProps={{
+                                sx: {
+                                    '& .MuiList-root': {
+                                        bgcolor: "rgba(44, 9, 81, 1)",
+                                        color: 'white'
+                                    }
+                                }
+                            }}
+                            sx={() => SelectStyle(theme)}
+                            value={period}
+                            label="Frequency"
+                            onChange={handleChangePeriod}
+                        >
+                            <MenuItem value={'Daily'}>Daily</MenuItem>
+                            <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                            <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                            <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                        </Select>
+                    </FormControl>
+                </React.Fragment>
+            )}
 
+            {!isClickedToCompare ? (
+                <Box>
+                    <MainButton onClick={handleClickOnApplyButton} marginTop sx={{ marginRight: '20px' }}>Apply</MainButton>
+                    <MainButton onClick={handleClickTwoStocksCompare} marginTop>Compare two stocks</MainButton>
+                </Box>
+
+            ) : (
+                <Box>
+                    <MainButton marginTop sx={{ marginRight: '20px' }}>Compare</MainButton>
+                    <MainButton onClick={handleClickTwoStocksCompare} marginTop>Analytic Chart</MainButton>
+                </Box>
+            )}
         </LocalizationProvider>
     )
 }

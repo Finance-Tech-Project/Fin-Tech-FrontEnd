@@ -42,11 +42,9 @@ const MainTickersTableAndChart = () => {
 	
 	useEffect(() => {
 		setIsLoading(true);
-
 		if (getDataInInterval(historicalData, interval).length > 0) {
 			setSymbolData();
 		}
-
 		return () => setIsLoading(false);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isLoading, data, interval, symbolName, historicalData, getDataInInterval(historicalData, interval).length > 0]);

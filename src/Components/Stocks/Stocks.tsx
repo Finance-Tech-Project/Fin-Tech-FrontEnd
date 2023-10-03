@@ -47,7 +47,9 @@ const Stocks = () => {
 								desktop={10.8} desktopOffset={0.5}
 								desktopL={11} desktopLOffset={0.5}
 							>
-								{getStatsClick ? <StocksStatistics handleClickStatistics={handleClickStatistics} /> : <StocksChart handleClickStatistics={handleClickStatistics} />}
+								{getStatsClick ? 
+									<StocksStatistics handleClickStatistics={handleClickStatistics} />
+									: <StocksChart handleClickStatistics={handleClickStatistics} />}
 							</Grid>
 						</Grid>
 

@@ -6,13 +6,19 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
+import { putMovAvgData, putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
+import { getDataForAnalyticChartSimpleIncome } from '../../Actions/fetchDispatchActions';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 const LightWeightChartButtonsForAnalytics = () => {
-	
 	const dispatch = useAppDispatch();
+	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 
 	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		dispatch(putSeriesName(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim()! as ChartSeriesNames));
+		dispatch(putSimpleIncomePeriod(0));
+		dispatch(putSimpleIncomeData([]));
 	};
 
 	const handleChangeTimeRange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -20,6 +26,8 @@ const LightWeightChartButtonsForAnalytics = () => {
 			if (button.title === event.currentTarget.childNodes[0].textContent) {
 				dispatch(putCurrentDateFrom(button.dateFrom));
 				dispatch(putCurrentDateTo(button.dateTo));
+				dispatch(putMovAvgData([]));
+				dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, button.dateFrom, button.dateTo));
 			}
 		})
 	};
