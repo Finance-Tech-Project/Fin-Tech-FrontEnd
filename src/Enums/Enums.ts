@@ -37,5 +37,9 @@ export enum FetchConstants {
     PERIOD = "&period="
 }
 
+export enum SimpleIncomeDefaultPeriod {
+    Period = 1500
+}
+
 export const DEFAULT_DATE_FROM = getPeriod(2)[0];
 export const DEFAULT_DATE_TO = getPeriod(2)[1];

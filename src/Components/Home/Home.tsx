@@ -13,7 +13,7 @@ const Home = () => {
 	const dispatch = useAppDispatch();
 
 	useMemo(() => {
-		dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
+		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName, currentDateFrom, currentDateTo]);
 
 	return (

@@ -10,7 +10,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
-import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
+import { getDataForAnalyticChartSimpleIncome, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
 import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 
 interface Props {
@@ -19,7 +19,8 @@ interface Props {
 }
 
 const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClickedToCompare }: Props) => {
-    const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+    const symbolName = useAppSelector(state => state.selectedSymbolReducer);
+    const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
     const [dateTo, setDateTo] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -42,7 +43,19 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
         if (Boolean(!event.currentTarget.value)) {
             dispatch(putCurrentDateFrom(from));
             dispatch(putCurrentDateTo(to));
-            dispatch(getSymbolDataForPeriodRange(symbolName, from, to, 1));
+            dispatch(getSymbolDataForPeriodRange(symbolName.symbolName, from, to));
+        }
+    };
+
+    const handleClickOnCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (Boolean(!event.currentTarget.value)) {
+            dispatch(getDataForAnalyticChartSimpleIncome(
+                symbolName.symbolName, 
+                symbolName.symbolNameToCompare, 
+                simpleIncome.period,
+                currentDateFrom, 
+                currentDateTo
+            )); 
         }
     };
 
@@ -103,7 +116,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
 
             ) : (
                 <Box>
-                    <MainButton marginTop sx={{ marginRight: '20px' }}>Compare</MainButton>
+                    <MainButton onClick={handleClickOnCompare} marginTop sx={{ marginRight: '20px' }}>Compare</MainButton>
                     <MainButton onClick={handleClickTwoStocksCompare} marginTop>Analytic Chart</MainButton>
                 </Box>
             )}

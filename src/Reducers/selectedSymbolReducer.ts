@@ -1,16 +1,15 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-import { symbolName } from "typescript";
 
 interface Symbols {
     symbolName: string,
     companyName: string,
-    symbolsNamesToCompare: Array<string>
+    symbolNameToCompare: string
 }
 
 const initialSymbol: Symbols = {
     symbolName: "AAPL",
     companyName: "Apple Inc.",
-    symbolsNamesToCompare: []
+    symbolNameToCompare: ""
 }
 
 const selectedSymbolSlice = createSlice({
@@ -23,13 +22,13 @@ const selectedSymbolSlice = createSlice({
         putSymbolCompanyName(state, action: PayloadAction<string>) {
             state.companyName = action.payload;
         },
-        putSymbolsNamesToCompare(state, action: PayloadAction<string>) {
-            if (!state.symbolsNamesToCompare.includes(action.payload)) {
-                state.symbolsNamesToCompare.push(action.payload)
+        putSymbolNameToCompare(state, action: PayloadAction<string>) {
+            if (state.symbolName !== action.payload) {
+                state.symbolNameToCompare = action.payload;
             }
         }
     }
 });
 
-export const { putSymbolName, putSymbolCompanyName, putSymbolsNamesToCompare } = selectedSymbolSlice.actions;
+export const { putSymbolName, putSymbolCompanyName, putSymbolNameToCompare } = selectedSymbolSlice.actions;
 export const selectedSymbolReducer = selectedSymbolSlice.reducer;

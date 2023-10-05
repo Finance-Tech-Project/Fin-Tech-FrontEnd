@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, ThemeProvider } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Home/Header/Header'
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader'
 import LightWeightChartForAnalytics from '../TradingViewLightWeightChart/LightWeightChartForAnalytics'
@@ -12,16 +12,18 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { createCandlesData, createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions'
 import AnalyticChartInteface from './AnalyticChartInteface'
-import { getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
+import { getDataForAnalyticChartSimpleIncome, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete'
 import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
 import { putSeriesName } from '../../Reducers/chartSeriesReducer'
-import { ChartSeriesNames } from '../../Enums/Enums'
+import { ChartSeriesNames, SimpleIncomeDefaultPeriod } from '../../Enums/Enums'
 import { getDataInInterval } from '../../Functions/utilsFunctions'
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete'
+import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer'
+
 
 const Analytics = () => {
-	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
@@ -38,22 +40,35 @@ const Analytics = () => {
 
 	const handleClickTwoStocksCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
+		dispatch(putSimpleIncomePeriod(0));
 	};
 
-	useMemo(() => {
-		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
-	}, [dispatch]);
+	useEffect(() => {
+		if (!isClickedToCompare) {
+			dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+		} else {
+			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+			dispatch(putSimpleIncomePeriod(0));
+			dispatch(getDataForAnalyticChartSimpleIncome(
+                symbolName.symbolName, 
+                symbolName.symbolNameToCompare, 
+                SimpleIncomeDefaultPeriod.Period, 
+                currentDateFrom, 
+                currentDateTo
+            ));
+		}
+	}, [isClickedToCompare, symbolName.symbolName, symbolName.symbolNameToCompare]);
 
 	useEffect(() => {
 		if (getDataInInterval(data, interval).length > 0) {
 			getDataTicker();
 		}
-	}, [symbolName, interval, data, getDataInInterval(data, interval).length > 0]);
+	}, [symbolName.symbolName, interval, data, getDataInInterval(data, interval).length > 0]);
 
 	useEffect(() => {
-		dispatch(getSymbolDataForPeriodRange(symbolName, currentDateFrom, currentDateTo, 1));
-	}, [symbolName, currentDateFrom, currentDateTo]);
-
+		dispatch(getSymbolDataForPeriodRange(symbolName.symbolName, currentDateFrom, currentDateTo));
+	}, [symbolName.symbolName, currentDateFrom, currentDateTo]);
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
@@ -64,7 +79,6 @@ const Analytics = () => {
 							desktop={11} desktopOffset={0.5}
 							desktopL={11} desktopLOffset={0.5}
 						>
-
 							<StocksChartContainer>
 								<Grid
 									desktop={11} desktopOffset={0.5}

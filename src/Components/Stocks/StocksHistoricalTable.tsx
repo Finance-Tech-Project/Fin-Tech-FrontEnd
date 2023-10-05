@@ -67,7 +67,7 @@ const StocksHistoricalTable = () => {
         if (Boolean(!event.currentTarget.value)) {
             dispatch(putCurrentDateFrom(from));
             dispatch(putCurrentDateTo(to));
-            dispatch(getSymbolDataForPeriodRange(symbolName, from, to, 1));
+            dispatch(getSymbolDataForPeriodRange(symbolName, from, to));
         }
     };
 
@@ -75,7 +75,7 @@ const StocksHistoricalTable = () => {
         setIsMounted(false);
         dispatch(putCurrentDateFrom(getPeriod(2)[0]));
         dispatch(putCurrentDateTo(getPeriod(2)[1]));
-        !isMounted && dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
+        !isMounted && dispatch(getSymbolDataForDefaultPeriod(symbolName));
     };
 
     useEffect(() => {

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
+import { TickerDataVolumeType } from "../Types/TickersTypes";
 
 interface AnalyticInterface {
     movAvg: {
@@ -10,7 +10,8 @@ interface AnalyticInterface {
     simpleIncome: {
         color: string,
         period: number,
-        simpleIncomeData: TickerDataVolumeType[]
+        simpleIncomeData: TickerDataVolumeType[],
+        simpleIncomeDataToCompare: TickerDataVolumeType[]
     }
 }
 
@@ -23,7 +24,8 @@ const initialAnalyticInterface: AnalyticInterface = {
     simpleIncome: {
         color: 'yellow',
         period: 0,
-        simpleIncomeData: []
+        simpleIncomeData: [],
+        simpleIncomeDataToCompare: []
     }
 };
 
@@ -42,9 +44,12 @@ const analyticInterfaceSlice = createSlice({
         },
         putSimpleIncomeData(state, action: PayloadAction<TickerDataVolumeType[]>) {
             state.simpleIncome.simpleIncomeData = action.payload;
+        },
+        putSimpleIncomeDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
+            state.simpleIncome.simpleIncomeDataToCompare = action.payload;
         }
-    },
+    }
 });
 
-export const { putMovAvgPeriod, putSimpleIncomePeriod, putMovAvgData, putSimpleIncomeData } = analyticInterfaceSlice.actions;
+export const { putMovAvgPeriod, putSimpleIncomePeriod, putMovAvgData, putSimpleIncomeData, putSimpleIncomeDataToCompare } = analyticInterfaceSlice.actions;
 export const analyticInterfaceReducer = analyticInterfaceSlice.reducer;

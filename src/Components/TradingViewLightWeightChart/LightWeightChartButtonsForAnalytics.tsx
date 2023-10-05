@@ -12,7 +12,7 @@ import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 const LightWeightChartButtonsForAnalytics = () => {
 	const dispatch = useAppDispatch();
-	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 
 	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -27,7 +27,13 @@ const LightWeightChartButtonsForAnalytics = () => {
 				dispatch(putCurrentDateFrom(button.dateFrom));
 				dispatch(putCurrentDateTo(button.dateTo));
 				dispatch(putMovAvgData([]));
-				dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, button.dateFrom, button.dateTo));
+				dispatch(getDataForAnalyticChartSimpleIncome(
+					symbolName.symbolName, 
+					symbolName.symbolNameToCompare, 
+					simpleIncome.period, 
+					button.dateFrom, 
+					button.dateTo
+				));
 			}
 		})
 	};

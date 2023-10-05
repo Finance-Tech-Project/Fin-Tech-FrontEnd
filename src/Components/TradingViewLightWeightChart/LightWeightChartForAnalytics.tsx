@@ -10,10 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
-import { putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
-import AnalyticChartInteface from '../Analytics/AnalyticChartInteface';
-import { Box } from '@mui/material';
-import { createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions';
+import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
@@ -54,26 +51,15 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 		});
 	
 		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeData));
+		const simpleIncomeDataToCompare = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeDataToCompare));
 		const movAvgData = JSON.parse(JSON.stringify(movAvg.movAvgData));
-
-		
 
 		if (movAvg.period > 0) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 			}
 			dispatch(putSimpleIncomePeriod(0));
-			
 			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData, simpleIncome.color, movAvg.period, seriesName)!);
-			// const movAvgData = movAvg.movAvgData.map((data) => {
-			// 	const res: TickerDataVolumeType = {
-			// 		time: data.time,
-			// 		value: data.value!
-			// 	}
-			// 	return res;
-			// })
-			
-			
 			const lineChart = addMyLineSeries(chart, movAvgData!, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
@@ -94,7 +80,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 		}
 
 		if (interval !== "1D" || movAvg.period > 0 || seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
-			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData!, simpleIncome.color, movAvg.period, seriesName)!);
+			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData!, simpleIncomeDataToCompare!, simpleIncome.color, movAvg.period, seriesName)!);
 		}
 
 		const handleResize = async () => {
@@ -109,6 +95,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 			simpleIncome.color,
 			movAvgData,
 			simpleIncomeData,
+			simpleIncomeDataToCompare,
 			movAvg.period
 		);
 		chart.timeScale().fitContent();

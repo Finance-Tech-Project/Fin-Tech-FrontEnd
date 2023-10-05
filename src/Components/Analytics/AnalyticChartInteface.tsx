@@ -15,7 +15,7 @@ interface Props {
 }
 
 const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
-    const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+    const symbolName = useAppSelector(state => state.selectedSymbolReducer);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
@@ -58,12 +58,18 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setChecked50Days(false);
             setChecked200Days(false);
             dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
-            dispatch(getDataForAnalyticChartSimpleIncome(symbolName, simpleIncome.period, currentDateFrom, currentDateTo));
+            dispatch(getDataForAnalyticChartSimpleIncome(
+                symbolName.symbolName, 
+                symbolName.symbolNameToCompare, 
+                simpleIncome.period, 
+                currentDateFrom, 
+                currentDateTo
+            ));
         }
     };
 
     useEffect(() => {
-        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName, movAvg.period, currentDateFrom, currentDateTo));
+        movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName.symbolName, movAvg.period, currentDateFrom, currentDateTo));
         simpleIncome.period === 0 && setNumber('');
     }, [movAvg.period, simpleIncome.period, currentDateFrom, currentDateTo]);
 

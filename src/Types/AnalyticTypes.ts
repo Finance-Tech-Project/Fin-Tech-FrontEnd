@@ -4,5 +4,6 @@ export interface AnalyticInterface {
     color: string,
     period: number,
     movAvgData?: TickerDataVolumeType[],
-    simpleIncomeData?: TickerDataVolumeType[]
+    simpleIncomeData?: TickerDataVolumeType[],
+    simpleIncomeDataToCompare?: TickerDataVolumeType[],
 }

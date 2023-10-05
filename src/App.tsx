@@ -19,7 +19,7 @@ function App() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(getSymbolDataForDefaultPeriod(symbolName, 1));
+		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName]);
 
 	return (

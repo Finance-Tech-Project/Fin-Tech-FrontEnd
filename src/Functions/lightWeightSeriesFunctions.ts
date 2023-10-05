@@ -121,14 +121,15 @@ export const addMyLineSeries = (chart: IChartApi, volume: Array<TickerDataVolume
 };
 
 export const simpleIncomeChart = (
-    chart: IChartApi, data: 
-    TickerDataVolumeType[], 
+    chart: IChartApi, 
+    symbolData: TickerDataVolumeType[], 
+    symbolDataToCompare: TickerDataVolumeType[]
     color: string, 
     movAvgPeriod: number, 
     seriesName: ChartSeriesNames
 ) => {
-    if (data.length > 0) {
-        const lineChart = addMyLineSeries(chart, data, color);
+    if (symbolData.length > 0) {
+        const lineChart = addMyLineSeries(chart, symbolData, color);
         const zeroLine: PriceLineOptions = {
             price: 0.00,
             color: '#be1238',
@@ -160,8 +161,9 @@ export const simpleIncomeChart = (
                 topColor: 'rgba(56, 33, 110,0.6)',
                 bottomColor: 'rgba(56, 33, 110, 0.1)',
             });
-            areaSeries.setData(data);
+            areaSeries.setData(symbolData);
         }
         return lineChart;
     }
 }
+
