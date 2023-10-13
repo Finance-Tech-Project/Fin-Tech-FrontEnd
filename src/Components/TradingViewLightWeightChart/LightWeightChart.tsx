@@ -48,7 +48,7 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
 		};
 
-		changeChartTypeSeries(seriesName!, tickerData, tickerVolume, chart);
+		changeChartTypeSeries(chart, tickerData, tickerVolume, seriesName!);
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
 

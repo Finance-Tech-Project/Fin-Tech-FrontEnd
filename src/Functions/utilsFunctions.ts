@@ -1,4 +1,5 @@
 import { IntervalsAbbreviation } from "../Enums/Enums";
+import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
 
@@ -95,8 +96,19 @@ export const transformVolume = (volume: string | number) => {
 
 export const getDataInInterval = (data: SymbolData, interval: string) => {
     return interval === IntervalsAbbreviation.Dayily
-            ? data.dailyData : interval === IntervalsAbbreviation.Weekly
+        ? data.dailyData : interval === IntervalsAbbreviation.Weekly
             ? data.weeklyData : interval === IntervalsAbbreviation.Monthly
-            ? data.monthlyData : interval === IntervalsAbbreviation.Yearly
-            ? data.yearlyData : data.dailyData;
+                ? data.monthlyData : interval === IntervalsAbbreviation.Yearly
+                    ? data.yearlyData : data.dailyData;
+};
+
+export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, volatility: AnalyticInterface, choiceColor: boolean) => {
+    if (!choiceColor) {
+        return simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.color
+            || simpleIncome.period > 0 ? simpleIncome.color : volatility.color;
+    } else {
+        return simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare
+            || simpleIncome.period > 0 ? simpleIncome.colorToCompare : volatility.colorToCompare;
+    }
+
 };

@@ -16,14 +16,16 @@ import { getDataForAnalyticChartSimpleIncome, getSymbolDataForPeriodRange } from
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete'
 import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
 import { putSeriesName } from '../../Reducers/chartSeriesReducer'
-import { ChartSeriesNames, SimpleIncomeDefaultPeriod } from '../../Enums/Enums'
+import { ChartSeriesNames, DefaultPeriods } from '../../Enums/Enums'
 import { getDataInInterval } from '../../Functions/utilsFunctions'
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete'
-import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer'
+import { putMovAvgData, putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomeDataToCompare, putSimpleIncomePeriod, putVolatilityData, putVolatilityDataToCompare, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer'
+import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
 
 
 const Analytics = () => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
+	const movAvg = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
@@ -41,6 +43,17 @@ const Analytics = () => {
 	const handleClickTwoStocksCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
 		dispatch(putSimpleIncomePeriod(0));
+		dispatch(putVolatilityPeriod(0));
+		dispatch(putSimpleIncomeData([]));
+		dispatch(putSimpleIncomeDataToCompare([]));
+		dispatch(putVolatilityData([]));
+		dispatch(putVolatilityDataToCompare([]));	
+		dispatch(putSymbolNameToCompare(''));
+		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+		if (movAvg.period > 0) {
+			dispatch(putMovAvgData([]));
+			dispatch(putMovAvgPeriod(0));
+		}
 	};
 
 	useEffect(() => {
@@ -49,15 +62,17 @@ const Analytics = () => {
 		} else {
 			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
 			dispatch(putSimpleIncomePeriod(0));
-			dispatch(getDataForAnalyticChartSimpleIncome(
-                symbolName.symbolName, 
-                symbolName.symbolNameToCompare, 
-                SimpleIncomeDefaultPeriod.Period, 
-                currentDateFrom, 
-                currentDateTo
-            ));
+			if (symbolName.symbolName && !symbolName.symbolNameToCompare) {
+				dispatch(getDataForAnalyticChartSimpleIncome(
+					symbolName.symbolName,
+					symbolName.symbolNameToCompare,
+					DefaultPeriods.SimpleIncomeDefaultPeriod,
+					currentDateFrom,
+					currentDateTo
+				));
+			}	
 		}
-	}, [isClickedToCompare, symbolName.symbolName, symbolName.symbolNameToCompare]);
+	}, [isClickedToCompare, symbolName.symbolName]);
 
 	useEffect(() => {
 		if (getDataInInterval(data, interval).length > 0) {
@@ -68,7 +83,7 @@ const Analytics = () => {
 	useEffect(() => {
 		dispatch(getSymbolDataForPeriodRange(symbolName.symbolName, currentDateFrom, currentDateTo));
 	}, [symbolName.symbolName, currentDateFrom, currentDateTo]);
-	
+
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
@@ -98,10 +113,11 @@ const Analytics = () => {
 										desktopL={8.5} desktopLOffset={0.5}
 									>
 										<Box>
-											<LightWeightChartHeader data={getDataInInterval(data, interval)} />
+											<LightWeightChartHeader isClickedToCompare={isClickedToCompare} data={getDataInInterval(data, interval)} />
 											<LightWeightChartForAnalytics
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
+												isClickedToCompare={isClickedToCompare}
 											/>
 										</Box>
 									</Grid>

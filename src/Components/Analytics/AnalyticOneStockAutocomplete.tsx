@@ -16,20 +16,22 @@ const AnalyticOneStockAutocomplete = () => {
     const dispatch = useAppDispatch();
     const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
     const [letters, setLetters] = useState<string>('');
-    
+
     const handleChangeTickerValue = (event: React.SyntheticEvent<Element, Event>) => {
-        if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null && event.currentTarget.childNodes[0].childNodes[0].textContent !== '') {
-            dispatch(putSymbolName(event.currentTarget.childNodes[0].childNodes[0].textContent));
-        }
-        if (!event.currentTarget.childNodes[0].childNodes[0].textContent) {
-            dispatch(putSymbolName("AAPL"));
-            dispatch(putSymbolCompanyName("Apple Inc."));
-        }
-        autocompleteTickers.forEach((ticker) => {
-            if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
-                dispatch(putSymbolCompanyName(ticker.companyName));
+        if (event.currentTarget.childNodes[0] && event.currentTarget.childNodes[0].childNodes[0]) {
+            if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null && event.currentTarget.childNodes[0].childNodes[0].textContent !== '') {
+                dispatch(putSymbolName(event.currentTarget.childNodes[0].childNodes[0].textContent));
             }
-        })
+            if (!event.currentTarget.childNodes[0].childNodes[0].textContent) {
+                dispatch(putSymbolName("AAPL"));
+                dispatch(putSymbolCompanyName("Apple Inc."));
+            }
+            autocompleteTickers.forEach((ticker) => {
+                if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
+                    dispatch(putSymbolCompanyName(ticker.companyName));
+                }
+            })
+        }
     };
 
     const getTickers = async () => {

@@ -10,8 +10,8 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
-import { getDataForAnalyticChartSimpleIncome, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
-import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
+import { getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
+import { DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -21,6 +21,7 @@ interface Props {
 const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClickedToCompare }: Props) => {
     const symbolName = useAppSelector(state => state.selectedSymbolReducer);
     const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+    const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
     const [dateTo, setDateTo] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -48,21 +49,48 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
     };
 
     const handleClickOnCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (Boolean(!event.currentTarget.value)) {
-            dispatch(getDataForAnalyticChartSimpleIncome(
-                symbolName.symbolName, 
-                symbolName.symbolNameToCompare, 
-                simpleIncome.period,
-                currentDateFrom, 
-                currentDateTo
-            )); 
+        if (Boolean(!event.currentTarget.value) && symbolName.symbolName && symbolName.symbolNameToCompare) {
+            if (simpleIncome.period === 0) {
+                dispatch(getDataForAnalyticChartSimpleIncome(
+                    symbolName.symbolName,
+                    symbolName.symbolNameToCompare,
+                    DefaultPeriods.SimpleIncomeDefaultPeriod,
+                    currentDateFrom,
+                    currentDateTo
+                ));
+            } else {
+                dispatch(getDataForAnalyticChartSimpleIncome(
+                    symbolName.symbolName,
+                    symbolName.symbolNameToCompare,
+                    simpleIncome.period,
+                    currentDateFrom,
+                    currentDateTo
+                ));
+            }
+            if (volatility.period === 0) {
+                dispatch(getDataForAnalyticChartVolatility(
+                    symbolName.symbolName,
+                    symbolName.symbolNameToCompare,
+                    DefaultPeriods.VolatilityDefaultPeriod,
+                    currentDateFrom,
+                    currentDateTo
+                ));
+            } else {
+                dispatch(getDataForAnalyticChartVolatility(
+                    symbolName.symbolName,
+                    symbolName.symbolNameToCompare,
+                    volatility.period,
+                    currentDateFrom,
+                    currentDateTo
+                ));
+            }
         }
     };
 
     useEffect(() => {
         setDateFrom(currentDateFrom);
         setDateTo(currentDateTo);
-    }, [currentDateFrom, currentDateTo]);
+    }, [currentDateFrom, currentDateTo, symbolName.symbolName, symbolName.symbolNameToCompare]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
-import { useAppDispatch } from '../../app/hooks';
-import { putSymbolCompanyName, putSymbolName, putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { putCompanyNameToCompare, putSymbolCompanyName, putSymbolName, putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer';
 import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { TickerType } from '../../Types/TickersTypes';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
@@ -14,34 +14,47 @@ interface AutocompleteOption {
 
 const AnalyticTwoStocksAutocomplete = () => {
 	const dispatch = useAppDispatch();
+	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
 	const [lettersFirstSymbol, setLettersFirstSymbol] = useState<string>('');
 	const [lettersSecondSymbol, setLettersSecondSymbol] = useState<string>('');
-	const [focusedAtocomplete, setFocusedAtocomplete] = useState(false);
+	const [focusedAutocomplete, setFocusedAutocomplete] = useState(false);
 
 	const handleChangeFirstTickerValue = (event: React.SyntheticEvent<Element, Event>) => {
-		if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null && event.currentTarget.childNodes[0].childNodes[0].textContent !== '') {
-			dispatch(putSymbolName(event.currentTarget.childNodes[0].childNodes[0].textContent));
+		if (event.currentTarget.childNodes[0] && event.currentTarget.childNodes[0].childNodes[0]) {
+			if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null 
+				&& event.currentTarget.childNodes[0].childNodes[0].textContent !== '' 
+				&& event.currentTarget.childNodes[0].childNodes[0].textContent !== undefined) {
+				dispatch(putSymbolName(event.currentTarget.childNodes[0].childNodes[0].textContent));
+			}
+			autocompleteTickers.forEach((ticker) => {
+				if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
+					dispatch(putSymbolCompanyName(ticker.companyName));
+				}
+			})
 		}
-		autocompleteTickers.forEach((ticker) => {
-		    if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
-		        dispatch(putSymbolCompanyName(ticker.companyName));
-		    }
-		})
 	};
 
 	const handleChangeSecondTickerValue = (event: React.SyntheticEvent<Element, Event>) => {
-		if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null) {
-			dispatch(putSymbolNameToCompare(event.currentTarget.childNodes[0].childNodes[0].textContent));
+		if (event.currentTarget.childNodes[0] && event.currentTarget.childNodes[0].childNodes[0]) {
+			if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null || event.currentTarget.childNodes[0].childNodes[0] !== undefined) {
+				dispatch(putSymbolNameToCompare(event.currentTarget.childNodes[0].childNodes[0].textContent!));
+			}
+			autocompleteTickers.forEach((ticker) => {
+				if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
+					dispatch(putCompanyNameToCompare(ticker.companyName));
+				}
+			})
 		}
 	};
 
 	const handleFocus = (event: React.FocusEvent<HTMLDivElement, Element>) => {
-		setFocusedAtocomplete(Boolean(event.currentTarget))
+		setFocusedAutocomplete(Boolean(event.currentTarget));
+		setAutocompleteTickers([]);
 	};
 
 	const handleBlur = (event: React.FocusEvent<HTMLDivElement, Element>) => {
-		setFocusedAtocomplete(!Boolean(event.currentTarget))
+		setFocusedAutocomplete(!Boolean(event.currentTarget));
 	};
 
 	const checkLetters = () => {
@@ -60,8 +73,7 @@ const AnalyticTwoStocksAutocomplete = () => {
 			});
 			setAutocompleteTickers(res!);
 		} else {
-			const res: AutocompleteOption[] | undefined = [];
-			setAutocompleteTickers(res!);
+			setAutocompleteTickers([]);
 		}
 	};
 
@@ -70,14 +82,16 @@ const AnalyticTwoStocksAutocomplete = () => {
 	}, [lettersFirstSymbol, lettersSecondSymbol]);
 
 	useEffect(() => {
-		if (!focusedAtocomplete) {
+		if (!focusedAutocomplete) {
 			setLettersFirstSymbol('')
-			setLettersSecondSymbol('')	
-			const res: AutocompleteOption[] | undefined = [];
-			setAutocompleteTickers(res!);
+			setLettersSecondSymbol('')
+			setAutocompleteTickers([]);
 		}
-	}, [focusedAtocomplete]);
-	
+		if (lettersFirstSymbol && !lettersSecondSymbol) {
+			setAutocompleteTickers([]);
+		}
+	}, [focusedAutocomplete, lettersFirstSymbol, lettersSecondSymbol, symbolName.symbolName]);
+
 	return (
 		<React.Fragment>
 			<GeneralAutocomplete
@@ -92,6 +106,7 @@ const AnalyticTwoStocksAutocomplete = () => {
 				onBlur={handleBlur}
 				disableListWrap={true}
 				onChange={(event) => handleChangeFirstTickerValue(event)}
+				value={symbolName.symbolName}
 				// inputValue={lettersFirstSymbol}
 				onInputChange={(event, newValue) => setLettersFirstSymbol(newValue)}
 				PaperComponent={Paper}
@@ -135,6 +150,7 @@ const AnalyticTwoStocksAutocomplete = () => {
 				disableListWrap={true}
 				onFocus={handleFocus}
 				onBlur={handleBlur}
+				value={symbolName.symbolNameToCompare}
 				onChange={(event) => handleChangeSecondTickerValue(event)}
 				// inputValue={lettersSecondSymbol}
 				onInputChange={(event, newValue) => setLettersSecondSymbol(newValue)}

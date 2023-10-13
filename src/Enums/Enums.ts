@@ -5,7 +5,8 @@ export enum ChartSeriesNames {
     LineSeries = "line", 
     AreaSeries = "area",  
     BarSeries = "bar", 
-    LineSeriesForSimpleIncome = "simpleIncome"
+    LineSeriesForSimpleIncome = "simpleIncome",
+    LineSeriesForVolatility = "volatility"
 }
 
 export enum IntervalsAbbreviation {
@@ -29,16 +30,21 @@ export enum FetchConstants {
     SEARCH_SYMBOLS = "/searchSymbol/?search=",
     QUOTE_HISTORY = "/quote/history?",
     STATISTICS = "/statistics?ticker=",
-    ANALYTICS_AVG = "/analitics/movAvg?",
-    ANALYTICS_SIMPLE_INCOME = "/analitics/simpleIncome?",
+    ANALYTICS = "/analitics",
+    MOV_AVG = "/movAvg?",
+    SIMPLE_INCOME = "/simpleIncome?",
+    VOLATILITY = "/volatility?",
     DATE_FROM = "dateFrom=",
     DATE_TO = "&dateTo=",
     TICKER = "&ticker=",
-    PERIOD = "&period="
+    PERIOD = "&period=",
+    YEARS = "&years=",
+    DAYS = "&days="
 }
 
-export enum SimpleIncomeDefaultPeriod {
-    Period = 1500
+export enum DefaultPeriods {
+    SimpleIncomeDefaultPeriod = 2,
+    VolatilityDefaultPeriod = 500
 }
 
 export const DEFAULT_DATE_FROM = getPeriod(2)[0];

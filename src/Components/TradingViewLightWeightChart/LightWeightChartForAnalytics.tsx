@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { Chart } from 'lightweight-charts-react-wrapper';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
-import { addMyLineSeries, changeChartTypeSeries, simpleIncomeChart } from '../../Functions/lightWeightSeriesFunctions';
+import { addMyLineSeries, changeChartTypeSeries, simpleIncomeLineSeries, volatilityLineSeries } from '../../Functions/lightWeightSeriesFunctions';
 import LightWeightChartButtonsForAnalytics from './LightWeightChartButtonsForAnalytics';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -14,12 +14,14 @@ import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 
 interface Props {
 	tickerData: Array<TickerDataType>,
-	tickerVolume: Array<TickerDataVolumeType>
+	tickerVolume: Array<TickerDataVolumeType>,
+	isClickedToCompare: boolean
 }
 
-const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
+const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCompare }: Props) => {
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -50,17 +52,17 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 			}
 		});
 	
-		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeData));
-		const simpleIncomeDataToCompare = JSON.parse(JSON.stringify(simpleIncome.simpleIncomeDataToCompare));
-		const movAvgData = JSON.parse(JSON.stringify(movAvg.movAvgData));
+		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome)) as AnalyticInterface;
+		const volatilityData = JSON.parse(JSON.stringify(volatility)) as AnalyticInterface;
+		const movAvgData = JSON.parse(JSON.stringify(movAvg)) as AnalyticInterface;
 
 		if (movAvg.period > 0) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 			}
 			dispatch(putSimpleIncomePeriod(0));
-			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData, simpleIncome.color, movAvg.period, seriesName)!);
-			const lineChart = addMyLineSeries(chart, movAvgData!, movAvg.color);
+			simpleIncomeData.simpleIncomeData!.length > 0  && chart.removeSeries(simpleIncomeLineSeries(chart, seriesName, simpleIncome, movAvg)!);
+			const lineChart = addMyLineSeries(chart, movAvgData.movAvgData!, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
 				color: '#be1238',
@@ -79,24 +81,18 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 			}
 		}
 
-		if (interval !== "1D" || movAvg.period > 0 || seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
-			simpleIncomeData.length > 0  && chart.removeSeries(simpleIncomeChart(chart, simpleIncomeData!, simpleIncomeDataToCompare!, simpleIncome.color, movAvg.period, seriesName)!);
-		}
-
 		const handleResize = async () => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
 		};
 
 		changeChartTypeSeries(
-			seriesName!,
+			chart,
 			tickerData,
 			tickerVolume,
-			chart,
-			simpleIncome.color,
+			seriesName!,
 			movAvgData,
 			simpleIncomeData,
-			simpleIncomeDataToCompare,
-			movAvg.period
+			volatilityData
 		);
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
@@ -106,11 +102,24 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume }: Props) => {
 			chart.remove();
 		};
 
-	}, [tickerData, tickerVolume, seriesName, movAvg.period, interval, simpleIncome.period, movAvg.movAvgData, simpleIncome.simpleIncomeData]);
+	}, [
+		tickerData, 
+		tickerVolume, 
+		seriesName, 
+		movAvg.period, 
+		interval, 
+		simpleIncome.period, 
+		movAvg.movAvgData, 
+		volatility.period,
+		simpleIncome.simpleIncomeData,
+		simpleIncome.simpleIncomeDataToCompare,
+		volatility.volatilityData,
+		volatility.volatilityDataToCompare,
+	]);
 
 	return (
 		<ChartContainer ref={chartContainerRef} >
-			<LightWeightChartButtonsForAnalytics />
+			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedToCompare}/>
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
 		</ChartContainer>
