@@ -104,10 +104,10 @@ export const getDataInInterval = (data: SymbolData, interval: string) => {
 
 export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, volatility: AnalyticInterface, choiceColor: boolean) => {
     if (!choiceColor) {
-        return simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.color
+        return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.color)
             || simpleIncome.period > 0 ? simpleIncome.color : volatility.color;
     } else {
-        return simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare
+        return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare)
             || simpleIncome.period > 0 ? simpleIncome.colorToCompare : volatility.colorToCompare;
     }
 

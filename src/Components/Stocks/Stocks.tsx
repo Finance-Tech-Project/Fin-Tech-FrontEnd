@@ -35,6 +35,7 @@ const Stocks = () => {
 
 						<Grid container sx={{ width: '100%' }}>
 							<Grid
+								laptopL={11} laptopLOffset={0.5}
 								desktop={11} desktopOffset={0.5}
 								desktopL={11} desktopLOffset={0.5}
 							>

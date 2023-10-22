@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 import { ChartContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 import { Chart } from 'lightweight-charts-react-wrapper';
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes';
-import { addMyLineSeries, changeChartTypeSeries, simpleIncomeLineSeries, volatilityLineSeries } from '../../Functions/lightWeightSeriesFunctions';
+import { addMyLineSeries, changeChartTypeSeries, simpleIncomeLineSeries } from '../../Functions/lightWeightSeriesFunctions';
 import LightWeightChartButtonsForAnalytics from './LightWeightChartButtonsForAnalytics';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
