@@ -30,7 +30,17 @@ export const StockTitleHeader = styled(Typography)(({ theme }) => ({
 	fontWeight: 600,
 	textAlign: 'center',
 	paddingTop: '20px',
-	textShadow: '5px 5px 6px #ADC5BD'
+	textShadow: '5px 5px 6px #ADC5BD',
+	[theme.breakpoints.up('mobileS')]: {
+        fontSize: '2rem',
+		paddingTop: '40px',
+    },
+	[theme.breakpoints.up('mobileM')]: {
+        fontSize: '2.3rem'
+    },
+	[theme.breakpoints.up('mobileL')]: {
+        fontSize: '2.4rem'
+    },
 }));
 
 export const StockTitleDescrRound = styled(FiberManualRecordIcon)(({ theme }) => ({
