@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { findMaxMinPrice, getColorForLightWeightHeader } from '../../Functions/utilsFunctions';
 import {
 	MainHeaderChartContainer,
@@ -42,7 +42,10 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 										<MainHeaderChartTickerDescr>Max Price: </MainHeaderChartTickerDescr>
 										<MainHeaderChartTickerDescr>{findMaxMinPrice(data, "max")}</MainHeaderChartTickerDescr>
 									</MainHeaderChartTickerPriceContainer>
-									<MainHeaderChartTickerDescr>Date from: {currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+									<MainHeaderChartTickerPriceContainer>
+										<MainHeaderChartTickerDescr>Date from: </MainHeaderChartTickerDescr>
+										<MainHeaderChartTickerDescr>{currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+									</MainHeaderChartTickerPriceContainer>
 								</MainHeaderChartTickerDescrWrapper>
 
 								<MainHeaderChartTickerDescrWrapper>
@@ -50,17 +53,20 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 										<MainHeaderChartTickerDescr>Min Price: </MainHeaderChartTickerDescr>
 										<MainHeaderChartTickerDescr>{findMaxMinPrice(data, "min")}</MainHeaderChartTickerDescr>
 									</MainHeaderChartTickerPriceContainer>
-									<MainHeaderChartTickerDescr>Date to: {currentDateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+									<MainHeaderChartTickerPriceContainer>
+										<MainHeaderChartTickerDescr>Date to: </MainHeaderChartTickerDescr>
+										<MainHeaderChartTickerDescr>{currentDateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+									</MainHeaderChartTickerPriceContainer>
 								</MainHeaderChartTickerDescrWrapper>
 							</MainHeaderChartTickerDescrContainer>
 						</React.Fragment>
 					) : (
 						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-							<Grid 
+							<Grid
 								desktopL={2}
 							>
-								<Box sx={{paddingLeft: '20px'}}>
-									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false)}} fontSize>{symbolName.symbolName}</MainHeaderChartTickerName>
+								<Box sx={{ paddingLeft: '20px' }}>
+									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false) }} fontSize>{symbolName.symbolName}</MainHeaderChartTickerName>
 									<MainHeaderChartTickerName>{symbolName.companyName}</MainHeaderChartTickerName>
 									<Divider sx={{
 										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, false)}`,
@@ -149,13 +155,13 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktopL={4}
 							>
 								<Box>
-									<MainHeaderChartTickerName sx={{color: getColorForLightWeightHeader(simpleIncome, volatility, true)}} fontSize>{symbolName.symbolNameToCompare}</MainHeaderChartTickerName>
+									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, true) }} fontSize>{symbolName.symbolNameToCompare}</MainHeaderChartTickerName>
 									<MainHeaderChartTickerName>{symbolName.companyNameToCompare}</MainHeaderChartTickerName>
-									<Divider sx={{ 
-										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, true)}`, 
-										borderStyle: 'solid', 
-										borderWidth: '1.5px', 
-										height: '100%' 
+									<Divider sx={{
+										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, true)}`,
+										borderStyle: 'solid',
+										borderWidth: '1.5px',
+										height: '100%'
 									}}></Divider>
 								</Box>
 							</Grid>

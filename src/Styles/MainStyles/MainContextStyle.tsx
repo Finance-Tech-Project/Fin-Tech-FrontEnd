@@ -100,8 +100,8 @@ export const MainDescr = styled(Typography)(({ theme }) => ({
 }));
 
 export const MainButton = styled(Button, {
-    shouldForwardProp: (prop) => prop !== 'marginTop'
-})<any>(({ theme, marginTop }) => ({
+    shouldForwardProp: (prop) => prop !== 'marginTop' && prop !== 'width'
+})<any>(({ theme, marginTop, width }) => ({
     marginTop: '50px',
     variant: 'contained',
     width: '200px',
@@ -112,11 +112,12 @@ export const MainButton = styled(Button, {
     borderRadius: '6px',
     ...(marginTop && {marginTop: '0px'}),
     [theme.breakpoints.up('mobileS')]: {
-        marginTop: '10px'
+        marginTop: '10px',
+        ...(width && {width: '100%'}),
     },
     [theme.breakpoints.up('mobileM')]: {
         marginTop: '10px',
-        ...(marginTop && {marginTop: '20px'})
+        ...(marginTop && {marginTop: '20px'}),
     },
     [theme.breakpoints.up('tablet')]: {
         marginTop: '45px',
@@ -124,7 +125,7 @@ export const MainButton = styled(Button, {
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '20px',
-        ...(marginTop && {marginTop: '20px'})
+        ...(marginTop && {marginTop: '0px'})
     },
     [theme.breakpoints.up('laptopL')]: {
         padding: '0px',

@@ -1,5 +1,6 @@
-import { Autocomplete, Select, Theme, styled } from "@mui/material";
+import { Autocomplete, Theme, styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
+
 export const SelectStyle = (theme: Theme) => ({
     '.MuiInputBase-input': {
         color: 'white',
@@ -90,5 +91,11 @@ export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
     },
     '& .MuiButtonBase-root': {
         color: 'white'
+    },
+    [theme.breakpoints.up('mobileS')]: {
+        width: '100%'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        width: 300
     }
 }));

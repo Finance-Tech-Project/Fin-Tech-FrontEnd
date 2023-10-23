@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
-import { StocksChartContainer, StocksChartSearchTickerContainer } from '../../Styles/StocksStyles/StocksChartStyle';
+import { StockChartButtonsContainer, StocksChartContainer, StocksChartSearchTickerContainer } from '../../Styles/StocksStyles/StocksChartStyle';
 import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { TickerDataType, TickerDataVolumeType, TickerType } from '../../Types/TickersTypes';
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader';
@@ -124,11 +124,10 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 						/>
 					}
 				/>
-				<Box>
-					<MainButton onClick={handleClickStatistics} marginTop sx={{ marginRight: '30px' }}>Get Statistics</MainButton>
-					<MainButton marginTop>Add to portfolio</MainButton>
-				</Box>
-
+				<StockChartButtonsContainer>
+					<MainButton onClick={handleClickStatistics} marginTop width sx={{ marginRight: '30px' }}>Get Statistics</MainButton>
+					<MainButton marginTop width>Add to watchlist</MainButton>
+				</StockChartButtonsContainer>
 			</StocksChartSearchTickerContainer>
 
 			<LightWeightChartHeader data={getDataInInterval(data, interval)} />
