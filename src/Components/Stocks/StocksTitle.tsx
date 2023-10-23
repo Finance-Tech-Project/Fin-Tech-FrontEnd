@@ -17,10 +17,7 @@ const StocksTitle = () => {
 			<Grid container sx={{ paddingBottom: '30px', paddingTop: '20px' }}>
 				<Grid sx={{ display: 'flex', flexDirection: 'column' }}
 					mobileS={10.5} mobileSOffset={0.5}
-					tablet={11} tabletOffset={0.5}
-					laptopL={4.5} laptopLOffset={0.5}
-					desktop={5} desktopOffset={0.5}
-					desktopL={5} desktopLOffset={0.5}
+					tablet={11} laptopL={4.5} desktop={5} 
 				>
 					<Box sx={{ display: 'flex', paddingBottom: '20px' }}>
 						<StockTitleDescrRound />
@@ -43,7 +40,6 @@ const StocksTitle = () => {
 					tablet={11} tabletOffset={0.5}
 					laptopL={4.5} laptopLOffset={1.5}
 					desktop={5} desktopOffset={1}
-					desktopL={5} desktopLOffset={1}
 				>
 					<Box sx={{ display: 'flex', paddingBottom: '20px' }}>
 						<StockTitleDescrRound />

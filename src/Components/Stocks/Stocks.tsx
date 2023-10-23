@@ -32,23 +32,12 @@ const Stocks = () => {
 				<Header />
 				<StocksContainer>
 					<StocksBlackoutContainer>
-
 						<Grid container sx={{ width: '100%' }}>
 							<Grid mobileS={11} mobileSOffset={0.5}>
 								<StocksTitle />
 							</Grid>
-						</Grid>
 
-						<Grid container sx={{ width: '100%' }}>
-							<Grid 
-								mobileM={8.75} mobileMOffset={0.5}
-								mobileL={9.1} mobileLOffset={0.5}
-								tablet={9.6} tabletOffset={0.5}
-								laptop={10.1} laptopOffset={0.5}
-								laptopL={10.55} laptopLOffset={0.5}
-								desktop={10.8} desktopOffset={0.5}
-								desktopL={11} desktopLOffset={0.5}
-							>
+							<Grid mobileS={11} mobileSOffset={0.5}>
 								{getStatsClick ? 
 									<StocksStatistics handleClickStatistics={handleClickStatistics} />
 									: <StocksChart handleClickStatistics={handleClickStatistics} />}

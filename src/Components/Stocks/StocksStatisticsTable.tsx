@@ -22,23 +22,22 @@ const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props)
 
 	return (
 		<Table stickyHeader aria-label="sticky table">
-			<TableHead >
+			<TableHead>
 				<TableRow>
-
 					<TabelCellTicker sx={{
 						'&.MuiTableCell-root': {
 							fontFamily: 'Inter, sans-serif',
 							backgroundColor: '#190033',
 							color: 'white',
 							fontSize: '1.2rem',
-							height: '100%',
+							height: '100%'
 						}
 					}}> {columnsLength > 0 && transformTextForStatistics(columnName.id)} </TabelCellTicker>
 					<TableCell sx={{
 						'&.MuiTableCell-root': {
 							fontFamily: 'Inter, sans-serif',
 							backgroundColor: '#190033',
-							height: '100%',
+							height: '100%'
 						}
 					}}></TableCell>
 				</TableRow>
@@ -50,13 +49,12 @@ const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props)
 						<TableRow key={row.title}>
 							{index % 2 === 0 ? (
 								<React.Fragment>
-									<TableCellWithHighlights sx={{width: '60%'}}>{transformTextForStatistics(row.title)}</TableCellWithHighlights>
+									<TableCellWithHighlights sx={{width: '65%'}}>{transformTextForStatistics(row.title)}</TableCellWithHighlights>
 									<TableCellWithHighlights sx={{textAlign: 'center'}}>{transformDateForStatistics(row.value)}</TableCellWithHighlights>
 								</React.Fragment>
-
 							) : (
 								<React.Fragment>
-									<TableCellWithoutHighlights sx={{width: '60%'}}>{transformTextForStatistics(row.title)}</TableCellWithoutHighlights>
+									<TableCellWithoutHighlights sx={{width: '65%'}}>{transformTextForStatistics(row.title)}</TableCellWithoutHighlights>
 									<TableCellWithoutHighlights sx={{textAlign: 'center'}}>{transformDateForStatistics(row.value)}</TableCellWithoutHighlights>
 								</React.Fragment>
 							)}

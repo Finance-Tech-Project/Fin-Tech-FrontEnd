@@ -26,10 +26,7 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     },
     [theme.breakpoints.up('desktop')]: {
         height: '30px',
-    },
-    [theme.breakpoints.up('desktopL')]: {
-        height: '30px',
-    },
+    }
 }));
 
 export const ChartButtons = styled(Button)(({ theme }) => ({
