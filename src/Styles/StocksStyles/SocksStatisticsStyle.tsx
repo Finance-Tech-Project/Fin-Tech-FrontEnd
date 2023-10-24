@@ -1,4 +1,4 @@
-import { Box, Table, TableCell, styled } from "@mui/material";
+import { Box, TableCell, TableContainer, styled } from "@mui/material";
 
 export const StocksStatisticsContainer = styled(Box)(({ theme }) => ({
     paddingTop: '80px',
@@ -11,6 +11,24 @@ export const StocksStatisticsContainer = styled(Box)(({ theme }) => ({
     marginTop: '50px'
 }));
 
+export const StocksStatisticsTitleContainer= styled(Box)(({ theme }) => ({
+    width: '98.5%'
+}));
+
+export const StocksStatisticsTitleWrapper = styled(Box)(({ theme }) => ({
+    padding: '20px 0 10px 0',
+    [theme.breakpoints.up('mobileS')]: {
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up('tablet')]: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between', 
+        alignItems: 'center'
+    }
+}));
+
 export const StocksStatisticsTableContainer = styled(Box)(({ theme }) => ({
     width: '98.5%',
     [theme.breakpoints.up('mobileS')]: {
@@ -20,11 +38,21 @@ export const StocksStatisticsTableContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('laptopL')]: {
         display: 'flex',
         flexDirection: 'row'
-    },
+    }
 }));
 
 export const StocksStatisticsTableWrapper = styled(Box)(({ theme }) => ({
     width: '100%'
+}));
+
+export const StatisticsTableContainer = styled(TableContainer, {
+    shouldForwardProp: (prop) => prop !== 'marginTop'
+})<any>(({ theme, marginTop }) => ({
+    width: '100%', 
+    backgroundColor: '#2c0951', 
+    [theme.breakpoints.up('laptopL')]: {
+        ...(marginTop && {marginTop: '50px'})
+    }
 }));
 
 export const TableCellWithHighlights = styled(TableCell)(({ theme }) => ({
@@ -32,7 +60,6 @@ export const TableCellWithHighlights = styled(TableCell)(({ theme }) => ({
         color: 'white',
         backgroundColor: 'rgba(0,20,135,1)',
         fontFamily: 'Inter, sans-serif',
-        boxShadow: '20px 20px 20px 20px rgba(0,20,135,1)',
         '&:hover': {
             borderBottom: '2px solid #190033',
             marginBottom: '5px'

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { Statistics, StatisticsColumn, StatisticsRows } from '../../Types/StatisticsTypes'
 import { createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
 import { transformDateForStatistics, transformTextForStatistics } from '../../Functions/utilsFunctions'
@@ -24,7 +23,7 @@ const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props)
 		<Table stickyHeader aria-label="sticky table">
 			<TableHead>
 				<TableRow>
-					<TabelCellTicker sx={{
+					<TableCell sx={{
 						'&.MuiTableCell-root': {
 							fontFamily: 'Inter, sans-serif',
 							backgroundColor: '#190033',
@@ -32,7 +31,7 @@ const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props)
 							fontSize: '1.2rem',
 							height: '100%'
 						}
-					}}> {columnsLength > 0 && transformTextForStatistics(columnName.id)} </TabelCellTicker>
+					}}> {columnsLength > 0 && transformTextForStatistics(columnName.id)} </TableCell>
 					<TableCell sx={{
 						'&.MuiTableCell-root': {
 							fontFamily: 'Inter, sans-serif',
