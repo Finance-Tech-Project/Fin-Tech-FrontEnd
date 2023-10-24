@@ -39,13 +39,6 @@ export const StockChartButtonsContainer = styled(Box)(({ theme }) => ({
         justifyContent: 'space-between',
     },
     [theme.breakpoints.up('laptop')]: {
-        flexDirection: 'row',
-        width: '50%'
-    },
-    [theme.breakpoints.up('laptopL')]: {
-        width: '40%'
-    },
-    [theme.breakpoints.up('desktop')]: {
-        width: '30%'
+        flexDirection: 'row'
     }
 }));

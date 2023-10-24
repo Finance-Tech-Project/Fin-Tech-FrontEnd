@@ -2,7 +2,6 @@ import { Box, styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 
 export const StocksHistoricalTableContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderTopLeftRadius: '120px',
     borderBottomRightRadius: '120px',

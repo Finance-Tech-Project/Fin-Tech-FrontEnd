@@ -122,11 +122,12 @@ export const MainButton = styled(Button, {
     [theme.breakpoints.up('tablet')]: {
         marginTop: '45px',
         ...(marginTop && {marginTop: '20px'}),
-        ...(width && {width: '200px'}),
+       
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '20px',
-        ...(marginTop && {marginTop: '0px'})
+        ...(marginTop && {marginTop: '0px'}),
+        ...(width && {width: '200px'}),
     },
     [theme.breakpoints.up('laptopL')]: {
         padding: '0px',
