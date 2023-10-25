@@ -51,7 +51,13 @@ export const GeneralDatePicker = styled(DatePicker)(({ theme }) => ({
     },
     '& .MuiButtonBase-root': {
         color: 'white',
-    }
+    },
+    [theme.breakpoints.up('mobileS')]: {
+       marginTop: '20px'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        marginTop: '0px'
+     }
 }));
 
 export const GeneralDatePickerStyle = (theme: Theme) => ({

@@ -16,11 +16,14 @@ export const StocksBlackoutContainer = styled(Box)(({ theme }) => ({
 
 export const StocksTitleContainer = styled(Box)(({ theme }) => ({
 	border: '2px solid rgba(70, 75, 114, 0.8)',
-	borderTopLeftRadius: '120px',
-	borderBottomRightRadius: '120px',
 	marginTop: '30px',
 	backgroundColor: 'rgba(4, 3, 28, 0.6)',
-	boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)'
+	boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
+	[theme.breakpoints.up('tablet')]: {
+		borderTopLeftRadius: '120px',
+		borderBottomRightRadius: '120px',
+		padding: '0px 20px'
+	}
 }));
 
 export const StockTitleHeader = styled(Typography)(({ theme }) => ({
@@ -31,15 +34,18 @@ export const StockTitleHeader = styled(Typography)(({ theme }) => ({
 	paddingTop: '20px',
 	textShadow: '5px 5px 6px #ADC5BD',
 	[theme.breakpoints.up('mobileS')]: {
-        fontSize: '2rem',
-		paddingTop: '40px',
-    },
+		fontSize: '1.8rem',
+		paddingTop: '20px',
+	},
 	[theme.breakpoints.up('mobileM')]: {
-        fontSize: '2.3rem'
-    },
+		fontSize: '2.3rem'
+	},
 	[theme.breakpoints.up('mobileL')]: {
-        fontSize: '2.4rem'
-    }
+		fontSize: '2.4rem'
+	},
+	[theme.breakpoints.up('tablet')]: {
+		paddingTop: '40px',
+	}
 }));
 
 export const StockTitleDescrRound = styled(FiberManualRecordIcon)(({ theme }) => ({
@@ -50,7 +56,13 @@ export const StockTitleDescrRound = styled(FiberManualRecordIcon)(({ theme }) =>
 
 export const StockTitleDescr = styled(Typography)(({ theme }) => ({
 	color: 'rgba(199, 180, 255, 1)',
-	fontSize: '1.6rem',
-	fontWeight: 400,
+	[theme.breakpoints.up('mobileS')]: {
+		fontSize: '1.2rem',
+		fontWeight: 300,
+	},
+	[theme.breakpoints.up('tablet')]: {
+		fontSize: '1.6rem',
+		fontWeight: 400,
+	}
 }));
 

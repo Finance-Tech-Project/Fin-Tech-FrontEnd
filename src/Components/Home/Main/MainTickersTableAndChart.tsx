@@ -39,7 +39,7 @@ const MainTickersTableAndChart = () => {
 			setTickerData(createCandlesData(symbolDataInInterval));
 		}
 	};
-	
+
 	useEffect(() => {
 		setIsLoading(true);
 		if (getDataInInterval(historicalData, interval).length > 0) {
@@ -53,45 +53,46 @@ const MainTickersTableAndChart = () => {
 
 		<MainTickersTableAndChartContainer>
 			<MainTickersTableAndChartBackgroundColor>
-
 				<Box>
 					<MainTickersTitle />
 					<MainTickersTableContainer>
-						<MainTickersTableWrapper>
-							<Grid container display={'flex'} width={'100%'} height={'100%'}>
-								<Grid sx={{ width: '100%' }}
-									tablet={11} tabletOffset={0.5}
-								>
-									<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', }}>
-										<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker" />
-									</Box>
-								</Grid>
+						<Grid container width="100%">
+							<Grid mobileS={11} mobileSOffset={0.5}>
+								<MainTickersTableWrapper>
+									<Grid container display={'flex'} width={'100%'} height={'100%'}>
+										<Grid mobileS={11} mobileSOffset={0.5}>
+											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+												<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker" />
+											</Box>
+										</Grid>
 
-								<Grid sx={{ height: '100%' }}
-									tablet={11} tabletOffset={0.5}
-									laptopL={4} laptopLOffset={0.5}
-								>
-									<MainTickersTable
-										data={data}
-										handleRowClick={handleRowClick}
-									/>
-								</Grid>
+										<Grid sx={{ height: '100%' }}
+											mobileS={11} mobileSOffset={0.5}
+											laptopL={4} laptopLOffset={0.5}
+										>
+											<MainTickersTable
+												data={data}
+												handleRowClick={handleRowClick}
+											/>
+										</Grid>
 
-								<Grid
-									tablet={11} tabletOffset={0.5}
-									laptopL={6.5} laptopLOffset={0.5}
-								>
-									<LightWeightChartHeader
-										data={getDataInInterval(historicalData, interval)}
-									/>
+										<Grid
+											mobileS={11} mobileSOffset={0.5}
+											laptopL={6.5} laptopLOffset={0.5}
+										>
+											<LightWeightChartHeader
+												data={getDataInInterval(historicalData, interval)}
+											/>
+											<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume!} />
+										</Grid>
+									</Grid>
+								</MainTickersTableWrapper>
 
-									<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume!} />
-								</Grid>
 							</Grid>
-						</MainTickersTableWrapper>
+						</Grid>
+
 					</MainTickersTableContainer>
 				</Box>
-
 			</MainTickersTableAndChartBackgroundColor >
 		</MainTickersTableAndChartContainer >
 	)

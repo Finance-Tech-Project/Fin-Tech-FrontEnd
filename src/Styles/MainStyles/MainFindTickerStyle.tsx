@@ -19,33 +19,20 @@ export const MainTickersTableContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const MainTickersTableWrapper = styled(Box)(({ theme }) => ({
-    width: '85%',
     border: '2px solid rgba(70, 75, 114, 0.8)',
-    padding: '40px',
-    borderTopLeftRadius: '120px',
-    borderBottomRightRadius: '120px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
     [theme.breakpoints.up('mobileS')]: {
-        width: '65%',
-        paddingTop: '60px',
-        paddingBottom: '60px',
-    },
-    [theme.breakpoints.up('mobileM')]: {
-        width: '70%',
-        paddingTop: '60px',
-        paddingBottom: '60px',
-    },
-    [theme.breakpoints.up('mobileL')]: {
-        width: '70%',
-        paddingTop: '60px',
-        paddingBottom: '60px',
+        padding: '25px 20px',
     },
     [theme.breakpoints.up('tablet')]: {
-        width: '85%',
-        paddingTop: '60px',
-        paddingBottom: '60px',
+        borderTopLeftRadius: '120px',
+        borderBottomRightRadius: '120px',
+        padding: '60px 20px',
     },
+    [theme.breakpoints.up('desktopL')]: {
+        padding: '60px 0px'
+    }
 }));
 
 export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { StocksHistoricalTableContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
-import { Box, Divider, FormControl, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
+import { StocksHistoricalTableContainer, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
+import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { createColumnsForHistoricalTable, createRowsForHistoricalTable } from '../../Functions/dataProcessingFunctions'
@@ -36,11 +36,11 @@ const StocksHistoricalTable = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === IntervalsFullName.Dayily 
-                            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly 
-                            ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly 
-                            ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
-                            ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
+        const interval = event.target.value === IntervalsFullName.Dayily
+            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly
+                ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly
+                    ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
+                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
         dispatch(putDataInterval(interval as string))
     };
 
@@ -92,9 +92,9 @@ const StocksHistoricalTable = () => {
                 <Typography variant='h4' sx={{ color: 'yellow', textAlign: 'start', padding: '10px 0 10px 0' }}>Historical data</Typography>
                 <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 
-                <Box sx={{ padding: '20px 0 20px 0', display: 'flex', justifyContent: 'space-between' }}>
+                <StocksHistoricalTableInterfaceContainer>
                     <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
                         label="Date from"
                         minDate={dayjs(getMinDateForHistory())}
                         value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
@@ -102,13 +102,13 @@ const StocksHistoricalTable = () => {
                     />
 
                     <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) }}}
+                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
                         label="Date to"
                         value={dayjs(dateTo as string, 'YYYY-MM-DD')}
                         onChange={(newDate) => setDateTo(newDate)}
                     />
 
-                    <FormControl sx={{ width: '120px' }}>
+                    <StocksHistoricalTableFromControl>
                         <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
                         <Select
                             MenuProps={{
@@ -129,10 +129,10 @@ const StocksHistoricalTable = () => {
                             <MenuItem value={'Monthly'}>Monthly</MenuItem>
                             <MenuItem value={'Yearly'}>Yearly</MenuItem>
                         </Select>
-                    </FormControl>
+                    </StocksHistoricalTableFromControl>
 
-                    <MainButton onClick={handleClickOnApplyButton} marginTop>Apply</MainButton>
-                </Box>
+                    <MainButton onClick={handleClickOnApplyButton} marginTop width>Apply</MainButton>
+                </StocksHistoricalTableInterfaceContainer>
 
                 <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px' }}>
                     <Table stickyHeader aria-label="sticky table">
@@ -177,7 +177,7 @@ const StocksHistoricalTable = () => {
                     sx={{
                         width: '100%', [theme.breakpoints.between('mobileL', 'laptopL')]: {
                             overflow: 'hidden'
-                        },
+                        }
                     }}
                     component={"div"}
                     rowsPerPageOptions={[10, 100]}

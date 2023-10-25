@@ -1,7 +1,6 @@
 import { Button, TableCell, styled } from "@mui/material";
 
 export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
-    height: '29.5px',
     '&.MuiTableCell-root': {
         color: 'white',
         backgroundColor: '#3e3e3e',
@@ -18,15 +17,18 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
             }
         }
     },
+    [theme.breakpoints.up('mobileS')]: {
+        height: '29.5px'
+    },
+    [theme.breakpoints.up('mobileL')]: {
+        height: '32px'
+    },
+    [theme.breakpoints.up('tablet')]: {
+        height: '30px'
+    },
     [theme.breakpoints.up('laptop')]: {
-        height: '30px',
+        height: '29.8px'
     },
-    [theme.breakpoints.up('laptopL')]: {
-        height: '29px',
-    },
-    [theme.breakpoints.up('desktop')]: {
-        height: '30px',
-    }
 }));
 
 export const ChartButtons = styled(Button)(({ theme }) => ({

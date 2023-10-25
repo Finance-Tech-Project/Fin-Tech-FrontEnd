@@ -6,27 +6,20 @@ export const MainTickerTitleContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const MainTickerTitleWrapper = styled(Box)(({ theme }) => ({
-    width: '85%',
     border: '2px solid rgba(70, 75, 114, 0.8)',
-    borderTopLeftRadius: '120px',
-    borderBottomRightRadius: '120px',
     marginTop: '30px',
-    padding: '40px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
     [theme.breakpoints.up('mobileS')]: {
-        paddingBottom: '65px',
-        width: '65%'
-    },
-    [theme.breakpoints.up('mobileM')]: {
-        width: '70%'
-    },
-    [theme.breakpoints.up('mobileL')]: {
-        width: '70%',
+        padding: '0px 20px 25px 20px',
     },
     [theme.breakpoints.up('tablet')]: {
-        paddingBottom: '30px',
-        width: '85%',
+        borderTopLeftRadius: '120px',
+        borderBottomRightRadius: '120px',
+        padding: '40px 20px 60px 20px'
+    },
+    [theme.breakpoints.up('desktopL')]: {
+        padding: '40px 0px 60px 0px'
     }
 }));
 

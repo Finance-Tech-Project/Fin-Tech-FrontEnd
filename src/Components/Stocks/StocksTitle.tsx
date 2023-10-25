@@ -29,7 +29,6 @@ const StocksTitle = () => {
 					<Box sx={{ display: 'flex', paddingBottom: '20px' }}>
 						<StockTitleDescrRound />
 						<StockTitleDescr>
-
 							Ability to view historical data for any period in a convenient interface.
 						</StockTitleDescr>
 					</Box>
@@ -41,14 +40,14 @@ const StocksTitle = () => {
 					laptopL={4.5} laptopLOffset={1.5}
 					desktop={5} desktopOffset={1}
 				>
-					<Box sx={{ display: 'flex', paddingBottom: '20px' }}>
+					<Box sx={{ display: 'flex', paddingBottom: '20px'}}>
 						<StockTitleDescrRound />
 						<StockTitleDescr>
 							View calculated statistics for each company on the basis of which you can make investment decisions.
 						</StockTitleDescr>
 					</Box>
 
-					<Box sx={{ display: 'flex', paddingBottom: '20px' }}>
+					<Box sx={{ display: 'flex', paddingBottom: '20px'}}>
 						<StockTitleDescrRound />
 						<StockTitleDescr>
 							And also you can see our recommendations which of the stock is in the lead.

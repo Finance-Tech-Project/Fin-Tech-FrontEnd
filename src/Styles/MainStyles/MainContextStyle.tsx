@@ -112,7 +112,7 @@ export const MainButton = styled(Button, {
     borderRadius: '6px',
     ...(marginTop && {marginTop: '0px'}),
     [theme.breakpoints.up('mobileS')]: {
-        marginTop: '10px',
+        marginTop: '20px',
         ...(width && {width: '100%'}),
     },
     [theme.breakpoints.up('mobileM')]: {
