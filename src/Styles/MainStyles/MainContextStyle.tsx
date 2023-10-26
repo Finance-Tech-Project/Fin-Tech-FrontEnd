@@ -113,6 +113,7 @@ export const MainButton = styled(Button, {
     ...(marginTop && {marginTop: '0px'}),
     [theme.breakpoints.up('mobileS')]: {
         marginTop: '20px',
+        ...(marginTop && {marginTop: '0px'}),
         ...(width && {width: '100%'}),
     },
     [theme.breakpoints.up('mobileM')]: {

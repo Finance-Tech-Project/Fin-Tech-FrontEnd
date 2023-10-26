@@ -19,10 +19,19 @@ export const StocksTitleContainer = styled(Box)(({ theme }) => ({
 	marginTop: '30px',
 	backgroundColor: 'rgba(4, 3, 28, 0.6)',
 	boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
+	[theme.breakpoints.up('mobileS')]: {
+		padding: '0px 10px'
+	},
 	[theme.breakpoints.up('tablet')]: {
 		borderTopLeftRadius: '120px',
 		borderBottomRightRadius: '120px',
-		padding: '0px 20px'
+		padding: '0px 30px'
+	},
+	[theme.breakpoints.up('laptop')]: {
+		padding: '0px 15px'
+	},
+	[theme.breakpoints.up('laptopL')]: {
+		padding: '0px 0px'
 	}
 }));
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react'
 import { StatisticsTableContainer, StocksStatisticsContainer, StocksStatisticsTableContainer, StocksStatisticsTableWrapper, StocksStatisticsTitleContainer, StocksStatisticsTitleWrapper } from '../../Styles/StocksStyles/SocksStatisticsStyle'
-import { Box, CircularProgress, Divider, ThemeProvider, Typography } from '@mui/material'
+import { Box, CircularProgress, Divider, ThemeProvider } from '@mui/material'
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { useAppSelector } from '../../app/hooks'
 import { getStatisticsForSymbol } from '../../Actions/fetchActions'
@@ -9,6 +9,7 @@ import { Statistics, StatisticsColumn } from '../../Types/StatisticsTypes'
 import { createColumnsForStatistic } from '../../Functions/dataProcessingFunctions'
 import StocksStatisticsTable from './StocksStatisticsTable'
 import { theme } from '../../Constants/MaterialConstants/theme'
+import { GeneralStocksBlocksTitle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 
 interface Props {
 	handleClickStatistics: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -47,7 +48,7 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 			<StocksStatisticsContainer>
 				<StocksStatisticsTitleContainer>
 					<StocksStatisticsTitleWrapper>
-						<Typography variant='h4' sx={{ color: 'yellow', textAlign: 'start' }}>Statistics</Typography>
+						<GeneralStocksBlocksTitle>Statistics</GeneralStocksBlocksTitle>
 						<MainButton onClick={handleClickStatistics} marginTop width>Chart</MainButton>
 					</StocksStatisticsTitleWrapper>
 					<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />

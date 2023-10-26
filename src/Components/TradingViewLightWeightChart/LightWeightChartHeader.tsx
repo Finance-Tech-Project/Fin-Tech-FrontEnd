@@ -63,12 +63,15 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					) : (
 						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
 							<Grid
+								desktop={6}
 								desktopL={2}
 							>
 								<Box sx={{ paddingLeft: '20px' }}>
-									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false) }} fontSize>{symbolName.symbolName}</MainHeaderChartTickerName>
+									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false) }} fontSize>
+										{symbolName.symbolName}</MainHeaderChartTickerName>
 									<MainHeaderChartTickerName>{symbolName.companyName}</MainHeaderChartTickerName>
 									<Divider sx={{
+										width: '50%',
 										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, false)}`,
 										borderStyle: 'solid',
 										borderWidth: '1.5px',
@@ -78,6 +81,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							</Grid>
 
 							<Grid
+								desktop={3}
 								desktopL={3.5} desktopLOffset={3}
 							>
 								{simpleIncome.simpleIncomeData.length > 0 &&
@@ -108,6 +112,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center', paddingLeft: '20px' }}>
 						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
 							<Grid
+								desktop={5.5}
 								desktopL={4}
 							>
 								<Box>
@@ -123,6 +128,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							</Grid>
 
 							<Grid
+								desktop={6}
 								desktopL={6} desktopLOffset={1.5}
 							>
 								<Box sx={{ width: '100%' }}>
