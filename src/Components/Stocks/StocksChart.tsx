@@ -125,8 +125,8 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 					}
 				/>
 				<StockChartButtonsContainer>
-					<MainButton onClick={handleClickStatistics} marginTop width sx={{ marginRight: '30px' }}>Get Statistics</MainButton>
-					<MainButton marginTop width>Add to watchlist</MainButton>
+					<MainButton onClick={handleClickStatistics} marginTop marginTop320 width sx={{ marginRight: '30px' }}>Get Statistics</MainButton>
+					<MainButton marginTop marginTop320 width>Add to watchlist</MainButton>
 				</StockChartButtonsContainer>
 			</StocksChartSearchTickerContainer>
 

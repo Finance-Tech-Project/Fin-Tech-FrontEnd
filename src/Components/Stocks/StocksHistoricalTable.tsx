@@ -131,7 +131,7 @@ const StocksHistoricalTable = () => {
                         </Select>
                     </StocksHistoricalTableFromControl>
 
-                    <MainButton onClick={handleClickOnApplyButton} marginTop width>Apply</MainButton>
+                    <MainButton onClick={handleClickOnApplyButton} marginTop marginTop320 width>Apply</MainButton>
                 </StocksHistoricalTableInterfaceContainer>
 
                 <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px' }}>

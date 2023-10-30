@@ -14,6 +14,8 @@ import { useAppSelector } from '../../app/hooks';
 import { Box, Divider } from '@mui/material';
 import { DefaultPeriods } from '../../Enums/Enums';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import HeaderItemCompanyName from './HeaderItemCompanyName';
+import HeaderItemDataDescription from './HeaderItemDataDescription';
 
 interface Props {
 	data: TickerDataType[],
@@ -25,7 +27,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
-
+	const checkSymbolName = true;
 	return (
 		<MainHeaderChartContainer borderTopRightRadius>
 			{simpleIncome.simpleIncomeDataToCompare.length === 0 ? (
@@ -66,18 +68,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktop={6}
 								desktopL={2}
 							>
-								<Box sx={{ paddingLeft: '20px' }}>
-									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false) }} fontSize>
-										{symbolName.symbolName}</MainHeaderChartTickerName>
-									<MainHeaderChartTickerName>{symbolName.companyName}</MainHeaderChartTickerName>
-									<Divider sx={{
-										width: '50%',
-										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, false)}`,
-										borderStyle: 'solid',
-										borderWidth: '1.5px',
-										height: '100%',
-									}}></Divider>
-								</Box>
+								<HeaderItemCompanyName />
 							</Grid>
 
 							<Grid
@@ -85,26 +76,10 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktopL={3.5} desktopLOffset={3}
 							>
 								{simpleIncome.simpleIncomeData.length > 0 &&
-									<Box sx={{ width: '100%' }}>
-										<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-											<MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
-											<MainHeaderChartTickerDescr>{simpleIncome.simpleIncomeData[simpleIncome.simpleIncomeData.length - 1].value}%</MainHeaderChartTickerDescr>
-										</Box>
-
-										<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-											<MainHeaderChartTickerDescr>Time range date from:</MainHeaderChartTickerDescr>
-											<MainHeaderChartTickerDescr>{currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
-										</Box>
-
-										<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-											<MainHeaderChartTickerDescr>Simple income period in years:</MainHeaderChartTickerDescr>
-											<MainHeaderChartTickerDescr>{simpleIncome.period === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncome.period}</MainHeaderChartTickerDescr>
-										</Box>
-									</Box>
+									<HeaderItemDataDescription />
 								}
 							</Grid>
 						</Grid>
-
 					)}
 				</React.Fragment>
 			) : (
@@ -115,38 +90,14 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktop={5.5}
 								desktopL={4}
 							>
-								<Box>
-									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, false) }} fontSize>{symbolName.symbolName}</MainHeaderChartTickerName>
-									<MainHeaderChartTickerName>{symbolName.companyName}</MainHeaderChartTickerName>
-									<Divider sx={{
-										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, false)}`,
-										borderStyle: 'solid',
-										borderWidth: '1.5px',
-										height: '100%',
-									}}></Divider>
-								</Box>
+								<HeaderItemCompanyName />
 							</Grid>
 
 							<Grid
 								desktop={6}
 								desktopL={6} desktopLOffset={1.5}
 							>
-								<Box sx={{ width: '100%' }}>
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{simpleIncome.simpleIncomeData[simpleIncome.simpleIncomeData.length - 1].value}%</MainHeaderChartTickerDescr>
-									</Box>
-
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Time range date from:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
-									</Box>
-
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Simple income period in years:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{simpleIncome.period === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncome.period}</MainHeaderChartTickerDescr>
-									</Box>
-								</Box>
+								<HeaderItemDataDescription />
 							</Grid>
 						</Grid>
 					</Box>
@@ -158,42 +109,19 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center', paddingLeft: '20px' }}>
 						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
 							<Grid
+								desktop={5.5}
 								desktopL={4}
 							>
-								<Box>
-									<MainHeaderChartTickerName sx={{ color: getColorForLightWeightHeader(simpleIncome, volatility, true) }} fontSize>{symbolName.symbolNameToCompare}</MainHeaderChartTickerName>
-									<MainHeaderChartTickerName>{symbolName.companyNameToCompare}</MainHeaderChartTickerName>
-									<Divider sx={{
-										backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, true)}`,
-										borderStyle: 'solid',
-										borderWidth: '1.5px',
-										height: '100%'
-									}}></Divider>
-								</Box>
+								<HeaderItemCompanyName checkSymbolName={checkSymbolName}/>
 							</Grid>
 
 							<Grid
+								desktop={6}
 								desktopL={6} desktopLOffset={1.5}
 							>
-								<Box sx={{ width: '100%' }}>
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{simpleIncome.simpleIncomeDataToCompare[simpleIncome.simpleIncomeDataToCompare.length - 1].value}%</MainHeaderChartTickerDescr>
-									</Box>
-
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Time range date from:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{currentDateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
-									</Box>
-
-									<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-										<MainHeaderChartTickerDescr>Simple income period in years:</MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{simpleIncome.period === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncome.period}</MainHeaderChartTickerDescr>
-									</Box>
-								</Box>
+								<HeaderItemDataDescription />
 							</Grid>
 						</Grid>
-
 					</Box>
 				</Box>
 			)}

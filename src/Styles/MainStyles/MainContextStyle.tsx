@@ -100,8 +100,8 @@ export const MainDescr = styled(Typography)(({ theme }) => ({
 }));
 
 export const MainButton = styled(Button, {
-    shouldForwardProp: (prop) => prop !== 'marginTop' && prop !== 'width'
-})<any>(({ theme, marginTop, width }) => ({
+    shouldForwardProp: (prop) => prop !== 'marginTop' && prop !== 'width' && prop !== 'marginTop320'
+})<any>(({ theme, marginTop, width, marginTop320 }) => ({
     marginTop: '50px',
     variant: 'contained',
     width: '200px',
@@ -115,6 +115,7 @@ export const MainButton = styled(Button, {
         marginTop: '20px',
         ...(marginTop && {marginTop: '0px'}),
         ...(width && {width: '100%'}),
+        ...(marginTop320 && {marginTop: '20px'}),
     },
     [theme.breakpoints.up('mobileM')]: {
         marginTop: '10px',
