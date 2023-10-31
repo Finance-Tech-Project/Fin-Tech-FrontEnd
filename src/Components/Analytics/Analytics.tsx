@@ -130,7 +130,6 @@ const Analytics = () => {
 									</Grid>
 								</Grid>
 							</StocksChartContainer>
-
 						</Grid>
 					</Grid>
 				</AnalyticBlackoutContainer>

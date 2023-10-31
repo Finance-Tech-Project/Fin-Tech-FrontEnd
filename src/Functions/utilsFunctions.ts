@@ -110,5 +110,4 @@ export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, vo
         return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare)
             || simpleIncome.period > 0 ? simpleIncome.colorToCompare : volatility.colorToCompare;
     }
-
 };

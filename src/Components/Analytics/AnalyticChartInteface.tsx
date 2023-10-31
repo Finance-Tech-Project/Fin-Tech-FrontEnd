@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Checkbox, Divider, FormControlLabel, FormGroup, Typography } from '@mui/material'
+import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putMovAvgData, putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
@@ -9,6 +9,16 @@ import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
+import { 
+    AnalyticChartInterfaceContainer, 
+    AnalyticChartInterfaceDivider, 
+    AnalyticChartInterfaceWrapper, 
+    MoveAverageDescrContainer, 
+    MoveAverageFormControlLabel, 
+    MoveAverageFormGroup, 
+    MoveAverageTitleContainer, 
+    SimpleIncomeAndVolatilityTitleContainer
+} from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
 
 interface Props {
     isClickedToCompare: boolean
@@ -127,47 +137,45 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     }, [movAvg.period, simpleIncome.period, volatility.period, currentDateFrom, currentDateTo, isClickedToCompare]);
 
     return (
-        <Box sx={{ border: '1px solid rgba(70, 75, 114, 0.8)', height: '735px', backgroundColor: 'rgba(44, 9, 81, 1)' }}>
-            <Box sx={{ padding: '25px', display: 'flex', flexDirection: 'column' }}>
+        <AnalyticChartInterfaceContainer>
+            <AnalyticChartInterfaceWrapper>
                 {!isClickedToCompare && (
                     <React.Fragment>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '10px' }}>
+                        <MoveAverageTitleContainer>
                             <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>
                             <Box sx={{ width: '25%' }}>
-                                <Divider orientation='horizontal' sx={{ backgroundColor: 'red', borderWidth: '3px', width: '90%' }}></Divider>
+                                <AnalyticChartInterfaceDivider 
+                                    orientation='horizontal' 
+                                    color={movAvg.color}
+                                ></AnalyticChartInterfaceDivider>
                             </Box>
-                        </Box>
+                        </MoveAverageTitleContainer>
 
-                        <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <FormGroup sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <FormControlLabel sx={{
-                                    color: 'white',
-                                    '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' }
-                                }}
+                        <MoveAverageDescrContainer>
+                            <MoveAverageFormGroup>
+                                <MoveAverageFormControlLabel
                                     control={<Checkbox checked={checked50Days} onChange={handleChange50Days} />}
                                     label="50 days period"
                                 />
-                                <FormControlLabel sx={{
-                                    color: 'white',
-                                    marginRight: 0,
-                                    '& .MuiSvgIcon-root': { color: 'rgb(73 91 238 / 80%)' },
-                                }}
+                                <MoveAverageFormControlLabel
                                     control={<Checkbox checked={checked200Days} onChange={handleChange200Days} />}
                                     label="200 days period"
-
                                 />
-                            </FormGroup>
-                        </Box>
+                            </MoveAverageFormGroup>
+                        </MoveAverageDescrContainer>
                     </React.Fragment>
                 )}
 
 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
+                <SimpleIncomeAndVolatilityTitleContainer>
                     <Typography sx={{ color: 'white' }} variant='h5'>Simple Income</Typography>
                     <Box sx={{ width: '25%' }}>
-                        <Divider orientation='horizontal' sx={{ backgroundColor: 'yellow', borderWidth: '3px', width: '90%' }}></Divider>
+                        <AnalyticChartInterfaceDivider 
+                            orientation='horizontal' 
+                            color={simpleIncome.color}
+                        ></AnalyticChartInterfaceDivider>
                     </Box>
-                </Box>
+                </SimpleIncomeAndVolatilityTitleContainer>
 
                 <MainTickersTextField
                     type="number"
@@ -177,16 +185,19 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                     value={numberSimpleIncome}
                     onChange={(event) => handleChangeForSimpleIncome(event)}
                     onFocus={handleFocus}
-                >
-                </MainTickersTextField>
+                ></MainTickersTextField>
                 <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>
 
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '20px', paddingBottom: '10px' }}>
+                <SimpleIncomeAndVolatilityTitleContainer>
                     <Typography sx={{ color: 'white' }} variant='h5'>Volatility</Typography>
                     <Box sx={{ width: '25%' }}>
-                        <Divider orientation='horizontal' sx={{ backgroundColor: volatility.color, borderWidth: '3px', width: '90%' }}></Divider>
+                        <AnalyticChartInterfaceDivider 
+                            orientation='horizontal'
+                            color={volatility.color}
+                        ></AnalyticChartInterfaceDivider>
                     </Box>
-                </Box>
+                </SimpleIncomeAndVolatilityTitleContainer>
+
                 <MainTickersTextField
                     type="number"
                     variant="outlined"
@@ -197,8 +208,9 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                     onFocus={handleFocus}
                 ></MainTickersTextField>
                 <MainButton onClick={handleGetVolatality} marginTop sx={{ width: '100%' }}>Get Volatility</MainButton>
-            </Box>
-        </Box>
+
+            </AnalyticChartInterfaceWrapper>
+        </AnalyticChartInterfaceContainer>
     )
 }
 

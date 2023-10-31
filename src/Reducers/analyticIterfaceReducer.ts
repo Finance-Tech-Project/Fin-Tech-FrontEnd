@@ -20,7 +20,8 @@ interface AnalyticInterface {
         period: number,
         volatilityData: TickerDataVolumeType[],
         volatilityDataToCompare: TickerDataVolumeType[]
-    }
+    },
+    interfaceHeight: number
 }
 
 const initialAnalyticInterface: AnalyticInterface = {
@@ -42,7 +43,8 @@ const initialAnalyticInterface: AnalyticInterface = {
         period: 0,
         volatilityData: [],
         volatilityDataToCompare: []
-    }
+    },
+    interfaceHeight: 0
 };
 
 const analyticInterfaceSlice = createSlice({
@@ -72,6 +74,14 @@ const analyticInterfaceSlice = createSlice({
         },
         putVolatilityDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
             state.volatility.volatilityDataToCompare = action.payload;
+        },
+        calcInterfaceHeight(state, action: PayloadAction<number>) {
+            console.log(action.payload)
+            if (action.payload && action.payload > 95) {
+                state.interfaceHeight = action.payload - 95;
+            } else {
+                state.interfaceHeight = 0;
+            }
         }
     }
 });
@@ -84,6 +94,7 @@ export const {
     putSimpleIncomeData, 
     putSimpleIncomeDataToCompare,
     putVolatilityData,
-    putVolatilityDataToCompare
+    putVolatilityDataToCompare,
+    calcInterfaceHeight
 } = analyticInterfaceSlice.actions;
 export const analyticInterfaceReducer = analyticInterfaceSlice.reducer;

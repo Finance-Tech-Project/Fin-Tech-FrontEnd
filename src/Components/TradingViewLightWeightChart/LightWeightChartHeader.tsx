@@ -1,5 +1,5 @@
-import React from 'react';
-import { findMaxMinPrice, getColorForLightWeightHeader } from '../../Functions/utilsFunctions';
+import React, { useEffect, useRef } from 'react';
+import { findMaxMinPrice } from '../../Functions/utilsFunctions';
 import {
 	MainHeaderChartContainer,
 	MainHeaderChartTickerDescr,
@@ -10,12 +10,12 @@ import {
 	MainHeaderChartTickerPriceContainer
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
 import { TickerDataType } from '../../Types/TickersTypes';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Box, Divider } from '@mui/material';
-import { DefaultPeriods } from '../../Enums/Enums';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import HeaderItemCompanyName from './HeaderItemCompanyName';
 import HeaderItemDataDescription from './HeaderItemDataDescription';
+import { calcInterfaceHeight } from '../../Reducers/analyticIterfaceReducer';
 
 interface Props {
 	data: TickerDataType[],
@@ -26,10 +26,18 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-	const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+	const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
 	const checkSymbolName = true;
+	const checkDate = true;
+	const headerContainerRef = useRef<HTMLDivElement>(null);
+	const dispatch = useAppDispatch();
+	
+	useEffect(() => {
+		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
+	}, [headerContainerRef.current?.clientHeight!]);
+
 	return (
-		<MainHeaderChartContainer borderTopRightRadius>
+		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
 			{simpleIncome.simpleIncomeDataToCompare.length === 0 ? (
 				<React.Fragment>
 					{!isClickedToCompare ? (
@@ -84,9 +92,9 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 				</React.Fragment>
 			) : (
 				<Box sx={{ width: '100%', display: 'flex' }}>
-					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center', paddingLeft: '20px' }}>
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
-							<Grid
+					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center' }}>
+						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center', '&:first-of-type': { alignItems: 'flex-end' } }}>
+							<Grid sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
 								desktop={5.5}
 								desktopL={4}
 							>
@@ -106,20 +114,20 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 						<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', height: '100%' }}></Divider>
 					</Box>
 
-					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center', paddingLeft: '20px' }}>
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center' }}>
+						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center', '&:first-of-type': { alignItems: 'flex-end' } }}>
 							<Grid
 								desktop={5.5}
 								desktopL={4}
 							>
-								<HeaderItemCompanyName checkSymbolName={checkSymbolName}/>
+								<HeaderItemCompanyName checkSymbolName={checkSymbolName} />
 							</Grid>
 
 							<Grid
 								desktop={6}
 								desktopL={6} desktopLOffset={1.5}
 							>
-								<HeaderItemDataDescription />
+								<HeaderItemDataDescription checkDate={checkDate} />
 							</Grid>
 						</Grid>
 					</Box>
