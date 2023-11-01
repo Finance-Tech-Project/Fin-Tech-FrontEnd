@@ -15,21 +15,11 @@ export const MainHeaderChartContainer = styled(Box, {
     fontFamily: 'Inter, sans-serif',
     ...(borderTopRightRadius && {borderTopRightRadius: '0px'}),
     [theme.breakpoints.up('mobileS')]: {
-        marginTop: '20px',
         flexDirection: 'column',
     },
     [theme.breakpoints.up('tablet')]: {
-        marginTop: '20px',
         flexDirection: 'row'
-    },
-    [theme.breakpoints.up('laptop')]: {
-        flexDirection: 'row',
-        marginTop: '20px',
-    },
-    [theme.breakpoints.up('laptopL')]: {
-        flexDirection: 'row',
-        marginTop: '0px'
-    },
+    }
 }));
 
 export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({

@@ -30,8 +30,7 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                     width: '100%',
                     backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, !checkSymbolName ? false : true)}`,
                     borderStyle: 'solid',
-                    borderWidth: '1.5px',
-                    // height: '100%',
+                    borderWidth: '1.5px'
                 }}></Divider>
             </Box>
         </Box>

@@ -28,7 +28,8 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     const symbolName = useAppSelector(state => state.selectedSymbolReducer);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-    const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility)
+    const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [numberSimpleIncome, setNumberSimpleIncome] = useState<number | string>('');
     const [numberVolatility, setNumberVolatility] = useState<number | string>('');
@@ -67,7 +68,6 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (+event.target.value > 0) {
             setNumberVolatility('');
             dispatch(putVolatilityPeriod(0));
-            // dispatch(putVolatilityData([]));
             dispatch(putMovAvgPeriod(0));
             setChecked50Days(false);
             setChecked200Days(false);
@@ -83,7 +83,6 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (+event.target.value > 0) {
             setNumberSimpleIncome('');
             dispatch(putSimpleIncomePeriod(0));
-            // dispatch(putSimpleIncomeData([]));
         }
     };
 
@@ -137,7 +136,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     }, [movAvg.period, simpleIncome.period, volatility.period, currentDateFrom, currentDateTo, isClickedToCompare]);
 
     return (
-        <AnalyticChartInterfaceContainer>
+        <AnalyticChartInterfaceContainer height={735 + interfaceHeight}>
             <AnalyticChartInterfaceWrapper>
                 {!isClickedToCompare && (
                     <React.Fragment>

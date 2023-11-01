@@ -12,6 +12,9 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
 import { DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
+import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -94,22 +97,32 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            {!isClickedToCompare && (
-                <React.Fragment>
-                    <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                        label="Date from"
-                        minDate={dayjs(getMinDateForHistory())}
-                        value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
-                        onChange={(newDate) => setDateFrom(newDate)}
-                    />
+            <Grid container sx={{ width: '100%' }}>
+                <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}
+                    laptopL={12}
+                    desktop={8.5}
+                >
+                    {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />}
+                    {!isClickedToCompare &&
+                        <React.Fragment>
+                            
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date from"
+                                minDate={dayjs(getMinDateForHistory())}
+                                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateFrom(newDate)}
+                            />
 
-                    <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                        label="Date to"
-                        value={dayjs(dateTo as string, 'YYYY-MM-DD')}
-                        onChange={(newDate) => setDateTo(newDate)}
-                    />
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date to"
+                                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateTo(newDate)}
+                            />
+                        </React.Fragment>
+                    }
+
 
                     <FormControl sx={{ width: '120px' }}>
                         <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
@@ -133,21 +146,31 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
                             <MenuItem value={'Yearly'}>Yearly</MenuItem>
                         </Select>
                     </FormControl>
-                </React.Fragment>
-            )}
+                </Grid>
 
-            {!isClickedToCompare ? (
-                <Box>
-                    <MainButton onClick={handleClickOnApplyButton} marginTop sx={{ marginRight: '20px' }}>Apply</MainButton>
-                    <MainButton onClick={handleClickTwoStocksCompare} marginTop>Compare two stocks</MainButton>
-                </Box>
+                <Grid
+                    laptopL={12}
+                    desktop={3.5}
+                >
+                    {!isClickedToCompare ? (
+                        <Box sx={{
+                            [theme.breakpoints.up('laptopL')]: {
+                                paddingTop: '20px'
+                            },
+                            display: 'flex',  justifyContent: 'flex-end'
+                        }}>
+                            <MainButton onClick={handleClickOnApplyButton} marginTop sx={{ marginRight: '20px' }}>Apply</MainButton>
+                            <MainButton onClick={handleClickTwoStocksCompare} marginTop>Compare two stocks</MainButton>
+                        </Box>
 
-            ) : (
-                <Box>
-                    <MainButton onClick={handleClickOnCompare} marginTop sx={{ marginRight: '20px' }}>Compare</MainButton>
-                    <MainButton onClick={handleClickTwoStocksCompare} marginTop>Analytic Chart</MainButton>
-                </Box>
-            )}
+                    ) : (
+                        <Box >
+                            <MainButton onClick={handleClickOnCompare} marginTop sx={{ marginRight: '20px' }}>Compare</MainButton>
+                            <MainButton onClick={handleClickTwoStocksCompare} marginTop>Analytic Chart</MainButton>
+                        </Box>
+                    )}
+                </Grid>
+            </Grid>
         </LocalizationProvider>
     )
 }

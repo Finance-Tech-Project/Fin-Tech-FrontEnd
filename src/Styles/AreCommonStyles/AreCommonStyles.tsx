@@ -57,7 +57,7 @@ export const GeneralDatePicker = styled(DatePicker)(({ theme }) => ({
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '0px'
-     }
+    }
 }));
 
 export const GeneralDatePickerStyle = (theme: Theme) => ({

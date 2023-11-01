@@ -6,8 +6,7 @@ import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightCh
 import LightWeightChartForAnalytics from '../TradingViewLightWeightChart/LightWeightChartForAnalytics'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes'
-import { AnalyticBlackoutContainer, AnalyticContainer } from '../../Styles/AnalyticStyles/AnalyticStyle'
-import { StocksChartContainer } from '../../Styles/StocksStyles/StocksChartStyle'
+import { AnalyticBlackoutContainer, AnalyticChartContainer, AnalyticContainer } from '../../Styles/AnalyticStyles/AnalyticStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { createCandlesData, createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions'
@@ -19,7 +18,16 @@ import { putSeriesName } from '../../Reducers/chartSeriesReducer'
 import { ChartSeriesNames, DefaultPeriods } from '../../Enums/Enums'
 import { getDataInInterval } from '../../Functions/utilsFunctions'
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete'
-import { putMovAvgData, putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomeDataToCompare, putSimpleIncomePeriod, putVolatilityData, putVolatilityDataToCompare, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer'
+import { 
+	putMovAvgData, 
+	putMovAvgPeriod, 
+	putSimpleIncomeData, 
+	putSimpleIncomeDataToCompare, 
+	putSimpleIncomePeriod, 
+	putVolatilityData, 
+	putVolatilityDataToCompare, 
+	putVolatilityPeriod 
+} from '../../Reducers/analyticIterfaceReducer'
 import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
 
 
@@ -32,6 +40,7 @@ const Analytics = () => {
 	const [isClickedToCompare, setIsClickedToCompare] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
+	const [displaySize, setDisplaySize] = useState(window.screen.width);
 	const dispatch = useAppDispatch();
 
 	const getDataTicker = () => {
@@ -84,6 +93,12 @@ const Analytics = () => {
 		dispatch(getSymbolDataForPeriodRange(symbolName.symbolName, currentDateFrom, currentDateTo));
 	}, [symbolName.symbolName, currentDateFrom, currentDateTo]);
 
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			setDisplaySize(window.screen.width);
+		});
+	}, [displaySize]);
+
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
@@ -91,16 +106,16 @@ const Analytics = () => {
 					<Header />
 					<Grid container>
 						<Grid
-							desktop={11} desktopOffset={0.5}
-							desktopL={11} desktopLOffset={0.5}
+							laptop={11} laptopOffset={0.5}
+							laptopL={11} laptopLOffset={0.5}
 						>
-							<StocksChartContainer>
+							<AnalyticChartContainer>
 								<Grid
-									desktop={11} desktopOffset={0.5}
-									desktopL={11} desktopLOffset={0.5}
+									laptop={11} laptopOffset={0.5}
+									laptopL={11} laptopLOffset={0.5}
 								>
 									<Box sx={{ paddingBottom: '50px', display: 'flex', justifyContent: 'space-between' }}>
-										{!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />}
+										{/* {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />} */}
 										<AnalyticDateAndIntervalPickers
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
 											isClickedToCompare={isClickedToCompare}
@@ -109,11 +124,14 @@ const Analytics = () => {
 								</Grid>
 								<Grid container width="100%">
 									<Grid
+										laptop={11} laptopOffset={0.5}
+										laptopL={8} laptopLOffset={0.5}
 										desktop={8} desktopOffset={0.5}
 										desktopL={8.5} desktopLOffset={0.5}
 									>
 										<Box>
 											<LightWeightChartHeader isClickedToCompare={isClickedToCompare} data={getDataInInterval(data, interval)} />
+											{displaySize < theme.breakpoints.values.laptopL - 1 && <AnalyticChartInteface isClickedToCompare={isClickedToCompare} />}
 											<LightWeightChartForAnalytics
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
@@ -122,14 +140,16 @@ const Analytics = () => {
 										</Box>
 									</Grid>
 
-									<Grid
+									{displaySize > theme.breakpoints.values.laptopL - 1 &&
+									 <Grid
+										laptopL={3}
 										desktop={3}
 										desktopL={2.5}
 									>
 										<AnalyticChartInteface isClickedToCompare={isClickedToCompare} />
-									</Grid>
+									</Grid>}
 								</Grid>
-							</StocksChartContainer>
+							</AnalyticChartContainer>
 						</Grid>
 					</Grid>
 				</AnalyticBlackoutContainer>

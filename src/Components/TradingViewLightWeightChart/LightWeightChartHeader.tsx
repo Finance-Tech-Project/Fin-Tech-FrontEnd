@@ -26,7 +26,6 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-	const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
 	const checkSymbolName = true;
 	const checkDate = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
@@ -114,9 +113,9 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 						<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', height: '100%' }}></Divider>
 					</Box>
 
-					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center', '&:first-of-type': { alignItems: 'flex-end' } }}>
-							<Grid
+					<Box sx={{ width: '50%', display: 'flex', alignItems: 'flex-end' }}>
+						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'flex-end'}}>
+							<Grid 
 								desktop={5.5}
 								desktopL={4}
 							>

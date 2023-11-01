@@ -8,7 +8,7 @@ export const MainHeaderContainer = styled(Box)(({ theme }) => ({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        
+
     },
     [theme.breakpoints.up('mobileM')]: {
         display: 'flex',
@@ -42,16 +42,16 @@ export const MainHeader = styled(Typography)(({ theme }) => ({
     [theme.breakpoints.up('mobileM')]: {
         fontSize: '32px',
         lineHeight: '40px',
-        
+
     },
     [theme.breakpoints.up('mobileL')]: {
         textAlign: 'center'
-        
+
     },
     [theme.breakpoints.up('tablet')]: {
         fontSize: '48px',
         textAlign: 'center'
-        
+
     },
     [theme.breakpoints.up('laptop')]: {
         textAlign: 'start'
@@ -110,39 +110,38 @@ export const MainButton = styled(Button, {
     zIndex: 1,
     color: 'white',
     borderRadius: '6px',
-    ...(marginTop && {marginTop: '0px'}),
+    ...(marginTop && { marginTop: '0px' }),
     [theme.breakpoints.up('mobileS')]: {
         marginTop: '20px',
-        ...(marginTop && {marginTop: '0px'}),
-        ...(width && {width: '100%'}),
-        ...(marginTop320 && {marginTop: '20px'}),
+        ...(marginTop && { marginTop: '0px' }),
+        ...(width && { width: '100%' }),
+        ...(marginTop320 && { marginTop: '20px' }),
     },
     [theme.breakpoints.up('mobileM')]: {
         marginTop: '10px',
-        ...(marginTop && {marginTop: '20px'}),
+        ...(marginTop && { marginTop: '20px' }),
     },
     [theme.breakpoints.up('tablet')]: {
         marginTop: '45px',
-        ...(marginTop && {marginTop: '20px'}),
-       
+        ...(marginTop && { marginTop: '20px' })
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '20px',
-        ...(marginTop && {marginTop: '0px'}),
-        ...(width && {width: '200px'}),
+        ...(marginTop && { marginTop: '0px' }),
+        ...(width && { width: '200px' }),
     },
     [theme.breakpoints.up('laptopL')]: {
         padding: '0px',
-       ...(marginTop && {marginTop: '0px'})
+        ...(marginTop && { marginTop: '0px' })
     },
     [theme.breakpoints.up('desktop')]: {
         marginTop: '10px',
-        ...(marginTop && {marginTop: '0px'})
+        ...(marginTop && { marginTop: '0px' })
     },
     [theme.breakpoints.up('desktopL')]: {
         marginTop: '15px',
-        ...(marginTop && {marginTop: '0px'})
-    },
+        ...(marginTop && { marginTop: '0px' })
+    }
 }));
 
 export const MainArrowIconButton = styled(EastIcon)(({ theme }) => ({
@@ -154,7 +153,7 @@ export const MainArrowIconButton = styled(EastIcon)(({ theme }) => ({
 
 export const MainImagePngContainer = styled(Box)(({ theme }) => ({
     width: '80%',
-    paddingTop: '20px', 
+    paddingTop: '20px',
     [theme.breakpoints.down('laptopL')]: {
         width: '120%'
     },
@@ -169,7 +168,7 @@ export const MainImagePng = styled('img')(({ theme }) => ({
 }));
 
 export const MainButtonsContainer = styled(Box)(({ theme }) => ({
-    width: '100%', 
+    width: '100%',
     paddingTop: '167px',
     [theme.breakpoints.up('laptop')]: {
         paddingTop: '127px',
@@ -254,19 +253,19 @@ export const MainButtonsLinkTextHeader = styled(Typography)(({ theme }) => ({
 }));
 
 export const MainButtonsLinkIconNumberContainer = styled(Box)(({ theme }) => ({
-    position: 'absolute', 
-    right: '28px', 
+    position: 'absolute',
+    right: '28px',
     top: '20px',
     [theme.breakpoints.up('laptop')]: {
-        right: '15px', 
+        right: '15px',
         top: '15px'
     },
     [theme.breakpoints.up('desktop')]: {
-        right: '17px', 
+        right: '17px',
         top: '25px'
     },
     [theme.breakpoints.up('desktopL')]: {
-        right: '20px', 
+        right: '20px',
         top: '27px',
     }
 }));
