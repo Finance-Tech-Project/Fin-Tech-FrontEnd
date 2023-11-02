@@ -30,6 +30,7 @@ export const SelectStyle = (theme: Theme) => ({
 });
 
 export const GeneralDatePicker = styled(DatePicker)(({ theme }) => ({
+     width: '100%',
     '.MuiInputBase-input': {
         color: 'white',
         borderColor: 'white',
@@ -75,7 +76,7 @@ export const GeneralDatePickerStyle = (theme: Theme) => ({
 });
 
 export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
-    width: 300,
+    width: '100%',
     '.MuiInputBase-input': {
         color: 'white',
         borderColor: 'white'
@@ -101,9 +102,9 @@ export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
     [theme.breakpoints.up('mobileS')]: {
         width: '100%'
     },
-    [theme.breakpoints.up('laptop')]: {
-        width: 300
-    }
+    // [theme.breakpoints.up('laptop')]: {
+    //     width: 300
+    // }
 }));
 
 export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({

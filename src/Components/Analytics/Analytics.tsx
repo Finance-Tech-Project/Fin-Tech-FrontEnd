@@ -114,8 +114,16 @@ const Analytics = () => {
 									laptop={11} laptopOffset={0.5}
 									laptopL={11} laptopLOffset={0.5}
 								>
-									<Box sx={{ paddingBottom: '50px', display: 'flex', justifyContent: 'space-between' }}>
-										{/* {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />} */}
+									<Box sx={{ 
+										[theme.breakpoints.up('laptopL')]: {
+											paddingBottom: '20px', 
+										},
+										[theme.breakpoints.up('desktop')]: {
+											paddingBottom: '50px', 
+										},
+										display: 'flex', 
+										justifyContent: 'space-between' 
+									}}>
 										<AnalyticDateAndIntervalPickers
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
 											isClickedToCompare={isClickedToCompare}
