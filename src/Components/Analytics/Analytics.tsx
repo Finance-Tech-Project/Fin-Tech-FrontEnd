@@ -12,12 +12,10 @@ import { theme } from '../../Constants/MaterialConstants/theme'
 import { createCandlesData, createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions'
 import AnalyticChartInteface from './AnalyticChartInteface'
 import { getDataForAnalyticChartSimpleIncome, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
-import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete'
 import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
 import { putSeriesName } from '../../Reducers/chartSeriesReducer'
 import { ChartSeriesNames, DefaultPeriods } from '../../Enums/Enums'
 import { getDataInInterval } from '../../Functions/utilsFunctions'
-import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete'
 import { 
 	putMovAvgData, 
 	putMovAvgPeriod, 
@@ -29,7 +27,6 @@ import {
 	putVolatilityPeriod 
 } from '../../Reducers/analyticIterfaceReducer'
 import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
-
 
 const Analytics = () => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);

@@ -5,8 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { getMinDateForHistory } from '../../Functions/getPeriod';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
-import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
@@ -15,6 +14,7 @@ import { DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
+import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -97,128 +97,112 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Grid container sx={{ width: '100%' }}>
-                <Grid container columns={{laptopL: 13}}
-                    laptopL={13}
-                    desktop={7}
+            <Grid container sx={{ width: '100%' }} columns={{ laptop: 11.5 }}>
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0}
+                    laptopL={1.5}
+                    desktop={1.5}
                 >
-                    <Grid
-                        laptopL={4}
-                        desktop={3}
-                    >
-                        {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />}
-                    </Grid>
-
-                    <Grid
-                        laptopL={4} laptopLOffset={0.5}
-                        desktop={3} desktopOffset={1}
-                    >
-                        {!isClickedToCompare &&
-                            <React.Fragment>
-                                <GeneralDatePicker
-                                    slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                                    label="Date from"
-                                    minDate={dayjs(getMinDateForHistory())}
-                                    value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
-                                    onChange={(newDate) => setDateFrom(newDate)}
-                                />
-                            </React.Fragment>}
-                    </Grid>
-
-                    <Grid
-                        laptopL={4} laptopLOffset={0.5}
-                        desktop={3} desktopOffset={1}
-                    >
-                        {!isClickedToCompare &&
-                            <React.Fragment>
-                                <GeneralDatePicker
-                                    slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                                    label="Date to"
-                                    value={dayjs(dateTo as string, 'YYYY-MM-DD')}
-                                    onChange={(newDate) => setDateTo(newDate)}
-                                />
-                            </React.Fragment>}
-                    </Grid>
+                    {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />}
                 </Grid>
 
-                <Grid container columns={{laptopL: 13}} 
-                    laptopL={13}
-                    desktop={5}
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0.5}
+                    laptopL={1.5} laptopLOffset={0.5}
+                    desktop={1.5} desktopOffset={0.5}
                 >
-                    <Grid sx={{ display: 'flex' }}
-                        laptopL={4}
-                        desktop={3}
-                    >
-                        <FormControl sx={{ width: '100%',
-                                [theme.breakpoints.up('laptopL')]: {
-                                    marginTop: '20px'
-                                }, 
-                                [theme.breakpoints.up('desktop')]: {
-                                    marginTop: '0px'
-                                }, 
-                            }}>
-                            <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
-                            <Select
-                                MenuProps={{
-                                    sx: {
-                                        '& .MuiList-root': {
-                                            bgcolor: "rgba(44, 9, 81, 1)",
-                                            color: 'white'
-                                        }
+                    {!isClickedToCompare &&
+                        <React.Fragment>
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date from"
+                                minDate={dayjs(getMinDateForHistory())}
+                                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateFrom(newDate)}
+                            />
+                        </React.Fragment>}
+                </Grid>
+
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0.5}
+                    laptopL={1.5} laptopLOffset={0.5}
+                    desktop={1.5} desktopOffset={0.5}
+                >
+                    {!isClickedToCompare &&
+                        <React.Fragment>
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date to"
+                                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateTo(newDate)}
+                            />
+                        </React.Fragment>}
+                </Grid>
+
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0}
+                    laptopL={1.5} laptopLOffset={0.5}
+                    desktop={1.5} desktopOffset={0.5}
+                >
+                    <FormControl sx={{
+                        width: '100%',
+                        [theme.breakpoints.up('laptopL')]: {
+                            marginTop: '0px'
+                        },
+                        [theme.breakpoints.up('desktop')]: {
+                            marginTop: '0px'
+                        },
+                    }}>
+                        <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
+                        <Select
+                            MenuProps={{
+                                sx: {
+                                    '& .MuiList-root': {
+                                        bgcolor: "rgba(44, 9, 81, 1)",
+                                        color: 'white'
                                     }
-                                }}
-                                sx={() => SelectStyle(theme)}
-                                value={period}
-                                label="Frequency"
-                                onChange={handleChangePeriod}
-                            >
-                                <MenuItem value={'Daily'}>Daily</MenuItem>
-                                <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                                <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                                <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                                }
+                            }}
+                            sx={() => SelectStyle(theme)}
+                            value={period}
+                            label="Frequency"
+                            onChange={handleChangePeriod}
+                        >
+                            <MenuItem value={'Daily'}>Daily</MenuItem>
+                            <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                            <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                            <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
 
-                    <Grid
-                        laptopL={6} laptopLOffset={3}
-                        desktop={8} desktopOffset={1}
-                    >
-                        {!isClickedToCompare ? (
-                            <Box sx={{
-                                [theme.breakpoints.up('laptop')]: {
-                                    width: '100%',
-                                    justifyContent: 'space-between'
-                                },
-                                [theme.breakpoints.up('laptopL')]: {
-                                    paddingTop: '20px',
-                                    justifyContent: 'flex-end'
-                                },
-                                [theme.breakpoints.up('desktop')]: {
-                                    paddingTop: '0px',
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0.5}
+                    laptopL={1.5} laptopLOffset={0.5}
+                    desktop={1.5} desktopOffset={0.5}
+                >
+                    {!isClickedToCompare ?
 
-                                },
-                                display: 'flex', justifyContent: 'flex-end'
-                            }}>
-                                <MainButton onClick={handleClickOnApplyButton} marginTop width sx={{ marginRight: '35px' }}>Apply</MainButton>
-                                <MainButton onClick={handleClickTwoStocksCompare} marginTop width>Compare two stocks</MainButton>
-                            </Box>
+                        <AnalyticButtons onClick={handleClickOnApplyButton} >Apply</AnalyticButtons> :
+                        <AnalyticButtons onClick={handleClickOnCompare} >Compare</AnalyticButtons>
+                    }
+                </Grid>
 
-                        ) : (
-                            <Box sx={{
-                                [theme.breakpoints.up('laptopL')]: {
-                                    paddingTop: '20px'
-                                },
-                                [theme.breakpoints.up('desktop')]: {
-                                    paddingTop: '0px'
-                                },
-                                display: 'flex', justifyContent: 'flex-end'
-                            }}>
-                                <MainButton onClick={handleClickOnCompare} sx={{ marginRight: '20px' }}>Compare</MainButton>
-                                <MainButton onClick={handleClickTwoStocksCompare} >Analytic Chart</MainButton>
-                            </Box>
-                        )}
-                    </Grid>
+                <Grid
+                    mobileS={11} mobileSOffset={0.5}
+                    laptop={3.5} laptopOffset={0.5}
+                    laptopL={1.5} laptopLOffset={0.5}
+                    desktop={1.5} desktopOffset={0.5}
+                >
+                    {!isClickedToCompare ?
+                        <AnalyticButtons onClick={handleClickTwoStocksCompare} >Compare two stocks</AnalyticButtons> :
+                        <AnalyticButtons onClick={handleClickTwoStocksCompare} >Analytic Chart</AnalyticButtons>
+                    }
                 </Grid>
             </Grid>
         </LocalizationProvider>

@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 import Analytic_BG from '../../Images/MainBG_6.jpg';
 
 export const AnalyticContainer = styled(Box)(({ theme }) => ({
@@ -26,4 +26,14 @@ export const AnalyticBlackoutContainer = styled(Box)(({ theme }) => ({
 	width: '100%',
 	minHeight: '1200px',
 	background: 'rgba(1, 1, 25, 0.5)'
+}));
+
+export const AnalyticButtons = styled(Button)(({ theme }) => ({
+    width: '100%',
+    variant: 'contained',
+    height: '54px',
+    background: 'linear-gradient(90deg, rgba(254,135,69,1) 40%, rgba(152,80,118,1) 80%, rgba(184,29,111,1) 100%)',
+    zIndex: 1,
+    color: 'white',
+    borderRadius: '6px',
 }));
