@@ -18,6 +18,9 @@ export const AnalyticChartContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('tablet')]: {
         borderTopLeftRadius: '120px',
         borderBottomRightRadius: '120px',
+        padding: '60px 60px'
+    },
+    [theme.breakpoints.up('laptop')]: {
         padding: '60px 0px'
     }
 }));
@@ -31,9 +34,19 @@ export const AnalyticBlackoutContainer = styled(Box)(({ theme }) => ({
 export const AnalyticButtons = styled(Button)(({ theme }) => ({
     width: '100%',
     variant: 'contained',
-    height: '54px',
+    height: '56px',
     background: 'linear-gradient(90deg, rgba(254,135,69,1) 40%, rgba(152,80,118,1) 80%, rgba(184,29,111,1) 100%)',
     zIndex: 1,
     color: 'white',
     borderRadius: '6px',
+    [theme.breakpoints.up('mobileS')]: {
+        marginBottom: '20px'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        marginTop: '20px'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        marginTop: '0px',
+        marginBottom: '0px',
+    },
 }));

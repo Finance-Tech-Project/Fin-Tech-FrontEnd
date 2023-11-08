@@ -98,64 +98,83 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Grid container sx={{ width: '100%' }} columns={{ laptop: 11.5 }}>
-                <Grid
-                    mobileS={11} mobileSOffset={0.5}
-                    laptop={3.5} laptopOffset={0}
-                    laptopL={1.5}
-                    desktop={1.5}
-                >
-                    {!isClickedToCompare ? <AnalyticOneStockAutocomplete /> : <AnalyticTwoStocksAutocomplete />}
-                </Grid>
+
+                {!isClickedToCompare ?
+                    <Grid
+                        mobileS={12}
+                        laptop={3.5} laptopOffset={0}
+                        laptopL={1.5}
+                        desktop={1.5}
+                    >
+                        <AnalyticOneStockAutocomplete />
+                    </Grid>
+                    :
+                    <Grid
+                        mobileS={12}
+                        laptop={12} laptopOffset={0}
+                        laptopL={5.5}
+                        desktop={5.5}
+                    >
+                        <AnalyticTwoStocksAutocomplete />
+                    </Grid>
+                }
+
+
+                {!isClickedToCompare &&
+                    <Grid
+                        mobileS={12}
+                        laptop={3.5} laptopOffset={0.5}
+                        laptopL={1.5} laptopLOffset={0.5}
+                        desktop={1.5} desktopOffset={0.5}
+                    >
+
+                        <GeneralDatePicker
+                            slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                            label="Date from"
+                            minDate={dayjs(getMinDateForHistory())}
+                            value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                            onChange={(newDate) => setDateFrom(newDate)}
+                        />
+                    </Grid>
+                }
+
+                {!isClickedToCompare &&
+                    <Grid
+                        mobileS={12}
+                        laptop={3.5} laptopOffset={0.5}
+                        laptopL={1.5} laptopLOffset={0.5}
+                        desktop={1.5} desktopOffset={0.5}
+                    >
+                        <GeneralDatePicker
+                            slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                            label="Date to"
+                            value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                            onChange={(newDate) => setDateTo(newDate)}
+                        />
+
+                    </Grid>
+                }
+
 
                 <Grid
-                    mobileS={11} mobileSOffset={0.5}
-                    laptop={3.5} laptopOffset={0.5}
-                    laptopL={1.5} laptopLOffset={0.5}
-                    desktop={1.5} desktopOffset={0.5}
-                >
-                    {!isClickedToCompare &&
-                        <React.Fragment>
-                            <GeneralDatePicker
-                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                                label="Date from"
-                                minDate={dayjs(getMinDateForHistory())}
-                                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
-                                onChange={(newDate) => setDateFrom(newDate)}
-                            />
-                        </React.Fragment>}
-                </Grid>
-
-                <Grid
-                    mobileS={11} mobileSOffset={0.5}
-                    laptop={3.5} laptopOffset={0.5}
-                    laptopL={1.5} laptopLOffset={0.5}
-                    desktop={1.5} desktopOffset={0.5}
-                >
-                    {!isClickedToCompare &&
-                        <React.Fragment>
-                            <GeneralDatePicker
-                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                                label="Date to"
-                                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
-                                onChange={(newDate) => setDateTo(newDate)}
-                            />
-                        </React.Fragment>}
-                </Grid>
-
-                <Grid
-                    mobileS={11} mobileSOffset={0.5}
+                    mobileS={12}
                     laptop={3.5} laptopOffset={0}
                     laptopL={1.5} laptopLOffset={0.5}
                     desktop={1.5} desktopOffset={0.5}
                 >
                     <FormControl sx={{
                         width: '100%',
+                        [theme.breakpoints.up('mobileS')]: {
+                            marginTop: '20px',
+                            marginBottom: '20px'
+                        },
+                        [theme.breakpoints.up('laptop')]: {
+                            marginBottom: '20px'
+                        },
                         [theme.breakpoints.up('laptopL')]: {
-                            marginTop: '0px'
-                        },
-                        [theme.breakpoints.up('desktop')]: {
-                            marginTop: '0px'
-                        },
+                            marginTop: '0px',
+                            marginBottom: '0px',
+                        }
                     }}>
                         <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
                         <Select
@@ -181,20 +200,19 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
                 </Grid>
 
                 <Grid
-                    mobileS={11} mobileSOffset={0.5}
+                    mobileS={12}
                     laptop={3.5} laptopOffset={0.5}
                     laptopL={1.5} laptopLOffset={0.5}
                     desktop={1.5} desktopOffset={0.5}
                 >
                     {!isClickedToCompare ?
-
                         <AnalyticButtons onClick={handleClickOnApplyButton} >Apply</AnalyticButtons> :
                         <AnalyticButtons onClick={handleClickOnCompare} >Compare</AnalyticButtons>
                     }
                 </Grid>
 
                 <Grid
-                    mobileS={11} mobileSOffset={0.5}
+                    mobileS={12}
                     laptop={3.5} laptopOffset={0.5}
                     laptopL={1.5} laptopLOffset={0.5}
                     desktop={1.5} desktopOffset={0.5}

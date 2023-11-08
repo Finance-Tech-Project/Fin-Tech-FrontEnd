@@ -2,10 +2,12 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCompanyNameToCompare, putSymbolCompanyName, putSymbolName, putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer';
-import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
+import { Box, Divider, Paper, TextField, ThemeProvider, Typography } from '@mui/material';
 import { TickerType } from '../../Types/TickersTypes';
 import { getSeacrhedSymbols } from '../../Actions/fetchActions';
 import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 interface AutocompleteOption {
 	name: string,
@@ -22,8 +24,8 @@ const AnalyticTwoStocksAutocomplete = () => {
 
 	const handleChangeFirstTickerValue = (event: React.SyntheticEvent<Element, Event>) => {
 		if (event.currentTarget.childNodes[0] && event.currentTarget.childNodes[0].childNodes[0]) {
-			if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null 
-				&& event.currentTarget.childNodes[0].childNodes[0].textContent !== '' 
+			if (event.currentTarget.childNodes[0].childNodes[0].textContent !== null
+				&& event.currentTarget.childNodes[0].childNodes[0].textContent !== ''
 				&& event.currentTarget.childNodes[0].childNodes[0].textContent !== undefined) {
 				dispatch(putSymbolName(event.currentTarget.childNodes[0].childNodes[0].textContent));
 			}
@@ -93,97 +95,120 @@ const AnalyticTwoStocksAutocomplete = () => {
 	}, [focusedAutocomplete, lettersFirstSymbol, lettersSecondSymbol, symbolName.symbolName]);
 
 	return (
-		<React.Fragment>
-			<GeneralAutocomplete
-				filterOptions={(options: any) => options}
-				ListboxProps={{
-					style: {
-						overflow: 'hidden',
-						maxHeight: '100%',
+		<ThemeProvider theme={theme}>
+			<Grid container sx={{ width: '100%' }} >
+				<Grid sx={{
+					[theme.breakpoints.up('mobileS')]: {
+						paddingBottom: '20px'
+					},
+					[theme.breakpoints.up('laptop')]: {
+						paddingBottom: '0px'
 					}
 				}}
-				onFocus={handleFocus}
-				onBlur={handleBlur}
-				disableListWrap={true}
-				onChange={(event) => handleChangeFirstTickerValue(event)}
-				value={symbolName.symbolName}
-				// inputValue={lettersFirstSymbol}
-				onInputChange={(event, newValue) => setLettersFirstSymbol(newValue)}
-				PaperComponent={Paper}
-				componentsProps={{
-					paper: {
-						sx: {
-							bgcolor: "rgba(44, 9, 81, 1)",
-							color: 'white'
+					mobileS={12}
+					laptop={5.5}
+					laptopL={5.5}
+					desktop={5.5}
+				>
+					<GeneralAutocomplete
+						filterOptions={(options: any) => options}
+						ListboxProps={{
+							style: {
+								overflow: 'hidden',
+								maxHeight: '100%',
+							}
+						}}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						disableListWrap={true}
+						onChange={(event) => handleChangeFirstTickerValue(event)}
+						value={symbolName.symbolName}
+						// inputValue={lettersFirstSymbol}
+						onInputChange={(event, newValue) => setLettersFirstSymbol(newValue)}
+						PaperComponent={Paper}
+						componentsProps={{
+							paper: {
+								sx: {
+									bgcolor: "rgba(44, 9, 81, 1)",
+									color: 'white'
+								}
+							}
+						}}
+						disablePortal={true}
+						getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
+						isOptionEqualToValue={(option: any) => option.name || option.companyName}
+						options={autocompleteTickers}
+						noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
+						renderOption={(props, option: any) => (
+							<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
+								<Box sx={{ width: '100%', paddingBottom: '10px' }} >
+									<Typography>{option.name}</Typography>
+									<Typography>{option.companyName}</Typography>
+									<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
+								</Box>
+							</Box>
+						)}
+						renderInput={(params) =>
+							<TextField {...params} key={params.id} label="Find symbols"
+								InputProps={{ ...params.InputProps }}
+							/>
 						}
-					}
-				}}
-				disablePortal={true}
-				getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
-				isOptionEqualToValue={(option: any) => option.name || option.companyName}
-				options={autocompleteTickers}
-				noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
-				renderOption={(props, option: any) => (
-					<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
-						<Box sx={{ width: '100%', paddingBottom: '10px' }} >
-							<Typography>{option.name}</Typography>
-							<Typography>{option.companyName}</Typography>
-							<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
-						</Box>
-					</Box>
-				)}
-				renderInput={(params) =>
-					<TextField {...params} key={params.id} label="Find symbols"
-						InputProps={{ ...params.InputProps }}
 					/>
-				}
-			/>
+				</Grid>
 
-			<GeneralAutocomplete
-				filterOptions={(options: any) => options}
-				ListboxProps={{
-					style: {
-						overflow: 'hidden',
-						maxHeight: '100%',
-					}
-				}}
-				disableListWrap={true}
-				onFocus={handleFocus}
-				onBlur={handleBlur}
-				value={symbolName.symbolNameToCompare}
-				onChange={(event) => handleChangeSecondTickerValue(event)}
-				// inputValue={lettersSecondSymbol}
-				onInputChange={(event, newValue) => setLettersSecondSymbol(newValue)}
-				PaperComponent={Paper}
-				componentsProps={{
-					paper: {
-						sx: {
-							bgcolor: "rgba(44, 9, 81, 1)",
-							color: 'white'
+				<Grid
+					mobileS={12}
+					laptop={5.5} laptopOffset={1}
+					laptopL={5.5} laptopLOffset={1}
+					desktop={5.5} desktopOffset={1}
+				>
+					<GeneralAutocomplete
+						filterOptions={(options: any) => options}
+						ListboxProps={{
+							style: {
+								overflow: 'hidden',
+								maxHeight: '100%',
+							}
+						}}
+						disableListWrap={true}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						value={symbolName.symbolNameToCompare}
+						onChange={(event) => handleChangeSecondTickerValue(event)}
+						// inputValue={lettersSecondSymbol}
+						onInputChange={(event, newValue) => setLettersSecondSymbol(newValue)}
+						PaperComponent={Paper}
+						componentsProps={{
+							paper: {
+								sx: {
+									bgcolor: "rgba(44, 9, 81, 1)",
+									color: 'white'
+								}
+							}
+						}}
+						disablePortal={true}
+						getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
+						isOptionEqualToValue={(option: any) => option.name || option.companyName}
+						options={autocompleteTickers}
+						noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
+						renderOption={(props, option: any) => (
+							<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
+								<Box sx={{ width: '100%', paddingBottom: '10px' }} >
+									<Typography>{option.name}</Typography>
+									<Typography>{option.companyName}</Typography>
+									<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
+								</Box>
+							</Box>
+						)}
+						renderInput={(params) =>
+							<TextField {...params} key={params.id} label="Find symbol for compare"
+								InputProps={{ ...params.InputProps }}
+							/>
 						}
-					}
-				}}
-				disablePortal={true}
-				getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
-				isOptionEqualToValue={(option: any) => option.name || option.companyName}
-				options={autocompleteTickers}
-				noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
-				renderOption={(props, option: any) => (
-					<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
-						<Box sx={{ width: '100%', paddingBottom: '10px' }} >
-							<Typography>{option.name}</Typography>
-							<Typography>{option.companyName}</Typography>
-							<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
-						</Box>
-					</Box>
-				)}
-				renderInput={(params) =>
-					<TextField {...params} key={params.id} label="Find symbol for compare"
-						InputProps={{ ...params.InputProps }}
 					/>
-				}
-			/>
-		</React.Fragment>
+				</Grid>
+			</Grid>
+		</ThemeProvider>
 	)
 }
 

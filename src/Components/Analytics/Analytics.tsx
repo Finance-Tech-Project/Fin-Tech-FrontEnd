@@ -103,6 +103,7 @@ const Analytics = () => {
 					<Header />
 					<Grid container>
 						<Grid
+							mobileS={11} mobileSOffset={0.5}
 							laptop={11} laptopOffset={0.5}
 							laptopL={11} laptopLOffset={0.5}
 						>

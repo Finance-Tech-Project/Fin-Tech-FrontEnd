@@ -72,13 +72,21 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					) : (
 						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
 							<Grid
+								mobileS={12}
+								tablet={4}
+								laptop={5}
+								laptopL={5}
 								desktop={6}
 								desktopL={2}
 							>
 								<HeaderItemCompanyName />
 							</Grid>
 
-							<Grid
+							<Grid 
+								mobileS={11} mobileSOffset={0.5}
+								tablet={6} tabletOffset={0.5}
+								laptop={4} laptopOffset={0.5}
+								laptopL={4.5} laptopLOffset={1}
 								desktop={3}
 								desktopL={3.5} desktopLOffset={3}
 							>

@@ -112,12 +112,15 @@ export const MainHeaderChartTickerName = styled(Typography, {
 
 export const MainHeaderChartTickerDescr = styled(Typography)(({ theme }) => ({
     color: 'white', 
-    fontSize: '1rem', 
     paddingRight: '50px',
     '&:last-child': {
         paddingRight: '0px'
     },
     [theme.breakpoints.up('mobileS')]: {
+        fontSize: '0.92rem', 
         paddingRight: '0px',
     },
+     [theme.breakpoints.up('mobileL')]: {
+        fontSize: '1rem'
+    }
 }));
