@@ -1,6 +1,6 @@
 import { Box, Typography, styled } from "@mui/material";
 
-export const MainHeaderChartContainer = styled(Box, { 
+export const MainHeaderChartContainer = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'borderTopRightRadius'
 })<any>(({ theme, borderTopRightRadius }) => ({
     width: '100%',
@@ -13,7 +13,7 @@ export const MainHeaderChartContainer = styled(Box, {
     alignItems: 'center',
     justifyContent: 'space-between',
     fontFamily: 'Inter, sans-serif',
-    ...(borderTopRightRadius && {borderTopRightRadius: '0px'}),
+    ...(borderTopRightRadius && { borderTopRightRadius: '0px' }),
     [theme.breakpoints.up('mobileS')]: {
         flexDirection: 'column',
     },
@@ -23,8 +23,8 @@ export const MainHeaderChartContainer = styled(Box, {
 }));
 
 export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({
-    minWidth: '250px', 
-    display: 'flex', 
+    minWidth: '250px',
+    display: 'flex',
     flexDirection: 'column',
     paddingLeft: '25px',
     [theme.breakpoints.up('mobileS')]: {
@@ -49,9 +49,9 @@ export const MainHeaderChartTickerNameContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
-    maxWidth: '600px', 
-    display: 'flex', 
-    justifyContent: 'center', 
+    maxWidth: '600px',
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
     [theme.breakpoints.up('mobileS')]: {
         flexDirection: 'column',
@@ -66,7 +66,7 @@ export const MainHeaderChartTickerDescrContainer = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.up('laptop')]: {
         flexDirection: 'row',
-        justifyContent: 'space-around',  
+        justifyContent: 'space-around',
     }
 }));
 
@@ -101,26 +101,27 @@ export const MainHeaderChartTickerPriceContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between'
 }));
 
-export const MainHeaderChartTickerName = styled(Typography, { 
+export const MainHeaderChartTickerName = styled(Typography, {
     shouldForwardProp: (prop) => prop !== 'color' && prop !== 'fontSize'
-})<any>(({ theme, color, fontSize }) => ({ 
+})<any>(({ theme, color, fontSize }) => ({
     lineHeight: '30px',
     paddingTop: '5px',
-    ...(color ? {color: 'red'} : {color: 'white'}),
-    ...(fontSize ? {fontSize: '2.5rem'} : {fontSize: '1rem'})
+    ...(color ? { color: 'red' } : { color: 'white' }),
+    ...(fontSize ? { fontSize: '2.5rem' } : { fontSize: '1rem' })
 }));
 
 export const MainHeaderChartTickerDescr = styled(Typography)(({ theme }) => ({
-    color: 'white', 
+    color: 'white',
     paddingRight: '50px',
     '&:last-child': {
         paddingRight: '0px'
     },
     [theme.breakpoints.up('mobileS')]: {
-        fontSize: '0.92rem', 
+        fontSize: '0.92rem',
         paddingRight: '0px',
     },
-     [theme.breakpoints.up('mobileL')]: {
+    [theme.breakpoints.up('mobileL')]: {
         fontSize: '1rem'
     }
 }));
+

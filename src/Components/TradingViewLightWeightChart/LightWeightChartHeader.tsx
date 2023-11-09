@@ -7,7 +7,8 @@ import {
 	MainHeaderChartTickerDescrWrapper,
 	MainHeaderChartTickerName,
 	MainHeaderChartTickerNameContainer,
-	MainHeaderChartTickerPriceContainer
+	MainHeaderChartTickerPriceContainer,
+	
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
 import { TickerDataType } from '../../Types/TickersTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -16,6 +17,8 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import HeaderItemCompanyName from './HeaderItemCompanyName';
 import HeaderItemDataDescription from './HeaderItemDataDescription';
 import { calcInterfaceHeight } from '../../Reducers/analyticIterfaceReducer';
+import { TwoStocksHeaderContainer, TwoStocksHeaderItem, TwoStocksHeaderItemGridContainerStyle } from '../../Styles/LightWeightChartStyles/LightWeightTwoStocksHeaderStyle';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 interface Props {
 	data: TickerDataType[],
@@ -27,7 +30,6 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const checkSymbolName = true;
-	const checkDate = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
 	
@@ -70,7 +72,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							</MainHeaderChartTickerDescrContainer>
 						</React.Fragment>
 					) : (
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
 							<Grid
 								mobileS={12}
 								tablet={4}
@@ -98,47 +100,47 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					)}
 				</React.Fragment>
 			) : (
-				<Box sx={{ width: '100%', display: 'flex' }}>
-					<Box sx={{ width: '50%', display: 'flex', alignItems: 'center' }}>
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center', '&:first-of-type': { alignItems: 'flex-end' } }}>
-							<Grid sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
-								desktop={5.5}
+				<TwoStocksHeaderContainer>
+					<TwoStocksHeaderItem>
+						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
+							<Grid 
+								desktop={6}
 								desktopL={4}
 							>
 								<HeaderItemCompanyName />
 							</Grid>
 
 							<Grid
-								desktop={6}
+								desktop={5.5}
 								desktopL={6} desktopLOffset={1.5}
 							>
 								<HeaderItemDataDescription />
 							</Grid>
 						</Grid>
-					</Box>
+					</TwoStocksHeaderItem>
 
 					<Box sx={{ minHeight: '95px' }}>
 						<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', height: '100%' }}></Divider>
 					</Box>
 
-					<Box sx={{ width: '50%', display: 'flex', alignItems: 'flex-end' }}>
-						<Grid container sx={{ width: '100%', display: 'flex', alignItems: 'flex-end'}}>
+					<TwoStocksHeaderItem>
+						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
 							<Grid 
-								desktop={5.5}
+								desktop={6}
 								desktopL={4}
 							>
 								<HeaderItemCompanyName checkSymbolName={checkSymbolName} />
 							</Grid>
 
 							<Grid
-								desktop={6}
+								desktop={5.5}
 								desktopL={6} desktopLOffset={1.5}
 							>
-								<HeaderItemDataDescription checkDate={checkDate} />
+								<HeaderItemDataDescription isClickedToCompare={isClickedToCompare}/>
 							</Grid>
 						</Grid>
-					</Box>
-				</Box>
+					</TwoStocksHeaderItem>
+				</TwoStocksHeaderContainer>
 			)}
 
 		</MainHeaderChartContainer>

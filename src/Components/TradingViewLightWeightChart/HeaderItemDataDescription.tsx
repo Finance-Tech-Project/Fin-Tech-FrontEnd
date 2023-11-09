@@ -6,10 +6,11 @@ import { DefaultPeriods } from '../../Enums/Enums';
 import { HeaderItemDescrContainer } from '../../Styles/LightWeightChartStyles/LightWeightChartStyle';
 
 interface Props {
-    checkDate?: boolean
+    checkDate?: boolean,
+    isClickedToCompare?: boolean
 }
 
-const HeaderItemDataDescription = ({checkDate}: Props) => {
+const HeaderItemDataDescription = ({checkDate, isClickedToCompare}: Props) => {
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
@@ -18,13 +19,19 @@ const HeaderItemDataDescription = ({checkDate}: Props) => {
         <Box sx={{ width: '100%', padding: '10px 0px' }}>
             <HeaderItemDescrContainer>
                 <MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
-                <MainHeaderChartTickerDescr>{simpleIncome.simpleIncomeData[simpleIncome.simpleIncomeData.length - 1].value}%</MainHeaderChartTickerDescr>
+                <MainHeaderChartTickerDescr>
+                    {
+                        !isClickedToCompare ?
+                        simpleIncome.simpleIncomeData[simpleIncome.simpleIncomeData.length - 1].value
+                        : simpleIncome.simpleIncomeDataToCompare[simpleIncome.simpleIncomeDataToCompare.length - 1].value
+                    }
+                %</MainHeaderChartTickerDescr>
             </HeaderItemDescrContainer>
 
             <HeaderItemDescrContainer>
                 <MainHeaderChartTickerDescr>{!checkDate ? 'Time range date from:' : 'Time range date to:'}</MainHeaderChartTickerDescr>
                 <MainHeaderChartTickerDescr>
-                    {!checkDate ? currentDateFrom.split("-").reverse().join("-") : currentDateTo.split("-").reverse().join("-")}
+                    {!isClickedToCompare ? currentDateFrom.split("-").reverse().join("-") : currentDateTo.split("-").reverse().join("-")}
                 </MainHeaderChartTickerDescr>
             </HeaderItemDescrContainer>
 
