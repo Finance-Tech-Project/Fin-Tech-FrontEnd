@@ -55,3 +55,4 @@ export const AnalyticChartInterfaceDivider = styled(Divider)(({ theme }) => ({
     width: '90%',
     borderWidth: '3px'
 }));
+

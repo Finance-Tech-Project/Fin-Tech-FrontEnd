@@ -6,7 +6,8 @@ export enum ChartSeriesNames {
     AreaSeries = "area",  
     BarSeries = "bar", 
     LineSeriesForSimpleIncome = "simpleIncome",
-    LineSeriesForVolatility = "volatility"
+    LineSeriesForVolatility = "volatility",
+    LineSeriesForSharpRatio = "sharpRatio"
 }
 
 export enum IntervalsAbbreviation {
@@ -34,6 +35,7 @@ export enum FetchConstants {
     MOV_AVG = "/movAvg?",
     SIMPLE_INCOME = "/simpleIncome?",
     VOLATILITY = "/volatility?",
+    SHARP_RATIO = "/sharpRatios?",
     DATE_FROM = "dateFrom=",
     DATE_TO = "&dateTo=",
     TICKER = "&ticker=",

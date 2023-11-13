@@ -8,5 +8,7 @@ export interface AnalyticInterface {
     simpleIncomeData?: TickerDataVolumeType[],
     simpleIncomeDataToCompare?: TickerDataVolumeType[],
     volatilityData?: TickerDataVolumeType[],
-    volatilityDataToCompare?: TickerDataVolumeType[]
+    volatilityDataToCompare?: TickerDataVolumeType[],
+    sharpRatioData?: TickerDataVolumeType[],
+    sharpRatioDataToCompare?: TickerDataVolumeType[]
 }

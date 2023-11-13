@@ -99,7 +99,8 @@ export const changeChartTypeSeries = (
     seriesName: string,
     movAvg?: AnalyticInterface,
     simpleIncome?: AnalyticInterface,
-    volatility?: AnalyticInterface
+    volatility?: AnalyticInterface,
+    sharpRatio?: AnalyticInterface
 ) => {
     if (seriesName === ChartSeriesNames.CandlesSeries) {
         return defaultSeries(chart, symbolData, symbolVolume);
@@ -121,6 +122,12 @@ export const changeChartTypeSeries = (
             chart, 
             seriesName, 
             volatility!
+        );
+    } else if (seriesName === ChartSeriesNames.LineSeriesForSharpRatio) {
+        return sharpRatioLineSeries(
+            chart, 
+            seriesName, 
+            sharpRatio!
         );
     }
 };
@@ -208,7 +215,7 @@ export const volatilityLineSeries = (
             }
         });
         if (volatility.volatilityData!.length > 0 && volatility.volatilityDataToCompare!.length > 0) {
-            const lineChart = chart.addLineSeries({ color: "#6d14b8" });
+            const lineChart = chart.addLineSeries({ color: volatility.colorToCompare });
             lineChart.setData(volatility.volatilityDataToCompare!);
             if (seriesName !== ChartSeriesNames.LineSeriesForVolatility) {
                 chart.removeSeries(lineChart);
@@ -217,4 +224,40 @@ export const volatilityLineSeries = (
         return lineChart;
     }
 }
+
+export const sharpRatioLineSeries = (
+    chart: IChartApi,
+    seriesName: ChartSeriesNames,
+    sharpRatio: AnalyticInterface
+) => {
+    if (sharpRatio.sharpRatioData!.length > 0) {
+        console.log(sharpRatio.sharpRatioData)
+        const lineChart = addMyLineSeries(chart, sharpRatio.sharpRatioData!, sharpRatio.color);
+        const zeroLine: PriceLineOptions = {
+            price: 0.00,
+            color: sharpRatio.color,
+            lineWidth: 2,
+            lineStyle: LineStyle.Solid,
+            axisLabelVisible: true,
+            title: 'zero %',
+            lineVisible: true,
+            axisLabelColor: sharpRatio.color,
+            axisLabelTextColor: ''
+        };
+        lineChart.createPriceLine(zeroLine);
+        lineChart.applyOptions({
+            priceFormat: {
+                type: "percent"
+            }
+        });
+        if (sharpRatio.sharpRatioData!.length > 0 && sharpRatio.sharpRatioDataToCompare!.length > 0) {
+            const lineChart = chart.addLineSeries({ color: sharpRatio.colorToCompare });
+            lineChart.setData(sharpRatio.sharpRatioDataToCompare!);
+            if (seriesName !== ChartSeriesNames.LineSeriesForSharpRatio) {
+                chart.removeSeries(lineChart);
+            }
+        }
+        return lineChart;
+    }
+};
 

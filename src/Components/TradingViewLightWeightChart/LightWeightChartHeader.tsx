@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { findMaxMinPrice } from '../../Functions/utilsFunctions';
 import {
 	MainHeaderChartContainer,
@@ -32,10 +32,10 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
-	
+
 	useEffect(() => {
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [headerContainerRef.current?.clientHeight!]);
+	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!]);
 
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
@@ -142,7 +142,6 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					</TwoStocksHeaderItem>
 				</TwoStocksHeaderContainer>
 			)}
-
 		</MainHeaderChartContainer>
 	)
 }

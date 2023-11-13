@@ -2,21 +2,21 @@
 import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgData, putMovAvgPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgData, putMovAvgPeriod, putSharpRatiosPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
-import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
+import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSharpRatios, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
-import { 
-    AnalyticChartInterfaceContainer, 
-    AnalyticChartInterfaceDivider, 
-    AnalyticChartInterfaceWrapper, 
-    MoveAverageDescrContainer, 
-    MoveAverageFormControlLabel, 
-    MoveAverageFormGroup, 
-    MoveAverageTitleContainer, 
+import {
+    AnalyticChartInterfaceContainer,
+    AnalyticChartInterfaceDivider,
+    AnalyticChartInterfaceWrapper,
+    MoveAverageDescrContainer,
+    MoveAverageFormControlLabel,
+    MoveAverageFormGroup,
+    MoveAverageTitleContainer,
     SimpleIncomeAndVolatilityTitleContainer
 } from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
 
@@ -29,10 +29,12 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const sharpRatios: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatios);
     const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [numberSimpleIncome, setNumberSimpleIncome] = useState<number | string>('');
     const [numberVolatility, setNumberVolatility] = useState<number | string>('');
+    const [numberSharpRatio, setNumberSharpRatio] = useState<number | string>('');
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
     const dispatch = useAppDispatch();
@@ -67,8 +69,10 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
         if (+event.target.value > 0) {
             setNumberVolatility('');
+            setNumberSharpRatio('');
             dispatch(putVolatilityPeriod(0));
             dispatch(putMovAvgPeriod(0));
+            dispatch(putSharpRatiosPeriod(0));
             setChecked50Days(false);
             setChecked200Days(false);
         }
@@ -82,7 +86,29 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
         if (+event.target.value > 0) {
             setNumberSimpleIncome('');
+            setNumberSharpRatio('');
             dispatch(putSimpleIncomePeriod(0));
+            dispatch(putSharpRatiosPeriod(0));
+            dispatch(putMovAvgPeriod(0));
+            setChecked50Days(false);
+            setChecked200Days(false);
+        }
+    };
+
+    const handleChangeForSharpRatio = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setNumberSharpRatio(+event.target.value);
+        dispatch(putSharpRatiosPeriod(+event.target.value));
+        if (+event.target.value >= 21 || +event.target.value === 0) {
+            setNumberSharpRatio('');
+        }
+        if (+event.target.value > 0) {
+            setNumberVolatility('');
+            setNumberSimpleIncome('');
+            dispatch(putSimpleIncomePeriod(0));
+            dispatch(putVolatilityPeriod(0));
+            dispatch(putMovAvgPeriod(0));
+            setChecked50Days(false);
+            setChecked200Days(false);
         }
     };
 
@@ -125,6 +151,21 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
     };
 
+    const handleGetSharpRatio = (event: React.MouseEvent<HTMLButtonElement>) => {
+        if (!Boolean(event.currentTarget.value)) {
+            setChecked50Days(false);
+            setChecked200Days(false);
+            dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSharpRatio));
+            dispatch(getDataForAnalyticChartSharpRatios(
+                symbolName.symbolName,
+                symbolName.symbolNameToCompare,
+                sharpRatios.period,
+                currentDateFrom,
+                currentDateTo
+            ));
+        }
+    };
+
     useEffect(() => {
         movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName.symbolName, movAvg.period, currentDateFrom, currentDateTo));
         simpleIncome.period === 0 && setNumberSimpleIncome('');
@@ -133,18 +174,18 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setChecked50Days(false);
             setChecked200Days(false);
         }
-    }, [movAvg.period, simpleIncome.period, volatility.period, currentDateFrom, currentDateTo, isClickedToCompare]);
+    }, [movAvg.period, simpleIncome.period, volatility.period, sharpRatios.period, currentDateFrom, currentDateTo, isClickedToCompare]);
 
     return (
-        <AnalyticChartInterfaceContainer height={735 + interfaceHeight}>
+        <AnalyticChartInterfaceContainer height={735 + interfaceHeight + 1}>
             <AnalyticChartInterfaceWrapper>
                 {!isClickedToCompare && (
                     <React.Fragment>
                         <MoveAverageTitleContainer>
                             <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>
                             <Box sx={{ width: '25%' }}>
-                                <AnalyticChartInterfaceDivider 
-                                    orientation='horizontal' 
+                                <AnalyticChartInterfaceDivider
+                                    orientation='horizontal'
                                     color={movAvg.color}
                                 ></AnalyticChartInterfaceDivider>
                             </Box>
@@ -165,12 +206,11 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                     </React.Fragment>
                 )}
 
-
                 <SimpleIncomeAndVolatilityTitleContainer>
                     <Typography sx={{ color: 'white' }} variant='h5'>Simple Income</Typography>
                     <Box sx={{ width: '25%' }}>
-                        <AnalyticChartInterfaceDivider 
-                            orientation='horizontal' 
+                        <AnalyticChartInterfaceDivider
+                            orientation='horizontal'
                             color={simpleIncome.color}
                         ></AnalyticChartInterfaceDivider>
                     </Box>
@@ -190,7 +230,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 <SimpleIncomeAndVolatilityTitleContainer>
                     <Typography sx={{ color: 'white' }} variant='h5'>Volatility</Typography>
                     <Box sx={{ width: '25%' }}>
-                        <AnalyticChartInterfaceDivider 
+                        <AnalyticChartInterfaceDivider
                             orientation='horizontal'
                             color={volatility.color}
                         ></AnalyticChartInterfaceDivider>
@@ -208,6 +248,26 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 ></MainTickersTextField>
                 <MainButton onClick={handleGetVolatality} marginTop sx={{ width: '100%' }}>Get Volatility</MainButton>
 
+                <SimpleIncomeAndVolatilityTitleContainer>
+                    <Typography sx={{ color: 'white' }} variant='h5'>Sharp Ratio</Typography>
+                    <Box sx={{ width: '25%' }}>
+                        <AnalyticChartInterfaceDivider
+                            orientation='horizontal'
+                            color={sharpRatios.color}
+                        ></AnalyticChartInterfaceDivider>
+                    </Box>
+                </SimpleIncomeAndVolatilityTitleContainer>
+
+                <MainTickersTextField
+                    type="number"
+                    variant="outlined"
+                    label="Enter period in years"
+                    sx={{ marginTop: '10px' }}
+                    value={numberSharpRatio}
+                    onChange={(event) => handleChangeForSharpRatio(event)}
+                    onFocus={handleFocus}
+                ></MainTickersTextField>
+                <MainButton onClick={handleGetSharpRatio} marginTop sx={{ width: '100%' }}>Get Sharp Ratio</MainButton>
             </AnalyticChartInterfaceWrapper>
         </AnalyticChartInterfaceContainer>
     )

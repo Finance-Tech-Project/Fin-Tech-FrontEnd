@@ -21,6 +21,13 @@ interface AnalyticInterface {
         volatilityData: TickerDataVolumeType[],
         volatilityDataToCompare: TickerDataVolumeType[]
     },
+    sharpRatios: {
+        color: string,
+        colorToCompare: string,
+        period: number,
+        sharpRatioData: TickerDataVolumeType[],
+        sharpRatioDataToCompare: TickerDataVolumeType[]
+    },
     interfaceHeight: number
 }
 
@@ -44,6 +51,13 @@ const initialAnalyticInterface: AnalyticInterface = {
         volatilityData: [],
         volatilityDataToCompare: []
     },
+    sharpRatios: {
+        color: "orange",
+        colorToCompare: "fuchsia",
+        period: 0,
+        sharpRatioData: [],
+        sharpRatioDataToCompare: []
+    },
     interfaceHeight: 0
 };
 
@@ -60,6 +74,9 @@ const analyticInterfaceSlice = createSlice({
         putVolatilityPeriod(state, action: PayloadAction<number>) {
             state.volatility.period = action.payload;
         },
+        putSharpRatiosPeriod(state, action: PayloadAction<number>) {
+            state.sharpRatios.period = action.payload;
+        },
         putMovAvgData(state, action: PayloadAction<TickerDataVolumeType[]>) {
             state.movAvg.movAvgData = action.payload;
         },
@@ -75,8 +92,13 @@ const analyticInterfaceSlice = createSlice({
         putVolatilityDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
             state.volatility.volatilityDataToCompare = action.payload;
         },
+        putSharpRatiosData(state, action: PayloadAction<TickerDataVolumeType[]>) {
+            state.sharpRatios.sharpRatioData = action.payload;
+        },
+        putSharpRatiosDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
+            state.sharpRatios.sharpRatioDataToCompare = action.payload;
+        },
         calcInterfaceHeight(state, action: PayloadAction<number>) {
-            console.log(action.payload)
             if (action.payload && action.payload > 95) {
                 state.interfaceHeight = action.payload - 95;
             } else {
@@ -90,11 +112,14 @@ export const {
     putMovAvgPeriod, 
     putSimpleIncomePeriod, 
     putVolatilityPeriod,
+    putSharpRatiosPeriod,
     putMovAvgData, 
     putSimpleIncomeData, 
     putSimpleIncomeDataToCompare,
     putVolatilityData,
     putVolatilityDataToCompare,
+    putSharpRatiosData,
+    putSharpRatiosDataToCompare,
     calcInterfaceHeight
 } = analyticInterfaceSlice.actions;
 export const analyticInterfaceReducer = analyticInterfaceSlice.reducer;

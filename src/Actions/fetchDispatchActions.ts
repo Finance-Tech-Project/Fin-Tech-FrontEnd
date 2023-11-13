@@ -1,5 +1,5 @@
 import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO, FetchConstants } from "../Enums/Enums";
-import { putMovAvgData, putSimpleIncomeData, putSimpleIncomeDataToCompare, putVolatilityData, putVolatilityDataToCompare } from "../Reducers/analyticIterfaceReducer";
+import { putMovAvgData, putSharpRatiosData, putSharpRatiosDataToCompare, putSimpleIncomeData, putSimpleIncomeDataToCompare, putVolatilityData, putVolatilityDataToCompare } from "../Reducers/analyticIterfaceReducer";
 import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../Reducers/historicalDataReducer";
 import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
@@ -168,3 +168,38 @@ export const getDataForAnalyticChartVolatility = (symbolName: string, symbolName
         }
     }
 }
+
+export const getDataForAnalyticChartSharpRatios = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
+    return async (dispatch: AppDispatch) => {
+        try {
+            const response = await fetch(`${FetchConstants.BASE_URL + 
+                FetchConstants.ANALYTICS + 
+                FetchConstants.SHARP_RATIO +
+                FetchConstants.DATE_FROM + dateFrom + 
+                FetchConstants.DATE_TO + dateTo +
+                FetchConstants.TICKER + symbolName +
+                FetchConstants.YEARS + period
+            }`);
+            if (response.ok) {
+                const data: TickerDataVolumeType[] = await response.json();
+                dispatch(putSharpRatiosData(data));
+            }
+            if (symbolNameToCompare !== '') {
+                const response = await fetch(`${FetchConstants.BASE_URL + 
+                    FetchConstants.ANALYTICS + 
+                    FetchConstants.SHARP_RATIO +
+                    FetchConstants.DATE_FROM + dateFrom + 
+                    FetchConstants.DATE_TO + dateTo +
+                    FetchConstants.TICKER + symbolNameToCompare +
+                    FetchConstants.YEARS + period
+                }`);
+                if (response.ok) {
+                    const data: TickerDataVolumeType[] = await response.json();
+                    dispatch(putSharpRatiosDataToCompare(data));
+                }
+            }
+        } catch (error) {
+            
+        }
+    }
+};
