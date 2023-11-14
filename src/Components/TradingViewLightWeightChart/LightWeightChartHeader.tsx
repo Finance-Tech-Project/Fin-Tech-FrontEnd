@@ -8,7 +8,7 @@ import {
 	MainHeaderChartTickerName,
 	MainHeaderChartTickerNameContainer,
 	MainHeaderChartTickerPriceContainer,
-	
+
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
 import { TickerDataType } from '../../Types/TickersTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -76,20 +76,20 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							<Grid
 								mobileS={12}
 								tablet={4}
-								laptop={5}
-								laptopL={5}
+								laptop={4}
+								laptopL={4.5}
 								desktop={6}
 								desktopL={2}
 							>
 								<HeaderItemCompanyName />
 							</Grid>
 
-							<Grid 
+							<Grid
 								mobileS={11} mobileSOffset={0.5}
 								tablet={6} tabletOffset={0.5}
-								laptop={4} laptopOffset={0.5}
-								laptopL={4.5} laptopLOffset={1}
-								desktop={3}
+								laptop={4} laptopOffset={2}
+								laptopL={4} laptopLOffset={2}
+								desktop={3} desktopOffset={0}
 								desktopL={3.5} desktopLOffset={3}
 							>
 								{simpleIncome.simpleIncomeData.length > 0 &&
@@ -103,7 +103,9 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 				<TwoStocksHeaderContainer>
 					<TwoStocksHeaderItem>
 						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
-							<Grid 
+							<Grid
+								laptop={4}
+								laptopL={4.5}
 								desktop={6}
 								desktopL={4}
 							>
@@ -111,7 +113,9 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							</Grid>
 
 							<Grid
-								desktop={5.5}
+								laptop={4} laptopOffset={2}
+								laptopL={4} laptopLOffset={2}
+								desktop={5.5} desktopOffset={0}
 								desktopL={6} desktopLOffset={1.5}
 							>
 								<HeaderItemDataDescription />
@@ -119,13 +123,19 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 						</Grid>
 					</TwoStocksHeaderItem>
 
-					<Box sx={{ minHeight: '95px' }}>
+					<Box sx={{
+						[theme.breakpoints.up('desktop')]: {
+							minHeight: '95px'
+						}
+					}}>
 						<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', height: '100%' }}></Divider>
 					</Box>
 
 					<TwoStocksHeaderItem>
 						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
-							<Grid 
+							<Grid
+								laptop={4}
+								laptopL={4.5}
 								desktop={6}
 								desktopL={4}
 							>
@@ -133,10 +143,12 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 							</Grid>
 
 							<Grid
-								desktop={5.5}
+								laptop={4} laptopOffset={2}
+								laptopL={4} laptopLOffset={2}
+								desktop={5.5} desktopOffset={0}
 								desktopL={6} desktopLOffset={1.5}
 							>
-								<HeaderItemDataDescription isClickedToCompare={isClickedToCompare}/>
+								<HeaderItemDataDescription isClickedToCompare={isClickedToCompare} />
 							</Grid>
 						</Grid>
 					</TwoStocksHeaderItem>

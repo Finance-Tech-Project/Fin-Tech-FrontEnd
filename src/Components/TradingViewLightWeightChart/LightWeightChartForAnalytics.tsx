@@ -22,7 +22,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
-	const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatios);
+	const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +57,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 		const volatilityData = JSON.parse(JSON.stringify(volatility)) as AnalyticInterface;
 		const movAvgData = JSON.parse(JSON.stringify(movAvg)) as AnalyticInterface;
 		const sharpRatioData = JSON.parse(JSON.stringify(sharpRatio)) as AnalyticInterface;
-
+	
 		if (movAvg.period > 0) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));

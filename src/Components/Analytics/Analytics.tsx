@@ -19,6 +19,9 @@ import { getDataInInterval } from '../../Functions/utilsFunctions'
 import { 
 	putMovAvgData, 
 	putMovAvgPeriod, 
+	putSharpRatioData, 
+	putSharpRatioDataToCompare, 
+	putSharpRatioPeriod, 
 	putSimpleIncomeData, 
 	putSimpleIncomeDataToCompare, 
 	putSimpleIncomePeriod, 
@@ -50,10 +53,13 @@ const Analytics = () => {
 		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
 		dispatch(putSimpleIncomePeriod(0));
 		dispatch(putVolatilityPeriod(0));
+		dispatch(putSharpRatioPeriod(0));
 		dispatch(putSimpleIncomeData([]));
 		dispatch(putSimpleIncomeDataToCompare([]));
 		dispatch(putVolatilityData([]));
 		dispatch(putVolatilityDataToCompare([]));	
+		dispatch(putSharpRatioData([]));
+		dispatch(putSharpRatioDataToCompare([]));
 		dispatch(putSymbolNameToCompare(''));
 		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 		if (movAvg.period > 0) {
@@ -67,7 +73,7 @@ const Analytics = () => {
 			dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 		} else {
 			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
-			dispatch(putSimpleIncomePeriod(0));
+			dispatch(putSimpleIncomePeriod(DefaultPeriods.SimpleIncomeDefaultPeriod));
 			if (symbolName.symbolName && !symbolName.symbolNameToCompare) {
 				dispatch(getDataForAnalyticChartSimpleIncome(
 					symbolName.symbolName,

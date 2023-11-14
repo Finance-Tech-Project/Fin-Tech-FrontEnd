@@ -3,13 +3,15 @@ import { Box, Divider, FormControlLabel, FormGroup, styled } from "@mui/material
 export const AnalyticChartInterfaceContainer = styled(Box)(({ theme }) => ({
     border: '1px solid rgba(70, 75, 114, 0.8)',  
     backgroundColor: 'rgba(44, 9, 81, 1)',
-    width: '100%'
+    width: '100%',
+    overflowY: 'scroll'
 }));
 
 export const AnalyticChartInterfaceWrapper = styled(Box)(({ theme }) => ({
-    padding: '25px', 
+    padding: '20px 25px', 
     display: 'flex', 
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'space-between'
 }));
 
 export const MoveAverageTitleContainer = styled(Box)(({ theme }) => ({
@@ -43,12 +45,20 @@ export const MoveAverageFormControlLabel = styled(FormControlLabel)(({ theme }) 
     }
 }));
 
-export const SimpleIncomeAndVolatilityTitleContainer = styled(Box)(({ theme }) => ({
+export const AnalyticInterfaceItemContainer = styled(Box)(({ theme }) => ({
     display: 'flex', 
     justifyContent: 'space-between', 
     alignItems: 'center', 
     paddingTop: '20px', 
-    paddingBottom: '10px'
+    paddingBottom: '10px',
+    [theme.breakpoints.up('mobileS')]: {
+        paddingTop: '20px', 
+        paddingBottom: '10px'
+    },
+    [theme.breakpoints.up('desktop')]: {
+        paddingTop: '30px', 
+        paddingBottom: '10px'
+    },
 }));
 
 export const AnalyticChartInterfaceDivider = styled(Divider)(({ theme }) => ({ 

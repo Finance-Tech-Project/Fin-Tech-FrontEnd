@@ -1,5 +1,5 @@
 import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO, FetchConstants } from "../Enums/Enums";
-import { putMovAvgData, putSharpRatiosData, putSharpRatiosDataToCompare, putSimpleIncomeData, putSimpleIncomeDataToCompare, putVolatilityData, putVolatilityDataToCompare } from "../Reducers/analyticIterfaceReducer";
+import { putMovAvgData,  putSharpRatioData,  putSharpRatioDataToCompare,  putSimpleIncomeData, putSimpleIncomeDataToCompare, putVolatilityData, putVolatilityDataToCompare } from "../Reducers/analyticIterfaceReducer";
 import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../Reducers/historicalDataReducer";
 import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
@@ -182,7 +182,7 @@ export const getDataForAnalyticChartSharpRatios = (symbolName: string, symbolNam
             }`);
             if (response.ok) {
                 const data: TickerDataVolumeType[] = await response.json();
-                dispatch(putSharpRatiosData(data));
+                dispatch(putSharpRatioData(data));
             }
             if (symbolNameToCompare !== '') {
                 const response = await fetch(`${FetchConstants.BASE_URL + 
@@ -195,7 +195,7 @@ export const getDataForAnalyticChartSharpRatios = (symbolName: string, symbolNam
                 }`);
                 if (response.ok) {
                     const data: TickerDataVolumeType[] = await response.json();
-                    dispatch(putSharpRatiosDataToCompare(data));
+                    dispatch(putSharpRatioDataToCompare(data));
                 }
             }
         } catch (error) {

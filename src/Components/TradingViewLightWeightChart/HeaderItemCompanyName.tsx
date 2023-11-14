@@ -29,7 +29,7 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                     [theme.breakpoints.up('mobileS')]: {
                         width: '96%'
                     },
-                    [theme.breakpoints.up('tablet')]: {
+                    [theme.breakpoints.up('desktop')]: {
                         width: '50%'
                     },
                 }}>

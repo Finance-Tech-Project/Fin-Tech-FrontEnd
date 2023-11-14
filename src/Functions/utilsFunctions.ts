@@ -1,4 +1,4 @@
-import { IntervalsAbbreviation } from "../Enums/Enums";
+import { DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
@@ -110,4 +110,28 @@ export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, vo
         return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare)
             || simpleIncome.period > 0 ? simpleIncome.colorToCompare : volatility.colorToCompare;
     }
+};
+
+export const getChartHeaderDescrItem = (
+    simpleIncomePeriod: number,
+    volatilityPeriod: number,
+    sharpRatioPeriod: number
+) => {
+    const res: Array<string | number> = []; 
+    if (simpleIncomePeriod > 0) {
+        res[0] = "Simple income period in years:";
+        res[1] = simpleIncomePeriod === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncomePeriod;
+        return res;
+    }
+    if (volatilityPeriod > 0) {
+        res[0] = "Volatility period in days:";
+        res[1] = volatilityPeriod;
+        return res;
+    }
+    if (sharpRatioPeriod > 0) {
+        res[0] = "Sharp ratio period in years:";
+        res[1] = sharpRatioPeriod;
+        return res;
+    }
+    return res;
 };
