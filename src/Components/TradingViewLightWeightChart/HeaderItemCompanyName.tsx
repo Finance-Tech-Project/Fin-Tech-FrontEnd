@@ -16,7 +16,15 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <Box sx={{ padding: '15px 0px 15px 20px' }}>
+            <Box sx={{
+                
+                [theme.breakpoints.up('mobileS')]: {
+                    padding: '15px 0px 15px 10px',
+                },
+                [theme.breakpoints.up('tablet')]: {
+                    padding: '15px 0px 15px 20px',
+                },
+            }}>
                 <MainHeaderChartTickerName fontSize
                     sx={{
                         color: getColorForLightWeightHeader(simpleIncome, volatility, !checkSymbolName ? false : true)
@@ -24,15 +32,7 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                 >
                     {!checkSymbolName ? symbolName.symbolName : symbolName.symbolNameToCompare}
                 </MainHeaderChartTickerName>
-                <Box sx={{
-                    // width: '50%',
-                    [theme.breakpoints.up('mobileS')]: {
-                        width: '96%'
-                    },
-                    [theme.breakpoints.up('desktop')]: {
-                        width: '50%'
-                    },
-                }}>
+                <Box sx={{ width: '95%' }}>
                     <MainHeaderChartTickerName>
                         {!checkSymbolName ? symbolName.companyName : symbolName.companyNameToCompare}
                     </MainHeaderChartTickerName>

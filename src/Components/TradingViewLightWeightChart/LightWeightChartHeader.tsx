@@ -31,11 +31,16 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
+	const [displaySizeHeight, setDisplaySizeHeight] = useState(window.screen.width);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		window.addEventListener('resize', () => {
+			setDisplaySizeHeight(window.screen.height);
+			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
+		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!]);
+	}, [isClickedToCompare, simpleIncome.simpleIncomeDataToCompare.length, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
 
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
@@ -75,22 +80,22 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
 							<Grid
 								mobileS={12}
-								tablet={4}
-								laptop={4}
-								laptopL={4.5}
-								desktop={6}
-								desktopL={2}
+								tablet={6}
+								laptop={6}
+								laptopL={6}
+								desktop={4}
+								desktopL={3.5}
 							>
 								<HeaderItemCompanyName />
 							</Grid>
 
 							<Grid
 								mobileS={11} mobileSOffset={0.5}
-								tablet={6} tabletOffset={0.5}
-								laptop={4} laptopOffset={2}
-								laptopL={4} laptopLOffset={2}
-								desktop={3} desktopOffset={0}
-								desktopL={3.5} desktopLOffset={3}
+								tablet={5.5} tabletOffset={0}
+								laptop={4} laptopOffset={1}
+								laptopL={4} laptopLOffset={1}
+								desktop={3} desktopOffset={3}
+								desktopL={2.5} desktopLOffset={3.5}
 							>
 								{simpleIncome.simpleIncomeData.length > 0 &&
 									<HeaderItemDataDescription />
@@ -104,19 +109,24 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					<TwoStocksHeaderItem>
 						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
 							<Grid
-								laptop={4}
-								laptopL={4.5}
+								mobileS={12}
+								tablet={6}
+								laptop={6}
+								laptopL={6}
 								desktop={6}
-								desktopL={4}
+								desktopL={5}
 							>
 								<HeaderItemCompanyName />
 							</Grid>
 
 							<Grid
-								laptop={4} laptopOffset={2}
-								laptopL={4} laptopLOffset={2}
+								mobileS={12}
+								mobileL={11} mobileLOffset={0.5}
+								tablet={5.5} tabletOffset={0}
+								laptop={3.5} laptopOffset={2}
+								laptopL={3.5} laptopLOffset={2}
 								desktop={5.5} desktopOffset={0}
-								desktopL={6} desktopLOffset={1.5}
+								desktopL={5} desktopLOffset={1.5}
 							>
 								<HeaderItemDataDescription />
 							</Grid>
@@ -134,19 +144,24 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 					<TwoStocksHeaderItem>
 						<Grid container sx={() => TwoStocksHeaderItemGridContainerStyle(theme)}>
 							<Grid
-								laptop={4}
-								laptopL={4.5}
+								mobileS={12}
+								tablet={6}
+								laptop={6}
+								laptopL={6}
 								desktop={6}
-								desktopL={4}
+								desktopL={5}
 							>
 								<HeaderItemCompanyName checkSymbolName={checkSymbolName} />
 							</Grid>
 
 							<Grid
-								laptop={4} laptopOffset={2}
-								laptopL={4} laptopLOffset={2}
+								mobileS={12}
+								mobileL={11} mobileLOffset={0.5}
+								tablet={5.5} tabletOffset={0}
+								laptop={3.5} laptopOffset={2}
+								laptopL={3.5} laptopLOffset={2}
 								desktop={5.5} desktopOffset={0}
-								desktopL={6} desktopLOffset={1.5}
+								desktopL={5} desktopLOffset={1.5}
 							>
 								<HeaderItemDataDescription isClickedToCompare={isClickedToCompare} />
 							</Grid>

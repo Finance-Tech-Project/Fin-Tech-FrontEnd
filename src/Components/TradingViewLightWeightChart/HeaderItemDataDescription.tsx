@@ -31,7 +31,7 @@ const HeaderItemDataDescription = ({ isClickedToCompare }: Props) => {
             <HeaderItemDescrContainer>
                 <MainHeaderChartTickerDescr>{"Time range:"}</MainHeaderChartTickerDescr>
                 <MainHeaderChartTickerDescr>
-                    {currentDateFrom.split("-").reverse().join("-") + "/" + currentDateTo.split("-").reverse().join("-")}
+                    {currentDateFrom.split("-")[0] + "-" + currentDateTo.split("-")[0]}
                 </MainHeaderChartTickerDescr>
             </HeaderItemDescrContainer>
 

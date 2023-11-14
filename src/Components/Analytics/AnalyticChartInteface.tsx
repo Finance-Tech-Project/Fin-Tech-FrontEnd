@@ -19,6 +19,7 @@ import {
     MoveAverageFormGroup,
     MoveAverageTitleContainer,
 } from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 interface Props {
     isClickedToCompare: boolean

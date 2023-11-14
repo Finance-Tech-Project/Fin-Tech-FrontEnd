@@ -93,6 +93,9 @@ export const MainHeaderChartTickerDescrWrapper = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.up('desktop')]: {
         width: '30%'
+    },
+    [theme.breakpoints.up('desktopL')]: {
+        width: '40%'
     }
 }));
 
@@ -122,6 +125,9 @@ export const MainHeaderChartTickerDescr = styled(Typography)(({ theme }) => ({
     },
     [theme.breakpoints.up('mobileL')]: {
         fontSize: '1rem'
+    },
+    [theme.breakpoints.up('desktopL')]: {
+        fontSize: '1.3rem'
     }
 }));
 
