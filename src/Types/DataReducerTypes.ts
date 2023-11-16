@@ -6,3 +6,10 @@ export interface SymbolData {
     monthlyData: Array<TickerDataType>,
     yearlyData: Array<TickerDataType>
 }
+
+export interface Symbols {
+    symbolName: string,
+    companyName: string,
+    symbolNameToCompare: string,
+    companyNameToCompare: string
+}

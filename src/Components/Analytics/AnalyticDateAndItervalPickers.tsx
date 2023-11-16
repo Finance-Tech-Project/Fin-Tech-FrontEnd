@@ -9,23 +9,28 @@ import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@m
 import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
-import { getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
+import { getDataForAnalyticChartSharpRatio, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
 import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
 import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
+import { Symbols } from '../../Types/DataReducerTypes';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    handleClickAnalyticChart: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     isClickedToCompare: boolean
 }
 
-const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClickedToCompare }: Props) => {
-    const symbolName = useAppSelector(state => state.selectedSymbolReducer);
-    const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-    const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedToCompare }: Props) => {
+    const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
+    const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
+    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+    const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
     const [dateTo, setDateTo] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -54,41 +59,31 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
 
     const handleClickOnCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (Boolean(!event.currentTarget.value) && symbolName.symbolName && symbolName.symbolNameToCompare) {
-            if (simpleIncome.period === 0) {
-                dispatch(getDataForAnalyticChartSimpleIncome(
-                    symbolName.symbolName,
-                    symbolName.symbolNameToCompare,
-                    DefaultPeriods.SimpleIncomeDefaultPeriod,
-                    currentDateFrom,
-                    currentDateTo
-                ));
-            } else {
-                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
-                dispatch(getDataForAnalyticChartSimpleIncome(
-                    symbolName.symbolName,
-                    symbolName.symbolNameToCompare,
-                    simpleIncome.period,
-                    currentDateFrom,
-                    currentDateTo
-                ));
-            }
-            if (volatility.period === 0) {
-                dispatch(getDataForAnalyticChartVolatility(
-                    symbolName.symbolName,
-                    symbolName.symbolNameToCompare,
-                    DefaultPeriods.VolatilityDefaultPeriod,
-                    currentDateFrom,
-                    currentDateTo
-                ));
-            } else {
-                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
-                dispatch(getDataForAnalyticChartVolatility(
-                    symbolName.symbolName,
-                    symbolName.symbolNameToCompare,
-                    volatility.period,
-                    currentDateFrom,
-                    currentDateTo
-                ));
+            switch (seriesName) {
+                case ChartSeriesNames.LineSeriesForSimpleIncome:
+                    return dispatch(getDataForAnalyticChartSimpleIncome(
+                        symbolName.symbolName,
+                        symbolName.symbolNameToCompare,
+                        simpleIncome.period === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncome.period,
+                        currentDateFrom,
+                        currentDateTo
+                    ));
+                case ChartSeriesNames.LineSeriesForVolatility:
+                    return dispatch(getDataForAnalyticChartVolatility(
+                        symbolName.symbolName,
+                        symbolName.symbolNameToCompare,
+                        volatility.period,
+                        currentDateFrom,
+                        currentDateTo
+                    ));
+                case ChartSeriesNames.LineSeriesForSharpRatio:
+                    return dispatch(getDataForAnalyticChartSharpRatio(
+                        symbolName.symbolName,
+                        symbolName.symbolNameToCompare,
+                        sharpRatio.period,
+                        currentDateFrom,
+                        currentDateTo
+                    ));
             }
         }
     };
@@ -96,7 +91,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
     useEffect(() => {
         setDateFrom(currentDateFrom);
         setDateTo(currentDateTo);
-    }, [currentDateFrom, currentDateTo, symbolName.symbolName, symbolName.symbolNameToCompare]);
+    }, [currentDateFrom, currentDateTo, symbolName.symbolName, symbolName.symbolNameToCompare, simpleIncome.period]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -222,7 +217,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
                 >
                     {!isClickedToCompare ?
                         <AnalyticButtons onClick={handleClickTwoStocksCompare} >Compare two stocks</AnalyticButtons> :
-                        <AnalyticButtons onClick={handleClickTwoStocksCompare} >Analytic Chart</AnalyticButtons>
+                        <AnalyticButtons onClick={handleClickAnalyticChart} >Analytic Chart</AnalyticButtons>
                     }
                 </Grid>
             </Grid>

@@ -46,7 +46,8 @@ export enum FetchConstants {
 
 export enum DefaultPeriods {
     SimpleIncomeDefaultPeriod = 2,
-    VolatilityDefaultPeriod = 500
+    VolatilityDefaultPeriod = 500,
+    SharpRatioDefaultPeriod = 2
 }
 
 export const DEFAULT_DATE_FROM = getPeriod(2)[0];

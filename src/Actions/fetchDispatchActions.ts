@@ -136,27 +136,6 @@ export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNa
     }
 };
 
-// export const getDataForAnalyticChartSimpleIncomeToCompare = (symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
-//     return async (dispatch: AppDispatch) => {
-//         try {
-//             const response = await fetch(`${FetchConstants.BASE_URL +
-//                 FetchConstants.ANALYTICS +
-//                 FetchConstants.SIMPLE_INCOME +
-//                 FetchConstants.DATE_FROM + dateFrom +
-//                 FetchConstants.DATE_TO + dateTo +
-//                 FetchConstants.TICKER + symbolNameToCompare +
-//                 FetchConstants.YEARS + period
-//                 }`);
-//             if (response.ok) {
-//                 const data: TickerDataVolumeType[] = await response.json();
-//                 dispatch(putSimpleIncomeDataToCompare(data));
-//             }
-//         } catch (error) {
-
-//         }
-//     }
-// };
-
 export const getDataForAnalyticChartVolatility = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
         try {
@@ -192,7 +171,7 @@ export const getDataForAnalyticChartVolatility = (symbolName: string, symbolName
     }
 }
 
-export const getDataForAnalyticChartSharpRatios = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
+export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +

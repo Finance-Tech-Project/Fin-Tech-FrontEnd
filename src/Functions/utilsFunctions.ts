@@ -1,6 +1,6 @@
 import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
-import { SymbolData } from "../Types/DataReducerTypes";
+import { SymbolData, Symbols } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
 
 export const transformTextForStatistics = (word: string | undefined) => {
@@ -103,17 +103,20 @@ export const getDataInInterval = (data: SymbolData, interval: string) => {
 };
 
 export const getColorForLightWeightHeader = (
+    seriesName: ChartSeriesNames,
+    symbolName: Symbols,
     simpleIncome: AnalyticInterface, 
     volatility: AnalyticInterface, 
-    sharpRatio: AnalyticInterface, 
-    choiceColor: boolean
+    sharpRatio: AnalyticInterface,
+    switchColor: boolean
 ) => {
-    if (!choiceColor) {
-        return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.color)
-            || simpleIncome.period > 0 ? simpleIncome.color : volatility.color;
-    } else {
-        return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.colorToCompare)
-            || simpleIncome.period > 0 ? simpleIncome.colorToCompare : volatility.colorToCompare;
+    switch (seriesName) {
+        case ChartSeriesNames.LineSeriesForSimpleIncome:
+            return switchColor ? simpleIncome.color : simpleIncome.colorToCompare;
+        case ChartSeriesNames.LineSeriesForVolatility:
+            return switchColor ? volatility.color : volatility.colorToCompare;
+        case ChartSeriesNames.LineSeriesForSharpRatio:
+            return switchColor ? sharpRatio.color : sharpRatio.colorToCompare;
     }
 };
 
@@ -122,7 +125,8 @@ export const getChartHeaderTitleItem = (
     volatility: AnalyticInterface,
     sharpRatio: AnalyticInterface,
     isClickedToCompare: boolean,
-    seriesName: string
+    seriesName: string,
+    
 ) => {
     if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
         if ((simpleIncome.period > 0 && simpleIncome.data.length > 0) || (simpleIncome.period > 0 && simpleIncome.dataToCompare!.length > 0)) {
@@ -138,6 +142,12 @@ export const getChartHeaderTitleItem = (
         }
     }
 
+    if (seriesName === ChartSeriesNames.LineSeriesForSharpRatio) {
+        if ((sharpRatio.period > 0 && sharpRatio.data.length > 0) || (sharpRatio.period > 0 && sharpRatio.dataToCompare!.length > 0)) {
+            return !isClickedToCompare ? sharpRatio.data[sharpRatio.data.length - 1].value.toFixed(2)
+                : sharpRatio.dataToCompare![sharpRatio.dataToCompare!.length - 1].value.toFixed(2);
+        }
+    }
 };
 
 export const getChartHeaderDescrItem = (

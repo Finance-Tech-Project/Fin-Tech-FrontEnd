@@ -6,7 +6,7 @@ import { putMovAvgPeriod, putSharpRatioPeriod, putSimpleIncomeData, putSimpleInc
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
-import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSharpRatios, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
+import { getDataForAnalyticCharMovAvg, getDataForAnalyticChartSharpRatio, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../Enums/Enums';
 import {
@@ -19,6 +19,7 @@ import {
     MoveAverageFormGroup,
     MoveAverageTitleContainer,
 } from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
+import { Symbols } from '../../Types/DataReducerTypes';
 
 
 interface Props {
@@ -26,7 +27,8 @@ interface Props {
 }
 
 const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
-    const symbolName = useAppSelector(state => state.selectedSymbolReducer);
+    const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
+    const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
@@ -138,6 +140,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setChecked50Days(false);
             setChecked200Days(false);
         }
+        
     };
 
     const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -179,30 +182,34 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     };
 
     const handleGetSharpRatio = (event: React.MouseEvent<HTMLButtonElement>) => {
-        dispatch(putSharpRatioPeriod(+numberSharpRatio));
+       
         if (!Boolean(event.currentTarget.value)) {
             setChecked50Days(false);
             setChecked200Days(false);
-            dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSharpRatio));
-            dispatch(getDataForAnalyticChartSharpRatios(
+            
+            dispatch(getDataForAnalyticChartSharpRatio(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
                 sharpRatio.period,
                 currentDateFrom,
                 currentDateTo
             ));
+            setTimeout(() => {
+                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSharpRatio));
+           }, 500)
         }
     };
 
     useEffect(() => {
         movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName.symbolName, movAvg.period, currentDateFrom, currentDateTo));
-        // simpleIncome.period === 0 && setNumberSimpleIncome('');
-        // volatility.period === 0 && setNumberVolatility('');
+        simpleIncome.period === 0 && setNumberSimpleIncome('');
+        volatility.period === 0 && setNumberVolatility('');
+        sharpRatio.period === 0 && setNumberSharpRatio('');
         if (isClickedToCompare) {
             setChecked50Days(false);
             setChecked200Days(false);
         }
-    }, [movAvg.period, isClickedToCompare]);
+    }, [movAvg.period, simpleIncome.period, isClickedToCompare]);
 
 
     return (

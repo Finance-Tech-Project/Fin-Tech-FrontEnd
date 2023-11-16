@@ -7,16 +7,19 @@ import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataRed
 import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames, DefaultPeriods } from '../../Enums/Enums';
 import { putMovAvgData, putSimpleIncomeData, putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
-import { getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
+import { getDataForAnalyticChartSharpRatio, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility } from '../../Actions/fetchDispatchActions';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
+import { Symbols } from '../../Types/DataReducerTypes';
 interface Props {
 	isClickedToCompare: boolean
 }
 const LightWeightChartButtonsForAnalytics = ({ isClickedToCompare }: Props) => {
+	const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
+    const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
+    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+    const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const dispatch = useAppDispatch();
-	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
-	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
 
 	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		dispatch(putSeriesName(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim()! as ChartSeriesNames));
@@ -30,39 +33,31 @@ const LightWeightChartButtonsForAnalytics = ({ isClickedToCompare }: Props) => {
 				dispatch(putCurrentDateFrom(button.dateFrom));
 				dispatch(putCurrentDateTo(button.dateTo));
 				dispatch(putMovAvgData([]));
-				if (simpleIncome.period === 0) {
-					dispatch(getDataForAnalyticChartSimpleIncome(
-						symbolName.symbolName,
-						symbolName.symbolNameToCompare,
-						DefaultPeriods.SimpleIncomeDefaultPeriod,
-						button.dateFrom,
-						button.dateTo
-					));
-				} else {
-					dispatch(getDataForAnalyticChartSimpleIncome(
-						symbolName.symbolName,
-						symbolName.symbolNameToCompare,
-						simpleIncome.period,
-						button.dateFrom,
-						button.dateTo
-					));
-				}
-				if (volatility.period === 0) {
-					dispatch(getDataForAnalyticChartVolatility(
-						symbolName.symbolName,
-						symbolName.symbolNameToCompare,
-						DefaultPeriods.VolatilityDefaultPeriod,
-						button.dateFrom,
-						button.dateTo
-					));
-				} else {
-					dispatch(getDataForAnalyticChartVolatility(
-						symbolName.symbolName,
-						symbolName.symbolNameToCompare,
-						volatility.period,
-						button.dateFrom,
-						button.dateTo
-					));
+				switch (seriesName) {
+					case ChartSeriesNames.LineSeriesForSimpleIncome:
+						return dispatch(getDataForAnalyticChartSimpleIncome(
+							symbolName.symbolName,
+							symbolName.symbolNameToCompare,
+							simpleIncome.period === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncome.period,
+							button.dateFrom,
+							button.dateTo
+						));
+					case ChartSeriesNames.LineSeriesForVolatility:
+						return dispatch(getDataForAnalyticChartVolatility(
+							symbolName.symbolName,
+							symbolName.symbolNameToCompare,
+							volatility.period,
+							button.dateFrom,
+							button.dateTo
+						));
+					case ChartSeriesNames.LineSeriesForSharpRatio:
+						return dispatch(getDataForAnalyticChartSharpRatio(
+							symbolName.symbolName,
+							symbolName.symbolNameToCompare,
+							sharpRatio.period,
+							button.dateFrom,
+							button.dateTo
+						));
 				}
 			}
 		})

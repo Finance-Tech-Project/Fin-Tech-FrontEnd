@@ -19,6 +19,7 @@ import HeaderItemDataDescription from './HeaderItemDataDescription';
 import { calcInterfaceHeight } from '../../Reducers/analyticIterfaceReducer';
 import { TwoStocksHeaderContainer, TwoStocksHeaderItem, TwoStocksHeaderItemGridContainerStyle } from '../../Styles/LightWeightChartStyles/LightWeightTwoStocksHeaderStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 interface Props {
 	data: TickerDataType[],
@@ -28,7 +29,9 @@ interface Props {
 const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
-	const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
 	const [displaySizeHeight, setDisplaySizeHeight] = useState(window.screen.width);
@@ -40,11 +43,13 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, simpleIncome.dataToCompare!.length, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
+	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
 
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
-			{simpleIncome.dataToCompare!.length === 0 ? (
+			{simpleIncome.dataToCompare!.length === 0 && 
+				volatility.dataToCompare!.length === 0 && 
+					sharpRatio.dataToCompare!.length === 0 ? (
 				<React.Fragment>
 					{!isClickedToCompare ? (
 						<React.Fragment>
@@ -97,7 +102,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktop={3} desktopOffset={3}
 								desktopL={2.5} desktopLOffset={3.5}
 							>
-								{simpleIncome.data.length > 0 &&
+								{(simpleIncome.data.length > 0 || volatility.data.length > 0 || sharpRatio.data.length > 0) &&
 									<HeaderItemDataDescription />
 								}
 							</Grid>

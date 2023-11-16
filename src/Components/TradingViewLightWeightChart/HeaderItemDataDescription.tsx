@@ -26,13 +26,7 @@ const HeaderItemDataDescription = ({ isClickedToCompare }: Props) => {
             <HeaderItemDescrContainer>
                 <MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
                 <MainHeaderChartTickerDescr>
-                    {
-                        // !isClickedToCompare ?
-                        //     simpleIncome.data[simpleIncome.data.length - 1].value
-                        //     : simpleIncome.dataToCompare![simpleIncome.dataToCompare!.length - 1].value
-                        
-                    }
-                    {getChartHeaderTitleItem(simpleIncome, volatility, sharpRatio, isClickedToCompare!, seriesName)}
+                        {getChartHeaderTitleItem(simpleIncome, volatility, sharpRatio, isClickedToCompare!, seriesName)}
                     %</MainHeaderChartTickerDescr>
             </HeaderItemDescrContainer>
 

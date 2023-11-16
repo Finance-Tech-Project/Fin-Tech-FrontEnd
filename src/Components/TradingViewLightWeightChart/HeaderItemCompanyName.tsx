@@ -5,17 +5,19 @@ import { MainHeaderChartTickerName } from '../../Styles/LightWeightChartStyles/L
 import { getColorForLightWeightHeader } from '../../Functions/utilsFunctions';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
+import { Symbols } from '../../Types/DataReducerTypes';
 
 interface Props {
     checkSymbolName?: boolean
 }
 
 const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
-    const symbolName = useAppSelector(state => state.selectedSymbolReducer);
+    const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
+    const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
-
+    
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{
@@ -28,9 +30,14 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                 },
             }}>
                 <MainHeaderChartTickerName fontSize
-                    sx={{
-                        color: getColorForLightWeightHeader(simpleIncome, volatility, sharpRatio, !checkSymbolName ? false : true)
-                    }}
+                    sx={{ color: getColorForLightWeightHeader(
+                        seriesName, 
+                        symbolName, 
+                        simpleIncome, 
+                        volatility, 
+                        sharpRatio, 
+                        !checkSymbolName ? true : false
+                    )}}
                 >
                     {!checkSymbolName ? symbolName.symbolName : symbolName.symbolNameToCompare}
                 </MainHeaderChartTickerName>
@@ -40,7 +47,14 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                     </MainHeaderChartTickerName>
                     <Divider sx={{
                         width: '100%',
-                        backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, sharpRatio, !checkSymbolName ? false : true)}`,
+                        backgroundColor: `${getColorForLightWeightHeader(
+                            seriesName, 
+                            symbolName, 
+                            simpleIncome, 
+                            volatility, 
+                            sharpRatio, 
+                            !checkSymbolName ? true : false
+                        )}`,
                         borderStyle: 'solid',
                         borderWidth: '1.5px'
                     }}></Divider>

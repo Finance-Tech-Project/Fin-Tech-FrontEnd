@@ -1,11 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
-
-interface Symbols {
-    symbolName: string,
-    companyName: string,
-    symbolNameToCompare: string,
-    companyNameToCompare: string
-}
+import { Symbols } from "../Types/DataReducerTypes";
 
 const initialSymbol: Symbols = {
     symbolName: "AAPL",
