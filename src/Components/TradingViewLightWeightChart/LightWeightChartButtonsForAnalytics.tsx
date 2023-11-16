@@ -16,7 +16,7 @@ const LightWeightChartButtonsForAnalytics = ({ isClickedToCompare }: Props) => {
 	const dispatch = useAppDispatch();
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-	const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
 
 	const handleChangeSeries = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		dispatch(putSeriesName(event.currentTarget.firstChild?.nodeValue?.toLowerCase().trim()! as ChartSeriesNames));

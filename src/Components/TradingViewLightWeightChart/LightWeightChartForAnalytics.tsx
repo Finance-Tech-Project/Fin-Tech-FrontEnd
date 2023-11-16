@@ -27,7 +27,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const chartContainerRef = useRef<HTMLDivElement>(null);
 	const dispatch = useAppDispatch();
-	
+
 	useEffect(() => {
 		const chart = createChart(chartContainerRef.current!, {
 			width: chartContainerRef.current!.clientWidth,
@@ -39,9 +39,9 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 			rightPriceScale: {
 				scaleMargins: {
 					top: 0.3,
-					bottom: 0.25
+					bottom: 0.3
 				},
-				borderVisible: false
+				borderVisible: true
 			},
 			grid: {
 				vertLines: {
@@ -52,19 +52,19 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 				}
 			}
 		});
-		
+
 		const simpleIncomeData = JSON.parse(JSON.stringify(simpleIncome)) as AnalyticInterface;
 		const volatilityData = JSON.parse(JSON.stringify(volatility)) as AnalyticInterface;
 		const movAvgData = JSON.parse(JSON.stringify(movAvg)) as AnalyticInterface;
 		const sharpRatioData = JSON.parse(JSON.stringify(sharpRatio)) as AnalyticInterface;
-	
+
 		if (movAvg.period > 0) {
 			if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
 				dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 			}
 			dispatch(putSimpleIncomePeriod(0));
-			simpleIncomeData.simpleIncomeData!.length > 0  && chart.removeSeries(simpleIncomeLineSeries(chart, seriesName, simpleIncome, movAvg)!);
-			const lineChart = addMyLineSeries(chart, movAvgData.movAvgData!, movAvg.color);
+			simpleIncomeData.data.length > 0 && chart.removeSeries(simpleIncomeLineSeries(chart, seriesName, simpleIncome, movAvg)!);
+			const lineChart = addMyLineSeries(chart, movAvgData.data, movAvg.color);
 			const zeroLine: PriceLineOptions = {
 				price: 0.00,
 				color: '#be1238',
@@ -86,7 +86,19 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 		const handleResize = async () => {
 			chart.applyOptions({ width: chartContainerRef.current!.clientWidth });
 		};
-	
+		// setTimeout(() => {
+		// 	changeChartTypeSeries(
+		// 		chart,
+		// 		tickerData,
+		// 		tickerVolume,
+		// 		seriesName!,
+		// 		movAvgData,
+		// 		simpleIncomeData,
+		// 		volatilityData,
+		// 		sharpRatioData
+		// 	);
+		// }, 500);
+
 		changeChartTypeSeries(
 			chart,
 			tickerData,
@@ -97,6 +109,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 			volatilityData,
 			sharpRatioData
 		);
+
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
 
@@ -106,26 +119,26 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 		};
 
 	}, [
-		tickerData, 
-		tickerVolume, 
-		seriesName, 
-		movAvg.period, 
-		interval, 
-		simpleIncome.period, 
-		movAvg.movAvgData, 
+		tickerData,
+		tickerVolume,
+		seriesName,
+		movAvg.period,
+		interval,
+		simpleIncome.period,
+		movAvg.data,
 		volatility.period,
 		sharpRatio.period,
-		simpleIncome.simpleIncomeData,
-		simpleIncome.simpleIncomeDataToCompare,
-		volatility.volatilityData,
-		volatility.volatilityDataToCompare,
-		sharpRatio.sharpRatioData,
-		sharpRatio.sharpRatioDataToCompare
+		simpleIncome.data,
+		simpleIncome.dataToCompare,
+		volatility.data,
+		volatility.dataToCompare,
+		sharpRatio.data,
+		sharpRatio.dataToCompare
 	]);
-	
+
 	return (
 		<ChartContainer ref={chartContainerRef} >
-			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedToCompare}/>
+			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedToCompare} />
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
 		</ChartContainer>

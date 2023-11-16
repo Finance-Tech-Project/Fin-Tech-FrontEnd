@@ -10,11 +10,12 @@ import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../St
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
-import { DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
+import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
 import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
+import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -62,6 +63,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
                     currentDateTo
                 ));
             } else {
+                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
                 dispatch(getDataForAnalyticChartSimpleIncome(
                     symbolName.symbolName,
                     symbolName.symbolNameToCompare,
@@ -79,6 +81,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, isClicked
                     currentDateTo
                 ));
             } else {
+                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
                 dispatch(getDataForAnalyticChartVolatility(
                     symbolName.symbolName,
                     symbolName.symbolNameToCompare,

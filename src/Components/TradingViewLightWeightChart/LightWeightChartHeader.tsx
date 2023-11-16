@@ -40,11 +40,11 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, simpleIncome.simpleIncomeDataToCompare.length, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
+	}, [isClickedToCompare, simpleIncome.dataToCompare!.length, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
 
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
-			{simpleIncome.simpleIncomeDataToCompare.length === 0 ? (
+			{simpleIncome.dataToCompare!.length === 0 ? (
 				<React.Fragment>
 					{!isClickedToCompare ? (
 						<React.Fragment>
@@ -97,7 +97,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktop={3} desktopOffset={3}
 								desktopL={2.5} desktopLOffset={3.5}
 							>
-								{simpleIncome.simpleIncomeData.length > 0 &&
+								{simpleIncome.data.length > 0 &&
 									<HeaderItemDataDescription />
 								}
 							</Grid>

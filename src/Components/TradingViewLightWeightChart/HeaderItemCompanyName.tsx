@@ -4,6 +4,7 @@ import { Box, Divider, ThemeProvider } from '@mui/material';
 import { MainHeaderChartTickerName } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle';
 import { getColorForLightWeightHeader } from '../../Functions/utilsFunctions';
 import { theme } from '../../Constants/MaterialConstants/theme';
+import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 interface Props {
     checkSymbolName?: boolean
@@ -11,8 +12,9 @@ interface Props {
 
 const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
     const symbolName = useAppSelector(state => state.selectedSymbolReducer);
-    const simpleIncome = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
-    const volatility = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
+    const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
+    const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 
     return (
         <ThemeProvider theme={theme}>
@@ -27,7 +29,7 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
             }}>
                 <MainHeaderChartTickerName fontSize
                     sx={{
-                        color: getColorForLightWeightHeader(simpleIncome, volatility, !checkSymbolName ? false : true)
+                        color: getColorForLightWeightHeader(simpleIncome, volatility, sharpRatio, !checkSymbolName ? false : true)
                     }}
                 >
                     {!checkSymbolName ? symbolName.symbolName : symbolName.symbolNameToCompare}
@@ -38,7 +40,7 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                     </MainHeaderChartTickerName>
                     <Divider sx={{
                         width: '100%',
-                        backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, !checkSymbolName ? false : true)}`,
+                        backgroundColor: `${getColorForLightWeightHeader(simpleIncome, volatility, sharpRatio, !checkSymbolName ? false : true)}`,
                         borderStyle: 'solid',
                         borderWidth: '1.5px'
                     }}></Divider>

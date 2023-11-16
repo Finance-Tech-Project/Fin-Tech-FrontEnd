@@ -1,4 +1,4 @@
-import { DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
+import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
@@ -102,7 +102,12 @@ export const getDataInInterval = (data: SymbolData, interval: string) => {
                     ? data.yearlyData : data.dailyData;
 };
 
-export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, volatility: AnalyticInterface, choiceColor: boolean) => {
+export const getColorForLightWeightHeader = (
+    simpleIncome: AnalyticInterface, 
+    volatility: AnalyticInterface, 
+    sharpRatio: AnalyticInterface, 
+    choiceColor: boolean
+) => {
     if (!choiceColor) {
         return (simpleIncome.period === 0 && volatility.period === 0 && simpleIncome.color)
             || simpleIncome.period > 0 ? simpleIncome.color : volatility.color;
@@ -112,12 +117,35 @@ export const getColorForLightWeightHeader = (simpleIncome: AnalyticInterface, vo
     }
 };
 
+export const getChartHeaderTitleItem = (
+    simpleIncome: AnalyticInterface,
+    volatility: AnalyticInterface,
+    sharpRatio: AnalyticInterface,
+    isClickedToCompare: boolean,
+    seriesName: string
+) => {
+    if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
+        if ((simpleIncome.period > 0 && simpleIncome.data.length > 0) || (simpleIncome.period > 0 && simpleIncome.dataToCompare!.length > 0)) {
+            return !isClickedToCompare ? simpleIncome.data[simpleIncome.data.length - 1].value
+                : simpleIncome.dataToCompare![simpleIncome.dataToCompare!.length - 1].value;
+        }
+    }
+
+    if (seriesName === ChartSeriesNames.LineSeriesForVolatility) {
+        if ((volatility.period > 0 && volatility.data.length > 0) || (volatility.period > 0 && volatility.dataToCompare!.length > 0)) {
+            return !isClickedToCompare ? volatility.data[volatility.data.length - 1].value
+                : volatility.dataToCompare![volatility.dataToCompare!.length - 1].value;
+        }
+    }
+
+};
+
 export const getChartHeaderDescrItem = (
     simpleIncomePeriod: number,
     volatilityPeriod: number,
     sharpRatioPeriod: number
 ) => {
-    const res: Array<string | number> = []; 
+    const res: Array<string | number> = [];
     if (simpleIncomePeriod > 0) {
         res[0] = "Simple income period in years:";
         res[1] = simpleIncomePeriod === 0 ? DefaultPeriods.SimpleIncomeDefaultPeriod : simpleIncomePeriod;

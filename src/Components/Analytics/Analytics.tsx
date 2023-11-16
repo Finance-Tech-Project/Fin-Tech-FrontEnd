@@ -16,22 +16,18 @@ import AnalyticDateAndIntervalPickers from './AnalyticDateAndItervalPickers'
 import { putSeriesName } from '../../Reducers/chartSeriesReducer'
 import { ChartSeriesNames, DefaultPeriods } from '../../Enums/Enums'
 import { getDataInInterval } from '../../Functions/utilsFunctions'
-import { 
-	putMovAvgData, 
-	putMovAvgPeriod, 
-	putSharpRatioData, 
-	putSharpRatioDataToCompare, 
-	putSharpRatioPeriod, 
-	putSimpleIncomeData, 
-	putSimpleIncomeDataToCompare, 
-	putSimpleIncomePeriod, 
-	putVolatilityData, 
-	putVolatilityDataToCompare, 
-	putVolatilityPeriod 
+import {
+	putMovAvgData,
+	putMovAvgPeriod,
+	putSharpRatioPeriod,
+	putSimpleIncomeDataToCompare,
+	putSimpleIncomePeriod,
+	putVolatilityPeriod
 } from '../../Reducers/analyticIterfaceReducer'
 import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
 
 const Analytics = () => {
+	const seriesName = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const movAvg = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
@@ -54,14 +50,8 @@ const Analytics = () => {
 		dispatch(putSimpleIncomePeriod(0));
 		dispatch(putVolatilityPeriod(0));
 		dispatch(putSharpRatioPeriod(0));
-		dispatch(putSimpleIncomeData([]));
-		dispatch(putSimpleIncomeDataToCompare([]));
-		dispatch(putVolatilityData([]));
-		dispatch(putVolatilityDataToCompare([]));	
-		dispatch(putSharpRatioData([]));
-		dispatch(putSharpRatioDataToCompare([]));
 		dispatch(putSymbolNameToCompare(''));
-		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+		dispatch(putSimpleIncomeDataToCompare([]));
 		if (movAvg.period > 0) {
 			dispatch(putMovAvgData([]));
 			dispatch(putMovAvgPeriod(0));
@@ -72,7 +62,9 @@ const Analytics = () => {
 		if (!isClickedToCompare) {
 			dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 		} else {
-			dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+			if (seriesName === ChartSeriesNames.CandlesSeries) {
+				dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+			}
 			dispatch(putSimpleIncomePeriod(DefaultPeriods.SimpleIncomeDefaultPeriod));
 			if (symbolName.symbolName && !symbolName.symbolNameToCompare) {
 				dispatch(getDataForAnalyticChartSimpleIncome(
@@ -82,7 +74,7 @@ const Analytics = () => {
 					currentDateFrom,
 					currentDateTo
 				));
-			}	
+			}
 		}
 	}, [isClickedToCompare, symbolName.symbolName]);
 
@@ -118,15 +110,15 @@ const Analytics = () => {
 									laptop={11} laptopOffset={0.5}
 									laptopL={11} laptopLOffset={0.5}
 								>
-									<Box sx={{ 
+									<Box sx={{
 										[theme.breakpoints.up('laptopL')]: {
-											paddingBottom: '20px', 
+											paddingBottom: '20px',
 										},
 										[theme.breakpoints.up('desktop')]: {
-											paddingBottom: '50px', 
+											paddingBottom: '50px',
 										},
-										display: 'flex', 
-										justifyContent: 'space-between' 
+										display: 'flex',
+										justifyContent: 'space-between'
 									}}>
 										<AnalyticDateAndIntervalPickers
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
@@ -153,13 +145,13 @@ const Analytics = () => {
 									</Grid>
 
 									{displaySize > theme.breakpoints.values.laptopL - 1 &&
-									 <Grid
-										laptopL={3}
-										desktop={3}
-										desktopL={2.5}
-									>
-										<AnalyticChartInteface isClickedToCompare={isClickedToCompare} />
-									</Grid>}
+										<Grid
+											laptopL={3}
+											desktop={3}
+											desktopL={2.5}
+										>
+											<AnalyticChartInteface isClickedToCompare={isClickedToCompare} />
+										</Grid>}
 								</Grid>
 							</AnalyticChartContainer>
 						</Grid>

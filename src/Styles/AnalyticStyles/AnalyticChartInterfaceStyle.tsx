@@ -5,6 +5,8 @@ export const AnalyticChartInterfaceContainer = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgba(44, 9, 81, 1)',
     width: '100%',
     overflowY: 'scroll',
+    borderLeft: '2px solid rgba(70, 75, 114, 0.8)',
+    marginLeft: '2px',
     [theme.breakpoints.down('laptopL')]: {
         height: '100%',
         overflowY: 'hidden'

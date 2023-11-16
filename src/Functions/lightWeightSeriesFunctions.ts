@@ -144,8 +144,8 @@ export const simpleIncomeLineSeries = (
     simpleIncome: AnalyticInterface,
     movAvg: AnalyticInterface
 ) => {
-    if (simpleIncome.simpleIncomeData!.length > 0) {
-        const lineChart = addMyLineSeries(chart, simpleIncome.simpleIncomeData!, simpleIncome.color);
+    if (simpleIncome.data.length > 0) {
+        const lineChart = addMyLineSeries(chart, simpleIncome.data, simpleIncome.color);
         const zeroLine: PriceLineOptions = {
             price: 0.00,
             color: simpleIncome.color,
@@ -177,11 +177,11 @@ export const simpleIncomeLineSeries = (
                 topColor: 'rgba(56, 33, 110,0.6)',
                 bottomColor: 'rgba(56, 33, 110, 0.1)',
             });
-            areaSeries.setData(simpleIncome.simpleIncomeData!);
+            areaSeries.setData(simpleIncome.data);
         }
-        if (simpleIncome.simpleIncomeData!.length > 0 && simpleIncome.simpleIncomeDataToCompare!.length > 0) {
+        if (simpleIncome.data.length > 0 && simpleIncome.dataToCompare!.length > 0) {
             const lineChart = chart.addLineSeries({ color: 'red' });
-            lineChart.setData(simpleIncome.simpleIncomeDataToCompare!);
+            lineChart.setData(simpleIncome.dataToCompare!);
             if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
                 chart.removeSeries(lineChart);
             }
@@ -195,8 +195,8 @@ export const volatilityLineSeries = (
     seriesName: ChartSeriesNames,
     volatility: AnalyticInterface
 ) => {
-    if (volatility.volatilityData!.length > 0) {
-        const lineChart = addMyLineSeries(chart, volatility.volatilityData!, volatility.color);
+    if (volatility.data.length > 0) {
+        const lineChart = addMyLineSeries(chart, volatility.data, volatility.color);
         const zeroLine: PriceLineOptions = {
             price: 0.00,
             color: volatility.color,
@@ -214,9 +214,9 @@ export const volatilityLineSeries = (
                 type: "percent"
             }
         });
-        if (volatility.volatilityData!.length > 0 && volatility.volatilityDataToCompare!.length > 0) {
+        if (volatility.data.length > 0 && volatility.dataToCompare!.length > 0) {
             const lineChart = chart.addLineSeries({ color: volatility.colorToCompare });
-            lineChart.setData(volatility.volatilityDataToCompare!);
+            lineChart.setData(volatility.dataToCompare!);
             if (seriesName !== ChartSeriesNames.LineSeriesForVolatility) {
                 chart.removeSeries(lineChart);
             }
@@ -230,9 +230,8 @@ export const sharpRatioLineSeries = (
     seriesName: ChartSeriesNames,
     sharpRatio: AnalyticInterface
 ) => {
-    if (sharpRatio.sharpRatioData!.length > 0) {
-        console.log(sharpRatio.sharpRatioData)
-        const lineChart = addMyLineSeries(chart, sharpRatio.sharpRatioData!, sharpRatio.color);
+    if (sharpRatio.data.length > 0) {
+        const lineChart = addMyLineSeries(chart, sharpRatio.data, sharpRatio.color);
         const zeroLine: PriceLineOptions = {
             price: 0.00,
             color: sharpRatio.color,
@@ -250,9 +249,9 @@ export const sharpRatioLineSeries = (
                 type: "percent"
             }
         });
-        if (sharpRatio.sharpRatioData!.length > 0 && sharpRatio.sharpRatioDataToCompare!.length > 0) {
+        if (sharpRatio.data.length > 0 && sharpRatio.dataToCompare!.length > 0) {
             const lineChart = chart.addLineSeries({ color: sharpRatio.colorToCompare });
-            lineChart.setData(sharpRatio.sharpRatioDataToCompare!);
+            lineChart.setData(sharpRatio.dataToCompare!);
             if (seriesName !== ChartSeriesNames.LineSeriesForSharpRatio) {
                 chart.removeSeries(lineChart);
             }

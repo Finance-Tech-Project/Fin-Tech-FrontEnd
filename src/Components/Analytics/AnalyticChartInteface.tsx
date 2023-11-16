@@ -2,7 +2,7 @@
 import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgData, putMovAvgPeriod, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgPeriod, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -19,7 +19,7 @@ import {
     MoveAverageFormGroup,
     MoveAverageTitleContainer,
 } from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
-import { theme } from '../../Constants/MaterialConstants/theme';
+
 
 interface Props {
     isClickedToCompare: boolean
@@ -36,7 +36,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     const [numberSimpleIncome, setNumberSimpleIncome] = useState<number | string>('');
     const [numberVolatility, setNumberVolatility] = useState<number | string>('');
     const [numberSharpRatio, setNumberSharpRatio] = useState<number | string>('');
-    const [numberArr, setNumberArr] = useState<number | string>('');
+    const [numberIrr, setNumberIrr] = useState<number | string>('');
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
     const dispatch = useAppDispatch();
@@ -50,7 +50,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         setNumberSimpleIncome('');
         setNumberVolatility('');
         setNumberSharpRatio('');
-        setNumberArr('');
+        setNumberIrr('');
         dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
     };
 
@@ -63,7 +63,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         setNumberSimpleIncome('');
         setNumberVolatility('');
         setNumberSharpRatio('');
-        setNumberArr('');
+        setNumberIrr('');
         dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
     };
 
@@ -76,10 +76,11 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (+event.target.value > 0) {
             setNumberVolatility('');
             setNumberSharpRatio('');
-            setNumberArr('');
+            setNumberIrr('');
             dispatch(putVolatilityPeriod(0));
             dispatch(putMovAvgPeriod(0));
             dispatch(putSharpRatioPeriod(0));
+            dispatch(putMovAvgPeriod(0));
             setChecked50Days(false);
             setChecked200Days(false);
         }
@@ -94,7 +95,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (+event.target.value > 0) {
             setNumberSimpleIncome('');
             setNumberSharpRatio('');
-            setNumberArr('');
+            setNumberIrr('');
             dispatch(putSimpleIncomePeriod(0));
             dispatch(putSharpRatioPeriod(0));
             dispatch(putMovAvgPeriod(0));
@@ -112,7 +113,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (+event.target.value > 0) {
             setNumberVolatility('');
             setNumberSimpleIncome('');
-            setNumberArr('');
+            setNumberIrr('');
             dispatch(putSimpleIncomePeriod(0));
             dispatch(putVolatilityPeriod(0));
             dispatch(putMovAvgPeriod(0));
@@ -121,10 +122,10 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
     };
 
-    const handleChangeForArr = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setNumberArr(+event.target.value);
+    const handleChangeForIrr = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setNumberIrr(+event.target.value);
         if (+event.target.value >= 21 || +event.target.value === 0) {
-            setNumberArr('');
+            setNumberIrr('');
         }
         if (+event.target.value > 0) {
             setNumberVolatility('');
@@ -139,20 +140,11 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
     };
 
-    const handleFocus = (event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
-        if (!Boolean(event.target.value)) {
-            dispatch(putMovAvgPeriod(0));
-            dispatch(putMovAvgData([]));
-            setChecked50Days(false);
-            setChecked200Days(false);
-        }
-    };
-
     const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
+     
         if (!Boolean(event.currentTarget.value)) {
             setChecked50Days(false);
             setChecked200Days(false);
-            dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
             dispatch(getDataForAnalyticChartSimpleIncome(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
@@ -160,14 +152,19 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 currentDateFrom,
                 currentDateTo
             ));
+            setTimeout(() => {
+                 dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+            }, 500);
         }
+        
     };
 
     const handleGetVolatality = (event: React.MouseEvent<HTMLButtonElement>) => {
+       
         if (!Boolean(event.currentTarget.value)) {
             setChecked50Days(false);
             setChecked200Days(false);
-            dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
+           
             dispatch(getDataForAnalyticChartVolatility(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
@@ -175,10 +172,14 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 currentDateFrom,
                 currentDateTo
             ));
+            setTimeout(() => {
+                 dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
+            }, 500)
         }
     };
 
     const handleGetSharpRatio = (event: React.MouseEvent<HTMLButtonElement>) => {
+        dispatch(putSharpRatioPeriod(+numberSharpRatio));
         if (!Boolean(event.currentTarget.value)) {
             setChecked50Days(false);
             setChecked200Days(false);
@@ -195,13 +196,14 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
 
     useEffect(() => {
         movAvg.period > 0 && dispatch(getDataForAnalyticCharMovAvg(symbolName.symbolName, movAvg.period, currentDateFrom, currentDateTo));
-        simpleIncome.period === 0 && setNumberSimpleIncome('');
-        volatility.period === 0 && setNumberVolatility('');
+        // simpleIncome.period === 0 && setNumberSimpleIncome('');
+        // volatility.period === 0 && setNumberVolatility('');
         if (isClickedToCompare) {
             setChecked50Days(false);
             setChecked200Days(false);
         }
-    }, [movAvg.period, simpleIncome.period, volatility.period, sharpRatio.period, currentDateFrom, currentDateTo, isClickedToCompare]);
+    }, [movAvg.period, isClickedToCompare]);
+
 
     return (
         <AnalyticChartInterfaceContainer height={735 + interfaceHeight}>
@@ -251,7 +253,6 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                         sx={{ marginTop: '10px' }}
                         value={numberSimpleIncome}
                         onChange={(event) => handleChangeForSimpleIncome(event)}
-                        onFocus={handleFocus}
                     ></MainTickersTextField>
                     <MainButton onClick={handleGetSimpleIncome} marginTop sx={{ width: '100%' }}>Get Simple Income</MainButton>
                 </Box>
@@ -274,7 +275,6 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                         sx={{ marginTop: '10px' }}
                         value={numberVolatility}
                         onChange={(event) => handleChangeForVolatility(event)}
-                        onFocus={handleFocus}
                     ></MainTickersTextField>
                     <MainButton onClick={handleGetVolatality} marginTop sx={{ width: '100%' }}>Get Volatility</MainButton>
                 </Box>
@@ -297,14 +297,13 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                         sx={{ marginTop: '10px' }}
                         value={numberSharpRatio}
                         onChange={(event) => handleChangeForSharpRatio(event)}
-                        onFocus={handleFocus}
                     ></MainTickersTextField>
                     <MainButton onClick={handleGetSharpRatio} marginTop sx={{ width: '100%' }}>Get Sharp Ratio</MainButton>
                 </Box>
 
                 <Box>
                     <AnalyticInterfaceItemContainer>
-                        <Typography sx={{ color: 'white' }} variant='h5'>ARR Revenu</Typography>
+                        <Typography sx={{ color: 'white' }} variant='h5'>IRR Revenu</Typography>
                         <Box sx={{ width: '25%' }}>
                             <AnalyticChartInterfaceDivider
                                 orientation='horizontal'
@@ -318,11 +317,10 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                         variant="outlined"
                         label="Enter period in years"
                         sx={{ marginTop: '10px' }}
-                        value={numberArr}
-                        onChange={(event) => handleChangeForArr(event)}
-                        onFocus={handleFocus}
+                        value={numberIrr}
+                        onChange={(event) => handleChangeForIrr(event)}
                     ></MainTickersTextField>
-                    <MainButton marginTop sx={{ width: '100%' }}>GET ARR REVENU</MainButton>
+                    <MainButton marginTop sx={{ width: '100%' }}>GET IRR REVENU</MainButton>
                 </Box>
 
             </AnalyticChartInterfaceWrapper>

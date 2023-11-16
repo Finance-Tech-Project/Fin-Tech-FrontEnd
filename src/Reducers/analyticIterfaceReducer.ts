@@ -1,62 +1,41 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataVolumeType } from "../Types/TickersTypes";
+import { AnalyticInterface } from "../Types/AnalyticTypes";
 
-interface AnalyticInterface {
-    movAvg: {
-        color: string,
-        period: number,
-        movAvgData: TickerDataVolumeType[]
-    },
-    simpleIncome: {
-        color: string,
-        colorToCompare: string
-        period: number,
-        simpleIncomeData: TickerDataVolumeType[],
-        simpleIncomeDataToCompare: TickerDataVolumeType[]
-    },
-    volatility: {
-        color: string,
-        colorToCompare: string,
-        period: number,
-        volatilityData: TickerDataVolumeType[],
-        volatilityDataToCompare: TickerDataVolumeType[]
-    },
-    sharpRatio: {
-        color: string,
-        colorToCompare: string,
-        period: number,
-        sharpRatioData: TickerDataVolumeType[],
-        sharpRatioDataToCompare: TickerDataVolumeType[]
-    },
+interface AnalyticInterfaceReducer {
+    movAvg: AnalyticInterface,
+    simpleIncome: AnalyticInterface,
+    volatility: AnalyticInterface,
+    sharpRatio: AnalyticInterface,
     interfaceHeight: number
 }
 
-const initialAnalyticInterface: AnalyticInterface = {
+const initialAnalyticInterface: AnalyticInterfaceReducer = {
     movAvg: {
         color: 'red',
         period: 0,
-        movAvgData: []
+        data: []
     },
     simpleIncome: {
         color: 'yellow',
         colorToCompare: 'red',
         period: 0,
-        simpleIncomeData: [],
-        simpleIncomeDataToCompare: []
+        data: [],
+        dataToCompare: []
     },
     volatility: {
         color: 'green',
         colorToCompare: 'rgba(109, 20, 184, 1)',
         period: 0,
-        volatilityData: [],
-        volatilityDataToCompare: []
+        data: [],
+        dataToCompare: []
     },
     sharpRatio: {
         color: "orange",
         colorToCompare: "fuchsia",
         period: 0,
-        sharpRatioData: [],
-        sharpRatioDataToCompare: []
+        data: [],
+        dataToCompare: []
     },
     interfaceHeight: 0
 };
@@ -78,25 +57,25 @@ const analyticInterfaceSlice = createSlice({
             state.sharpRatio.period = action.payload;
         },
         putMovAvgData(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.movAvg.movAvgData = action.payload;
+            state.movAvg.data = action.payload;
         },
         putSimpleIncomeData(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.simpleIncome.simpleIncomeData = action.payload;
+            state.simpleIncome.data = action.payload;
         },
         putSimpleIncomeDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.simpleIncome.simpleIncomeDataToCompare = action.payload;
+            state.simpleIncome.dataToCompare = action.payload;
         },
         putVolatilityData(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.volatility.volatilityData = action.payload;
+            state.volatility.data = action.payload;
         },
         putVolatilityDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.volatility.volatilityDataToCompare = action.payload;
+            state.volatility.dataToCompare = action.payload;
         },
         putSharpRatioData(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.sharpRatio.sharpRatioData = action.payload;
+            state.sharpRatio.data = action.payload;
         },
         putSharpRatioDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
-            state.sharpRatio.sharpRatioDataToCompare = action.payload;
+            state.sharpRatio.dataToCompare = action.payload;
         },
         calcInterfaceHeight(state, action: PayloadAction<number>) {
             if (action.payload && action.payload > 95) {
