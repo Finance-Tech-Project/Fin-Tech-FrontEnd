@@ -2,7 +2,7 @@
 import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgPeriod, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgPeriod, putSharpRatioData, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomeDataToCompare, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -43,12 +43,10 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
     const [checked200Days, setChecked200Days] = useState(false);
     const dispatch = useAppDispatch();
 
-    const handleChange50Days = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(putMovAvgPeriod(50));
+    const clearDataForHandleChangeMovAvg = () => {
         dispatch(putSimpleIncomeData([]));
         dispatch(putVolatilityData([]));
-        setChecked50Days(true);
-        setChecked200Days(false);
+        dispatch(putSharpRatioData([]));
         setNumberSimpleIncome('');
         setNumberVolatility('');
         setNumberSharpRatio('');
@@ -56,17 +54,24 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
     };
 
+    const clearDataForMovAvg = () => {
+        dispatch(putMovAvgPeriod(0));
+        setChecked50Days(false);
+        setChecked200Days(false);
+    };
+
+    const handleChange50Days = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch(putMovAvgPeriod(50));
+        setChecked50Days(true);
+        setChecked200Days(false);
+        clearDataForHandleChangeMovAvg();
+    };
+
     const handleChange200Days = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(putMovAvgPeriod(200));
-        dispatch(putSimpleIncomeData([]));
-        dispatch(putVolatilityData([]));
         setChecked200Days(true);
         setChecked50Days(false);
-        setNumberSimpleIncome('');
-        setNumberVolatility('');
-        setNumberSharpRatio('');
-        setNumberIrr('');
-        dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
+        clearDataForHandleChangeMovAvg();
     };
 
     const handleChangeForSimpleIncome = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -80,18 +85,15 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setNumberSharpRatio('');
             setNumberIrr('');
             dispatch(putVolatilityPeriod(0));
-            dispatch(putMovAvgPeriod(0));
             dispatch(putSharpRatioPeriod(0));
-            dispatch(putMovAvgPeriod(0));
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
         }
     };
 
     const handleChangeForVolatility = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setNumberVolatility(+event.target.value);
         dispatch(putVolatilityPeriod(+event.target.value));
-        if (+event.target.value === 0) {
+        if (+event.target.value >= 21 || +event.target.value === 0) {
             setNumberVolatility('');
         }
         if (+event.target.value > 0) {
@@ -100,9 +102,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setNumberIrr('');
             dispatch(putSimpleIncomePeriod(0));
             dispatch(putSharpRatioPeriod(0));
-            dispatch(putMovAvgPeriod(0));
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
         }
     };
 
@@ -118,9 +118,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             setNumberIrr('');
             dispatch(putSimpleIncomePeriod(0));
             dispatch(putVolatilityPeriod(0));
-            dispatch(putMovAvgPeriod(0));
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
         }
     };
 
@@ -136,18 +134,13 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
             dispatch(putSimpleIncomePeriod(0));
             dispatch(putVolatilityPeriod(0));
             dispatch(putMovAvgPeriod(0));
-            dispatch(putSharpRatioPeriod(0));
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
         }
-        
     };
 
     const handleGetSimpleIncome = (event: React.MouseEvent<HTMLButtonElement>) => {
-     
         if (!Boolean(event.currentTarget.value)) {
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
             dispatch(getDataForAnalyticChartSimpleIncome(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
@@ -156,18 +149,15 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 currentDateTo
             ));
             setTimeout(() => {
-                 dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
+                seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome &&
+                    dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
             }, 500);
         }
-        
     };
 
     const handleGetVolatality = (event: React.MouseEvent<HTMLButtonElement>) => {
-       
         if (!Boolean(event.currentTarget.value)) {
-            setChecked50Days(false);
-            setChecked200Days(false);
-           
+            clearDataForMovAvg();
             dispatch(getDataForAnalyticChartVolatility(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
@@ -176,17 +166,15 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 currentDateTo
             ));
             setTimeout(() => {
-                 dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
+                seriesName !== ChartSeriesNames.LineSeriesForVolatility &&
+                    dispatch(putSeriesName(ChartSeriesNames.LineSeriesForVolatility));
             }, 500)
         }
     };
 
     const handleGetSharpRatio = (event: React.MouseEvent<HTMLButtonElement>) => {
-       
         if (!Boolean(event.currentTarget.value)) {
-            setChecked50Days(false);
-            setChecked200Days(false);
-            
+            clearDataForMovAvg();
             dispatch(getDataForAnalyticChartSharpRatio(
                 symbolName.symbolName,
                 symbolName.symbolNameToCompare,
@@ -195,8 +183,9 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                 currentDateTo
             ));
             setTimeout(() => {
-                dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSharpRatio));
-           }, 500)
+                seriesName !== ChartSeriesNames.LineSeriesForSharpRatio &&
+                    dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSharpRatio));
+            }, 500)
         }
     };
 
@@ -206,10 +195,9 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         volatility.period === 0 && setNumberVolatility('');
         sharpRatio.period === 0 && setNumberSharpRatio('');
         if (isClickedToCompare) {
-            setChecked50Days(false);
-            setChecked200Days(false);
+            clearDataForMovAvg();
         }
-    }, [movAvg.period, simpleIncome.period, isClickedToCompare]);
+    }, [movAvg.period, isClickedToCompare]);
 
 
     return (
@@ -278,7 +266,7 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                     <MainTickersTextField
                         type="number"
                         variant="outlined"
-                        label="Enter period in days"
+                        label="Enter period in years"
                         sx={{ marginTop: '10px' }}
                         value={numberVolatility}
                         onChange={(event) => handleChangeForVolatility(event)}

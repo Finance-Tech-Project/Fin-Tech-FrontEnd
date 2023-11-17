@@ -7,7 +7,8 @@ export enum ChartSeriesNames {
     BarSeries = "bar", 
     LineSeriesForSimpleIncome = "simpleIncome",
     LineSeriesForVolatility = "volatility",
-    LineSeriesForSharpRatio = "sharpRatio"
+    LineSeriesForSharpRatio = "sharpRatio",
+    LineSeriesForIrr = "irr"
 }
 
 export enum IntervalsAbbreviation {

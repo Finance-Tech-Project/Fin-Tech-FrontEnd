@@ -99,6 +99,8 @@ export const getDataForAnalyticCharMovAvg = (symbolName: string, period: number,
 
 export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        let data: TickerDataVolumeType[] = [];
+        let dataToCompare: TickerDataVolumeType[] = [];
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.ANALYTICS +
@@ -109,8 +111,8 @@ export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNa
                 FetchConstants.YEARS + period
                 }`);
             if (response.ok) {
-                const data: TickerDataVolumeType[] = await response.json();
-                dispatch(putSimpleIncomeData(data));
+                data = await response.json();
+
             }
         } catch (error) {
 
@@ -126,18 +128,22 @@ export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNa
                     FetchConstants.YEARS + period
                     }`);
                 if (response.ok) {
-                    const data: TickerDataVolumeType[] = await response.json();
-                    dispatch(putSimpleIncomeDataToCompare(data));
+                    dataToCompare = await response.json();
+
                 }
             }
         } catch (error) {
 
         }
+        dispatch(putSimpleIncomeData(data));
+        dispatch(putSimpleIncomeDataToCompare(dataToCompare));
     }
 };
 
 export const getDataForAnalyticChartVolatility = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        let data: TickerDataVolumeType[] = [];
+        let dataToCompare: TickerDataVolumeType[] = [];
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.ANALYTICS +
@@ -145,11 +151,10 @@ export const getDataForAnalyticChartVolatility = (symbolName: string, symbolName
                 FetchConstants.DATE_FROM + dateFrom +
                 FetchConstants.DATE_TO + dateTo +
                 FetchConstants.TICKER + symbolName +
-                FetchConstants.DAYS + period
+                FetchConstants.YEARS + period
                 }`);
             if (response.ok) {
-                const data: TickerDataVolumeType[] = await response.json();
-                dispatch(putVolatilityData(data));
+                data = await response.json();
             }
             if (symbolNameToCompare !== '') {
                 const response = await fetch(`${FetchConstants.BASE_URL +
@@ -158,21 +163,24 @@ export const getDataForAnalyticChartVolatility = (symbolName: string, symbolName
                     FetchConstants.DATE_FROM + dateFrom +
                     FetchConstants.DATE_TO + dateTo +
                     FetchConstants.TICKER + symbolNameToCompare +
-                    FetchConstants.DAYS + period
+                    FetchConstants.YEARS + period
                     }`);
                 if (response.ok) {
-                    const data: TickerDataVolumeType[] = await response.json();
-                    dispatch(putVolatilityDataToCompare(data));
+                    dataToCompare = await response.json();
                 }
             }
         } catch (error) {
 
         }
+        dispatch(putVolatilityData(data));
+        dispatch(putVolatilityDataToCompare(dataToCompare));
     }
 }
 
 export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        let data: TickerDataVolumeType[] = [];
+        let dataToCompare: TickerDataVolumeType[] = [];
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.ANALYTICS +
@@ -183,8 +191,7 @@ export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolName
                 FetchConstants.YEARS + period
                 }`);
             if (response.ok) {
-                const data: TickerDataVolumeType[] = await response.json();
-                dispatch(putSharpRatioData(data));
+                data = await response.json();
             }
             if (symbolNameToCompare !== '') {
                 const response = await fetch(`${FetchConstants.BASE_URL +
@@ -196,12 +203,13 @@ export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolName
                     FetchConstants.YEARS + period
                     }`);
                 if (response.ok) {
-                    const data: TickerDataVolumeType[] = await response.json();
-                    dispatch(putSharpRatioDataToCompare(data));
+                    dataToCompare = await response.json();
                 }
             }
         } catch (error) {
 
         }
+        dispatch(putSharpRatioData(data));
+        dispatch(putSharpRatioDataToCompare(dataToCompare));
     }
 };

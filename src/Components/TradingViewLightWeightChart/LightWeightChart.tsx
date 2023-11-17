@@ -41,6 +41,9 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 				horzLines: {
 					color: "rgba(86, 92, 92, 0.7)"
 				}
+			},
+			localization: {
+				locale: "en"
 			}
 		});
 

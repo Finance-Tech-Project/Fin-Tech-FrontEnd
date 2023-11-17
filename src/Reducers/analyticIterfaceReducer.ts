@@ -87,13 +87,13 @@ const analyticInterfaceSlice = createSlice({
     }
 });
 
-export const { 
-    putMovAvgPeriod, 
-    putSimpleIncomePeriod, 
+export const {
+    putMovAvgPeriod,
+    putSimpleIncomePeriod,
     putVolatilityPeriod,
     putSharpRatioPeriod,
-    putMovAvgData, 
-    putSimpleIncomeData, 
+    putMovAvgData,
+    putSimpleIncomeData,
     putSimpleIncomeDataToCompare,
     putVolatilityData,
     putVolatilityDataToCompare,

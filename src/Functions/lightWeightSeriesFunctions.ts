@@ -102,33 +102,35 @@ export const changeChartTypeSeries = (
     volatility?: AnalyticInterface,
     sharpRatio?: AnalyticInterface
 ) => {
-    if (seriesName === ChartSeriesNames.CandlesSeries) {
-        return defaultSeries(chart, symbolData, symbolVolume);
-    } else if (seriesName === ChartSeriesNames.LineSeries) {
-        return lineSeries(chart, symbolData, symbolVolume);
-    } else if (seriesName === ChartSeriesNames.BarSeries) {
-        return barSeries(chart, symbolData, symbolVolume);
-    } else if (seriesName === ChartSeriesNames.AreaSeries) {
-        return areaSeries(chart, symbolData, symbolVolume);
-    } else if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
-        return simpleIncomeLineSeries(
-            chart, 
-            seriesName, 
-            simpleIncome!, 
-            movAvg!
-        );
-    } else if (seriesName === ChartSeriesNames.LineSeriesForVolatility) {
-        return volatilityLineSeries(
-            chart, 
-            seriesName, 
-            volatility!
-        );
-    } else if (seriesName === ChartSeriesNames.LineSeriesForSharpRatio) {
-        return sharpRatioLineSeries(
-            chart, 
-            seriesName, 
-            sharpRatio!
-        );
+    switch (seriesName) {
+        case ChartSeriesNames.CandlesSeries:
+            return defaultSeries(chart, symbolData, symbolVolume);
+        case ChartSeriesNames.LineSeries:
+            return lineSeries(chart, symbolData, symbolVolume);
+        case ChartSeriesNames.BarSeries:
+            return barSeries(chart, symbolData, symbolVolume);
+        case ChartSeriesNames.AreaSeries:
+            return areaSeries(chart, symbolData, symbolVolume);
+        case ChartSeriesNames.LineSeriesForSimpleIncome:
+            return createLineSeriesForCalculationsDataInStocks(
+                chart,
+                seriesName,
+                simpleIncome!,
+            );
+        case ChartSeriesNames.LineSeriesForVolatility:
+            return createLineSeriesForCalculationsDataInStocks(
+                chart,
+                seriesName,
+                volatility!,
+            );
+        case ChartSeriesNames.LineSeriesForSharpRatio: 
+            return createLineSeriesForCalculationsDataInStocks(
+                chart,
+                seriesName,
+                sharpRatio!,
+            );
+        default:
+            return defaultSeries(chart, symbolData, symbolVolume);
     }
 };
 
@@ -138,23 +140,45 @@ export const addMyLineSeries = (chart: IChartApi, volume: Array<TickerDataVolume
     return lineChart;
 };
 
-export const simpleIncomeLineSeries = (
+export const addAreaSeriesToGeneralLine = (chart: IChartApi, data: Array<TickerDataVolumeType>) => {
+    const areaSeries = chart.addAreaSeries({
+        lastValueVisible: false,
+        crosshairMarkerVisible: false,
+        lineColor: 'transparent',
+        topColor: 'rgba(56, 33, 110,0.8)',
+        bottomColor: 'rgba(56, 33, 110, 0.3)',
+    });
+    areaSeries.setData(data);
+    return areaSeries;
+};
+
+export const addLineSeriesToCompare = (chart: IChartApi, data: AnalyticInterface, seriesName: ChartSeriesNames) => {
+    if (data.dataToCompare!.length > 0) {
+        const lineChart = chart.addLineSeries({ color: data.colorToCompare });
+        lineChart.setData(data.dataToCompare!);
+        // if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
+        //     chart.removeSeries(lineChart);
+        // }
+        return lineChart;
+    }
+};
+
+export const createLineSeriesForCalculationsDataInStocks = (
     chart: IChartApi,
     seriesName: ChartSeriesNames,
-    simpleIncome: AnalyticInterface,
-    movAvg: AnalyticInterface
+    dataForChart: AnalyticInterface
 ) => {
-    if (simpleIncome.data.length > 0) {
-        const lineChart = addMyLineSeries(chart, simpleIncome.data, simpleIncome.color);
+    if (dataForChart.data.length > 0) {
+        const lineChart = addMyLineSeries(chart, dataForChart.data, dataForChart.color);
         const zeroLine: PriceLineOptions = {
             price: 0.00,
-            color: simpleIncome.color,
+            color: dataForChart.color,
             lineWidth: 2,
             lineStyle: LineStyle.Solid,
             axisLabelVisible: true,
             title: 'zero %',
             lineVisible: true,
-            axisLabelColor: simpleIncome.color,
+            axisLabelColor: dataForChart.color,
             axisLabelTextColor: ''
         };
         lineChart.createPriceLine(zeroLine);
@@ -169,94 +193,11 @@ export const simpleIncomeLineSeries = (
                 type: "percent"
             }
         });
-        if (movAvg.period === 0 && seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
-            const areaSeries = chart.addAreaSeries({
-                lastValueVisible: false,
-                crosshairMarkerVisible: false,
-                lineColor: 'transparent',
-                topColor: 'rgba(56, 33, 110,0.6)',
-                bottomColor: 'rgba(56, 33, 110, 0.1)',
-            });
-            areaSeries.setData(simpleIncome.data);
-        }
-        if (simpleIncome.data.length > 0 && simpleIncome.dataToCompare!.length > 0) {
-            const lineChart = chart.addLineSeries({ color: 'red' });
-            lineChart.setData(simpleIncome.dataToCompare!);
-            if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
-                chart.removeSeries(lineChart);
-            }
-        }
-        return lineChart;
-    }
-}
-
-export const volatilityLineSeries = (
-    chart: IChartApi,
-    seriesName: ChartSeriesNames,
-    volatility: AnalyticInterface
-) => {
-    if (volatility.data.length > 0) {
-        const lineChart = addMyLineSeries(chart, volatility.data, volatility.color);
-        const zeroLine: PriceLineOptions = {
-            price: 0.00,
-            color: volatility.color,
-            lineWidth: 2,
-            lineStyle: LineStyle.Solid,
-            axisLabelVisible: true,
-            title: 'zero %',
-            lineVisible: true,
-            axisLabelColor: volatility.color,
-            axisLabelTextColor: ''
-        };
-        lineChart.createPriceLine(zeroLine);
-        lineChart.applyOptions({
-            priceFormat: {
-                type: "percent"
-            }
-        });
-        if (volatility.data.length > 0 && volatility.dataToCompare!.length > 0) {
-            const lineChart = chart.addLineSeries({ color: volatility.colorToCompare });
-            lineChart.setData(volatility.dataToCompare!);
-            if (seriesName !== ChartSeriesNames.LineSeriesForVolatility) {
-                chart.removeSeries(lineChart);
-            }
-        }
-        return lineChart;
-    }
-}
-
-export const sharpRatioLineSeries = (
-    chart: IChartApi,
-    seriesName: ChartSeriesNames,
-    sharpRatio: AnalyticInterface
-) => {
-    if (sharpRatio.data.length > 0) {
-        const lineChart = addMyLineSeries(chart, sharpRatio.data, sharpRatio.color);
-        const zeroLine: PriceLineOptions = {
-            price: 0.00,
-            color: sharpRatio.color,
-            lineWidth: 2,
-            lineStyle: LineStyle.Solid,
-            axisLabelVisible: true,
-            title: 'zero %',
-            lineVisible: true,
-            axisLabelColor: sharpRatio.color,
-            axisLabelTextColor: ''
-        };
-        lineChart.createPriceLine(zeroLine);
-        lineChart.applyOptions({
-            priceFormat: {
-                type: "percent"
-            }
-        });
-        if (sharpRatio.data.length > 0 && sharpRatio.dataToCompare!.length > 0) {
-            const lineChart = chart.addLineSeries({ color: sharpRatio.colorToCompare });
-            lineChart.setData(sharpRatio.dataToCompare!);
-            if (seriesName !== ChartSeriesNames.LineSeriesForSharpRatio) {
-                chart.removeSeries(lineChart);
-            }
-        }
+        addAreaSeriesToGeneralLine(chart, dataForChart.data);
+        addLineSeriesToCompare(chart, dataForChart, seriesName);
         return lineChart;
     }
 };
+
+
 
