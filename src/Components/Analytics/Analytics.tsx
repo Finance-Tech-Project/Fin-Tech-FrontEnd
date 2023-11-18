@@ -32,6 +32,7 @@ import {
 import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
 import { Symbols } from '../../Types/DataReducerTypes'
 import { AnalyticInterface } from '../../Types/AnalyticTypes'
+import Footer from '../Footer/Footer'
 
 const Analytics = () => {
 	const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
@@ -121,9 +122,9 @@ const Analytics = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<AnalyticContainer>
+				<Header />
 				<AnalyticBlackoutContainer>
-					<Header />
-					<Grid container>
+					<Grid container sx={{width: '100%'}}>
 						<Grid
 							mobileS={11} mobileSOffset={0.5}
 							laptop={11} laptopOffset={0.5}
@@ -135,10 +136,10 @@ const Analytics = () => {
 									laptopL={11} laptopLOffset={0.5}
 								>
 									<Box sx={{
-										[theme.breakpoints.up('laptopL')]: {
-											paddingBottom: '20px',
+										[theme.breakpoints.up('laptop')]: {
+											paddingBottom: '10px',
 										},
-										[theme.breakpoints.up('desktop')]: {
+										[theme.breakpoints.up('laptopL')]: {
 											paddingBottom: '50px',
 										},
 										display: 'flex',
@@ -182,6 +183,7 @@ const Analytics = () => {
 						</Grid>
 					</Grid>
 				</AnalyticBlackoutContainer>
+				<Footer />
 			</AnalyticContainer>
 		</ThemeProvider>
 	)

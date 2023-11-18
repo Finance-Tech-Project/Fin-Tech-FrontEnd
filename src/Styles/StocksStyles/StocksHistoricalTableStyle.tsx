@@ -1,4 +1,4 @@
-import { Box, FormControl, styled } from "@mui/material";
+import { Box, Button, FormControl, styled } from "@mui/material";
 
 export const StocksHistoricalTableContainer = styled(Box)(({ theme }) => ({
     border: '2px solid rgba(70, 75, 114, 0.8)',
@@ -16,7 +16,6 @@ export const StocksHistoricalTableContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const StocksHistoricalTableInterfaceContainer = styled(Box)(({ theme }) => ({
-    padding: '20px 0 20px 0',
     [theme.breakpoints.up('mobileS')]: {
         display: 'flex',
         flexDirection: 'column'
@@ -24,17 +23,41 @@ export const StocksHistoricalTableInterfaceContainer = styled(Box)(({ theme }) =
     [theme.breakpoints.up('laptop')]: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        padding: '20px 0 0 0',
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        padding: '20px 0 20px 0',
     }
 }));
 
 export const StocksHistoricalTableFromControl = styled(FormControl)(({ theme }) => ({
-    [theme.breakpoints.up('mobileS')]: {
-        width: '100%',
-        marginTop: '20px'
+    width: '100%',
+    [theme.breakpoints.up('mobileS')]: {    
+        marginBottom: '20px',
+        marginTop: '20px',
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '0px',
-        width: '160px'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        marginTop: '0px',
+        marginBottom: '0px',
     }
 }));
 
+export const StocksHistoricalTableApplyButton = styled(Button)(({ theme }) => ({
+    width: '100%',
+    variant: 'contained',
+    height: '56px',
+    background: 'linear-gradient(90deg, rgba(254,135,69,1) 40%, rgba(152,80,118,1) 80%, rgba(184,29,111,1) 100%)',
+    zIndex: 1,
+    color: 'white',
+    borderRadius: '6px',
+    [theme.breakpoints.up('mobileS')]: {
+        marginBottom: '20px'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        marginTop: '0px',
+        marginBottom: '0px',
+    }
+}));

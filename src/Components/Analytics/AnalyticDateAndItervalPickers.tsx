@@ -14,10 +14,9 @@ import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation, IntervalsFullN
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
-import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
-import { putSeriesName } from '../../Reducers/chartSeriesReducer';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { Symbols } from '../../Types/DataReducerTypes';
+import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
@@ -110,8 +109,8 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                     <Grid
                         mobileS={12}
                         laptop={12} laptopOffset={0}
-                        laptopL={5.5}
-                        desktop={5.5}
+                        laptopL={6}
+                        desktop={6}
                     >
                         <AnalyticTwoStocksAutocomplete />
                     </Grid>
@@ -153,73 +152,93 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                     </Grid>
                 }
 
-
-                <Grid
-                    mobileS={12}
-                    laptop={3.5} laptopOffset={0}
-                    laptopL={1.5} laptopLOffset={0.5}
-                    desktop={1.5} desktopOffset={0.5}
-                >
-                    <FormControl sx={{
-                        width: '100%',
-                        [theme.breakpoints.up('mobileS')]: {
-                            marginTop: '20px',
-                            marginBottom: '20px'
-                        },
-                        [theme.breakpoints.up('laptop')]: {
-                            marginBottom: '20px'
-                        },
-                        [theme.breakpoints.up('laptopL')]: {
-                            marginTop: '0px',
-                            marginBottom: '0px',
-                        }
-                    }}>
-                        <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
-                        <Select
-                            MenuProps={{
-                                sx: {
-                                    '& .MuiList-root': {
-                                        bgcolor: "rgba(44, 9, 81, 1)",
-                                        color: 'white'
+                {!isClickedToCompare &&
+                    <Grid
+                        mobileS={12}
+                        laptop={3.5} laptopOffset={0}
+                        laptopL={1.5} laptopLOffset={0.5}
+                        desktop={1.5} desktopOffset={0.5}
+                    >
+                        <FormControl sx={{
+                            width: '100%',
+                            [theme.breakpoints.up('mobileS')]: {
+                                marginTop: '20px',
+                                marginBottom: '20px'
+                            },
+                            [theme.breakpoints.up('laptop')]: {
+                                marginBottom: '20px'
+                            },
+                            [theme.breakpoints.up('laptopL')]: {
+                                marginTop: '0px',
+                                marginBottom: '0px',
+                            }
+                        }}>
+                            <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
+                            <Select
+                                MenuProps={{
+                                    sx: {
+                                        '& .MuiList-root': {
+                                            bgcolor: "rgba(44, 9, 81, 1)",
+                                            color: 'white'
+                                        }
                                     }
-                                }
-                            }}
-                            sx={() => SelectStyle(theme)}
-                            value={period}
-                            label="Frequency"
-                            onChange={handleChangePeriod}
+                                }}
+                                sx={() => SelectStyle(theme)}
+                                value={period}
+                                label="Frequency"
+                                onChange={handleChangePeriod}
+                            >
+                                <MenuItem value={'Daily'}>Daily</MenuItem>
+                                <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                                <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                                <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                }
+
+                {!isClickedToCompare ?
+                    <React.Fragment>
+                        <Grid
+                            mobileS={12}
+                            laptop={3.5} laptopOffset={0.5}
+                            laptopL={1.5} laptopLOffset={0.5}
+                            desktop={1.5} desktopOffset={0.5}
                         >
-                            <MenuItem value={'Daily'}>Daily</MenuItem>
-                            <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                            <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                            <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Grid>
+                            <AnalyticButtons onClick={handleClickOnApplyButton} >Apply</AnalyticButtons>
+                        </Grid>
 
-                <Grid
-                    mobileS={12}
-                    laptop={3.5} laptopOffset={0.5}
-                    laptopL={1.5} laptopLOffset={0.5}
-                    desktop={1.5} desktopOffset={0.5}
-                >
-                    {!isClickedToCompare ?
-                        <AnalyticButtons onClick={handleClickOnApplyButton} >Apply</AnalyticButtons> :
-                        <AnalyticButtons onClick={handleClickOnCompare} >Compare</AnalyticButtons>
-                    }
-                </Grid>
+                        <Grid
+                            mobileS={12}
+                            laptop={3.5} laptopOffset={0.5}
+                            laptopL={1.5} laptopLOffset={0.5}
+                            desktop={1.5} desktopOffset={0.5}
+                        >
+                            <AnalyticButtons onClick={handleClickTwoStocksCompare} >Compare two stocks</AnalyticButtons>
+                        </Grid>
+                    </React.Fragment>
+                    :
+                    <React.Fragment>
+                        <Grid
+                            mobileS={12}
+                            laptop={5.25} laptopOffset={0}
+                            laptopL={2.25} laptopLOffset={0.5}
+                            desktop={1.5} desktopOffset={2}
+                        >
+                            <AnalyticButtons marginTopForTwoStocksButtons onClick={handleClickOnCompare} >Compare</AnalyticButtons>
 
-                <Grid
-                    mobileS={12}
-                    laptop={3.5} laptopOffset={0.5}
-                    laptopL={1.5} laptopLOffset={0.5}
-                    desktop={1.5} desktopOffset={0.5}
-                >
-                    {!isClickedToCompare ?
-                        <AnalyticButtons onClick={handleClickTwoStocksCompare} >Compare two stocks</AnalyticButtons> :
-                        <AnalyticButtons onClick={handleClickAnalyticChart} >Analytic Chart</AnalyticButtons>
-                    }
-                </Grid>
+                        </Grid>
+
+                        <Grid
+                            mobileS={12}
+                            laptop={5.25} laptopOffset={1}
+                            laptopL={2.25} laptopLOffset={0.5}
+                            desktop={1.5} desktopOffset={0.5}
+                        >
+                            <AnalyticButtons onClick={handleClickAnalyticChart} >Analytic Chart</AnalyticButtons>
+                        </Grid>
+                    </React.Fragment>
+                }
             </Grid>
         </LocalizationProvider>
     )

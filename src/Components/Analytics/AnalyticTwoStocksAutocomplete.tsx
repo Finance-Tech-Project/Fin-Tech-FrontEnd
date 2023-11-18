@@ -108,7 +108,7 @@ const AnalyticTwoStocksAutocomplete = () => {
 					mobileS={12}
 					laptop={5.5}
 					laptopL={5.5}
-					desktop={5.5}
+					desktop={4}
 				>
 					<GeneralAutocomplete
 						filterOptions={(options: any) => options}
@@ -160,7 +160,7 @@ const AnalyticTwoStocksAutocomplete = () => {
 					mobileS={12}
 					laptop={5.5} laptopOffset={1}
 					laptopL={5.5} laptopLOffset={1}
-					desktop={5.5} desktopOffset={1}
+					desktop={4} desktopOffset={1.5}
 				>
 					<GeneralAutocomplete
 						filterOptions={(options: any) => options}

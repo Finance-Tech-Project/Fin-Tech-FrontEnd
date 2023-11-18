@@ -34,17 +34,18 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
-	const [displaySizeHeight, setDisplaySizeHeight] = useState(window.screen.width);
+	const [displaySizeHeight, setDisplaySizeHeight] = useState(window.screen.height);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySizeHeight(window.screen.height);
+			
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
-
+	}, [isClickedToCompare]);
+	
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
 			{simpleIncome.dataToCompare!.length === 0 && 

@@ -4,7 +4,7 @@ import Analytic_BG from '../../Images/MainBG_6.jpg';
 export const AnalyticContainer = styled(Box)(({ theme }) => ({
     background: `url(${Analytic_BG}) center center/cover no-repeat`,
     width: '100%',
-    minHeight: '1200px'
+    minHeight: '1110px'
 }));
 
 export const AnalyticChartContainer = styled(Box)(({ theme }) => ({
@@ -21,17 +21,19 @@ export const AnalyticChartContainer = styled(Box)(({ theme }) => ({
         padding: '60px 60px'
     },
     [theme.breakpoints.up('laptop')]: {
-        padding: '60px 0px'
+        padding: '60px 0px 70px 0px'
     }
 }));
 
 export const AnalyticBlackoutContainer = styled(Box)(({ theme }) => ({
 	width: '100%',
-	minHeight: '1200px',
+	minHeight: '1110px',
 	background: 'rgba(1, 1, 25, 0.5)'
 }));
 
-export const AnalyticButtons = styled(Button)(({ theme }) => ({
+export const AnalyticButtons = styled(Button, {
+    shouldForwardProp: (prop) => prop !== 'marginTopForTwoStocksButtons'
+})<any>(({ theme, marginTopForTwoStocksButtons }) => ({
     width: '100%',
     variant: 'contained',
     height: '56px',
@@ -40,7 +42,8 @@ export const AnalyticButtons = styled(Button)(({ theme }) => ({
     color: 'white',
     borderRadius: '6px',
     [theme.breakpoints.up('mobileS')]: {
-        marginBottom: '20px'
+        marginBottom: '20px',
+        ...(marginTopForTwoStocksButtons && {marginTop: '20px'})
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '20px'

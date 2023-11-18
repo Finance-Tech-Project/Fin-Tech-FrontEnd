@@ -24,10 +24,10 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
         height: '32px'
     },
     [theme.breakpoints.up('tablet')]: {
-        height: '30px'
+        height: '30.5px'
     },
     [theme.breakpoints.up('laptop')]: {
-        height: '29.8px'
+        height: '30.5px'
     },
 }));
 

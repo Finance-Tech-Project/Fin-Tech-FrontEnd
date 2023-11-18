@@ -1,7 +1,7 @@
-import { Autocomplete, Theme, Typography, styled } from "@mui/material";
+import { Autocomplete, Button, Theme, Typography, styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 
-export const SelectStyle = (theme: Theme) => ({
+export const SelectStyle = (theme: Theme) => ({ 
     '.MuiInputBase-input': {
         color: 'white',
         borderColor: 'white',
@@ -98,13 +98,7 @@ export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
     },
     '& .MuiButtonBase-root': {
         color: 'white'
-    },
-    [theme.breakpoints.up('mobileS')]: {
-        width: '100%'
-    },
-    // [theme.breakpoints.up('laptop')]: {
-    //     width: 300
-    // }
+    }
 }));
 
 export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({
@@ -129,3 +123,4 @@ export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({
         fontWeight: 600,
     },
 }));
+

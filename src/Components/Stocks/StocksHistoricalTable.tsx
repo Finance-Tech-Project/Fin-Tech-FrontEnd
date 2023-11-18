@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { StocksHistoricalTableContainer, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
+import { StocksHistoricalTableApplyButton, StocksHistoricalTableContainer, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
 import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
@@ -9,7 +9,6 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { TickerDataType } from '../../Types/TickersTypes'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { putDataInterval } from '../../Reducers/intervalDataReducer'
@@ -19,6 +18,7 @@ import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataRed
 import { GeneralDatePicker, GeneralDatePickerStyle, GeneralStocksBlocksTitle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
 import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums'
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const StocksHistoricalTable = () => {
     const data = useAppSelector(state => state.historicalDataReducer.dataStock);
@@ -93,48 +93,70 @@ const StocksHistoricalTable = () => {
                 <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '3px', height: '99%' }} />
 
                 <StocksHistoricalTableInterfaceContainer>
-                    <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                        label="Date from"
-                        minDate={dayjs(getMinDateForHistory())}
-                        value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
-                        onChange={(newDate) => setDateFrom(newDate)}
-                    />
-
-                    <GeneralDatePicker
-                        slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
-                        label="Date to"
-                        value={dayjs(dateTo as string, 'YYYY-MM-DD')}
-                        onChange={(newDate) => setDateTo(newDate)}
-                    />
-
-                    <StocksHistoricalTableFromControl>
-                        <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
-                        <Select
-                            MenuProps={{
-                                sx: {
-                                    '& .MuiList-root': {
-                                        bgcolor: "rgba(44, 9, 81, 1)",
-                                        color: 'white'
-                                    }
-                                }
-                            }}
-                            sx={() => SelectStyle(theme)}
-                            value={period}
-                            label="Frequency"
-                            onChange={handleChangePeriod}
+                    <Grid container sx={{ width: '100%' }}>
+                        <Grid
+                            mobileS={12}
+                            laptop={2.5}
                         >
-                            <MenuItem value={'Daily'}>Daily</MenuItem>
-                            <MenuItem value={'Weekly'}>Weekly</MenuItem>
-                            <MenuItem value={'Monthly'}>Monthly</MenuItem>
-                            <MenuItem value={'Yearly'}>Yearly</MenuItem>
-                        </Select>
-                    </StocksHistoricalTableFromControl>
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date from"
+                                minDate={dayjs(getMinDateForHistory())}
+                                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateFrom(newDate)}
+                            />
+                        </Grid>
 
-                    <MainButton onClick={handleClickOnApplyButton} marginTop marginTop320 width>Apply</MainButton>
+                        <Grid
+                            mobileS={12}
+                            laptop={2.5} laptopOffset={0.66}
+                        >
+                            <GeneralDatePicker
+                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                label="Date to"
+                                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                                onChange={(newDate) => setDateTo(newDate)}
+                            />
+                        </Grid>
+
+                        <Grid
+                            mobileS={12}
+                            laptop={2.5} laptopOffset={0.66}
+                        >
+                            <StocksHistoricalTableFromControl>
+                                <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
+                                <Select
+                                    MenuProps={{
+                                        sx: {
+                                            '& .MuiList-root': {
+                                                bgcolor: "rgba(44, 9, 81, 1)",
+                                                color: 'white'
+                                            }
+                                        }
+                                    }}
+                                    sx={() => SelectStyle(theme)}
+                                    value={period}
+                                    label="Frequency"
+                                    onChange={handleChangePeriod}
+                                >
+                                    <MenuItem value={'Daily'}>Daily</MenuItem>
+                                    <MenuItem value={'Weekly'}>Weekly</MenuItem>
+                                    <MenuItem value={'Monthly'}>Monthly</MenuItem>
+                                    <MenuItem value={'Yearly'}>Yearly</MenuItem>
+                                </Select>
+                            </StocksHistoricalTableFromControl>
+                        </Grid>
+
+                        <Grid
+                            mobileS={12}
+                            laptop={2.5} laptopOffset={0.66}
+                        >
+                            <StocksHistoricalTableApplyButton onClick={handleClickOnApplyButton} >Apply</StocksHistoricalTableApplyButton>
+                        </Grid>
+                    </Grid>
                 </StocksHistoricalTableInterfaceContainer>
 
-                <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px' }}>
+                <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px', maxHeight: '690px' }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -175,7 +197,8 @@ const StocksHistoricalTable = () => {
 
                 <TablePagination
                     sx={{
-                        width: '100%', [theme.breakpoints.between('mobileL', 'laptopL')]: {
+                        width: '100%',
+                        [theme.breakpoints.between('mobileL', 'laptopL')]: {
                             overflow: 'hidden'
                         }
                     }}

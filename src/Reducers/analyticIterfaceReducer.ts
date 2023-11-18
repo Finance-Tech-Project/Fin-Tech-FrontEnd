@@ -78,8 +78,9 @@ const analyticInterfaceSlice = createSlice({
             state.sharpRatio.dataToCompare = action.payload;
         },
         calcInterfaceHeight(state, action: PayloadAction<number>) {
+            console.log(action.payload)
             if (action.payload && action.payload > 95) {
-                state.interfaceHeight = action.payload - 95;
+                state.interfaceHeight = (action.payload - 95) * 2;
             } else {
                 state.interfaceHeight = 0;
             }

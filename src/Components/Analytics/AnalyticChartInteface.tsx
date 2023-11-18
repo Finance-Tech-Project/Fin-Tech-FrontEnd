@@ -199,9 +199,9 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
     }, [movAvg.period, isClickedToCompare]);
 
-
+    console.log(interfaceHeight)
     return (
-        <AnalyticChartInterfaceContainer height={735 + interfaceHeight}>
+        <AnalyticChartInterfaceContainer height={interfaceHeight === 0 ? 736 + (interfaceHeight) : 738.5 + (interfaceHeight)}>
             <AnalyticChartInterfaceWrapper >
                 {!isClickedToCompare && (
                     <Box>
