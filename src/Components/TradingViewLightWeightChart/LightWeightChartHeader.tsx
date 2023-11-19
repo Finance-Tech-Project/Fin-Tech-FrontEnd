@@ -20,6 +20,7 @@ import { calcInterfaceHeight } from '../../Reducers/analyticIterfaceReducer';
 import { TwoStocksHeaderContainer, TwoStocksHeaderItem, TwoStocksHeaderItemGridContainerStyle } from '../../Styles/LightWeightChartStyles/LightWeightTwoStocksHeaderStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
+import { LWCHeaderInitValueHeight } from '../../Constants/ProjectConstants/headerConstants';
 
 interface Props {
 	data: TickerDataType[],
@@ -27,30 +28,34 @@ interface Props {
 }
 
 const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
+	const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
-    const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
+	const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
 	const [displaySizeHeight, setDisplaySizeHeight] = useState(0);
+	const [displaySize, setDisplaySize] = useState(window.screen.width);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySizeHeight(window.screen.height);
-			
+			setDisplaySize(window.screen.width);
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
+			displaySize >= theme.breakpoints.values.desktopL
+				&& dispatch(calcInterfaceHeight(LWCHeaderInitValueHeight + ((headerContainerRef.current?.clientHeight! - LWCHeaderInitValueHeight) / 2 - 1.5)));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, displaySizeHeight, dispatch]);
-	
+	}, [isClickedToCompare, displaySizeHeight, dispatch, headerContainerRef.current?.clientHeight!, displaySize]);
+
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
-			{simpleIncome.dataToCompare!.length === 0 && 
-				volatility.dataToCompare!.length === 0 && 
-					sharpRatio.dataToCompare!.length === 0 ? (
+			{simpleIncome.dataToCompare!.length === 0 &&
+				volatility.dataToCompare!.length === 0 &&
+				sharpRatio.dataToCompare!.length === 0 ? (
 				<React.Fragment>
 					{!isClickedToCompare ? (
 						<React.Fragment>

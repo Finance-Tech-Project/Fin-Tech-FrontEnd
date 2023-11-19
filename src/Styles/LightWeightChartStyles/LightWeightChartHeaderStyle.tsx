@@ -5,7 +5,8 @@ export const MainHeaderChartContainer = styled(Box, {
 })<any>(({ theme, borderTopRightRadius }) => ({
     width: '100%',
     minHeight: '95px',
-    border: '1.5px solid rgba(70, 75, 114, 0.8)',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)',
     backgroundColor: '#2c0951',
     borderTopLeftRadius: '30px',
     borderTopRightRadius: '30px',

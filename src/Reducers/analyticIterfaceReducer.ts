@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataVolumeType } from "../Types/TickersTypes";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
+import { LWCHeaderInitValueHeight } from "../Constants/ProjectConstants/headerConstants";
 
 interface AnalyticInterfaceReducer {
     movAvg: AnalyticInterface,
@@ -78,9 +79,9 @@ const analyticInterfaceSlice = createSlice({
             state.sharpRatio.dataToCompare = action.payload;
         },
         calcInterfaceHeight(state, action: PayloadAction<number>) {
-            console.log(action.payload)
-            if (action.payload && action.payload > 95) {
-                state.interfaceHeight = (action.payload - 95);
+            // console.log(action.payload)
+            if (action.payload && action.payload > LWCHeaderInitValueHeight) {
+                state.interfaceHeight = (action.payload - LWCHeaderInitValueHeight);
             } else {
                 state.interfaceHeight = 0;
             }

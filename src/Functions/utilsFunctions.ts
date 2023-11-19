@@ -1,3 +1,4 @@
+import { Theme } from "@mui/material";
 import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData, Symbols } from "../Types/DataReducerTypes";
@@ -105,8 +106,8 @@ export const getDataInInterval = (data: SymbolData, interval: string) => {
 export const getColorForLightWeightHeader = (
     seriesName: ChartSeriesNames,
     symbolName: Symbols,
-    simpleIncome: AnalyticInterface, 
-    volatility: AnalyticInterface, 
+    simpleIncome: AnalyticInterface,
+    volatility: AnalyticInterface,
     sharpRatio: AnalyticInterface,
     switchColor: boolean
 ) => {
@@ -126,7 +127,7 @@ export const getChartHeaderTitleItem = (
     sharpRatio: AnalyticInterface,
     isClickedToCompare: boolean,
     seriesName: string,
-    
+
 ) => {
     if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
         if ((simpleIncome.period > 0 && simpleIncome.data.length > 0) || (simpleIncome.period > 0 && simpleIncome.dataToCompare!.length > 0)) {
@@ -172,4 +173,14 @@ export const getChartHeaderDescrItem = (
         return res;
     }
     return res;
+};
+
+export const getAnalyticInterfaceHeightDifference = (theme: Theme, displaySize: number, interfaceHeight: number) => {
+    return displaySize > theme.breakpoints.values.desktop && interfaceHeight > 0 ?
+        737.5 + interfaceHeight * 2 : 735 + interfaceHeight * 2;
+};
+
+export const getInterfaceHeight = (theme: Theme, displaySize: number, interfaceHeight: number) => {
+    return displaySize > theme.breakpoints.values.desktop ?
+        getAnalyticInterfaceHeightDifference(theme, displaySize, interfaceHeight) : 735 + interfaceHeight;
 };

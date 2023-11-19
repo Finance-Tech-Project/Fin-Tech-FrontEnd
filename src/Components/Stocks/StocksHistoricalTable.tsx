@@ -41,7 +41,7 @@ const StocksHistoricalTable = () => {
                 ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly
                     ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
                         ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
-        dispatch(putDataInterval(interval as string))
+        dispatch(putDataInterval(interval as string));
     };
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -212,7 +212,6 @@ const StocksHistoricalTable = () => {
                 />
             </StocksHistoricalTableContainer>
         </LocalizationProvider>
-
     )
 }
 

@@ -156,9 +156,6 @@ export const addLineSeriesToCompare = (chart: IChartApi, data: AnalyticInterface
     if (data.dataToCompare!.length > 0) {
         const lineChart = chart.addLineSeries({ color: data.colorToCompare });
         lineChart.setData(data.dataToCompare!);
-        // if (seriesName !== ChartSeriesNames.LineSeriesForSimpleIncome) {
-        //     chart.removeSeries(lineChart);
-        // }
         return lineChart;
     }
 };

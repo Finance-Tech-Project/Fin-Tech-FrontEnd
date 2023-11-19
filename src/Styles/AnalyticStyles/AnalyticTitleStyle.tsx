@@ -8,6 +8,6 @@ export const AnalyticTitleContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('tablet')]: {
         borderTopLeftRadius: '120px',
         borderBottomRightRadius: '120px',
-        padding: '60px 60px'
+        // padding: '60px 60px'
     },
 }));

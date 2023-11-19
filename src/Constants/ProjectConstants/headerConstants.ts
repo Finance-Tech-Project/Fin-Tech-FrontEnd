@@ -3,7 +3,6 @@ export interface HeaderButtons {
     route: string
 }
 
-
 export const headerButtons: Array<HeaderButtons> = [
     {
         title: 'Home',
@@ -31,7 +30,6 @@ export const headerButtons: Array<HeaderButtons> = [
     }
 ];
 
-
 export const headerButtonsLogin: Array<HeaderButtons> = [
     {
         title: 'Sign In',
@@ -57,3 +55,5 @@ export const avatarMenuButtons: Array<HeaderButtons> = [
         route: ''
     }
 ];
+
+export const LWCHeaderInitValueHeight = 95; 
