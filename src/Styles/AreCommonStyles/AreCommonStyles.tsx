@@ -1,4 +1,4 @@
-import { Autocomplete, Button, Theme, Typography, styled } from "@mui/material";
+import { Autocomplete, Theme, Typography, styled } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 
 export const SelectStyle = (theme: Theme) => ({ 
@@ -99,6 +99,28 @@ export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
     '& .MuiButtonBase-root': {
         color: 'white'
     }
+}));
+
+export const GeneralTitleHeader = styled(Typography)(({ theme }) => ({
+	color: 'rgba(255, 196, 0, 1)',
+	fontSize: '2.5rem',
+	fontWeight: 600,
+	textAlign: 'center',
+	paddingTop: '20px',
+	textShadow: '5px 5px 6px #ADC5BD',
+	[theme.breakpoints.up('mobileS')]: {
+		fontSize: '1.8rem',
+		paddingTop: '20px',
+	},
+	[theme.breakpoints.up('mobileM')]: {
+		fontSize: '2.3rem'
+	},
+	[theme.breakpoints.up('mobileL')]: {
+		fontSize: '2.4rem'
+	},
+	[theme.breakpoints.up('tablet')]: {
+		paddingTop: '40px',
+	}
 }));
 
 export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({

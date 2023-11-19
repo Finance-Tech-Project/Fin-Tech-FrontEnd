@@ -1,7 +1,7 @@
 import { Box, Divider, FormControlLabel, FormGroup, styled } from "@mui/material";
 
-export const AnalyticChartInterfaceContainer = styled(Box)(({ theme }) => ({
-    border: '1px solid rgba(70, 75, 114, 0.8)',  
+export const AnalyticChartInterfaceContainer = styled(Box)(({ theme }) => ({ 
+    border: '1px solid rgba(70, 75, 114, 0.8)',
     backgroundColor: 'rgba(44, 9, 81, 1)',
     width: '100%',
     overflowY: 'scroll',
@@ -9,9 +9,10 @@ export const AnalyticChartInterfaceContainer = styled(Box)(({ theme }) => ({
     marginLeft: '2px',
     [theme.breakpoints.down('laptopL')]: {
         height: '100%',
-        overflowY: 'hidden'
-    },
-    
+        overflowY: 'hidden',
+        borderLeft: '1px solid rgba(70, 75, 114, 0.8)',
+        marginLeft: '0px'
+    }
 }));
 
 export const AnalyticChartInterfaceWrapper = styled(Box)(({ theme }) => ({

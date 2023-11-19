@@ -2,7 +2,7 @@
 import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { putMovAvgPeriod, putSharpRatioData, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomeDataToCompare, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
+import { putMovAvgPeriod, putSharpRatioData, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
 import { MainTickersTextField } from '../../Styles/MainStyles/MainFindTickerStyle';
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
@@ -199,9 +199,9 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         }
     }, [movAvg.period, isClickedToCompare]);
 
-    console.log(interfaceHeight)
+    
     return (
-        <AnalyticChartInterfaceContainer height={interfaceHeight === 0 ? 736 + (interfaceHeight) : 738.5 + (interfaceHeight)}>
+        <AnalyticChartInterfaceContainer height={735 + interfaceHeight}>
             <AnalyticChartInterfaceWrapper >
                 {!isClickedToCompare && (
                     <Box>
@@ -317,7 +317,6 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
                     ></MainTickersTextField>
                     <MainButton marginTop sx={{ width: '100%' }}>GET IRR REVENU</MainButton>
                 </Box>
-
             </AnalyticChartInterfaceWrapper>
         </AnalyticChartInterfaceContainer>
     )

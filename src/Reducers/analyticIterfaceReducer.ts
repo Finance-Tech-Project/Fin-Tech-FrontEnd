@@ -80,7 +80,7 @@ const analyticInterfaceSlice = createSlice({
         calcInterfaceHeight(state, action: PayloadAction<number>) {
             console.log(action.payload)
             if (action.payload && action.payload > 95) {
-                state.interfaceHeight = (action.payload - 95) * 2;
+                state.interfaceHeight = (action.payload - 95);
             } else {
                 state.interfaceHeight = 0;
             }

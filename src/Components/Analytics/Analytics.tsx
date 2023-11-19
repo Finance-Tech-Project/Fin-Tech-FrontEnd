@@ -6,7 +6,7 @@ import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightCh
 import LightWeightChartForAnalytics from '../TradingViewLightWeightChart/LightWeightChartForAnalytics'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { TickerDataType, TickerDataVolumeType } from '../../Types/TickersTypes'
-import { AnalyticBlackoutContainer, AnalyticChartContainer, AnalyticContainer } from '../../Styles/AnalyticStyles/AnalyticStyle'
+import { AnalyticBlackoutContainer, AnalyticChartContainer, AnalyticContainer, AnalyticDateAndIntervalPickersContainer } from '../../Styles/AnalyticStyles/AnalyticStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { createCandlesData, createHistogramLineAreaData } from '../../Functions/dataProcessingFunctions'
@@ -33,6 +33,7 @@ import { putSymbolNameToCompare } from '../../Reducers/selectedSymbolReducer'
 import { Symbols } from '../../Types/DataReducerTypes'
 import { AnalyticInterface } from '../../Types/AnalyticTypes'
 import Footer from '../Footer/Footer'
+import AnalyticTitle from './AnalyticTitle'
 
 const Analytics = () => {
 	const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
@@ -124,7 +125,11 @@ const Analytics = () => {
 			<AnalyticContainer>
 				<Header />
 				<AnalyticBlackoutContainer>
-					<Grid container sx={{width: '100%'}}>
+					<Grid container sx={{ width: '100%' }}>
+						<Grid mobileS={11} mobileSOffset={0.5}>
+							<AnalyticTitle />
+						</Grid>
+
 						<Grid
 							mobileS={11} mobileSOffset={0.5}
 							laptop={11} laptopOffset={0.5}
@@ -135,22 +140,13 @@ const Analytics = () => {
 									laptop={11} laptopOffset={0.5}
 									laptopL={11} laptopLOffset={0.5}
 								>
-									<Box sx={{
-										[theme.breakpoints.up('laptop')]: {
-											paddingBottom: '10px',
-										},
-										[theme.breakpoints.up('laptopL')]: {
-											paddingBottom: '50px',
-										},
-										display: 'flex',
-										justifyContent: 'space-between'
-									}}>
+									<AnalyticDateAndIntervalPickersContainer>
 										<AnalyticDateAndIntervalPickers
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
 											handleClickAnalyticChart={handleClickAnalyticChart}
 											isClickedToCompare={isClickedToCompare}
 										/>
-									</Box>
+									</AnalyticDateAndIntervalPickersContainer>
 								</Grid>
 								<Grid container width="100%">
 									<Grid
@@ -183,8 +179,8 @@ const Analytics = () => {
 						</Grid>
 					</Grid>
 				</AnalyticBlackoutContainer>
-				<Footer />
 			</AnalyticContainer>
+			<Footer />
 		</ThemeProvider>
 	)
 }

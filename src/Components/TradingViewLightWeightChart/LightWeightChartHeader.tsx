@@ -34,7 +34,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
-	const [displaySizeHeight, setDisplaySizeHeight] = useState(window.screen.height);
+	const [displaySizeHeight, setDisplaySizeHeight] = useState(0);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -44,7 +44,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare]);
+	}, [isClickedToCompare, displaySizeHeight, dispatch]);
 	
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>

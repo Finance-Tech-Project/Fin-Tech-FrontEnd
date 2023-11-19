@@ -12,6 +12,7 @@ export const AnalyticChartContainer = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
     marginTop: '50px',
+    marginBottom: '50px',
     [theme.breakpoints.up('mobileS')]: {
         padding: '20px 20px'
     },
@@ -21,14 +22,17 @@ export const AnalyticChartContainer = styled(Box)(({ theme }) => ({
         padding: '60px 60px'
     },
     [theme.breakpoints.up('laptop')]: {
-        padding: '60px 0px 70px 0px'
+        padding: '50px 0px 40px 0px'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        padding: '55px 0px 60px 0px'
     }
 }));
 
 export const AnalyticBlackoutContainer = styled(Box)(({ theme }) => ({
-	width: '100%',
-	minHeight: '1110px',
-	background: 'rgba(1, 1, 25, 0.5)'
+    width: '100%',
+    minHeight: '1110px',
+    background: 'rgba(1, 1, 25, 0.5)'
 }));
 
 export const AnalyticButtons = styled(Button, {
@@ -43,7 +47,7 @@ export const AnalyticButtons = styled(Button, {
     borderRadius: '6px',
     [theme.breakpoints.up('mobileS')]: {
         marginBottom: '20px',
-        ...(marginTopForTwoStocksButtons && {marginTop: '20px'})
+        ...(marginTopForTwoStocksButtons && { marginTop: '20px' })
     },
     [theme.breakpoints.up('laptop')]: {
         marginTop: '20px'
@@ -52,4 +56,15 @@ export const AnalyticButtons = styled(Button, {
         marginTop: '0px',
         marginBottom: '0px',
     },
+}));
+
+export const AnalyticDateAndIntervalPickersContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'space-between',
+    [theme.breakpoints.up('laptop')]: {
+        paddingBottom: '10px',
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        paddingBottom: '30px',
+    }
 }));

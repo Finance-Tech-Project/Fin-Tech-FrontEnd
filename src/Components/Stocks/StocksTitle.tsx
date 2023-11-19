@@ -1,16 +1,17 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import { StockTitleDescr, StockTitleDescrRound, StockTitleHeader, StocksTitleContainer } from '../../Styles/StocksStyles/StocksStyle'
+import { StockTitleDescr, StockTitleDescrRound, StocksTitleContainer } from '../../Styles/StocksStyles/StocksStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { GeneralTitleHeader } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 const StocksTitle = () => {
 	return (
 		<StocksTitleContainer>
 			<Grid container>
 				<Grid sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-					<StockTitleHeader>
-						In our stocks section you can:
-					</StockTitleHeader>
+					<GeneralTitleHeader>
+						In your stocks section you can:
+					</GeneralTitleHeader>
 				</Grid>
 			</Grid>
 
