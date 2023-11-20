@@ -28,7 +28,6 @@ interface Props {
 }
 
 const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
-	const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
