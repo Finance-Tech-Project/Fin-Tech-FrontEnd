@@ -36,19 +36,15 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const checkSymbolName = true;
 	const headerContainerRef = useRef<HTMLDivElement>(null);
 	const [displaySizeHeight, setDisplaySizeHeight] = useState(0);
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySizeHeight(window.screen.height);
-			setDisplaySize(window.screen.width);
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-			displaySize >= theme.breakpoints.values.desktopL
-				&& dispatch(calcInterfaceHeight(LWCHeaderInitValueHeight + ((headerContainerRef.current?.clientHeight! - LWCHeaderInitValueHeight) / 2 - 1.5)));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, displaySizeHeight, dispatch, headerContainerRef.current?.clientHeight!, displaySize]);
+	}, [isClickedToCompare]);
 
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
