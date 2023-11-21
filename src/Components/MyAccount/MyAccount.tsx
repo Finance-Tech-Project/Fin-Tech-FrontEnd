@@ -4,6 +4,7 @@ import MyAccountHeader from './MyAccountHeader'
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { MyAccountBlackoutContainer, MyAccountContainer } from '../../Styles/MyAccountStyles/MyAccountStyle'
 import MyAccountFooter from './MyAccountFooter'
+import MyAccountPanelInterface from './MyAccountPanelInterface'
 
 const MyAccount = () => {
 	return (
@@ -12,7 +13,7 @@ const MyAccount = () => {
 				<MyAccountHeader />
 				<MyAccountContainer>
 					<MyAccountBlackoutContainer>
-						<Typography variant='h1'>MyAccount</Typography>
+						<MyAccountPanelInterface />
 					</MyAccountBlackoutContainer>
 				</MyAccountContainer>
 				<MyAccountFooter />

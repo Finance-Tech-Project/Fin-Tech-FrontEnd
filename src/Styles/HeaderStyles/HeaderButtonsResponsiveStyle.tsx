@@ -3,6 +3,7 @@ import { Box, Theme, styled } from "@mui/material";
 export const HeaderMenuResponsiveContainer = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgba(4, 3, 28, 1)', 
     width: '100%', 
+    height: '100vh',
     display: 'flex', 
     flexDirection: 'column', 
     alignItems: 'center',

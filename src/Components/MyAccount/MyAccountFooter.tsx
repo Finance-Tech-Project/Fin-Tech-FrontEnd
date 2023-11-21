@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Link } from 'react-router-dom';
-import { HeaderButtonsStyle, HeaderContainer } from '../../Styles/HeaderStyles/HeaderStyles';
+import { HeaderButtonsStyle } from '../../Styles/HeaderStyles/HeaderStyles';
 import Logo from '../Home/Header/Logo';
 import { headerButtons } from '../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../Constants/MaterialConstants/theme';
+import { MyAccountFooterContainer } from '../../Styles/MyAccountStyles/MyAccountStyle';
 
 const MyAccountFooter = () => {
     const [displaySize, setDisplaySize] = useState(window.screen.width);
@@ -16,13 +17,11 @@ const MyAccountFooter = () => {
     }, [displaySize]);
 
     return (
-        <HeaderContainer>
+        <MyAccountFooterContainer>
             <Grid container sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
                 {displaySize > theme.breakpoints.values.tablet &&
                     <Grid container sx={{ width: '100%' }}
                         laptop={8} laptopOffset={0.5}
-                        laptopL={8} laptopLOffset={0.5}
-                        desktop={8} desktopOffset={0.5}
                         desktopL={9} desktopLOffset={0.5}
                     >
                         {headerButtons.map((buttonText) => {
@@ -32,7 +31,6 @@ const MyAccountFooter = () => {
                                     laptopLOffset={0.5}
                                     desktopOffset={1}
                                     desktopLOffset={1}
-
                                 >
                                     <Link id={buttonText.route} to={`/${buttonText.route}`} key={buttonText.title}>
                                         <HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
@@ -43,9 +41,11 @@ const MyAccountFooter = () => {
                     </Grid>
                 }
 
-
-                <Grid
-                    laptop={0.5} laptopOffset={1}
+                <Grid 
+                    mobileS={6} mobileSOffset={2.5}
+                    mobileM={6} mobileMOffset={3.5}
+                    tablet={6} tabletOffset={4.5}
+                    laptop={0.5} laptopOffset={0.5}
                     laptopL={0.5} laptopLOffset={1}
                     desktop={0.5} desktopOffset={1.5}
                     desktopL={0.5} desktopLOffset={1}
@@ -57,7 +57,7 @@ const MyAccountFooter = () => {
                     </Link>
                 </Grid>
             </Grid >
-        </HeaderContainer >
+        </MyAccountFooterContainer >
     )
 }
 
