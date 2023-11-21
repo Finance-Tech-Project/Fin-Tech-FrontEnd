@@ -1,16 +1,23 @@
 import React from 'react'
-import Header from '../Home/Header/Header'
-import { Box, Typography } from '@mui/material'
+import { Box, ThemeProvider, Typography } from '@mui/material'
+import MyAccountHeader from './MyAccountHeader'
+import { theme } from '../../Constants/MaterialConstants/theme'
+import { MyAccountBlackoutContainer, MyAccountContainer } from '../../Styles/MyAccountStyles/MyAccountStyle'
+import MyAccountFooter from './MyAccountFooter'
 
 const MyAccount = () => {
 	return (
-		<Box width={'100%'} height={'100%'}>
-			<Header/>
-			<Typography variant='h1'>MyAccount</Typography>
-		</Box>
-			
-
-		
+		<ThemeProvider theme={theme}>
+			<Box width={'100%'} height={'100%'}>
+				<MyAccountHeader />
+				<MyAccountContainer>
+					<MyAccountBlackoutContainer>
+						<Typography variant='h1'>MyAccount</Typography>
+					</MyAccountBlackoutContainer>
+				</MyAccountContainer>
+				<MyAccountFooter />
+			</Box>
+		</ThemeProvider>
 	)
 }
 

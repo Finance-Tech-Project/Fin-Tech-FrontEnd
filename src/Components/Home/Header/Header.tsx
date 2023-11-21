@@ -19,7 +19,8 @@ const Header = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<HeaderContainer>
-				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> : <HeaderButtonsResponsive displaySize={displaySize}/> }
+				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> 
+					: <HeaderButtonsResponsive displaySize={displaySize}/> }
 			</HeaderContainer>
 		</ThemeProvider>
 	)

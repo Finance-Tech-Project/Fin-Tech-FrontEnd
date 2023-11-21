@@ -1,7 +1,7 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { analyticTitleCards } from '../../Constants/ProjectConstants/analyticTitleCardsConstants';
-import { Card, CardContent, Typography } from '@mui/material';
+import { CardContent } from '@mui/material';
 
 import { AnalyticTitleCardContainer, AnalyticTitleCardGridContainerStyle, AnalyticTitleCardIcon, AnalyticTitleCardTypography } from '../../Styles/AnalyticStyles/AnalyticTitleStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
