@@ -59,6 +59,13 @@ const MyAccountPanelInterface = () => {
                                     <MyAccountPanelInterfaceToolbarTypography colorOnFocus={mouseFocusEnter}>Portfolio</MyAccountPanelInterfaceToolbarTypography>
                                 </MyAccountPanelInterfaceToolbarButtons>
                             </MyAccountPanelInterfaceToolbarButtonsItem>
+
+                            <MyAccountPanelInterfaceToolbarButtonsItem>
+                                <MyAccountPanelInterfaceToolbarButtons disableRipple onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseOut}>
+                                    <MyAccountPanelInterfacePortfolioIcon colorOnFocus={mouseFocusEnter}/>
+                                    <MyAccountPanelInterfaceToolbarTypography colorOnFocus={mouseFocusEnter}>Portfolio</MyAccountPanelInterfaceToolbarTypography>
+                                </MyAccountPanelInterfaceToolbarButtons>
+                            </MyAccountPanelInterfaceToolbarButtonsItem>
                         </Box>
 
                         <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
