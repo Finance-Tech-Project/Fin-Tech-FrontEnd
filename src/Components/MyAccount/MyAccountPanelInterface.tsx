@@ -61,7 +61,6 @@ const MyAccountPanelInterface = () => {
                             </MyAccountPanelInterfaceToolbarButtonsItem>
                         </Box>
 
-
                         <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                             <MyAccountPanelInterfaceToolbarButtonLogout disableRipple>Logout</MyAccountPanelInterfaceToolbarButtonLogout>
                         </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
