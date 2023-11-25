@@ -12,13 +12,14 @@ const MyAccountHeader = () => {
     const [displaySize, setDisplaySize] = useState(window.screen.width);
     const [isClicked, setIsClicked] = useState(true);
 
-    const handleClickAway = () => {
-        setIsClicked(true);
+    const handleClickAway = (event: MouseEvent | TouchEvent) => {
+        if (event.type === 'click') {
+			setIsClicked(true);
+		} 
     };
 
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        setIsClicked(Boolean(event.currentTarget.value));
-        setIsClicked(!isClicked);
+    const handleClick = () => {
+        setIsClicked(prev => prev !== isClicked);
     };
 
     useEffect(() => {
@@ -71,7 +72,7 @@ const MyAccountHeader = () => {
                         tablet={1} tabletOffset={0}
                     >
 
-                        <ClickAwayListener onClickAway={handleClickAway}>
+                        <ClickAwayListener onClickAway={event => handleClickAway(event)} >
                             <HeaderMenuIconButton disableRipple onClick={handleClick}>
                                 <HeaderMenuIconStyle />
                             </HeaderMenuIconButton>

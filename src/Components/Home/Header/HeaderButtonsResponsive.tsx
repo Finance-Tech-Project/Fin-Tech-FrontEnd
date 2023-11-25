@@ -12,26 +12,25 @@ import HeaderAvatar from './HeaderAvatar';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { GridContainerStyle, GridLoginMenuContainerStyle, HeaderButtonsResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
 
-interface SizeProps {
-	displaySize: number
-}
-
-const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
+const HeaderButtonsResponsive = () => {
 	const [isClicked, setIsClicked] = useState(true);
-	
-	const handleClickAway = () => {
-		setIsClicked(true);
+
+	const handleClickAway = (event: MouseEvent | TouchEvent) => {
+		if (event.type === 'click') {
+			setIsClicked(true);
+		} 
 	};
 
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		setIsClicked(Boolean(event.currentTarget.value));
-		setIsClicked(!isClicked);
+	const handleClick = () => {
+		
+		setIsClicked(prev => prev !== isClicked)
+		
 	};
 
 	useEffect(() => {
-		
+
 	}, [isClicked]);
-	
+	// console.log(isClicked);
 	return (
 		<Box width="100%">
 			<HeaderButtonsResponsiveContainer>
@@ -47,7 +46,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 						</Link>
 					</Grid>
 
-					<Grid container sx={() => GridLoginMenuContainerStyle(theme)} 
+					<Grid container sx={() => GridLoginMenuContainerStyle(theme)}
 						mobileL={6} mobileLOffset={1.5}
 						tablet={4} tabletOffset={2.5}
 					>
@@ -73,7 +72,7 @@ const HeaderButtonsResponsive = ({ displaySize }: SizeProps) => {
 								Listener if the click occurs outside of the element and
 								call function handleClickAway wich sets the isClicked parameter to true
 							*/}
-							<ClickAwayListener onClickAway={handleClickAway}>
+							<ClickAwayListener onClickAway={event => handleClickAway(event)}>
 								<HeaderMenuIconButton disableRipple onClick={handleClick}>
 									<HeaderMenuIconStyle />
 								</HeaderMenuIconButton>

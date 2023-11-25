@@ -12,15 +12,13 @@ const Header = () => {
 		window.addEventListener('resize', () => {
 			setDisplaySize(window.screen.width);
 		});
-
-		
 	}, [displaySize]);
 	
 	return (
 		<ThemeProvider theme={theme}>
 			<HeaderContainer>
 				{ displaySize > theme.breakpoints.values.laptop - 1 ? <HeaderButtons /> 
-					: <HeaderButtonsResponsive displaySize={displaySize}/> }
+					: <HeaderButtonsResponsive /> }
 			</HeaderContainer>
 		</ThemeProvider>
 	)
