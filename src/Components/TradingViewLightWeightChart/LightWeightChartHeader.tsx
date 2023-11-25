@@ -41,11 +41,13 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setDisplaySizeHeight(window.screen.height);
+			
 			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
 		});
 		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare]);
-
+	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
+	// console.log(headerContainerRef.current?.clientHeight!);
+	// console.log(isClickedToCompare);
 	return (
 		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
 			{simpleIncome.dataToCompare!.length === 0 &&

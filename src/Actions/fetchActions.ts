@@ -43,7 +43,12 @@ export const getTikersForMainPage = async () => {
 export const getStatisticsForSymbol = async (symbolName: string) => {
     try {
         const response = await fetch(`${FetchConstants.BASE_URL.concat(FetchConstants.STATISTICS).concat(symbolName)}`,
-            { method: "POST" }
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
         );
         if (response.ok) {
             const data = await response.json();
