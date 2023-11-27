@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, ThemeProvider } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Header from '../Home/Header/Header'
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader'
 import LightWeightChartForAnalytics from '../TradingViewLightWeightChart/LightWeightChartForAnalytics'
@@ -42,10 +42,11 @@ const Analytics = () => {
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
 	const [isClickedToCompare, setIsClickedToCompare] = useState(false);
+	const [isClickedOnCompareButton, setIsClickedOnCompareButton] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
 	const dispatch = useAppDispatch();
 
 	const getDataTicker = () => {
@@ -53,6 +54,7 @@ const Analytics = () => {
 		setTickerVolume(createHistogramLineAreaData(symbolDataInInterval));
 		setTickerData(createCandlesData(symbolDataInInterval));
 	};
+
 	// On click compare two stocks is rendered analytic chart with two simbols to compare.
 	const handleClickTwoStocksCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		// We sets to switcher button value to reverse.
@@ -76,11 +78,15 @@ const Analytics = () => {
 			dispatch(putMovAvgPeriod(0));
 		}
 	};
+
 	// On click analytic chart, we during the transition back to analytic chart with one symbol and
 	// sets all data calculations to empty and all periods to zero and for symbol name to compare set to empty string.	
 	const handleClickAnalyticChart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		// We sets to switcher button value to reverse.
 		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
+		// If we return to analytics chart in press button, 
+		// we sets value to switcher button "compare" to false.
+		setIsClickedOnCompareButton(false);
 		dispatch(putSimpleIncomePeriod(0));
 		dispatch(putVolatilityPeriod(0));
 		dispatch(putSharpRatioPeriod(0));
@@ -102,7 +108,7 @@ const Analytics = () => {
 				dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
 			}
 		}
-	}, [isClickedToCompare, symbolName.symbolName]);
+	}, [isClickedToCompare, symbolName.symbolName, displaySize]);
 
 	useEffect(() => {
 		if (getDataInInterval(data, interval).length > 0) {
@@ -113,12 +119,6 @@ const Analytics = () => {
 	useEffect(() => {
 		dispatch(getSymbolDataForPeriodRange(symbolName.symbolName, currentDateFrom, currentDateTo));
 	}, [symbolName.symbolName, currentDateFrom, currentDateTo]);
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -145,10 +145,11 @@ const Analytics = () => {
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
 											handleClickAnalyticChart={handleClickAnalyticChart}
 											isClickedToCompare={isClickedToCompare}
+											setIsClickedOnCompareButton={setIsClickedOnCompareButton}
 										/>
 									</AnalyticDateAndIntervalPickersContainer>
 								</Grid>
-								<Grid container width="100%">
+								<Grid container width="100%" >
 									<Grid
 										laptop={11} laptopOffset={0.5}
 										laptopL={8} laptopLOffset={0.5}
@@ -157,7 +158,10 @@ const Analytics = () => {
 									>
 										<Box>
 											<LightWeightChartHeader isClickedToCompare={isClickedToCompare} data={getDataInInterval(data, interval)} />
-											{displaySize < theme.breakpoints.values.laptopL - 1 && <AnalyticChartInteface isClickedToCompare={isClickedToCompare} />}
+											{displaySize < theme.breakpoints.values.laptopL - 1 
+												&& <AnalyticChartInteface 
+														isClickedOnCompareButton={isClickedOnCompareButton} 
+														isClickedToCompare={isClickedToCompare} />}
 											<LightWeightChartForAnalytics
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
@@ -172,7 +176,9 @@ const Analytics = () => {
 											desktop={3}
 											desktopL={2.5}
 										>
-											<AnalyticChartInteface isClickedToCompare={isClickedToCompare} />
+											<AnalyticChartInteface 
+												isClickedOnCompareButton={isClickedOnCompareButton} 
+												isClickedToCompare={isClickedToCompare} />
 										</Grid>}
 								</Grid>
 							</AnalyticChartContainer>

@@ -1,14 +1,13 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataVolumeType } from "../Types/TickersTypes";
-import { AnalyticInterface } from "../Types/AnalyticTypes";
+import { AnalyticInterface, AnalyticInterfaceEvents } from "../Types/AnalyticTypes";
 import { LWCHeaderInitValueHeight } from "../Constants/ProjectConstants/headerConstants";
 
 interface AnalyticInterfaceReducer {
     movAvg: AnalyticInterface,
     simpleIncome: AnalyticInterface,
     volatility: AnalyticInterface,
-    sharpRatio: AnalyticInterface,
-    interfaceHeight: number
+    sharpRatio: AnalyticInterface
 }
 
 const initialAnalyticInterface: AnalyticInterfaceReducer = {
@@ -37,8 +36,7 @@ const initialAnalyticInterface: AnalyticInterfaceReducer = {
         period: 0,
         data: [],
         dataToCompare: []
-    },
-    interfaceHeight: 0
+    }
 };
 
 const analyticInterfaceSlice = createSlice({
@@ -77,14 +75,6 @@ const analyticInterfaceSlice = createSlice({
         },
         putSharpRatioDataToCompare(state, action: PayloadAction<TickerDataVolumeType[]>) {
             state.sharpRatio.dataToCompare = action.payload;
-        },
-        calcInterfaceHeight(state, action: PayloadAction<number>) {
-            // console.log(action.payload)
-            if (action.payload && action.payload > LWCHeaderInitValueHeight) {
-                state.interfaceHeight = (action.payload - LWCHeaderInitValueHeight);
-            } else {
-                state.interfaceHeight = 0;
-            }
         }
     }
 });
@@ -100,7 +90,6 @@ export const {
     putVolatilityData,
     putVolatilityDataToCompare,
     putSharpRatioData,
-    putSharpRatioDataToCompare,
-    calcInterfaceHeight
+    putSharpRatioDataToCompare
 } = analyticInterfaceSlice.actions;
 export const analyticInterfaceReducer = analyticInterfaceSlice.reducer;

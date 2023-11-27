@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Checkbox, Theme, Typography } from '@mui/material'
+import { Box, Checkbox, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putMovAvgPeriod, putSharpRatioData, putSharpRatioPeriod, putSimpleIncomeData, putSimpleIncomePeriod, putVolatilityData, putVolatilityPeriod } from '../../Reducers/analyticIterfaceReducer';
@@ -20,29 +20,29 @@ import {
     MoveAverageTitleContainer,
 } from '../../Styles/AnalyticStyles/AnalyticChartInterfaceStyle';
 import { Symbols } from '../../Types/DataReducerTypes';
+import { getAnalyticInterfaceHeight } from '../../Functions/utilsFunctions';
 import { theme } from '../../Constants/MaterialConstants/theme';
-import { getInterfaceHeight } from '../../Functions/utilsFunctions';
 
 interface Props {
-    isClickedToCompare: boolean
+    isClickedToCompare: boolean,
+    isClickedOnCompareButton: boolean
 }
 
-const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
+const AnalyticChartInteface = ({ isClickedToCompare, isClickedOnCompareButton }: Props) => {
     const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
-    const interfaceHeight = useAppSelector(state => state.analyticInterfaceReducer.interfaceHeight);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
+    const displaySize = useAppSelector(state => state.displaySizeReducer);
     const [numberSimpleIncome, setNumberSimpleIncome] = useState<number | string>('');
     const [numberVolatility, setNumberVolatility] = useState<number | string>('');
     const [numberSharpRatio, setNumberSharpRatio] = useState<number | string>('');
     const [numberIrr, setNumberIrr] = useState<number | string>('');
     const [checked50Days, setChecked50Days] = useState(false);
     const [checked200Days, setChecked200Days] = useState(false);
-    const [displaySize, setDisplaySize] = useState(window.screen.width);
     const dispatch = useAppDispatch();
 
     const clearDataForHandleChangeMovAvg = () => {
@@ -199,16 +199,12 @@ const AnalyticChartInteface = ({ isClickedToCompare }: Props) => {
         if (isClickedToCompare) {
             clearDataForMovAvg();
         }
-    }, [movAvg.period, isClickedToCompare]);
-
-    useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
-    
+    }, [movAvg.period, isClickedToCompare, displaySize]);
+  
     return (
-        <AnalyticChartInterfaceContainer height={getInterfaceHeight(theme, displaySize, interfaceHeight)}>
+        <AnalyticChartInterfaceContainer sx={{
+                height: getAnalyticInterfaceHeight(theme, displaySize, isClickedOnCompareButton, isClickedToCompare)
+            }}>
             <AnalyticChartInterfaceWrapper >
                 {!isClickedToCompare && (
                     <Box>

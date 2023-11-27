@@ -17,10 +17,10 @@ interface Props {
 
 const StocksStatistics = ({ handleClickStatistics }: Props) => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
 	const [columns, setColumns] = useState<Array<StatisticsColumn>>([]);
 	const [statistics, setStatistics] = useState<Statistics[]>([]);
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
-
+	
 	const getStats = async () => {
 		const mapData: Statistics[] | undefined = await getStatisticsForSymbol(symbolName);
 		mapData && setStatistics(mapData);
@@ -36,12 +36,6 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 			setColumns(createColumnsForStatistic(await stats)!);
 		}, 0);
 	}, [(columns[0] !== undefined)]);
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
 
 	return (
 		<ThemeProvider theme={theme}>

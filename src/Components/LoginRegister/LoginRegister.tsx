@@ -6,20 +6,14 @@ import { LoginBG, LoginBgBlackout, LoginRegisterContainer, LoginRegisterWrapper,
 import Register from './Register';
 import { theme } from '../../Constants/MaterialConstants/theme'
 import Footer from '../Footer/Footer'
+import { useAppSelector } from '../../app/hooks'
 
 interface Props {
 	pathRoute: string
 }
 
 const LoginRegister = ({ pathRoute }: Props) => {
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-
-	}, [displaySize]);
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
 
 	return (
 		<ThemeProvider theme={theme}>

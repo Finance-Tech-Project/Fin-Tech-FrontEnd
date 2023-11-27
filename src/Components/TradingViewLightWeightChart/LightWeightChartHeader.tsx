@@ -11,16 +11,14 @@ import {
 
 } from '../../Styles/LightWeightChartStyles/LightWeightChartHeaderStyle'
 import { TickerDataType } from '../../Types/TickersTypes';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { Box, Divider } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import HeaderItemCompanyName from './HeaderItemCompanyName';
 import HeaderItemDataDescription from './HeaderItemDataDescription';
-import { calcInterfaceHeight } from '../../Reducers/analyticIterfaceReducer';
 import { TwoStocksHeaderContainer, TwoStocksHeaderItem, TwoStocksHeaderItemGridContainerStyle } from '../../Styles/LightWeightChartStyles/LightWeightTwoStocksHeaderStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
-import { LWCHeaderInitValueHeight } from '../../Constants/ProjectConstants/headerConstants';
 
 interface Props {
 	data: TickerDataType[],
@@ -34,22 +32,9 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
 	const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
 	const checkSymbolName = true;
-	const headerContainerRef = useRef<HTMLDivElement>(null);
-	const [displaySizeHeight, setDisplaySizeHeight] = useState(0);
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySizeHeight(window.screen.height);
-			
-			dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-		});
-		dispatch(calcInterfaceHeight(headerContainerRef.current?.clientHeight!));
-	}, [isClickedToCompare, headerContainerRef.current?.clientHeight!, displaySizeHeight]);
-	// console.log(headerContainerRef.current?.clientHeight!);
-	// console.log(isClickedToCompare);
+		
 	return (
-		<MainHeaderChartContainer ref={headerContainerRef} borderTopRightRadius>
+		<MainHeaderChartContainer borderTopRightRadius>
 			{simpleIncome.dataToCompare!.length === 0 &&
 				volatility.dataToCompare!.length === 0 &&
 				sharpRatio.dataToCompare!.length === 0 ? (

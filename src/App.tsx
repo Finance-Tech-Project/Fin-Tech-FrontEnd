@@ -12,6 +12,7 @@ import LoginRegister from './Components/LoginRegister/LoginRegister';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
 import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
+import { putDisplaySize } from './Reducers/displaySizeReducer';
 
 
 function App() {
@@ -19,6 +20,9 @@ function App() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		window.addEventListener('resize', () => {
+			dispatch(putDisplaySize(window.screen.width));
+		});
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName]);
 

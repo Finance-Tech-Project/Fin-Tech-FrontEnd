@@ -6,7 +6,3 @@ export interface MainButtonType {
         title?: string | undefined
     }
 }
-
-export interface DisplaySizeProps {
-	displaySize: number
-}

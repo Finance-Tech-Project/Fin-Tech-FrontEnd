@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '../../Styles/HeaderStyles/HeaderStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import HeaderResponsive from '../Home/Header/HeaderResponsive';
+import { useAppSelector } from '../../app/hooks';
 
 const MyAccountHeader = () => {
-    const [displaySize, setDisplaySize] = useState(window.screen.width);
+    const displaySize = useAppSelector(state => state.displaySizeReducer);
     const [isClicked, setIsClicked] = useState(true);
 
     const handleClickAway = (event: MouseEvent | TouchEvent) => {
@@ -25,12 +26,6 @@ const MyAccountHeader = () => {
     useEffect(() => {
 
     }, [isClicked]);
-
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            setDisplaySize(window.screen.width);
-        });
-    }, [displaySize]);
 
     return (
         <MyAccountHeaderContainer>

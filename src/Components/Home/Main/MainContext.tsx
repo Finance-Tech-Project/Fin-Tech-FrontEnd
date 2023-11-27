@@ -3,9 +3,11 @@ import { ThemeProvider } from '@mui/material';
 import { MainArrowIconButton, MainButton, MainDescr, MainHeader, MainHeaderContainer, MainImagePng, MainImagePngContainer } from '../../../Styles/MainStyles/MainContextStyle';
 import pngBackground_3 from '../../../Images/PngImages/pngBackground_3.png';
 import { theme } from '../../../Constants/MaterialConstants/theme';
-import { DisplaySizeProps } from '../../../Types/MainTypes';
+import { useAppSelector } from '../../../app/hooks';
 
-const MainContext = ({ displaySize }: DisplaySizeProps) => {	
+const MainContext = () => {	
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container columns={{ desktopL: 16,  laptopL: 13.8, laptop: 15, tablet: 12.5, mobileL: 13.5 }} 

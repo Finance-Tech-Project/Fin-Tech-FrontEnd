@@ -4,15 +4,10 @@ import {  HeaderContainer } from '../../../Styles/HeaderStyles/HeaderStyles'
 import HeaderButtons from './HeaderButtons'
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderButtonsResponsive from './HeaderButtonsResponsive'
+import { useAppSelector } from '../../../app/hooks'
 
 const Header = () => {
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
-	
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
 	
 	return (
 		<ThemeProvider theme={theme}>

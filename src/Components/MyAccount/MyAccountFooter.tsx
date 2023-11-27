@@ -6,15 +6,10 @@ import Logo from '../Home/Header/Logo';
 import { headerButtons } from '../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { MyAccountFooterContainer } from '../../Styles/MyAccountStyles/MyAccountStyle';
+import { useAppSelector } from '../../app/hooks';
 
 const MyAccountFooter = () => {
-    const [displaySize, setDisplaySize] = useState(window.screen.width);
-
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            setDisplaySize(window.screen.width);
-        });
-    }, [displaySize]);
+    const displaySize = useAppSelector(state => state.displaySizeReducer);
 
     return (
         <MyAccountFooterContainer>

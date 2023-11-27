@@ -5,5 +5,12 @@ export interface AnalyticInterface {
     colorToCompare?: string,
     period: number,
     data: TickerDataVolumeType[],
-    dataToCompare?: TickerDataVolumeType[]
+    dataToCompare?: TickerDataVolumeType[],
+    analyticInterfaceEvents?: AnalyticInterfaceEvents
+}
+
+export interface AnalyticInterfaceEvents {
+    interfaceHeight: number,
+    analyticChartOrCompareTwoStocksClick: boolean,
+    compareClick: boolean
 }

@@ -4,7 +4,7 @@ export const MainHeaderChartContainer = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'borderTopRightRadius'
 })<any>(({ theme, borderTopRightRadius }) => ({
     width: '100%',
-    minHeight: '95px',
+    minHeight: '103px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)',
     backgroundColor: '#2c0951',

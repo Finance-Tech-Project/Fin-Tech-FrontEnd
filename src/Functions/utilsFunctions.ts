@@ -175,12 +175,15 @@ export const getChartHeaderDescrItem = (
     return res;
 };
 
-export const getAnalyticInterfaceHeightDifference = (theme: Theme, displaySize: number, interfaceHeight: number) => {
-    return displaySize > theme.breakpoints.values.desktop && interfaceHeight > 0 ?
-        737.5 + interfaceHeight * 2 : 735 + interfaceHeight * 2;
-};
-
-export const getInterfaceHeight = (theme: Theme, displaySize: number, interfaceHeight: number) => {
-    return displaySize > theme.breakpoints.values.desktop ?
-        getAnalyticInterfaceHeightDifference(theme, displaySize, interfaceHeight) : 735 + interfaceHeight;
+export const getAnalyticInterfaceHeight = (theme: Theme, displaySize: number, isClickedOnCompareButton: boolean, isClickedToCompare: boolean) => {
+    if (displaySize > theme.breakpoints.values.desktop && isClickedToCompare) {
+        return "753.5px";
+    }
+    if (displaySize > theme.breakpoints.values.laptopL) {
+        return "743px";
+    }
+    if (displaySize <= theme.breakpoints.values.laptopL && isClickedOnCompareButton) {
+        return "847px";
+    }
+    return "743px";
 };

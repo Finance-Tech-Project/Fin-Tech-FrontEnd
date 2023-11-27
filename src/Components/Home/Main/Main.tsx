@@ -8,18 +8,12 @@ import { theme } from '../../../Constants/MaterialConstants/theme';
 import MainTickersTableAndChart from './MainTickersTableAndChart';
 import { putSeriesName } from '../../../Reducers/chartSeriesReducer';
 import { ChartSeriesNames } from '../../../Enums/Enums';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 
 const Main = () => {
-	const [displaySize, setDisplaySize] = useState(window.screen.width);
+	const displaySize = useAppSelector(state => state.displaySizeReducer);
 	const dispatch = useAppDispatch();
 	
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
-
 	useMemo(() => {
 		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 	}, [dispatch]);
@@ -29,7 +23,7 @@ const Main = () => {
 			<Grid container>
 				<MainContainer>
 					<MainBackgroundColor>
-						<MainContext displaySize={displaySize} />
+						<MainContext />
 						{displaySize > theme.breakpoints.values.laptop - 1 && <MainButtons />}
 					</MainBackgroundColor>
 				</MainContainer>

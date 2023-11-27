@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -21,10 +21,11 @@ import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     handleClickAnalyticChart: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    isClickedToCompare: boolean
+    isClickedToCompare: boolean,
+    setIsClickedOnCompareButton: (React.Dispatch<React.SetStateAction<boolean>>)
 }
 
-const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedToCompare }: Props) => {
+const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedToCompare, setIsClickedOnCompareButton }: Props) => {
     const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
@@ -58,6 +59,11 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
 
     const handleClickOnCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (Boolean(!event.currentTarget.value) && symbolName.symbolName && symbolName.symbolNameToCompare) {
+
+            setIsClickedOnCompareButton(prev => prev !== Boolean(!event.currentTarget.value));
+
+
+
             switch (seriesName) {
                 case ChartSeriesNames.LineSeriesForSimpleIncome:
                     return dispatch(getDataForAnalyticChartSimpleIncome(

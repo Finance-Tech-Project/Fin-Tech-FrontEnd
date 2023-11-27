@@ -4,9 +4,10 @@ import { Divider, Box, ThemeProvider } from '@mui/material'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { GeneralStocksBlocksTitle } from '../../Styles/AreCommonStyles/AreCommonStyles';
+import { useAppSelector } from '../../app/hooks';
 
 const StocksRecommendationTrends = () => {
-    const [displaySize, setDisplaySize] = useState(window.screen.width);
+    const displaySize = useAppSelector(state => state.displaySizeReducer);
 
     const data = [
         {
@@ -34,12 +35,6 @@ const StocksRecommendationTrends = () => {
             amt: 2000,
         }
     ];
-
-    useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDisplaySize(window.screen.width);
-		});
-	}, [displaySize]);
 
     return (
         <ThemeProvider theme={theme}>
