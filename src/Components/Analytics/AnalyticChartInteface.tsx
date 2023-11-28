@@ -24,11 +24,11 @@ import { getAnalyticInterfaceHeight } from '../../Functions/utilsFunctions';
 import { theme } from '../../Constants/MaterialConstants/theme';
 
 interface Props {
-    isClickedToCompare: boolean,
+    isClickedOnCompareTwoStocksButton: boolean,
     isClickedOnCompareButton: boolean
 }
 
-const AnalyticChartInteface = ({ isClickedToCompare, isClickedOnCompareButton }: Props) => {
+const AnalyticChartInteface = ({ isClickedOnCompareTwoStocksButton, isClickedOnCompareButton }: Props) => {
     const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
@@ -196,17 +196,17 @@ const AnalyticChartInteface = ({ isClickedToCompare, isClickedOnCompareButton }:
         simpleIncome.period === 0 && setNumberSimpleIncome('');
         volatility.period === 0 && setNumberVolatility('');
         sharpRatio.period === 0 && setNumberSharpRatio('');
-        if (isClickedToCompare) {
+        if (isClickedOnCompareTwoStocksButton) {
             clearDataForMovAvg();
         }
-    }, [movAvg.period, isClickedToCompare, displaySize]);
+    }, [movAvg.period, isClickedOnCompareTwoStocksButton, displaySize]);
   
     return (
         <AnalyticChartInterfaceContainer sx={{
-                height: getAnalyticInterfaceHeight(theme, displaySize, isClickedOnCompareButton, isClickedToCompare)
+                height: getAnalyticInterfaceHeight(theme, displaySize, isClickedOnCompareButton, isClickedOnCompareTwoStocksButton)
             }}>
             <AnalyticChartInterfaceWrapper >
-                {!isClickedToCompare && (
+                {!isClickedOnCompareTwoStocksButton && (
                     <Box>
                         <MoveAverageTitleContainer>
                             <Typography sx={{ color: 'white' }} variant='h5'>Moving Average</Typography>

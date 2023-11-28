@@ -51,5 +51,10 @@ export enum DefaultPeriods {
     SharpRatioDefaultPeriod = 2
 }
 
+export enum ComponentName {
+    Stocks = "stocks",
+    Analytic = "analytic",
+}
+
 export const DEFAULT_DATE_FROM = getPeriod(2)[0];
 export const DEFAULT_DATE_TO = getPeriod(2)[1];

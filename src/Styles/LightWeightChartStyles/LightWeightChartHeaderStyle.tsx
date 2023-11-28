@@ -1,20 +1,15 @@
 import { Box, Typography, styled } from "@mui/material";
 
-export const MainHeaderChartContainer = styled(Box, {
-    shouldForwardProp: (prop) => prop !== 'borderTopRightRadius'
-})<any>(({ theme, borderTopRightRadius }) => ({
+export const MainHeaderChartContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     minHeight: '103px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderBottom: '0.5px solid rgba(70, 75, 114, 0.8)',
     backgroundColor: '#2c0951',
-    borderTopLeftRadius: '30px',
-    borderTopRightRadius: '30px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     fontFamily: 'Inter, sans-serif',
-    ...(borderTopRightRadius && { borderTopRightRadius: '0px' }),
     [theme.breakpoints.up('mobileS')]: {
         flexDirection: 'column',
     },

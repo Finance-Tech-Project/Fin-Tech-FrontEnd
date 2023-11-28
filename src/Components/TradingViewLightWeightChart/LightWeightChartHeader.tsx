@@ -22,10 +22,10 @@ import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 interface Props {
 	data: TickerDataType[],
-	isClickedToCompare?: boolean
+	isClickedOnCompareTwoStocksButton?: boolean
 }
 
-const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
+const LightWeightChartHeader = ({ data, isClickedOnCompareTwoStocksButton }: Props) => {
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
@@ -34,12 +34,12 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 	const checkSymbolName = true;
 		
 	return (
-		<MainHeaderChartContainer borderTopRightRadius>
+		<MainHeaderChartContainer>
 			{simpleIncome.dataToCompare!.length === 0 &&
 				volatility.dataToCompare!.length === 0 &&
 				sharpRatio.dataToCompare!.length === 0 ? (
 				<React.Fragment>
-					{!isClickedToCompare ? (
+					{!isClickedOnCompareTwoStocksButton ? (
 						<React.Fragment>
 							<MainHeaderChartTickerNameContainer>
 								<MainHeaderChartTickerName color fontSize>{symbolName.symbolName}</MainHeaderChartTickerName>
@@ -156,7 +156,7 @@ const LightWeightChartHeader = ({ data, isClickedToCompare }: Props) => {
 								desktop={5.5} desktopOffset={0}
 								desktopL={5} desktopLOffset={1.5}
 							>
-								<HeaderItemDataDescription isClickedToCompare={isClickedToCompare} />
+								<HeaderItemDataDescription isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />
 							</Grid>
 						</Grid>
 					</TwoStocksHeaderItem>

@@ -1,4 +1,4 @@
-import { Box, Button, styled } from "@mui/material";
+import { Box, Button, FormControl, styled } from "@mui/material";
 import Analytic_BG from '../../Images/MainBG_6.jpg';
 
 export const AnalyticContainer = styled(Box)(({ theme }) => ({
@@ -66,5 +66,20 @@ export const AnalyticDateAndIntervalPickersContainer = styled(Box)(({ theme }) =
     },
     [theme.breakpoints.up('laptopL')]: {
         paddingBottom: '30px',
+    }
+}));
+
+export const AnalyticDateAndIntervalPickersFromControl = styled(FormControl)(({ theme }) => ({
+    width: '100%',
+    [theme.breakpoints.up('mobileS')]: {
+        marginTop: '20px',
+        marginBottom: '20px'
+    },
+    [theme.breakpoints.up('laptop')]: {
+        marginBottom: '20px'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        marginTop: '0px',
+        marginBottom: '0px',
     }
 }));

@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, styled } from "@mui/material";
+import { Box, Button, FormControl, Theme, styled } from "@mui/material";
 
 export const StocksHistoricalTableContainer = styled(Box)(({ theme }) => ({
     border: '2px solid rgba(70, 75, 114, 0.8)',
@@ -14,6 +14,24 @@ export const StocksHistoricalTableContainer = styled(Box)(({ theme }) => ({
         borderBottomRightRadius: '120px',
     },
 }));
+
+export const StocksHistoricalTableContainerStyle = (theme: Theme) => ({
+    width: '100%',
+    backgroundColor: '#2c0951',
+    minHeight: '687px',
+    maxHeight: '690px',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    borderBottom: 'none'
+});
+
+export const StocksHistoricalTablePaginationStyle = (theme: Theme) => ({
+    width: '100%',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    borderTop: 'none',
+    [theme.breakpoints.between('mobileL', 'laptopL')]: {
+        overflow: 'hidden'
+    }
+});
 
 export const StocksHistoricalTableInterfaceContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.up('mobileS')]: {
@@ -32,7 +50,7 @@ export const StocksHistoricalTableInterfaceContainer = styled(Box)(({ theme }) =
 
 export const StocksHistoricalTableFromControl = styled(FormControl)(({ theme }) => ({
     width: '100%',
-    [theme.breakpoints.up('mobileS')]: {    
+    [theme.breakpoints.up('mobileS')]: {
         marginBottom: '20px',
         marginTop: '20px',
     },

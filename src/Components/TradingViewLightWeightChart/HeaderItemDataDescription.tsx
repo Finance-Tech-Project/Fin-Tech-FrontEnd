@@ -7,10 +7,10 @@ import { getChartHeaderDescrItem, getChartHeaderTitleItem } from '../../Function
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 
 interface Props {
-    isClickedToCompare?: boolean
+    isClickedOnCompareTwoStocksButton?: boolean
 }
 
-const HeaderItemDataDescription = ({ isClickedToCompare }: Props) => {
+const HeaderItemDataDescription = ({ isClickedOnCompareTwoStocksButton }: Props) => {
     const seriesName: string = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
@@ -19,14 +19,14 @@ const HeaderItemDataDescription = ({ isClickedToCompare }: Props) => {
 
     useEffect(() => {
 
-    }, [simpleIncome.period, volatility.period, sharpRatio.period, isClickedToCompare]);
+    }, [simpleIncome.period, volatility.period, sharpRatio.period, isClickedOnCompareTwoStocksButton]);
 
     return (
         <Box sx={{ width: '100%', padding: '10px 0px' }}>
             <HeaderItemDescrContainer>
                 <MainHeaderChartTickerDescr>Profitability:</MainHeaderChartTickerDescr>
                 <MainHeaderChartTickerDescr>
-                        {getChartHeaderTitleItem(simpleIncome, volatility, sharpRatio, isClickedToCompare!, seriesName)}
+                        {getChartHeaderTitleItem(simpleIncome, volatility, sharpRatio, isClickedOnCompareTwoStocksButton!, seriesName)}
                     %</MainHeaderChartTickerDescr>
             </HeaderItemDescrContainer>
 

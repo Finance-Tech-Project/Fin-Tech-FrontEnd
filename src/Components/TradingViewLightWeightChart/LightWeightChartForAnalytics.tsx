@@ -15,10 +15,10 @@ import { putSimpleIncomePeriod } from '../../Reducers/analyticIterfaceReducer';
 interface Props {
 	tickerData: Array<TickerDataType>,
 	tickerVolume: Array<TickerDataVolumeType>,
-	isClickedToCompare: boolean
+	isClickedOnCompareTwoStocksButton: boolean
 }
 
-const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCompare }: Props) => {
+const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedOnCompareTwoStocksButton }: Props) => {
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
@@ -129,7 +129,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedToCom
 
 	return (
 		<ChartContainer ref={chartContainerRef} >
-			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedToCompare} />
+			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedOnCompareTwoStocksButton} />
 			<Chart {...chartContainerRef.current} autoSize={true}>
 			</Chart>
 		</ChartContainer>

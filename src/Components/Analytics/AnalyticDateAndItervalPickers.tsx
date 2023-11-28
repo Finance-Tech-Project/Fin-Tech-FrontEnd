@@ -6,26 +6,26 @@ import { getMinDateForHistory } from '../../Functions/getPeriod';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { GeneralDatePicker, GeneralDatePickerStyle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
+import { GeneralDatePicker, GeneralDatePickerDesktopPaperStyle, GeneralDatePickerLayoutStyle, SelectStyle, GeneralDatePickerPopperStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
 import { getDataForAnalyticChartSharpRatio, getDataForAnalyticChartSimpleIncome, getDataForAnalyticChartVolatility, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions';
-import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
+import { ChartSeriesNames, ComponentName, DefaultPeriods, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import AnalyticOneStockAutocomplete from './AnalyticOneStockAutocomplete';
 import AnalyticTwoStocksAutocomplete from './AnalyticTwoStocksAutocomplete';
 import { AnalyticInterface } from '../../Types/AnalyticTypes';
 import { Symbols } from '../../Types/DataReducerTypes';
-import { AnalyticButtons } from '../../Styles/AnalyticStyles/AnalyticStyle';
+import { AnalyticButtons, AnalyticDateAndIntervalPickersFromControl } from '../../Styles/AnalyticStyles/AnalyticStyle';
 
 interface Props {
     handleClickTwoStocksCompare: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     handleClickAnalyticChart: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-    isClickedToCompare: boolean,
+    isClickedOnCompareTwoStocksButton: boolean,
     setIsClickedOnCompareButton: (React.Dispatch<React.SetStateAction<boolean>>)
 }
 
-const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedToCompare, setIsClickedOnCompareButton }: Props) => {
+const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedOnCompareTwoStocksButton, setIsClickedOnCompareButton }: Props) => {
     const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
@@ -59,11 +59,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
 
     const handleClickOnCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         if (Boolean(!event.currentTarget.value) && symbolName.symbolName && symbolName.symbolNameToCompare) {
-
             setIsClickedOnCompareButton(prev => prev !== Boolean(!event.currentTarget.value));
-
-
-
             switch (seriesName) {
                 case ChartSeriesNames.LineSeriesForSimpleIncome:
                     return dispatch(getDataForAnalyticChartSimpleIncome(
@@ -102,7 +98,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Grid container sx={{ width: '100%' }} columns={{ laptop: 11.5 }}>
 
-                {!isClickedToCompare ?
+                {!isClickedOnCompareTwoStocksButton ?
                     <Grid
                         mobileS={12}
                         laptop={3.5} laptopOffset={0}
@@ -122,17 +118,25 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                     </Grid>
                 }
 
-
-                {!isClickedToCompare &&
+                {!isClickedOnCompareTwoStocksButton &&
                     <Grid
                         mobileS={12}
                         laptop={3.5} laptopOffset={0.5}
                         laptopL={1.5} laptopLOffset={0.5}
                         desktop={1.5} desktopOffset={0.5}
                     >
-
                         <GeneralDatePicker
-                            slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                            slotProps={{
+                                popper: {
+                                    sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic)
+                                },
+                                desktopPaper: {
+                                    sx: () => GeneralDatePickerDesktopPaperStyle(theme)
+                                },
+                                layout: {
+                                    sx: () => GeneralDatePickerLayoutStyle(theme)
+                                }
+                            }}
                             label="Date from"
                             minDate={dayjs(getMinDateForHistory())}
                             value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
@@ -141,7 +145,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                     </Grid>
                 }
 
-                {!isClickedToCompare &&
+                {!isClickedOnCompareTwoStocksButton &&
                     <Grid
                         mobileS={12}
                         laptop={3.5} laptopOffset={0.5}
@@ -149,36 +153,32 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                         desktop={1.5} desktopOffset={0.5}
                     >
                         <GeneralDatePicker
-                            slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                           slotProps={{
+                            popper: {
+                                sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic)
+                            },
+                            desktopPaper: {
+                                sx: () => GeneralDatePickerDesktopPaperStyle(theme)
+                            },
+                            layout: {
+                                sx: () => GeneralDatePickerLayoutStyle(theme)
+                            }
+                        }}
                             label="Date to"
                             value={dayjs(dateTo as string, 'YYYY-MM-DD')}
                             onChange={(newDate) => setDateTo(newDate)}
                         />
-
                     </Grid>
                 }
 
-                {!isClickedToCompare &&
+                {!isClickedOnCompareTwoStocksButton &&
                     <Grid
                         mobileS={12}
                         laptop={3.5} laptopOffset={0}
                         laptopL={1.5} laptopLOffset={0.5}
                         desktop={1.5} desktopOffset={0.5}
                     >
-                        <FormControl sx={{
-                            width: '100%',
-                            [theme.breakpoints.up('mobileS')]: {
-                                marginTop: '20px',
-                                marginBottom: '20px'
-                            },
-                            [theme.breakpoints.up('laptop')]: {
-                                marginBottom: '20px'
-                            },
-                            [theme.breakpoints.up('laptopL')]: {
-                                marginTop: '0px',
-                                marginBottom: '0px',
-                            }
-                        }}>
+                        <AnalyticDateAndIntervalPickersFromControl>
                             <InputLabel sx={{ color: 'white' }} id="demo-simple-select-label">Frequency</InputLabel>
                             <Select
                                 MenuProps={{
@@ -199,11 +199,11 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                                 <MenuItem value={'Monthly'}>Monthly</MenuItem>
                                 <MenuItem value={'Yearly'}>Yearly</MenuItem>
                             </Select>
-                        </FormControl>
+                        </AnalyticDateAndIntervalPickersFromControl>
                     </Grid>
                 }
 
-                {!isClickedToCompare ?
+                {!isClickedOnCompareTwoStocksButton ?
                     <React.Fragment>
                         <Grid
                             mobileS={12}

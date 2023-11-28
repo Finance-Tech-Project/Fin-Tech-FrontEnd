@@ -61,9 +61,7 @@ const MainTickersTableAndChart = () => {
 								<MainTickersTableWrapper>
 									<Grid container display={'flex'} width={'100%'} height={'100%'}>
 										<Grid mobileS={11} mobileSOffset={0.5}>
-											<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-												<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker" />
-											</Box>
+											<MainTickersTextField variant="outlined" onChange={handleChangeData} label="Find your Ticker" />
 										</Grid>
 
 										<Grid sx={{ height: '100%' }}
@@ -76,7 +74,7 @@ const MainTickersTableAndChart = () => {
 											/>
 										</Grid>
 
-										<Grid
+										<Grid sx={{ boxShadow: '5px 5px 30px 0px rgba(65, 6, 240, 0.79)' }}
 											mobileS={11} mobileSOffset={0.5}
 											laptopL={6.5} laptopLOffset={0.5}
 										>

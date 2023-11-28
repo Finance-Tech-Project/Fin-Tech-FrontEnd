@@ -43,7 +43,7 @@ const Analytics = () => {
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const displaySize = useAppSelector(state => state.displaySizeReducer);
-	const [isClickedToCompare, setIsClickedToCompare] = useState(false);
+	const [isClickedOnCompareTwoStocksButton, setIsClickedOnCompareTwoStocksButton] = useState(false);
 	const [isClickedOnCompareButton, setIsClickedOnCompareButton] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
@@ -58,7 +58,7 @@ const Analytics = () => {
 	// On click compare two stocks is rendered analytic chart with two simbols to compare.
 	const handleClickTwoStocksCompare = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		// We sets to switcher button value to reverse.
-		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
+		setIsClickedOnCompareTwoStocksButton((prev) => prev !== Boolean(event.currentTarget));
 		// If do not set series name, we set is series name to default(simple income series)
 		// and give fetch to data simple income with default period(2 years).
 		if (seriesName === ChartSeriesNames.CandlesSeries) {
@@ -83,7 +83,7 @@ const Analytics = () => {
 	// sets all data calculations to empty and all periods to zero and for symbol name to compare set to empty string.	
 	const handleClickAnalyticChart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		// We sets to switcher button value to reverse.
-		setIsClickedToCompare((prev) => prev !== Boolean(event.currentTarget));
+		setIsClickedOnCompareTwoStocksButton((prev) => prev !== Boolean(event.currentTarget));
 		// If we return to analytics chart in press button, 
 		// we sets value to switcher button "compare" to false.
 		setIsClickedOnCompareButton(false);
@@ -101,14 +101,14 @@ const Analytics = () => {
 	};
 
 	useEffect(() => {
-		if (!isClickedToCompare) {
+		if (!isClickedOnCompareTwoStocksButton) {
 			dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 		} else {
 			if (seriesName === ChartSeriesNames.CandlesSeries) {
 				dispatch(putSeriesName(ChartSeriesNames.LineSeriesForSimpleIncome));
 			}
 		}
-	}, [isClickedToCompare, symbolName.symbolName, displaySize]);
+	}, [isClickedOnCompareTwoStocksButton, symbolName.symbolName, displaySize]);
 
 	useEffect(() => {
 		if (getDataInInterval(data, interval).length > 0) {
@@ -144,7 +144,7 @@ const Analytics = () => {
 										<AnalyticDateAndIntervalPickers
 											handleClickTwoStocksCompare={handleClickTwoStocksCompare}
 											handleClickAnalyticChart={handleClickAnalyticChart}
-											isClickedToCompare={isClickedToCompare}
+											isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton}
 											setIsClickedOnCompareButton={setIsClickedOnCompareButton}
 										/>
 									</AnalyticDateAndIntervalPickersContainer>
@@ -157,15 +157,15 @@ const Analytics = () => {
 										desktopL={8.5} desktopLOffset={0.5}
 									>
 										<Box>
-											<LightWeightChartHeader isClickedToCompare={isClickedToCompare} data={getDataInInterval(data, interval)} />
+											<LightWeightChartHeader isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} data={getDataInInterval(data, interval)} />
 											{displaySize < theme.breakpoints.values.laptopL - 1 
 												&& <AnalyticChartInteface 
 														isClickedOnCompareButton={isClickedOnCompareButton} 
-														isClickedToCompare={isClickedToCompare} />}
+														isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />}
 											<LightWeightChartForAnalytics
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
-												isClickedToCompare={isClickedToCompare}
+												isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton}
 											/>
 										</Box>
 									</Grid>
@@ -178,7 +178,7 @@ const Analytics = () => {
 										>
 											<AnalyticChartInteface 
 												isClickedOnCompareButton={isClickedOnCompareButton} 
-												isClickedToCompare={isClickedToCompare} />
+												isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />
 										</Grid>}
 								</Grid>
 							</AnalyticChartContainer>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { StocksHistoricalTableApplyButton, StocksHistoricalTableContainer, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
-import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
+import { StocksHistoricalTableApplyButton, StocksHistoricalTableContainer, StocksHistoricalTableContainerStyle, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer, StocksHistoricalTablePaginationStyle } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
+import { Box, Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { createColumnsForHistoricalTable, createRowsForHistoricalTable } from '../../Functions/dataProcessingFunctions'
@@ -15,9 +15,9 @@ import { putDataInterval } from '../../Reducers/intervalDataReducer'
 import { getSymbolDataForDefaultPeriod, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
 import { getMinDateForHistory, getPeriod } from '../../Functions/getPeriod'
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer'
-import { GeneralDatePicker, GeneralDatePickerStyle, GeneralStocksBlocksTitle, SelectStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
+import { GeneralDatePicker, GeneralDatePickerDesktopPaperStyle, GeneralDatePickerLayoutStyle, GeneralStocksBlocksTitle, SelectStyle, GeneralDatePickerPopperStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
-import { IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums'
+import { ComponentName, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 const StocksHistoricalTable = () => {
@@ -99,7 +99,17 @@ const StocksHistoricalTable = () => {
                             laptop={2.5}
                         >
                             <GeneralDatePicker
-                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                slotProps={{
+                                    popper: {
+                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks)
+                                    },
+                                    desktopPaper: {
+                                        sx: () => GeneralDatePickerDesktopPaperStyle(theme)
+                                    },
+                                    layout: {
+                                        sx: () => GeneralDatePickerLayoutStyle(theme)
+                                    }
+                                }}
                                 label="Date from"
                                 minDate={dayjs(getMinDateForHistory())}
                                 value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
@@ -112,7 +122,17 @@ const StocksHistoricalTable = () => {
                             laptop={2.5} laptopOffset={0.66}
                         >
                             <GeneralDatePicker
-                                slotProps={{ layout: { sx: () => GeneralDatePickerStyle(theme) } }}
+                                slotProps={{
+                                    popper: {
+                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks)
+                                    },
+                                    desktopPaper: {
+                                        sx: () => GeneralDatePickerDesktopPaperStyle(theme)
+                                    },
+                                    layout: {
+                                        sx: () => GeneralDatePickerLayoutStyle(theme)
+                                    }
+                                }}
                                 label="Date to"
                                 value={dayjs(dateTo as string, 'YYYY-MM-DD')}
                                 onChange={(newDate) => setDateTo(newDate)}
@@ -156,7 +176,7 @@ const StocksHistoricalTable = () => {
                     </Grid>
                 </StocksHistoricalTableInterfaceContainer>
 
-                <TableContainer component={Paper} sx={{ width: '100%', backgroundColor: '#2c0951', minHeight: '687px', maxHeight: '690px' }}>
+                <TableContainer component={Paper} sx={() => StocksHistoricalTableContainerStyle(theme)}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -196,12 +216,7 @@ const StocksHistoricalTable = () => {
                 </TableContainer>
 
                 <TablePagination
-                    sx={{
-                        width: '100%',
-                        [theme.breakpoints.between('mobileL', 'laptopL')]: {
-                            overflow: 'hidden'
-                        }
-                    }}
+                    sx={() => StocksHistoricalTablePaginationStyle(theme)}
                     component={"div"}
                     rowsPerPageOptions={[10, 100]}
                     count={historicalTableRows!.length}

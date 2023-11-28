@@ -7,6 +7,7 @@ import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { createColumns, createRows } from '../../../Functions/dataProcessingFunctions';
 import { getTikersForMainPage } from '../../../Actions/fetchActions';
 import { transformFirstLetterToUpperCase } from '../../../Functions/utilsFunctions';
+import { theme } from '../../../Constants/MaterialConstants/theme';
 
 interface Props {
     data: string,
@@ -33,9 +34,9 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
         return allTickers;
     };
 
-    const allTickers = useMemo(() => {	
-		return getTickers();
-	}, []);
+    const allTickers = useMemo(() => {
+        return getTickers();
+    }, []);
 
     useEffect(() => {
         setTimeout(async () => {
@@ -45,7 +46,11 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
     }, [data]);
 
     return (
-        <Box>
+        <Box sx={{ boxShadow: '5px 5px 30px 0px rgba(65, 6, 240, 0.79)',
+            [theme.breakpoints.down('laptopL')]: {
+                marginBottom: '50px',
+            }
+        }}>
             <MainFindTickerTableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead >
@@ -88,7 +93,7 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
             </MainFindTickerTableContainer>
 
             <TablePagination
-                sx={{ width: '100%' }}
+                sx={{ width: '100%', border: '2px solid rgba(70, 75, 114, 0.8)' }}
                 component={"div"}
                 rowsPerPageOptions={[10, 100, 1000]}
                 count={rows.length}
