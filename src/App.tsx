@@ -23,7 +23,7 @@ function App() {
 			dispatch(putDisplaySize(window.screen.width));
 		});
 		window.addEventListener('load', () => {
-			const regex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i;
+			const regex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone|MIUI|HyperOS/i;
 			dispatch(putDesktopMobile(regex.test(navigator.userAgent)));
 		});
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
