@@ -9,7 +9,7 @@ export interface AnalyticInterface {
     analyticInterfaceEvents?: AnalyticInterfaceEvents
 }
 
-export interface AnalyticInterfaceEvents {
+interface AnalyticInterfaceEvents {
     interfaceHeight: number,
     analyticChartOrCompareTwoStocksClick: boolean,
     compareClick: boolean

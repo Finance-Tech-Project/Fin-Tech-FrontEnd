@@ -14,29 +14,12 @@ export const HeaderMenuResponsiveContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const HeaderButtonsResponsiveContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
-    [theme.breakpoints.up('mobileS')]: {
-        paddingTop: '15px',
-    },
-    [theme.breakpoints.up('mobileL')]: {
-        paddingTop: '0px',
-    }
+    width: '100%'
 }));
 
 export const GridContainerStyle = (theme: Theme) => ({
     width: '100%',
     display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.up('mobileS')]: {
-        justifyContent: 'center'
-    }
+    alignItems: 'center'
 });
 
-export const GridLoginMenuContainerStyle = (theme: Theme) => ({
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    [theme.breakpoints.up('mobileS')]: {
-        justifyContent: 'space-around'
-    }
-});

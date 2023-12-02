@@ -4,13 +4,11 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import Logo from './Logo';
 import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import { Box, Collapse } from '@mui/material'
-import { headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { theme } from '../../../Constants/MaterialConstants/theme'
 import HeaderResponsive from './HeaderResponsive';
 import { Link } from 'react-router-dom';
-import HeaderAvatar from './HeaderAvatar';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import { GridContainerStyle, GridLoginMenuContainerStyle, HeaderButtonsResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
+import { GridContainerStyle, HeaderButtonsResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
 
 const HeaderButtonsResponsive = () => {
 	const [isClicked, setIsClicked] = useState(true);
@@ -18,26 +16,24 @@ const HeaderButtonsResponsive = () => {
 	const handleClickAway = (event: MouseEvent | TouchEvent) => {
 		if (event.type === 'click') {
 			setIsClicked(true);
-		} 
+		}
 	};
 
 	const handleClick = () => {
-		
-		setIsClicked(prev => prev !== isClicked)
-		
+		setIsClicked(prev => prev !== isClicked);
+		setIsClicked(!isClicked);
 	};
 
 	useEffect(() => {
 
 	}, [isClicked]);
-	// console.log(isClicked);
+
 	return (
 		<Box width="100%">
 			<HeaderButtonsResponsiveContainer>
 				<Grid container sx={() => GridContainerStyle(theme)}>
 					<Grid
-						mobileL={4} mobileLOffset={0.5}
-						tablet={4} tabletOffset={1}
+						mobileS={2} mobileSOffset={1}
 					>
 						<Link to={`/home`}>
 							<HeaderButtonsStyle disableRipple>
@@ -46,39 +42,20 @@ const HeaderButtonsResponsive = () => {
 						</Link>
 					</Grid>
 
-					<Grid container sx={() => GridLoginMenuContainerStyle(theme)}
-						mobileL={6} mobileLOffset={1.5}
-						tablet={4} tabletOffset={2.5}
+					<Grid
+						mobileS={2} mobileSOffset={6.5}
+						tablet={1} tabletOffset={7.5}
 					>
-						<Grid mobileMOffset={1}>
-							<Link to={`/${headerButtonsLogin[0].route}`}>
-								<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
-							</Link>
-						</Grid>
+						{/* 
+							Listener if the click occurs outside of the element and
+							call function handleClickAway wich sets the isClicked parameter to true
+						*/}
+						<ClickAwayListener onClickAway={event => handleClickAway(event)}>
+							<HeaderMenuIconButton disableRipple onClick={handleClick}>
+								<HeaderMenuIconStyle />
+							</HeaderMenuIconButton>
+						</ClickAwayListener>
 
-						<Grid
-							mobileMOffset={0.5}
-							mobileLOffset={0.5}
-							tabletOffset={1}
-						>
-							<HeaderAvatar />
-						</Grid>
-
-						<Grid display={'flex'} alignItems={'center'}
-							mobileLOffset={0}
-							tabletOffset={0.5}
-						>
-							{/* 
-								Listener if the click occurs outside of the element and
-								call function handleClickAway wich sets the isClicked parameter to true
-							*/}
-							<ClickAwayListener onClickAway={event => handleClickAway(event)}>
-								<HeaderMenuIconButton disableRipple onClick={handleClick}>
-									<HeaderMenuIconStyle />
-								</HeaderMenuIconButton>
-							</ClickAwayListener>
-
-						</Grid>
 					</Grid>
 				</Grid>
 			</HeaderButtonsResponsiveContainer>

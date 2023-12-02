@@ -1,5 +1,5 @@
 import { Collapse } from '@mui/material'
-import { headerButtons } from '../../../Constants/ProjectConstants/headerConstants';
+import { headerButtons, headerButtonsResponsive } from '../../../Constants/ProjectConstants/headerConstants';
 import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import { Link } from 'react-router-dom';
 import { HeaderMenuResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
@@ -12,7 +12,7 @@ interface IsCheckedProps {
 const HeaderResponsive = ({ isClicked, handleClick }: IsCheckedProps) => {
 	return (
 		<HeaderMenuResponsiveContainer>
-			{headerButtons.map((buttonText) => {
+			{headerButtonsResponsive.map((buttonText) => {
 				return (
 					<Collapse key={buttonText.route} in={!isClicked}  sx={{ width: '100%' }}>
 						<Link to={`/${buttonText.route}`}>

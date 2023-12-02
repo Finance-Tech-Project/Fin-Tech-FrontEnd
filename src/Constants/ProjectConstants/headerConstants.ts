@@ -30,6 +30,45 @@ export const headerButtons: Array<HeaderButtons> = [
     }
 ];
 
+export const headerButtonsResponsive: Array<HeaderButtons> = [
+    {
+        title: 'Home',
+        route: 'home'
+    },
+    {
+        title: 'Market Insight',
+        route: 'market_insight'
+    },
+    {
+        title: 'Stocks',
+        route: 'stocks'
+    },
+    {
+        title: 'Analytics',
+        route: 'analytics'
+    },
+    {
+        title: 'Contacts',
+        route: 'contacts'
+    },
+    {
+        title: 'My Account',
+        route: 'my_account'
+    },
+    {
+        title: 'Sign In',
+        route: 'signIn'
+    },
+    {
+        title: 'Sign Up',
+        route: 'signUp'
+    },
+    {
+        title: 'Logout',
+        route: ''
+    }
+];
+
 export const headerButtonsLogin: Array<HeaderButtons> = [
     {
         title: 'Sign In',
@@ -55,5 +94,3 @@ export const avatarMenuButtons: Array<HeaderButtons> = [
         route: ''
     }
 ];
-
-export const LWCHeaderInitValueHeight = 95; 

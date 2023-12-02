@@ -55,7 +55,6 @@ const HeaderButtons = () => {
 							</Link>
 						</Grid>
 
-
 						<Grid
 							laptopOffset={9}
 							laptopLOffset={3}
