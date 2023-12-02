@@ -7,7 +7,7 @@ import { GeneralStocksBlocksTitle } from '../../Styles/AreCommonStyles/AreCommon
 import { useAppSelector } from '../../app/hooks';
 
 const StocksRecommendationTrends = () => {
-    const displaySize = useAppSelector(state => state.displaySizeReducer);
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 
     const data = [
         {

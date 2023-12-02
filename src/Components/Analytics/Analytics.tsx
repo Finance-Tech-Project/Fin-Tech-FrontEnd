@@ -42,7 +42,7 @@ const Analytics = () => {
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
-	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 	const [isClickedOnCompareTwoStocksButton, setIsClickedOnCompareTwoStocksButton] = useState(false);
 	const [isClickedOnCompareButton, setIsClickedOnCompareButton] = useState(false);
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);

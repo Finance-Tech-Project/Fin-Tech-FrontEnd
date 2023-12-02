@@ -187,3 +187,4 @@ export const getAnalyticInterfaceHeight = (theme: Theme, displaySize: number, is
     }
     return "743px";
 };
+

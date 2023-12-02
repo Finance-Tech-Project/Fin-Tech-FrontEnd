@@ -31,6 +31,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
+    const isMobile = useAppSelector(state => state.generalAppReducer.isMobile);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
     const [dateTo, setDateTo] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -128,7 +129,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                         <GeneralDatePicker
                             slotProps={{
                                 popper: {
-                                    sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic)
+                                    sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic, isMobile)
                                 },
                                 desktopPaper: {
                                     sx: () => GeneralDatePickerDesktopPaperStyle(theme)
@@ -155,7 +156,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                         <GeneralDatePicker
                            slotProps={{
                             popper: {
-                                sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic)
+                                sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Analytic, isMobile)
                             },
                             desktopPaper: {
                                 sx: () => GeneralDatePickerDesktopPaperStyle(theme)

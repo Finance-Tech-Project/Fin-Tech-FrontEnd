@@ -17,7 +17,7 @@ interface Props {
 
 const StocksStatistics = ({ handleClickStatistics }: Props) => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
-	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 	const [columns, setColumns] = useState<Array<StatisticsColumn>>([]);
 	const [statistics, setStatistics] = useState<Statistics[]>([]);
 	

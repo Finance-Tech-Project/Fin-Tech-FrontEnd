@@ -9,7 +9,7 @@ import { MyAccountFooterContainer } from '../../Styles/MyAccountStyles/MyAccount
 import { useAppSelector } from '../../app/hooks';
 
 const MyAccountFooter = () => {
-    const displaySize = useAppSelector(state => state.displaySizeReducer);
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 
     return (
         <MyAccountFooterContainer>

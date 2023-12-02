@@ -6,7 +6,7 @@ import { theme } from '../../../Constants/MaterialConstants/theme';
 import { useAppSelector } from '../../../app/hooks';
 
 const MainContext = () => {	
-	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 	
 	return (
 		<ThemeProvider theme={theme}>

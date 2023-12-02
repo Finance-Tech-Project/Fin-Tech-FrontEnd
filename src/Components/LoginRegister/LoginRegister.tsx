@@ -13,7 +13,7 @@ interface Props {
 }
 
 const LoginRegister = ({ pathRoute }: Props) => {
-	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 
 	return (
 		<ThemeProvider theme={theme}>

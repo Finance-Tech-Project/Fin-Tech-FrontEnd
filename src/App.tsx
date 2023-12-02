@@ -12,8 +12,7 @@ import LoginRegister from './Components/LoginRegister/LoginRegister';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
 import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
-import { putDisplaySize } from './Reducers/displaySizeReducer';
-
+import { putDesktopMobile, putDisplaySize } from './Reducers/generalAppReducer';
 
 function App() {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -22,6 +21,10 @@ function App() {
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			dispatch(putDisplaySize(window.screen.width));
+		});
+		window.addEventListener('load', () => {
+			const regex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i;
+			dispatch(putDesktopMobile(regex.test(navigator.userAgent)));
 		});
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 	}, [symbolName]);

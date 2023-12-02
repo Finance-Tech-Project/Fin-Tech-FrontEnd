@@ -36,7 +36,7 @@ const AnalyticChartInteface = ({ isClickedOnCompareTwoStocksButton, isClickedOnC
     const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
     const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
     const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
-    const displaySize = useAppSelector(state => state.displaySizeReducer);
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [numberSimpleIncome, setNumberSimpleIncome] = useState<number | string>('');
     const [numberVolatility, setNumberVolatility] = useState<number | string>('');
     const [numberSharpRatio, setNumberSharpRatio] = useState<number | string>('');

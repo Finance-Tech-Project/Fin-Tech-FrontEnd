@@ -24,6 +24,7 @@ const StocksHistoricalTable = () => {
     const data = useAppSelector(state => state.historicalDataReducer.dataStock);
     const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
     const interval = useAppSelector(state => state.intervalDataReducer);
+    const isMobile = useAppSelector(state => state.generalAppReducer.isMobile);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [dateFrom, setDateFrom] = React.useState<Dayjs | null | unknown>(dayjs(''));
@@ -101,7 +102,7 @@ const StocksHistoricalTable = () => {
                             <GeneralDatePicker
                                 slotProps={{
                                     popper: {
-                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks)
+                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks, isMobile)
                                     },
                                     desktopPaper: {
                                         sx: () => GeneralDatePickerDesktopPaperStyle(theme)
@@ -124,7 +125,7 @@ const StocksHistoricalTable = () => {
                             <GeneralDatePicker
                                 slotProps={{
                                     popper: {
-                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks)
+                                        sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks, isMobile)
                                     },
                                     desktopPaper: {
                                         sx: () => GeneralDatePickerDesktopPaperStyle(theme)

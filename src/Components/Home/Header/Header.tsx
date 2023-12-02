@@ -7,7 +7,7 @@ import HeaderButtonsResponsive from './HeaderButtonsResponsive'
 import { useAppSelector } from '../../../app/hooks'
 
 const Header = () => {
-	const displaySize = useAppSelector(state => state.displaySizeReducer);
+	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 	
 	return (
 		<ThemeProvider theme={theme}>

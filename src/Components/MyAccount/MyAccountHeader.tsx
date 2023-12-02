@@ -10,7 +10,7 @@ import HeaderResponsive from '../Home/Header/HeaderResponsive';
 import { useAppSelector } from '../../app/hooks';
 
 const MyAccountHeader = () => {
-    const displaySize = useAppSelector(state => state.displaySizeReducer);
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [isClicked, setIsClicked] = useState(true);
 
     const handleClickAway = (event: MouseEvent | TouchEvent) => {

@@ -1,5 +1,5 @@
 import { Autocomplete, Theme, Typography, styled } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { ComponentName } from "../../Enums/Enums";
 
 export const SelectStyle = (theme: Theme) => ({
@@ -30,7 +30,7 @@ export const SelectStyle = (theme: Theme) => ({
     }
 });
 
-export const GeneralDatePicker = styled(DatePicker)(({ theme }) => ({
+export const GeneralDatePicker = styled(DesktopDatePicker)(({ theme }) => ({
     width: '100%',
     '.MuiInputBase-input': {
         color: 'white',
@@ -84,31 +84,31 @@ export const GeneralDatePickerLayoutStyle = (theme: Theme) => ({
     }
 });
 
-export const GeneralDatePickerPopperStyle = (theme: Theme, componentName?: string) => ({
+export const GeneralDatePickerPopperStyle = (theme: Theme, componentName: string, isMobile: boolean) => ({
     border: '2px solid rgba(70, 75, 114, 0.8)',
     [theme.breakpoints.down('mobileM')]: {
         height: '266px'
     },
     [theme.breakpoints.up('mobileS')]: {
-        width: componentName === ComponentName.Stocks ? '227px' : '230px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '227px' : '242px') : (!isMobile ? '230px' : '245px')
     },
     [theme.breakpoints.up('mobileM')]: {
-        width: componentName === ComponentName.Stocks ? '277px' : '281px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '277px' : '292.5px') : (!isMobile ? '281px' : '296px')
     },
     [theme.breakpoints.up('mobileL')]: {
-        width: componentName === ComponentName.Stocks ? '323px' : '326px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '323px' : '338px') : (!isMobile ? '326px' : '341px')
     },
     [theme.breakpoints.up('tablet')]: {
-        width: componentName === ComponentName.Stocks ? '554px' : '560px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '554px' : '568.5px') : (!isMobile ? '560px' : '575px')
     },
     [theme.breakpoints.up('laptop')]: {
-        width: componentName === ComponentName.Stocks ? '368px' : '546px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '368px' : '375px') : (!isMobile ? '546px' : '555px')
     },
     [theme.breakpoints.up('laptopL')]: {
-        width: componentName === ComponentName.Stocks ? '547px' : '359px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '547px' : '553px') : (!isMobile ? '359px' : '364px')
     },
     [theme.breakpoints.up('desktop')]: {
-        width: componentName === ComponentName.Stocks ? '456px' : '481px'
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '456px': '461px') : (!isMobile ? '481px' : '485px')
     },
     [theme.breakpoints.up('desktopL')]: {
         width: componentName === ComponentName.Stocks ? '298px' : '645px'
