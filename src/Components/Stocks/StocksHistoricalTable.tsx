@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { StocksHistoricalTableApplyButton, StocksHistoricalTableContainer, StocksHistoricalTableContainerStyle, StocksHistoricalTableFromControl, StocksHistoricalTableInterfaceContainer, StocksHistoricalTablePaginationStyle } from '../../Styles/StocksStyles/StocksHistoricalTableStyle'
-import { Box, Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
 import { createColumnsForHistoricalTable, createRowsForHistoricalTable } from '../../Functions/dataProcessingFunctions'

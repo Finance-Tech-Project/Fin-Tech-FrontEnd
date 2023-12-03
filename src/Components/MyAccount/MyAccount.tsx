@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, ThemeProvider, Typography } from '@mui/material'
+import { Box, ThemeProvider } from '@mui/material'
 import MyAccountHeader from './MyAccountHeader'
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { MyAccountBlackoutContainer, MyAccountContainer } from '../../Styles/MyAccountStyles/MyAccountStyle'

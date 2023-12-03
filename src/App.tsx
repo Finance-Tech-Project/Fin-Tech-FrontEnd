@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import './App.css';
 import Grid from '@mui/material/Unstable_Grid2/Grid2'
 import Home from './Components/Home/Home';
