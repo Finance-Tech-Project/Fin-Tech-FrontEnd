@@ -6,6 +6,9 @@ export const RegisterContainerTextField = styled(Box)(({ theme }) => ({
     paddingTop: '20px', 
     width: '100%',
     [theme.breakpoints.down('tablet')]: {
-        flexDirection: 'column'
+        flexDirection: 'column',
+        '&:last-child': {
+            paddingTop: '0px', 
+        }
     },
 }));

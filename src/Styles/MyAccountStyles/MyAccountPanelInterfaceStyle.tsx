@@ -57,7 +57,7 @@ export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) 
         }
     },
     '& .MuiSvgIcon-root': {
-        fontSize: '2.2rem'
+        fontSize: '2.2rem !important',
     }
 }));
 

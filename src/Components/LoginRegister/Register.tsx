@@ -84,9 +84,8 @@ const Register = () => {
 
 				<Grid sx={{ width: '100%' }}>
 					<LoginRegisterTextField
-						marginBottom
+						marginTop
 						variant='outlined'
-						margin="normal"
 						fullWidth label="Password"
 						autoComplete="Password"
 						required
