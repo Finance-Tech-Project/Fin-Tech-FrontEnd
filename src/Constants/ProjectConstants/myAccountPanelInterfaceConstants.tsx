@@ -1,16 +1,18 @@
-import { MyAccountPanelInterfaceAccountIcon, MyAccountPanelInterfaceWatchlistIcon, MyAccountPanelInterfacePortfolioIcon } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 
 export const myAccountPanelInterfaceButtons = [
     {
         title: 'Account',
-        icon: (param: boolean) => <MyAccountPanelInterfaceAccountIcon colorOnFocus={param}/>
+        icon: <ManageAccountsOutlinedIcon />
     },
     {
         title: 'Watchlist',
-        icon: (param: boolean) => <MyAccountPanelInterfaceWatchlistIcon colorOnFocus={param}/>
+        icon: <FavoriteBorderOutlinedIcon />
     },
     {
         title: 'Potfolio',
-        icon: (param: boolean) => <MyAccountPanelInterfacePortfolioIcon colorOnFocus={param}/>
+        icon: <FolderOpenOutlinedIcon />
     }
 ];

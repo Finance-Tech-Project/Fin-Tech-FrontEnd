@@ -53,6 +53,33 @@ const Register = () => {
 								autoComplete="lname"
 							/>
 					</RegisterContainerTextField>
+
+					<RegisterContainerTextField>
+							<LoginRegisterTextField
+								marginRight
+								marginBottom
+								autoComplete="login"
+								name="login"
+								variant="outlined"
+								required
+								fullWidth
+								id="login"
+								label="Login"
+								autoFocus
+							/>
+						
+							<LoginRegisterTextField
+								marginBottom
+								variant="outlined"
+								required
+								fullWidth
+								id="email"
+								label="Email"
+								name="email"
+								autoComplete="email"
+								type="email"
+							/>
+					</RegisterContainerTextField>
 				</Grid>
 
 				<Grid sx={{ width: '100%' }}>
@@ -63,6 +90,7 @@ const Register = () => {
 						fullWidth label="Password"
 						autoComplete="Password"
 						required
+						type="password"
 					/>
 				</Grid>
 

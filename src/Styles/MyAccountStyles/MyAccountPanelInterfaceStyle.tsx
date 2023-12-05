@@ -1,8 +1,5 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
-import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 
 export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -40,48 +37,27 @@ export const MyAccountPanelInterfaceToolbarArrow = styled(ArrowCircleLeftOutline
     fontSize: '3rem',
     cursor: 'pointer',
     '&:hover': {
-        color: 'rgba(191, 85, 236, 0.6)',
+        color: 'rgba(219, 0, 219, 1)',
     }
 }));
 
-export const MyAccountPanelInterfaceAccountIcon = styled(ManageAccountsOutlinedIcon, {
-    shouldForwardProp: prop => prop !== 'colorOnFocus'
-})<any>(({ theme, colorOnFocus }) => ({
-    fontSize: '2.2rem',
-    ...(!colorOnFocus ? {color: 'rgba(255, 146, 255, 1)'} : {color: 'rgba(219, 0, 219, 1)'})
-}));
-
-export const MyAccountPanelInterfaceWatchlistIcon = styled(FavoriteBorderOutlinedIcon, {
-    shouldForwardProp: prop => prop !== 'colorOnFocus'
-})<any>(({ theme, colorOnFocus}) => ({
-    fontSize: '2.2rem',
-    ...(!colorOnFocus ? {color: 'rgba(255, 146, 255, 1)'} : {color: 'rgba(219, 0, 219, 1)'})
-}));
-
-export const MyAccountPanelInterfacePortfolioIcon = styled(FolderOpenOutlinedIcon, {
-    shouldForwardProp: prop => prop !== 'colorOnFocus'
-})<any>(({ theme, colorOnFocus }) => ({
-    fontSize: '2.2rem',
-    ...(!colorOnFocus ? {color: 'rgba(255, 146, 255, 1)'} : {color: 'rgba(219, 0, 219, 1)'})
-}));
-
-export const MyAccountPanelInterfaceToolbarTypography = styled(Typography, {
-    shouldForwardProp: prop => prop !== 'colorOnFocus'
-})<any>(({ theme, colorOnFocus }) => ({
-    ...(!colorOnFocus ? {color: 'rgba(255, 146, 255, 1)'} : {color: 'rgba(219, 0, 219, 1)'}),
-    fontSize: '1.65rem',
-    fontWeight: '400',
-
-}));
-
 export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) => ({
-    width: '250px',
+    width: '230px',
     marginTop: '20px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    '&:hover': {
+    fontSize: '1.65rem',
+    color: 'rgba(255, 146, 255, 1)',
+    '&:hover, &:focus, &:active': {
+        color: 'rgba(219, 0, 219, 1)',
         backgroundColor: 'rgba(4, 3, 28, 0.1)',
+        '& .MuiSvgIcon-root': {
+            color: 'rgba(219, 0, 219, 1)',
+        }
+    },
+    '& .MuiSvgIcon-root': {
+        fontSize: '2.2rem'
     }
 }));
 

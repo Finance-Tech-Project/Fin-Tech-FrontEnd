@@ -19,7 +19,8 @@ const MyAccountPanelInterface = () => {
     return (
         <Grid container sx={{ width: '100%' }}>
             <Grid
-                desktop={1.5}
+                desktop={2}
+                desktopL={1.5}
             >
                 <MyAccountPanelInterfaceContainer>
                     <MyAccountPanelInterfaceToolbarContainer>
