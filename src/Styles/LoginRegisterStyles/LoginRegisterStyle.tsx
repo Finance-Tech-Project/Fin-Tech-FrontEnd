@@ -90,22 +90,24 @@ export const LoginRegisterTextField = styled(TextField, {
     shouldForwardProp: (prop) => prop !== 'marginRight' && prop !== 'marginBottom' && prop !== 'marginTop'
 })<any>(({ theme, marginRight, marginBottom, marginTop}) => ({
     boxShadow: '16px 16px 38px 0px rgba(60,63,71,0.87)',
-    '.MuiInputBase-input': {
-        color: 'rgba(203, 199, 199, 0.8)',
-        borderColor: 'white',
+    '& .MuiInputBase-input': {
+        color: 'white',
+        zIndex: 1
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
-            borderColor: 'rgba(70, 75, 114, 0.8)',
+            borderColor: 'rgba(37, 59, 227, 0.8)',
             borderWidth: '1.5px',
-            backgroundColor: 'rgba(1, 17, 36, 0.8)'
+            backgroundColor: 'rgba(1, 17, 36, 0.8)',
+            color: 'white',
         },
         '&:hover fieldset': {
             borderColor: '#7276ff',
+            color: 'white',
         }
     },
     '& .MuiInputLabel-root': {
-        color: 'rgba(203, 199, 199, 0.8)',
+        color: 'white',
     },
     ...(marginRight && {marginRight: '40px'}),
     ...(marginBottom && {marginBottom: '20px'}),
