@@ -40,7 +40,8 @@ export const loginUser = (token: string) => {
                 }`, {
                     method: 'POST',
                     headers: {
-                        Authorization: token
+                        Authorization: token,
+                        'Content-Type': 'application/json'
                     }
             });
             if (response.ok) {
