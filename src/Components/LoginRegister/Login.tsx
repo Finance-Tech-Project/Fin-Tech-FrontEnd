@@ -17,8 +17,23 @@ import {
     LoginRegisterTypography
 } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { Link } from '@mui/material';
+import { useState } from 'react';
+import { loginUser } from '../../Actions/fetchLoginRegisterActions';
+import { createToken } from '../../Functions/utilsFunctions';
+import { useAppDispatch } from '../../app/hooks';
 
 const Login = () => {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useAppDispatch();
+
+    const handleSignIn = () => {
+        if (login !== '' && password !== '') {
+            dispatch(loginUser(createToken(login, password)));
+        }
+    };
+    console.log(login)
+    console.log(password)
     return (
         <LoginAndRegisterContainer>
             <Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
@@ -33,9 +48,10 @@ const Login = () => {
                     <LoginRegisterTextField
                         variant='outlined'
                         margin="normal"
-                        fullWidth label="Nickname"
-                        autoComplete="Nickname"
+                        fullWidth label="Login"
+                        autoComplete="Login"
                         required
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
                     />
 
                     <LoginRegisterTextField
@@ -45,6 +61,7 @@ const Login = () => {
                         label="Password"
                         autoComplete="Password"
                         required
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                     />
 
                     <LoginFormControlLabel sx={{color: 'whitesmoke'}}
@@ -57,6 +74,7 @@ const Login = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        onClick={handleSignIn}
                     >
                         Sign In
                     </LoginRegisterButton>

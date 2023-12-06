@@ -3,9 +3,14 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { Avatar, Link, Menu, MenuItem } from '@mui/material';
 import { theme } from '../../../Constants/MaterialConstants/theme';
 import { avatarMenuButtons } from '../../../Constants/ProjectConstants/headerConstants';
+import { MainHeaderAvatar } from '../../../Styles/HeaderStyles/HeaderStyles';
+import { useAppSelector } from '../../../app/hooks';
+import { UserProfile } from '../../../Types/LoginRegisterTypes';
+import { createUserLoginInitials } from '../../../Functions/utilsFunctions';
 
 
 const HeaderAvatar = () => {
+    const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const [openCloseAvatarMenu, setOpenCloseAvatarMenu] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -21,30 +26,18 @@ const HeaderAvatar = () => {
 
     return (
         <Grid>
-            <Avatar sx={{
-                backgroundColor: 'rgba(195, 0, 93, 0.8)',
-                [theme.breakpoints.only('tablet')]: {
-                    width: '30px',
-                    height: '30px'
-                },
-                [theme.breakpoints.down('tablet')]: {
-                    width: '30px',
-                    height: '30px'
-                },
-                cursor: 'pointer'
-            }}
+            <MainHeaderAvatar
+                alt="login"
                 onClick={handleOpenAvatarMenu}
-                src="/broken-image.jpg"
-            />
+                {...createUserLoginInitials(userProfile?.firstName!, userProfile?.lastName!)}
+            >
+            </MainHeaderAvatar>
+
             <Menu
                 sx={{ '& .MuiPaper-root': { backgroundColor: 'rgba(4, 3, 28, 0.8)', color: 'white', paddingTop: '20px' } }}
-                id="basic-menu"
                 anchorEl={anchorEl}
                 open={openCloseAvatarMenu}
                 onClose={handleCloseAvatarMenu}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
             >
                 {avatarMenuButtons.map((button) => {
                     return (

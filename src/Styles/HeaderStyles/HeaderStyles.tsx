@@ -1,4 +1,4 @@
-import  { Box, Button, styled } from '@mui/material';
+import { Avatar, Box, Button, styled } from '@mui/material';
 import LensBlurRoundedIcon from '@mui/icons-material/LensBlurRounded';
 
 export const HeaderContainer = styled(Box)(({ theme }) => ({
@@ -17,11 +17,11 @@ export const HeaderButtonsStyle = styled(Button)(({ theme }) => ({
     variant: 'text',
     textTransform: 'inherit',
     textAlign: 'center',
-    backgroundColor: 'rgba(4, 3, 28, 1)' ,
+    backgroundColor: 'rgba(4, 3, 28, 1)',
     '&:hover, &:focus, &:active': {
         boxShadow: 'none',
         color: '#d55190', // 744edd
-        backgroundColor: 'rgba(4, 3, 28, 1)' 
+        backgroundColor: 'rgba(4, 3, 28, 1)'
     },
     [theme.breakpoints.down('laptopL')]: {
         fontSize: '18px',
@@ -38,6 +38,19 @@ export const HeaderMenuIconStyle = styled(LensBlurRoundedIcon)(({ theme }) => ({
     '&:hover': {
         fontSize: '2.3rem',
         color: '#d55190'
+    }
+}));
+
+export const MainHeaderAvatar = styled(Avatar)(({ theme }) => ({
+    backgroundColor: 'rgba(195, 0, 93, 0.8)',
+    cursor: 'pointer',
+    [theme.breakpoints.only('tablet')]: {
+        width: '30px',
+        height: '30px'
+    },
+    [theme.breakpoints.down('tablet')]: {
+        width: '30px',
+        height: '30px'
     }
 }));
 
