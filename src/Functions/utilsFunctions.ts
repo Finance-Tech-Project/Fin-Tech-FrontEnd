@@ -188,3 +188,5 @@ export const getAnalyticInterfaceHeight = (theme: Theme, displaySize: number, is
     return "743px";
 };
 
+export const createToken = (login: string, password: string) =>
+    `Basic ${window.btoa(login + ':' + password)}`;

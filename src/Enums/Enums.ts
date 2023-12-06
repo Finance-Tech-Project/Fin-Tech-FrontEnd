@@ -46,6 +46,17 @@ export enum FetchConstants {
     DAYS = "&days="
 }
 
+export enum FetchConstantsForLoginRegister {
+    ACCOUNT = "/account",
+    REGISTER = "/register",
+    LOGIN = "/login",
+    USER = "/user",
+    PASSWORD = "/password",
+    RECOVERY = "recovery",
+    ROLE = "/role",
+    LOGOUT = "logout"
+}
+
 export enum DefaultPeriods {
     SimpleIncomeDefaultPeriod = 2,
     VolatilityDefaultPeriod = 500,

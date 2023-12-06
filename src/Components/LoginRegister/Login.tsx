@@ -47,8 +47,8 @@ const Login = () => {
                         required
                     />
 
-                    <LoginFormControlLabel
-                        control={<LoginCheckbox value="remember" color="primary" />}
+                    <LoginFormControlLabel sx={{color: 'whitesmoke'}}
+                        control={<LoginCheckbox value="remember" sx={{color: 'whitesmoke'}} />}
                         label="Remember me"
                     />
 
@@ -64,7 +64,7 @@ const Login = () => {
 
                 <Grid container sx={() => LoginGridLinksContainerStyle(theme)}>
                     <Grid>
-                        <Link href="#" variant="body2" sx={{ fontSize: '1rem' }}>
+                        <Link href="#" variant="body2" sx={{ fontSize: '1rem', color: 'whitesmoke', textDecorationColor: 'whitesmoke' }}>
                             Forgot password?
                         </Link>
                     </Grid>

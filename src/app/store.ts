@@ -6,6 +6,8 @@ import { dateDataReducer } from '../Reducers/dateDataReducer';
 import { analyticInterfaceReducer } from '../Reducers/analyticIterfaceReducer';
 import { chartSeriesReducer } from '../Reducers/chartSeriesReducer';
 import { generalAppReducer} from '../Reducers/generalAppReducer';
+import { userReducer } from '../Reducers/userReducer';
+import { tokenReducer } from '../Reducers/tokenReducer';
 
 export const store = configureStore({
 	reducer: {
@@ -15,7 +17,9 @@ export const store = configureStore({
 		dateDataReducer: dateDataReducer,
 		analyticInterfaceReducer: analyticInterfaceReducer,
 		chartSeriesReducer: chartSeriesReducer,
-		generalAppReducer: generalAppReducer
+		generalAppReducer: generalAppReducer,
+		userReducer: userReducer,
+		tokenReducer: tokenReducer
 	},
 });
 

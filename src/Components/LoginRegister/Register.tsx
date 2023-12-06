@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { LoginGridLinksContainerStyle } from '../../Styles/LoginRegisterStyles/LoginStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { 
@@ -14,8 +14,34 @@ import {
 } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/RegisterStyle';
+import { registerUser } from '../../Actions/fetchLoginRegisterActions';
+import { useAppDispatch } from '../../app/hooks';
 
 const Register = () => {
+	const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+	const [email, setEmail] = useState('');
+	const dispatch = useAppDispatch();
+
+	const handleSignUp = () => {
+		dispatch(registerUser({login, password, firstName, lastName, email}));
+        console.log(login, password, firstName, lastName, email);
+	};
+
+	const handleClear = () => {
+		setLogin('');
+		setPassword('');
+		setFirstName('');
+		setLastName('');
+		setEmail('');
+	};
+
+	useEffect(() => {
+		return () => handleClear();
+	}, []);
+	console.log(login, password, firstName, lastName, email);
 	return (
 		<LoginAndRegisterContainer>
 			<Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
@@ -39,7 +65,7 @@ const Register = () => {
 								fullWidth
 								id="firstName"
 								label="First Name"
-								autoFocus
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
 							/>
 						
 							<LoginRegisterTextField
@@ -51,6 +77,7 @@ const Register = () => {
 								label="Last Name"
 								name="lastName"
 								autoComplete="lname"
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
 							/>
 					</RegisterContainerTextField>
 
@@ -65,7 +92,7 @@ const Register = () => {
 								fullWidth
 								id="login"
 								label="Login"
-								autoFocus
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
 							/>
 						
 							<LoginRegisterTextField
@@ -78,6 +105,7 @@ const Register = () => {
 								name="email"
 								autoComplete="email"
 								type="email"
+								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
 							/>
 					</RegisterContainerTextField>
 				</Grid>
@@ -90,6 +118,7 @@ const Register = () => {
 						autoComplete="Password"
 						required
 						type="password"
+						onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
 					/>
 				</Grid>
 
@@ -99,6 +128,7 @@ const Register = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
+						onClick={handleSignUp}
 					>
 						Sign Up
 					</LoginRegisterButton>
