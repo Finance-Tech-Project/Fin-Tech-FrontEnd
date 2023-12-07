@@ -17,23 +17,35 @@ import {
     LoginRegisterTypography
 } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { Link } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { loginUser } from '../../Actions/fetchLoginRegisterActions';
 import { createToken } from '../../Functions/utilsFunctions';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { UserProfile } from '../../Types/LoginRegisterTypes';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
+    const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const dispatch = useAppDispatch();
 
     const handleSignIn = () => {
+        if (login === userProfile?.login) {
+            setIsLoggedIn(true);
+            return;
+        }
         if (login !== '' && password !== '') {
             dispatch(loginUser(createToken(login, password)));
+            setIsLoggedIn(true);
         }
     };
-    console.log(login)
-    console.log(password)
+
+    useEffect(() => {
+        return () => setIsLoggedIn(false);
+    }, [userProfile, isLoggedIn]);
+
     return (
         <LoginAndRegisterContainer>
             <Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
@@ -64,8 +76,8 @@ const Login = () => {
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                     />
 
-                    <LoginFormControlLabel sx={{color: 'whitesmoke'}}
-                        control={<LoginCheckbox value="remember" sx={{color: 'whitesmoke'}} />}
+                    <LoginFormControlLabel sx={{ color: 'whitesmoke' }}
+                        control={<LoginCheckbox value="remember" sx={{ color: 'whitesmoke' }} />}
                         label="Remember me"
                     />
 
@@ -77,7 +89,9 @@ const Login = () => {
                         onClick={handleSignIn}
                     >
                         Sign In
+                        {isLoggedIn && <Navigate to="/home" />} 
                     </LoginRegisterButton>
+                    
                 </Grid>
 
                 <Grid container sx={() => LoginGridLinksContainerStyle(theme)}>

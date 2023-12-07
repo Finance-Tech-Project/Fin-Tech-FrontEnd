@@ -192,8 +192,5 @@ export const createToken = (login: string, password: string) =>
     `Basic ${window.btoa(login + ':' + password)}`;
 
 export const createUserLoginInitials = (firstName: string, lastName: string) => {
-    return {
-        initials: ((firstName && lastName) && (firstName !== '' && lastName !== '')) 
-            ? firstName.charAt(0).toUpperCase().concat(lastName.charAt(0).toUpperCase()) : null
-    } 
+    return firstName.charAt(0).toUpperCase().concat(lastName.charAt(0).toUpperCase());  
 };

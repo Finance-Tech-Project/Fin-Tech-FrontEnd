@@ -17,3 +17,12 @@ export interface State {
     user: UserProfile,
     token: string
 }
+
+export interface Exeption {
+    exeptionType: 'number',
+    exeptionMessage: 'string',
+}
+
+export interface UserExeptions {
+    exeptions: Array<Exeption>
+}

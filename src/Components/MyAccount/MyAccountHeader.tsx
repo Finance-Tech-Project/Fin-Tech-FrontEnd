@@ -8,8 +8,12 @@ import { HeaderButtonsStyle, HeaderMenuIconButton, HeaderMenuIconStyle } from '.
 import { theme } from '../../Constants/MaterialConstants/theme';
 import HeaderResponsive from '../Home/Header/HeaderResponsive';
 import { useAppSelector } from '../../app/hooks';
+import { UserProfile } from '../../Types/LoginRegisterTypes';
+import PersonIcon from '@mui/icons-material/Person';
+import { createUserLoginInitials } from '../../Functions/utilsFunctions';
 
 const MyAccountHeader = () => {
+    const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [isClicked, setIsClicked] = useState(true);
 
@@ -57,8 +61,9 @@ const MyAccountHeader = () => {
 
                 >
                     <MyAccountHeaderRegisterNameContainer>
-                        <MyAccountHeaderAvatar>NO</MyAccountHeaderAvatar>
-                        <MyAccountHeaderTypography>Registered Name</MyAccountHeaderTypography>
+                        <MyAccountHeaderAvatar>{!userProfile ? <PersonIcon sx={{fontSize: '30px'}}/> 
+                            : createUserLoginInitials(userProfile.firstName, userProfile.lastName)}</MyAccountHeaderAvatar>
+                        <MyAccountHeaderTypography>{userProfile && userProfile.firstName + " " + userProfile.lastName}</MyAccountHeaderTypography>
                     </MyAccountHeaderRegisterNameContainer>
                 </Grid>
 
@@ -66,13 +71,11 @@ const MyAccountHeader = () => {
                     <Grid
                         tablet={1} tabletOffset={0}
                     >
-
                         <ClickAwayListener onClickAway={event => handleClickAway(event)} >
                             <HeaderMenuIconButton disableRipple onClick={handleClick}>
                                 <HeaderMenuIconStyle />
                             </HeaderMenuIconButton>
                         </ClickAwayListener>
-
                     </Grid>
                 }
 

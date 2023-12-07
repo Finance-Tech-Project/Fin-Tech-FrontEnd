@@ -6,7 +6,7 @@ export const tokenSlice = createSlice({
     name: 'token',
     initialState,
     reducers: {
-        putToken: (state, action: PayloadAction<string>) => {
+        putToken: (state, action: PayloadAction<string | null>) => {
             return action.payload;
         },
         deleteToken: (state) => {

@@ -1,13 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { Avatar, Link, Menu, MenuItem } from '@mui/material';
-import { theme } from '../../../Constants/MaterialConstants/theme';
+import { Link, Menu, MenuItem } from '@mui/material';
 import { avatarMenuButtons } from '../../../Constants/ProjectConstants/headerConstants';
 import { MainHeaderAvatar } from '../../../Styles/HeaderStyles/HeaderStyles';
 import { useAppSelector } from '../../../app/hooks';
 import { UserProfile } from '../../../Types/LoginRegisterTypes';
 import { createUserLoginInitials } from '../../../Functions/utilsFunctions';
-
+import PersonIcon from '@mui/icons-material/Person';
 
 const HeaderAvatar = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -24,13 +23,16 @@ const HeaderAvatar = () => {
         setOpenCloseAvatarMenu(false);
     };
 
+    useEffect(() => {
+
+    }, [userProfile?.firstName, userProfile?.lastName]);
+
     return (
         <Grid>
             <MainHeaderAvatar
                 alt="login"
                 onClick={handleOpenAvatarMenu}
-                {...createUserLoginInitials(userProfile?.firstName!, userProfile?.lastName!)}
-            >
+            > {!userProfile ? <PersonIcon sx={{fontSize: '30px'}}/> : createUserLoginInitials(userProfile.firstName, userProfile.lastName)}
             </MainHeaderAvatar>
 
             <Menu

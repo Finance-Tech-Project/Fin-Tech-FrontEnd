@@ -44,13 +44,23 @@ export const loginUser = (token: string) => {
                         'Content-Type': 'application/json'
                     }
             });
+            if (response.status === 401) {
+                dispatch(putUser(null));
+                dispatch(putToken(null));
+                sessionStorage.clear();
+                throw new Error(response.status + '')
+                // throw new TypeError("You not authorized or you not have account in this site. Please go in page sign up and create you account or if you have account go in page sign in and authorize in system.");  
+            }
             if (response.ok) {
                 const data: UserProfile = await response.json();
                 dispatch(putUser(data));
                 dispatch(putToken(token));
+                sessionStorage.setItem('userData', JSON.stringify(data));
             }
         } catch (error) {
-
+            if (error instanceof Error) {
+               console.log(error.message); 
+            }
         }
     }
 };

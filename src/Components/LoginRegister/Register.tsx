@@ -27,7 +27,6 @@ const Register = () => {
 
 	const handleSignUp = () => {
 		dispatch(registerUser({login, password, firstName, lastName, email}));
-        console.log(login, password, firstName, lastName, email);
 	};
 
 	const handleClear = () => {
@@ -41,7 +40,7 @@ const Register = () => {
 	useEffect(() => {
 		return () => handleClear();
 	}, []);
-	console.log(login, password, firstName, lastName, email);
+	
 	return (
 		<LoginAndRegisterContainer>
 			<Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
