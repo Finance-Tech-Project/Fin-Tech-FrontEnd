@@ -55,7 +55,6 @@ const HeaderButtonsResponsive = () => {
 								<HeaderMenuIconStyle />
 							</HeaderMenuIconButton>
 						</ClickAwayListener>
-
 					</Grid>
 				</Grid>
 			</HeaderButtonsResponsiveContainer>

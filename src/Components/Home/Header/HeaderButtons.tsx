@@ -1,12 +1,14 @@
-import { headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
+import { avatarMenuButtons, headerButtons, headerButtonsLogin } from '../../../Constants/ProjectConstants/headerConstants';
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
 import HeaderAvatar from './HeaderAvatar';
+import { useAppSelector } from '../../../app/hooks';
 
 const HeaderButtons = () => {
+	const userProfile = useAppSelector(state => state.userReducer);
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
@@ -35,6 +37,7 @@ const HeaderButtons = () => {
 								desktopOffset={0.5}
 								desktopLOffset={1}
 							>
+
 								<Link id={buttonText.route} to={`/${buttonText.route}`} key={buttonText.title}>
 									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
 								</Link>
@@ -50,9 +53,14 @@ const HeaderButtons = () => {
 				>
 					<Box display={'flex'} alignItems={'center'} sx={{ width: '100%' }}>
 						<Grid>
-							<Link to={`/${headerButtonsLogin[0].route}`}>
-								<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
-							</Link>
+							{!userProfile ?
+								<Link to={`/${headerButtonsLogin[0].route}`}>
+									<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
+								</Link>
+								: 
+								<HeaderButtonsStyle disableRipple>{avatarMenuButtons[2].title}</HeaderButtonsStyle>
+							}
+
 						</Grid>
 
 						<Grid

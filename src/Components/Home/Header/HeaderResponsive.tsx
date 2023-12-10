@@ -1,8 +1,9 @@
 import { Collapse } from '@mui/material'
-import { headerButtons, headerButtonsResponsive } from '../../../Constants/ProjectConstants/headerConstants';
+import { headerButtonsResponsive } from '../../../Constants/ProjectConstants/headerConstants';
 import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import { Link } from 'react-router-dom';
 import { HeaderMenuResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
+import { useAppSelector } from '../../../app/hooks';
 
 interface IsCheckedProps {
 	isClicked: boolean,
@@ -10,9 +11,15 @@ interface IsCheckedProps {
 }
 
 const HeaderResponsive = ({ isClicked, handleClick }: IsCheckedProps) => {
+	const userProfile = useAppSelector(state => state.userReducer);
+
+	const buttonsSlice = () => {
+		return !userProfile ? headerButtonsResponsive : headerButtonsResponsive.filter(item => item.title !== 'Sign In' && item.title !== 'Sign Up');
+	};
+
 	return (
 		<HeaderMenuResponsiveContainer>
-			{headerButtonsResponsive.map((buttonText) => {
+			{buttonsSlice().map((buttonText) => {
 				return (
 					<Collapse key={buttonText.route} in={!isClicked}  sx={{ width: '100%' }}>
 						<Link to={`/${buttonText.route}`}>

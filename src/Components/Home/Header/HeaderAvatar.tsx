@@ -32,23 +32,25 @@ const HeaderAvatar = () => {
             <MainHeaderAvatar
                 alt="login"
                 onClick={handleOpenAvatarMenu}
-            > {!userProfile ? <PersonIcon sx={{fontSize: '30px'}}/> : createUserLoginInitials(userProfile.firstName, userProfile.lastName)}
+            > {!userProfile ? <PersonIcon sx={{ fontSize: '30px' }} /> : createUserLoginInitials(userProfile.firstName, userProfile.lastName)}
             </MainHeaderAvatar>
 
-            <Menu
-                sx={{ '& .MuiPaper-root': { backgroundColor: 'rgba(4, 3, 28, 0.8)', color: 'white', paddingTop: '20px' } }}
-                anchorEl={anchorEl}
-                open={openCloseAvatarMenu}
-                onClose={handleCloseAvatarMenu}
-            >
-                {avatarMenuButtons.map((button) => {
-                    return (
-                        <Link key={button.title} href={`/${button.route}`} sx={{ color: 'white', textDecoration: 'none', '&:hover': { color: '#d55190' } }}>
-                            <MenuItem key={button.title} onClick={handleCloseAvatarMenu}>{button.title}</MenuItem>
-                        </Link>
-                    );
-                })}
-            </Menu>
+            {!userProfile &&
+                <Menu
+                    sx={{ '& .MuiPaper-root': { backgroundColor: 'rgba(4, 3, 28, 0.8)', color: 'white', paddingTop: '20px' } }}
+                    anchorEl={anchorEl}
+                    open={openCloseAvatarMenu}
+                    onClose={handleCloseAvatarMenu}
+                >
+                    {avatarMenuButtons.map((button) => {
+                        return (
+                            <Link key={button.title} href={`/${button.route}`} sx={{ color: 'white', textDecoration: 'none', '&:hover': { color: '#d55190' } }}>
+                                <MenuItem key={button.title} onClick={handleCloseAvatarMenu}>{button.title}</MenuItem>
+                            </Link>
+                        );
+                    })}
+                </Menu>
+            }
         </Grid>
     )
 }
