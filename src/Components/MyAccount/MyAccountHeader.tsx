@@ -28,7 +28,7 @@ const MyAccountHeader = () => {
     };
 
     useEffect(() => {
-
+        return () => setIsClicked(true);
     }, [isClicked]);
 
     return (

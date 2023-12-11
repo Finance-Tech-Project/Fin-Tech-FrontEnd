@@ -18,11 +18,11 @@ export interface State {
     token: string
 }
 
-export interface Exeption {
-    exeptionType: 'number',
-    exeptionMessage: 'string',
+export interface Exception {
+    exceptionType: number,
+    exceptionMessage: string,
 }
 
-export interface UserExeptions {
-    exeptions: Array<Exeption>
+export interface UserExceptions {
+    exceptions: Array<Exception>
 }

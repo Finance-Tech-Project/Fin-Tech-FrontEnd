@@ -7,14 +7,15 @@ import { useAppSelector } from '../../../app/hooks';
 
 interface IsCheckedProps {
 	isClicked: boolean,
-	handleClick: () => void
+	handleClick: (param: string) => void
 }
 
 const HeaderResponsive = ({ isClicked, handleClick }: IsCheckedProps) => {
 	const userProfile = useAppSelector(state => state.userReducer);
 
 	const buttonsSlice = () => {
-		return !userProfile ? headerButtonsResponsive : headerButtonsResponsive.filter(item => item.title !== 'Sign In' && item.title !== 'Sign Up');
+		return !userProfile ? headerButtonsResponsive 
+			: headerButtonsResponsive.filter(item => item.title !== 'Sign In' && item.title !== 'Sign Up');
 	};
 
 	return (
@@ -23,7 +24,7 @@ const HeaderResponsive = ({ isClicked, handleClick }: IsCheckedProps) => {
 				return (
 					<Collapse key={buttonText.route} in={!isClicked}  sx={{ width: '100%' }}>
 						<Link to={`/${buttonText.route}`}>
-							<HeaderButtonsStyle onClick={handleClick}  disableRipple key={buttonText.route} 
+							<HeaderButtonsStyle onClick={() => handleClick(buttonText.title)}  disableRipple key={buttonText.title} 
 												sx={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>{buttonText.title}</HeaderButtonsStyle>
 						</Link>
 					</Collapse>

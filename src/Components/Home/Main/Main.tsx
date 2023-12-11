@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { MainBackgroundColor, MainContainer } from '../../../Styles/MainStyles/MainStyles';
 import MainContext from './MainContext';
@@ -14,7 +14,7 @@ const Main = () => {
 	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
 	const dispatch = useAppDispatch();
 	
-	useMemo(() => {
+	useEffect(() => {
 		dispatch(putSeriesName(ChartSeriesNames.CandlesSeries));
 	}, [dispatch]);
 

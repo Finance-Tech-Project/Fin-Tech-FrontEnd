@@ -1,21 +1,32 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { 
-    MyAccountPanelInterfaceContainer, 
-    MyAccountPanelInterfaceToolbarArrow, 
-    MyAccountPanelInterfaceToolbarButtonLogout, 
-    MyAccountPanelInterfaceToolbarButtonLogoutContainer, 
-    MyAccountPanelInterfaceToolbarButtonsContainer, 
-    MyAccountPanelInterfaceToolbarContainer, 
-    MyAccountPanelInterfaceToolbarText, 
-    MyAccountPanelInterfaceToolbarWrapper 
+import {
+    MyAccountPanelInterfaceContainer,
+    MyAccountPanelInterfaceToolbarArrow,
+    MyAccountPanelInterfaceToolbarButtonLogout,
+    MyAccountPanelInterfaceToolbarButtonLogoutContainer,
+    MyAccountPanelInterfaceToolbarButtonsContainer,
+    MyAccountPanelInterfaceToolbarContainer,
+    MyAccountPanelInterfaceToolbarText,
+    MyAccountPanelInterfaceToolbarWrapper
 } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
 import { Box } from '@mui/material';
 import MyAccountPanelInterfaceItem from './MyAccounPaneltInterfaceItem';
 import { myAccountPanelInterfaceButtons } from '../../Constants/ProjectConstants/myAccountPanelInterfaceConstants';
+import { useAppDispatch } from '../../app/hooks';
+import { userLogout } from '../../Reducers/userReducer';
+import { deleteToken } from '../../Reducers/tokenReducer';
+import { Link } from 'react-router-dom';
 
 const MyAccountPanelInterface = () => {
-   
+    const dispatch = useAppDispatch();
+
+    const handleLogout = () => {
+        dispatch(userLogout());
+        dispatch(deleteToken());
+        sessionStorage.clear();
+    };
+
     return (
         <Grid container sx={{ width: '100%' }}>
             <Grid
@@ -34,13 +45,19 @@ const MyAccountPanelInterface = () => {
                         <Box>
                             {myAccountPanelInterfaceButtons.map((button, index) => {
                                 return (
-                                    <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} key={index}/>
+                                    <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} key={index} />
                                 );
                             })}
                         </Box>
 
                         <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
-                            <MyAccountPanelInterfaceToolbarButtonLogout disableRipple>Logout</MyAccountPanelInterfaceToolbarButtonLogout>
+                            <Link to="/home">
+                                <MyAccountPanelInterfaceToolbarButtonLogout
+                                    onClick={handleLogout}
+                                    disableRipple>
+                                    Logout
+                                </MyAccountPanelInterfaceToolbarButtonLogout>
+                            </Link>
                         </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                     </MyAccountPanelInterfaceToolbarButtonsContainer>
                 </MyAccountPanelInterfaceContainer>

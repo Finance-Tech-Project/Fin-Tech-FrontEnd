@@ -9,9 +9,13 @@ import HeaderResponsive from './HeaderResponsive';
 import { Link } from 'react-router-dom';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { GridContainerStyle, HeaderButtonsResponsiveContainer } from '../../../Styles/HeaderStyles/HeaderButtonsResponsiveStyle';
+import { useAppDispatch } from '../../../app/hooks';
+import { userLogout } from '../../../Reducers/userReducer';
+import { deleteToken } from '../../../Reducers/tokenReducer';
 
 const HeaderButtonsResponsive = () => {
 	const [isClicked, setIsClicked] = useState(true);
+	const dispatch = useAppDispatch();
 
 	const handleClickAway = (event: MouseEvent | TouchEvent) => {
 		if (event.type === 'click') {
@@ -19,9 +23,14 @@ const HeaderButtonsResponsive = () => {
 		}
 	};
 
-	const handleClick = () => {
+	const handleClick = (param: string) => {
 		setIsClicked(prev => prev !== isClicked);
 		setIsClicked(!isClicked);
+		if (param === 'Logout') {
+			dispatch(userLogout());
+			dispatch(deleteToken());
+			sessionStorage.clear();
+		}
 	};
 
 	useEffect(() => {
@@ -51,7 +60,7 @@ const HeaderButtonsResponsive = () => {
 							call function handleClickAway wich sets the isClicked parameter to true
 						*/}
 						<ClickAwayListener onClickAway={event => handleClickAway(event)}>
-							<HeaderMenuIconButton disableRipple onClick={handleClick}>
+							<HeaderMenuIconButton disableRipple onClick={() => handleClick('')}>
 								<HeaderMenuIconStyle />
 							</HeaderMenuIconButton>
 						</ClickAwayListener>

@@ -65,7 +65,7 @@ export const headerButtonsResponsive: Array<HeaderButtons> = [
     },
     {
         title: 'Logout',
-        route: ''
+        route: 'home'
     }
 ];
 

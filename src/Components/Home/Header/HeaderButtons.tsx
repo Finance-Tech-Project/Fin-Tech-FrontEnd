@@ -5,10 +5,20 @@ import { HeaderButtonsStyle } from '../../../Styles/HeaderStyles/HeaderStyles';
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
 import HeaderAvatar from './HeaderAvatar';
-import { useAppSelector } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { userLogout } from '../../../Reducers/userReducer';
+import { deleteToken } from '../../../Reducers/tokenReducer';
 
 const HeaderButtons = () => {
 	const userProfile = useAppSelector(state => state.userReducer);
+	const dispatch = useAppDispatch();
+
+	const handleLogout = () => {
+		dispatch(userLogout());
+		dispatch(deleteToken());
+		sessionStorage.clear();
+	};
+
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<Grid container sx={{ width: '100%' }} display={'flex'} alignItems={'center'}>
@@ -58,7 +68,7 @@ const HeaderButtons = () => {
 									<HeaderButtonsStyle disableRipple>{headerButtonsLogin[0].title}</HeaderButtonsStyle>
 								</Link>
 								: 
-								<HeaderButtonsStyle disableRipple>{avatarMenuButtons[2].title}</HeaderButtonsStyle>
+								<HeaderButtonsStyle onClick={handleLogout} disableRipple>{avatarMenuButtons[2].title}</HeaderButtonsStyle>
 							}
 
 						</Grid>

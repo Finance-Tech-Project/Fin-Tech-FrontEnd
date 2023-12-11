@@ -1,8 +1,9 @@
 import { FetchConstants, FetchConstantsForLoginRegister } from "../Enums/Enums";
 import { createToken } from "../Functions/utilsFunctions";
 import { putToken } from "../Reducers/tokenReducer";
+import { putUserException } from "../Reducers/userExeptionsReducer";
 import { putUser } from "../Reducers/userReducer";
-import { UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
+import { Exception, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
 import { AppDispatch } from "../app/store";
 
 export const registerUser = (user: UserRegister) => {
@@ -42,25 +43,22 @@ export const loginUser = (token: string) => {
                     'Content-Type': 'application/json',
                 }
             });
-            if (response.status === 401) {
-                dispatch(putUser(null));
-                dispatch(putToken(null));
-                sessionStorage.clear();
-                throw new Error('401')
-                // throw new TypeError("You not authorized or you not have account in this site. Please go in page sign up and create you account or if you have account go in page sign in and authorize in system.");  
-            }
             if (response.ok) {
                 const data: UserProfile = await response.json();
                 dispatch(putUser(data));
                 dispatch(putToken(token));
                 sessionStorage.setItem('userData', JSON.stringify(data));
+            } else {
+                const errorStatus = response.status + '';
+                throw new Error(errorStatus);
             }
         } catch (error) {
             if (error instanceof Error) {
-                // dispatch(putUser(null));
-                // dispatch(putToken(null));
-                // sessionStorage.clear();
-                console.log(error);
+                const exception: Exception = {
+                    exceptionType: parseInt(error.message),
+                    exceptionMessage: "You entered is not valid user name or password or you not have account in this site. Please enter correct user name and password or go in page sign up and create you account."
+                };
+                dispatch(putUserException(exception));
             }
         }
     }

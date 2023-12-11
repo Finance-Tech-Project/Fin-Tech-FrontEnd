@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import {
     LoginCheckbox,
@@ -21,33 +22,49 @@ import { useEffect, useState } from 'react';
 import { loginUser } from '../../Actions/fetchLoginRegisterActions';
 import { createToken } from '../../Functions/utilsFunctions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { UserProfile } from '../../Types/LoginRegisterTypes';
+import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
+import { clearExceptions } from '../../Reducers/userExeptionsReducer';
+import LoginExceptionModal from './LoginExceptionModal';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
     const dispatch = useAppDispatch();
 
     const handleSignIn = () => {
+        if (userException && userException!.exceptions.length > 0) {
+            dispatch(clearExceptions());
+        }
         if (login === userProfile?.login) {
             setIsLoggedIn(true);
             return;
         }
         if (login !== '' && password !== '') {
             dispatch(loginUser(createToken(login, password)));
-            setIsLoggedIn(true);
         }
     };
 
-    useEffect(() => {
-        return () => setIsLoggedIn(false);
-    }, [userProfile, isLoggedIn]);
+    const clearData = () => {
+        setIsLoggedIn(false);
+        dispatch(clearExceptions());
+    };
 
+    useEffect(() => {
+        if (userProfile && (userException === null || userException!.exceptions.length === 0)) {
+            setIsLoggedIn(true);
+        }
+        
+        return () => clearData();
+    }, [userProfile, isLoggedIn, userException]);
+    
     return (
         <LoginAndRegisterContainer>
+            <LoginExceptionModal modalOpen={isLoggedIn}/>
             <Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
                 <Grid sx={() => LoginRegisterGridStyle(theme)}>
                     <LoginRegisterAvatar>
@@ -89,9 +106,9 @@ const Login = () => {
                         onClick={handleSignIn}
                     >
                         Sign In
-                        {isLoggedIn && <Navigate to="/home" />} 
+                        {isLoggedIn && <Navigate to="/home" />}
                     </LoginRegisterButton>
-                    
+
                 </Grid>
 
                 <Grid container sx={() => LoginGridLinksContainerStyle(theme)}>

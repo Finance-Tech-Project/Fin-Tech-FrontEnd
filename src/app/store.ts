@@ -8,7 +8,7 @@ import { chartSeriesReducer } from '../Reducers/chartSeriesReducer';
 import { generalAppReducer} from '../Reducers/generalAppReducer';
 import { userReducer } from '../Reducers/userReducer';
 import { tokenReducer } from '../Reducers/tokenReducer';
-import { userExeptionsReducer } from '../Reducers/userExeptionsReducer';
+import { userExceptionsReducer } from '../Reducers/userExeptionsReducer';
 
 export const store = configureStore({
 	reducer: {
@@ -21,7 +21,7 @@ export const store = configureStore({
 		generalAppReducer: generalAppReducer,
 		userReducer: userReducer,
 		tokenReducer: tokenReducer,
-		userExeptionsReducer: userExeptionsReducer
+		userExceptionsReducer: userExceptionsReducer
 	},
 });
 
