@@ -30,7 +30,7 @@ export const registerUser = (user: UserRegister) => {
     }
 };
 
-export const loginUser = (token: string) => {
+export const loginUser = (token: string, rememberLogin: boolean) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +

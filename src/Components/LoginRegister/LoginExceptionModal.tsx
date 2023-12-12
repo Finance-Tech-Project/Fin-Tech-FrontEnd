@@ -1,18 +1,26 @@
 import { Backdrop, Box, Fade, Modal } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LoginExceptionModalContainer, LoginExceptionModalTypography } from '../../Styles/LoginRegisterStyles/LoginStyle';
 import { UserExceptions } from '../../Types/LoginRegisterTypes';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { clearExceptions } from '../../Reducers/userExeptionsReducer';
 
-interface Props {
-	modalOpen: boolean
-}
-
-const LoginExceptionModal = ({ modalOpen }: Props) => {
+const LoginExceptionModal = () => {
 	const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
-	const [open, setOpen] = useState(modalOpen);
-	// const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
+	const [open, setOpen] = useState(false);
+	const handleOpen = () => setOpen(true);
+	const dispatch = useAppDispatch();
+	
+	const handleClose = () => {
+		setOpen(false);
+		dispatch(clearExceptions());
+	};
+
+	useEffect(() => {
+		if (userException !== null && userException!.exceptions.length > 0) {
+            handleOpen();
+        }
+	}, [userException]);
 
 	return (
 		<Box>
@@ -32,7 +40,7 @@ const LoginExceptionModal = ({ modalOpen }: Props) => {
 				<Fade in={open}>
 					<LoginExceptionModalContainer>
 						<LoginExceptionModalTypography>
-							{(userException && userException.exceptions.length > 0) && userException.exceptions[0].exceptionMessage}
+							{(userException !== null && userException.exceptions.length > 0) && userException.exceptions[0].exceptionMessage}
 						</LoginExceptionModalTypography>
 					</LoginExceptionModalContainer>
 				</Fade>

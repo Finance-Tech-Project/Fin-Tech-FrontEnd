@@ -24,47 +24,37 @@ import { createToken } from '../../Functions/utilsFunctions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
-import { clearExceptions } from '../../Reducers/userExeptionsReducer';
 import LoginExceptionModal from './LoginExceptionModal';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [checked, setChecked] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
     const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
     const dispatch = useAppDispatch();
 
-    const handleSignIn = () => {
-        if (userException && userException!.exceptions.length > 0) {
-            dispatch(clearExceptions());
-        }
-        if (login === userProfile?.login) {
-            setIsLoggedIn(true);
-            return;
-        }
-        if (login !== '' && password !== '') {
-            dispatch(loginUser(createToken(login, password)));
-        }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
     };
 
-    const clearData = () => {
-        setIsLoggedIn(false);
-        dispatch(clearExceptions());
+    const handleSignIn = () => {
+        if (login !== '' && password !== '') {
+            dispatch(loginUser(createToken(login, password), checked));
+        }
     };
 
     useEffect(() => {
         if (userProfile && (userException === null || userException!.exceptions.length === 0)) {
             setIsLoggedIn(true);
         }
-        
-        return () => clearData();
+        return () => setIsLoggedIn(false);
     }, [userProfile, isLoggedIn, userException]);
     
     return (
         <LoginAndRegisterContainer>
-            <LoginExceptionModal modalOpen={isLoggedIn}/>
+            <LoginExceptionModal />
             <Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
                 <Grid sx={() => LoginRegisterGridStyle(theme)}>
                     <LoginRegisterAvatar>
@@ -94,7 +84,12 @@ const Login = () => {
                     />
 
                     <LoginFormControlLabel sx={{ color: 'whitesmoke' }}
-                        control={<LoginCheckbox value="remember" sx={{ color: 'whitesmoke' }} />}
+                        control={<LoginCheckbox
+                            value="remember"
+                            sx={{ color: 'whitesmoke' }}
+                            checked={checked}
+                            onChange={handleChange}
+                        />}
                         label="Remember me"
                     />
 

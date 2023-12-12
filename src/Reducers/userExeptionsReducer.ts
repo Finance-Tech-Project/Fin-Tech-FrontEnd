@@ -14,7 +14,13 @@ export const userExceptionsSlice = createSlice({
                 exceptionType: action.payload.exceptionType,
                 exceptionMessage: action.payload.exceptionMessage
             }
-            state?.exceptions.push(newException);
+            if (!state) {
+                state = {
+                    exceptions: []
+                } as UserExceptions | null;
+            }
+            state!.exceptions.push(newException);
+            return state;
         },
         clearExceptions(state) {
             return null;
