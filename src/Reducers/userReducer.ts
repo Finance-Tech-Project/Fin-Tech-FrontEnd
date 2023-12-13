@@ -1,21 +1,22 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { UserProfile } from "../Types/LoginRegisterTypes";
+import { LocaleStorageType, UserProfile } from "../Types/LoginRegisterTypes";
 
-const checkSesionStorage = () => {
-    const storage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
-    if (storage) {
+const checkStoragesAndGetData = () => {
+    const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
+    const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!);
+    if (sesStorage || locStorage) {
         const initialState: UserProfile = {
-            login: storage.login,
-            firstName: storage.firstName,
-            lastName: storage.lastName,
-            email: storage.email,
-            roles: storage.roles
+            login: sesStorage ? sesStorage.login : locStorage.value.login,
+            firstName: sesStorage ? sesStorage.firstName : locStorage.value.firstName,
+            lastName: sesStorage ? sesStorage.lastName : locStorage.value.lastName,
+            email: sesStorage ? sesStorage.email : locStorage.value.email,
+            roles: sesStorage ? sesStorage.roles : locStorage.value.roles
         }
         return initialState;
     } else return null;
 }
 
-const initialState: UserProfile | null = checkSesionStorage();
+const initialState: UserProfile | null = checkStoragesAndGetData();
 
 export const userSlice = createSlice({
     name: 'user',

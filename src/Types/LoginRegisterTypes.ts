@@ -29,5 +29,5 @@ export interface UserExceptions {
 
 export interface LocaleStorageType {
     value: UserProfile,
-    expiry: Date
+    expiry: string
 }

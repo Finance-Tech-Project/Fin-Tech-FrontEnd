@@ -200,5 +200,5 @@ export const getExpiredDate = () => {
     const expiredDate = new Date(now.getTime() + (hoursToNextDay)) ;
     expiredDate.setMinutes(0);
     expiredDate.setSeconds(0);
-    return expiredDate;
+    return expiredDate.toString();
 };

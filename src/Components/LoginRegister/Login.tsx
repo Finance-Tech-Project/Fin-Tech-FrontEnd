@@ -49,7 +49,6 @@ const Login = () => {
         if (userProfile && (userException === null || userException!.exceptions.length === 0)) {
             setIsLoggedIn(true);
         }
-        getExpiredDate();
         return () => setIsLoggedIn(false);
     }, [userProfile, isLoggedIn, userException]);
     

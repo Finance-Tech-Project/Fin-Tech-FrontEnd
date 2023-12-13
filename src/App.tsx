@@ -14,10 +14,23 @@ import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
 import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
 import { putDesktopMobile, putDisplaySize } from './Reducers/generalAppReducer';
+import { LocaleStorageType } from './Types/LoginRegisterTypes';
+import { userLogout } from './Reducers/userReducer';
+import { deleteToken } from './Reducers/tokenReducer';
 
 function App() {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const dispatch = useAppDispatch();
+
+	// If main page loaded and expired date of user data storage is out, we delete data of user account from local storage and logout.
+	const clearLocalStorageIfDateExpired = () => {
+		const locStorage = JSON.parse(localStorage.getItem('userData')!);
+		if (locStorage && new Date().getTime() > new Date(locStorage.expiry).getTime()) {
+			localStorage.removeItem('userData');
+			dispatch(userLogout());
+			dispatch(deleteToken());
+		}
+	};
 
 	useEffect(() => {
 		window.addEventListener('resize', () => {
@@ -28,8 +41,9 @@ function App() {
 			dispatch(putDesktopMobile(regex.test(navigator.userAgent)));
 		});
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
+		clearLocalStorageIfDateExpired();
 	}, [symbolName]);
-
+	
 	return (
 		<Grid container>
 			<Routes>
