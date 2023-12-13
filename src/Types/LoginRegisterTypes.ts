@@ -26,3 +26,8 @@ export interface Exception {
 export interface UserExceptions {
     exceptions: Array<Exception>
 }
+
+export interface LocaleStorageType {
+    value: UserProfile,
+    expiry: Date
+}

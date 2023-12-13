@@ -126,8 +126,7 @@ export const getChartHeaderTitleItem = (
     volatility: AnalyticInterface,
     sharpRatio: AnalyticInterface,
     isClickedToCompare: boolean,
-    seriesName: string,
-
+    seriesName: string
 ) => {
     if (seriesName === ChartSeriesNames.LineSeriesForSimpleIncome) {
         if ((simpleIncome.period > 0 && simpleIncome.data.length > 0) || (simpleIncome.period > 0 && simpleIncome.dataToCompare!.length > 0)) {
@@ -192,5 +191,14 @@ export const createToken = (login: string, password: string) =>
     `Basic ${window.btoa(login + ':' + password)}`;
 
 export const createUserLoginInitials = (firstName: string, lastName: string) => {
-    return firstName.charAt(0).toUpperCase().concat(lastName.charAt(0).toUpperCase());  
+    return firstName.charAt(0).toUpperCase().concat(lastName.charAt(0).toUpperCase());
+};
+
+export const getExpiredDate = () => {
+    const now = new Date();
+    const hoursToNextDay = (24 - now.getHours()) * 60 * 60 * 1000;
+    const expiredDate = new Date(now.getTime() + (hoursToNextDay)) ;
+    expiredDate.setMinutes(0);
+    expiredDate.setSeconds(0);
+    return expiredDate;
 };
