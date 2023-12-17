@@ -23,9 +23,18 @@ export const registerUser = (user: UserRegister) => {
                 const data: UserProfile = await response.json();
                 dispatch(putUser(data));
                 dispatch(putToken(createToken(user.login, user.password)));
+            } else {
+                const errorStatus = response.status + '';
+                throw new Error(errorStatus);
             }
         } catch (error) {
-
+            if (error instanceof Error) {
+                const exception: Exception = {
+                    exceptionType: parseInt(error.message),
+                    exceptionMessage: "The user you entered for registration is already registered. Please go to the login page and log in."
+                };
+                dispatch(putUserException(exception));
+            }
         }
     }
 };

@@ -24,7 +24,8 @@ export interface Exception {
 }
 
 export interface UserExceptions {
-    exceptions: Array<Exception>
+    exceptionType: number,
+    exceptionMessage: string,
 }
 
 export interface LocaleStorageType {

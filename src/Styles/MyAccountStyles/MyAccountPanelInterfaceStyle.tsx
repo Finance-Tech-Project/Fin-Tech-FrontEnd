@@ -3,7 +3,7 @@ import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutl
 
 export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    height: '1200px',
+    height: '1000px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     boxShadow: '10px 5px 10px 0px rgba(65, 6, 240, 0.5)'
@@ -73,7 +73,7 @@ export const MyAccountPanelInterfaceToolbarButtonLogout = styled(Button)(({ them
 }));
 
 export const MyAccountPanelInterfaceToolbarButtonsContainer = styled(Box)(({ theme }) => ({
-    minHeight: '1100px',
+    minHeight: '1000px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'

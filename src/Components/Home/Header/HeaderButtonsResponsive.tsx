@@ -30,6 +30,7 @@ const HeaderButtonsResponsive = () => {
 			dispatch(userLogout());
 			dispatch(deleteToken());
 			sessionStorage.clear();
+			localStorage.removeItem('userData');
 		}
 	};
 

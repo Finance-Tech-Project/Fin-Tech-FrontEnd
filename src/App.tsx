@@ -14,9 +14,12 @@ import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
 import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
 import { putDesktopMobile, putDisplaySize } from './Reducers/generalAppReducer';
-import { LocaleStorageType } from './Types/LoginRegisterTypes';
 import { userLogout } from './Reducers/userReducer';
 import { deleteToken } from './Reducers/tokenReducer';
+import { myAccountPanelInterfaceButtons } from './Constants/ProjectConstants/myAccountPanelInterfaceConstants';
+import Account from './Components/MyAccount/Account';
+import Watchlist from './Components/MyAccount/Watchlist';
+import Portfolio from './Components/MyAccount/Portfolio';
 
 function App() {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -43,7 +46,7 @@ function App() {
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 		clearLocalStorageIfDateExpired();
 	}, [symbolName]);
-	
+
 	return (
 		<Grid container>
 			<Routes>
@@ -53,7 +56,11 @@ function App() {
 				<Route path={headerButtons[2].route} element={<Stocks />} />
 				<Route path={headerButtons[3].route} element={<Analytics />} />
 				<Route path={headerButtons[4].route} element={<Contacts />} />
-				<Route path={headerButtons[5].route} element={<MyAccount />} />
+				<Route path={headerButtons[5].route} element={<MyAccount />}>
+					<Route path={myAccountPanelInterfaceButtons[0].route} element={<Account />} />
+					<Route path={myAccountPanelInterfaceButtons[1].route} element={<Watchlist />} />
+					<Route path={myAccountPanelInterfaceButtons[2].route} element={<Portfolio />} />
+				</Route>
 
 				{headerButtonsLogin.map((path) => {
 					return (

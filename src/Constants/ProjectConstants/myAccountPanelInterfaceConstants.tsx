@@ -5,14 +5,17 @@ import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 export const myAccountPanelInterfaceButtons = [
     {
         title: 'Account',
+        route: 'account',
         icon: <ManageAccountsOutlinedIcon />
     },
     {
         title: 'Watchlist',
+        route: 'watchlist',
         icon: <FavoriteBorderOutlinedIcon />
     },
     {
-        title: 'Potfolio',
+        title: 'Portfolio',
+        route: 'portfolio',
         icon: <FolderOpenOutlinedIcon />
     }
 ];

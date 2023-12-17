@@ -17,6 +17,7 @@ const HeaderButtons = () => {
 		dispatch(userLogout());
 		dispatch(deleteToken());
 		sessionStorage.clear();
+		localStorage.removeItem('userData');
 	};
 
 	return (

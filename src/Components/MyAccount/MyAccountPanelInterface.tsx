@@ -16,7 +16,7 @@ import { myAccountPanelInterfaceButtons } from '../../Constants/ProjectConstants
 import { useAppDispatch } from '../../app/hooks';
 import { userLogout } from '../../Reducers/userReducer';
 import { deleteToken } from '../../Reducers/tokenReducer';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 const MyAccountPanelInterface = () => {
     const dispatch = useAppDispatch();
@@ -25,6 +25,7 @@ const MyAccountPanelInterface = () => {
         dispatch(userLogout());
         dispatch(deleteToken());
         sessionStorage.clear();
+        localStorage.removeItem('userData');
     };
 
     return (
@@ -42,10 +43,12 @@ const MyAccountPanelInterface = () => {
                     </MyAccountPanelInterfaceToolbarContainer>
 
                     <MyAccountPanelInterfaceToolbarButtonsContainer>
-                        <Box>
+                        <Box sx={{height: '100%'}}>
                             {myAccountPanelInterfaceButtons.map((button, index) => {
                                 return (
-                                    <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} key={index} />
+                                    <Link style={{textDecoration: "none"}} to={`${button.route}`} key={index} >
+                                        <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} />
+                                    </Link>
                                 );
                             })}
                         </Box>
@@ -61,6 +64,10 @@ const MyAccountPanelInterface = () => {
                         </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                     </MyAccountPanelInterfaceToolbarButtonsContainer>
                 </MyAccountPanelInterfaceContainer>
+            </Grid>
+
+            <Grid desktop={10}>
+                <Outlet></Outlet>
             </Grid>
         </Grid>
     )

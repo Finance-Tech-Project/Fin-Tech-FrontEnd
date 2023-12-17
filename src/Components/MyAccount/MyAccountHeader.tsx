@@ -25,12 +25,13 @@ const MyAccountHeader = () => {
 
     const handleClick = () => {
         setIsClicked(prev => prev !== isClicked);
+        setIsClicked(!isClicked);
     };
 
     useEffect(() => {
-        return () => setIsClicked(true);
+        
     }, [isClicked]);
-
+    console.log(isClicked);
     return (
         <MyAccountHeaderContainer>
             <Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>

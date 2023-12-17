@@ -20,7 +20,7 @@ import {
 import { Link } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { loginUser } from '../../Actions/fetchLoginRegisterActions';
-import { createToken, getExpiredDate } from '../../Functions/utilsFunctions';
+import { createToken } from '../../Functions/utilsFunctions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
@@ -46,7 +46,7 @@ const Login = () => {
     };
 
     useEffect(() => {
-        if (userProfile && (userException === null || userException!.exceptions.length === 0)) {
+        if (userProfile && !userException) {
             setIsLoggedIn(true);
         }
         return () => setIsLoggedIn(false);

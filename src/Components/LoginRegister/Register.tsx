@@ -16,6 +16,7 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/RegisterStyle';
 import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
+import LoginExceptionModal from './LoginExceptionModal';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -43,6 +44,7 @@ const Register = () => {
 	
 	return (
 		<LoginAndRegisterContainer>
+			<LoginExceptionModal />
 			<Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
 				<Grid sx={() => LoginRegisterGridStyle(theme)}>
 					<LoginRegisterAvatar>

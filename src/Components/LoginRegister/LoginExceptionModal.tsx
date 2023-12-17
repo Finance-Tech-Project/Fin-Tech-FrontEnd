@@ -17,7 +17,7 @@ const LoginExceptionModal = () => {
 	};
 
 	useEffect(() => {
-		if (userException !== null && userException!.exceptions.length > 0) {
+		if (userException) {
             handleOpen();
         }
 	}, [userException]);
@@ -40,7 +40,7 @@ const LoginExceptionModal = () => {
 				<Fade in={open}>
 					<LoginExceptionModalContainer>
 						<LoginExceptionModalTypography>
-							{(userException !== null && userException.exceptions.length > 0) && userException.exceptions[0].exceptionMessage}
+							{userException && userException.exceptionMessage}
 						</LoginExceptionModalTypography>
 					</LoginExceptionModalContainer>
 				</Fade>

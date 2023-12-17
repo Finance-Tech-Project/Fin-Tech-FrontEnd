@@ -22,9 +22,9 @@ const HeaderResponsive = ({ isClicked, handleClick }: IsCheckedProps) => {
 		<HeaderMenuResponsiveContainer>
 			{buttonsSlice().map((buttonText) => {
 				return (
-					<Collapse key={buttonText.route} in={!isClicked}  sx={{ width: '100%' }}>
+					<Collapse key={buttonText.title} in={!isClicked}  sx={{ width: '100%' }}>
 						<Link to={`/${buttonText.route}`}>
-							<HeaderButtonsStyle onClick={() => handleClick(buttonText.title)}  disableRipple key={buttonText.title} 
+							<HeaderButtonsStyle onClick={() => handleClick(buttonText.title)}  disableRipple  
 												sx={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}>{buttonText.title}</HeaderButtonsStyle>
 						</Link>
 					</Collapse>

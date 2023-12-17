@@ -1,26 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Exception, UserExceptions } from "../Types/LoginRegisterTypes";
 
-const initialState = {
-    exceptions: []
-} as UserExceptions | null;
+const initialState = null as UserExceptions | null;
 
 export const userExceptionsSlice = createSlice({
     name: 'userExceptions',
     initialState: initialState,
     reducers: {
         putUserException(state, action: PayloadAction<Exception>) {
-            const newException: Exception = {
-                exceptionType: action.payload.exceptionType,
-                exceptionMessage: action.payload.exceptionMessage
-            }
-            if (!state) {
-                state = {
-                    exceptions: []
-                } as UserExceptions | null;
-            }
-            state!.exceptions.push(newException);
-            return state;
+           return action.payload;
         },
         clearExceptions(state) {
             return null;
