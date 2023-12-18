@@ -66,7 +66,9 @@ const MyAccountPanelInterface = () => {
                 </MyAccountPanelInterfaceContainer>
             </Grid>
 
-            <Grid desktop={10}>
+            <Grid 
+                desktop={10} desktopL={10.5}
+            >
                 <Outlet></Outlet>
             </Grid>
         </Grid>

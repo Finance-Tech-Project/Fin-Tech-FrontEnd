@@ -1,10 +1,10 @@
 import React from 'react'
-import { AccountContainer } from '../../Styles/MyAccountStyles/AccountStyle'
+import { AccountContainer, AccountTitle } from '../../Styles/MyAccountStyles/AccountStyle'
 
 const Account = () => {
     return (
-        <AccountContainer>Account
-    
+        <AccountContainer>
+            <AccountTitle>My Account</AccountTitle>
         </AccountContainer>
     )
 }

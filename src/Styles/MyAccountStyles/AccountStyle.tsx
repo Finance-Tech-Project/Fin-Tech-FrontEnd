@@ -1,8 +1,23 @@
-import { Box, styled } from "@mui/material";
+import { Box, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: '100vh',
-    backgroundColor: 'rgba(49, 9, 81, 0.7)'
+    minHeight: '720px',
+    backgroundColor: 'rgba(49, 9, 81, 0.8)',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    [theme.breakpoints.up('desktop')]: {
+        minHeight: '720px',
+    },
+    [theme.breakpoints.up('desktopL')]: {
+        minHeight: '812px',
+    }
+}));
+
+export const AccountTitle = styled(Typography)(({ theme }) => ({
+    color:' rgba(255, 196, 0, 1)',
+    fontSize: '1.8rem',
+    fontWeight: 600,
+    textShadow: '5px 5px 6px #ADC5BD',
+    textAlign: 'center',
+    paddingTop: '30px'
 }));
 
