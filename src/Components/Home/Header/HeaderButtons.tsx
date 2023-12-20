@@ -48,10 +48,9 @@ const HeaderButtons = () => {
 								desktopOffset={0.5}
 								desktopLOffset={1}
 							>
-
 								<Link id={buttonText.route} to={`/${buttonText.route}`} key={buttonText.title}>
 									<HeaderButtonsStyle disableRipple key={buttonText.route} >{buttonText.title}</HeaderButtonsStyle>
-								</Link>
+								</Link>	
 							</Grid>
 						);
 					})}
@@ -71,7 +70,6 @@ const HeaderButtons = () => {
 								: 
 								<HeaderButtonsStyle onClick={handleLogout} disableRipple>{avatarMenuButtons[2].title}</HeaderButtonsStyle>
 							}
-
 						</Grid>
 
 						<Grid

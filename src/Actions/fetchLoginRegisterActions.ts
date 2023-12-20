@@ -42,7 +42,6 @@ export const registerUser = (user: UserRegister) => {
 export const loginUser = (token: string, rememberLogin: boolean) => {
     return async (dispatch: AppDispatch) => {
         const storage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!);
-        
         if (!storage || new Date().getTime() > new Date(storage.expiry).getTime()) {
             try {
                 const response = await fetch(`${FetchConstants.BASE_URL +
@@ -57,7 +56,6 @@ export const loginUser = (token: string, rememberLogin: boolean) => {
                 });
                 if (response.ok) {
                     const data: UserProfile = await response.json();
-                    console.log(data)
                     dispatch(putUser(data));
                     dispatch(putToken(token));
                     sessionStorage.setItem('userData', JSON.stringify(data));

@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from "@mui/material";
+import { Box, Button, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
     minHeight: '720px',
@@ -24,5 +24,12 @@ export const AccountTitle = styled(Typography)(({ theme }) => ({
 export const AccountTypography = styled(Typography)(({ theme }) => ({
     color: 'white',
     fontSize: '1.8rem'
+}));
+
+export const AccountButtonUpdate = styled(Button)(({ theme }) => ({
+    border: '1.5px solid rgba(37, 59, 227, 0.8)',
+    backgroundColor: 'rgba(1, 17, 36, 0.8)',
+    color: 'white',
+    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
 }));
 

@@ -1,21 +1,13 @@
-export interface User {
+export interface UserProfile {
     login: string,
     firstName: string,
     lastName: string,
-    email: string
+    email: string,
+    role?: string
 }
 
-export interface UserProfile extends User {
-    roles: string[]
-}
-
-export interface UserRegister extends User {
+export interface UserRegister extends UserProfile {
     password: string
-}
-
-export interface State {
-    user: UserProfile,
-    token: string
 }
 
 export interface Exception {

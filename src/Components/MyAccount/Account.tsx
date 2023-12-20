@@ -1,11 +1,17 @@
-import React from 'react'
-import { AccountContainer, AccountTitle, AccountTypography } from '../../Styles/MyAccountStyles/AccountStyle'
+import React, { useState } from 'react'
+import { AccountButtonUpdate, AccountContainer, AccountTitle, AccountTypography } from '../../Styles/MyAccountStyles/AccountStyle'
 import { Box, Divider } from '@mui/material'
 import { useAppSelector } from '../../app/hooks'
 import { UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 
 const Account = () => {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
 
     return (
@@ -41,19 +47,19 @@ const Account = () => {
                                     <AccountTypography>{userProfile?.firstName} {userProfile?.lastName}</AccountTypography>
                                 </Box>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
                                     <AccountTypography>Login:</AccountTypography>
                                     <AccountTypography>{userProfile?.login}</AccountTypography>
                                 </Box>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
                                     <AccountTypography>Email:</AccountTypography>
                                     <AccountTypography>{userProfile?.email}</AccountTypography>
                                 </Box>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px'}}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
                                     <AccountTypography>User role:</AccountTypography>
-                                    <AccountTypography>{userProfile?.roles}</AccountTypography>
+                                    <AccountTypography>{userProfile?.role}</AccountTypography>
                                 </Box>
                             </Grid>
 
@@ -68,6 +74,62 @@ const Account = () => {
                                     }} />
                             </Grid>
 
+                            <Grid>
+                                <Box sx={{ display: 'flex' }}>
+                                    <LoginRegisterTextField
+                                        marginRight
+                                        marginBottom
+                                        autoComplete="fname"
+                                        name="firstName"
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="firstName"
+                                        label="First Name"
+                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
+                                    />
+
+                                    <LoginRegisterTextField
+                                        marginBottom
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="lastName"
+                                        label="Last Name"
+                                        name="lastName"
+                                        autoComplete="lname"
+                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
+                                    />
+                                </Box>
+
+                                <LoginRegisterTextField
+                                    marginRight
+                                    marginBottom
+                                    autoComplete="login"
+                                    name="login"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="login"
+                                    label="Login"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
+                                />
+
+                                <LoginRegisterTextField
+                                    marginBottom
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email"
+                                    name="email"
+                                    autoComplete="email"
+                                    type="email"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
+                                />
+
+                                <AccountButtonUpdate>Update</AccountButtonUpdate>
+                            </Grid>
                         </Grid>
                     </Box>
                 </Grid>

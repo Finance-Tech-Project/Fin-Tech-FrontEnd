@@ -31,7 +31,7 @@ const MyAccountHeader = () => {
     useEffect(() => {
         
     }, [isClicked]);
-    console.log(isClicked);
+   
     return (
         <MyAccountHeaderContainer>
             <Grid container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
