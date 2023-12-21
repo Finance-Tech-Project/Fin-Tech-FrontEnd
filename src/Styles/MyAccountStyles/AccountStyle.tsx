@@ -27,9 +27,12 @@ export const AccountTypography = styled(Typography)(({ theme }) => ({
 }));
 
 export const AccountButtonUpdate = styled(Button)(({ theme }) => ({
+    width: '100%',
+    height: '56px',
     border: '1.5px solid rgba(37, 59, 227, 0.8)',
     backgroundColor: 'rgba(1, 17, 36, 0.8)',
     color: 'white',
     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+    marginTop: '20px'
 }));
 

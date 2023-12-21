@@ -7,7 +7,6 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 
 const Account = () => {
-    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -17,7 +16,9 @@ const Account = () => {
     return (
         <AccountContainer>
             <Grid container>
-                <Grid desktop={11} desktopOffset={0.5}>
+                <Grid
+                    desktop={11} desktopOffset={0.5}
+                >
                     <Box sx={{
                         border: '2px solid rgba(70, 75, 114, 0.8)',
                         backgroundColor: 'rgba(4, 3, 28, 0.6)',
@@ -25,7 +26,8 @@ const Account = () => {
                         margin: '50px 0px 50px 0',
                         borderTopLeftRadius: '120px',
                         borderBottomRightRadius: '120px',
-                        padding: '50px 50px'
+                        padding: '50px 50px',
+                        minHeight: '516px',
                     }}>
 
                         <AccountTitle>My Account</AccountTitle>
@@ -37,82 +39,74 @@ const Account = () => {
                                 marginTop: '20px'
                             }} />
 
-                        <Grid container sx={{ width: '100%' }}>
+                        <Grid container sx={{ width: '100%', minHeight: '445px' }}>
                             <Grid
-                                desktop={5.5} desktopOffset={0}
+                                desktop={5.25} desktopOffset={0}
                             >
-
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
-                                    <AccountTypography>Full Name:</AccountTypography>
-                                    <AccountTypography>{userProfile?.firstName} {userProfile?.lastName}</AccountTypography>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                    <AccountTypography>First Name:</AccountTypography>
+                                    <AccountTypography>{userProfile?.firstName}</AccountTypography>
                                 </Box>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                    <AccountTypography>Last Name:</AccountTypography>
+                                    <AccountTypography>{userProfile?.lastName}</AccountTypography>
+                                </Box>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
                                     <AccountTypography>Login:</AccountTypography>
                                     <AccountTypography>{userProfile?.login}</AccountTypography>
                                 </Box>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
-                                    <AccountTypography>Email:</AccountTypography>
-                                    <AccountTypography>{userProfile?.email}</AccountTypography>
-                                </Box>
-
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '20px' }}>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
                                     <AccountTypography>User role:</AccountTypography>
                                     <AccountTypography>{userProfile?.role}</AccountTypography>
                                 </Box>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                    <AccountTypography>Email:</AccountTypography>
+                                    <AccountTypography>{userProfile?.email}</AccountTypography>
+                                </Box>
                             </Grid>
 
-                            <Grid
-                                desktopOffset={0.5}
+                            <Grid sx={{ display: 'flex', justifyContent: 'center' }}
+                                desktop={0.5} desktopOffset={0.5}
                             >
                                 <Divider orientation='vertical'
                                     sx={{
+                                        borderWidth: '3px',
                                         backgroundColor: '#966fbd',
-                                        borderStyle: 'solid',
-                                        borderWidth: '3px'
+                                        height: '98.5%'
                                     }} />
                             </Grid>
 
-                            <Grid>
-                                <Box sx={{ display: 'flex' }}>
-                                    <LoginRegisterTextField
-                                        marginRight
-                                        marginBottom
-                                        autoComplete="fname"
-                                        name="firstName"
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        id="firstName"
-                                        label="First Name"
-                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
-                                    />
-
-                                    <LoginRegisterTextField
-                                        marginBottom
-                                        variant="outlined"
-                                        required
-                                        fullWidth
-                                        id="lastName"
-                                        label="Last Name"
-                                        name="lastName"
-                                        autoComplete="lname"
-                                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
-                                    />
-                                </Box>
+                            <Grid sx={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                                desktop={5.25} desktopOffset={0.5}
+                            >
 
                                 <LoginRegisterTextField
                                     marginRight
                                     marginBottom
-                                    autoComplete="login"
-                                    name="login"
+                                    autoComplete="fname"
+                                    name="firstName"
                                     variant="outlined"
                                     required
                                     fullWidth
-                                    id="login"
-                                    label="Login"
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
+                                    id="firstName"
+                                    label="First Name"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
+                                />
+
+                                <LoginRegisterTextField
+                                    marginBottom
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    label="Last Name"
+                                    name="lastName"
+                                    autoComplete="lname"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
                                 />
 
                                 <LoginRegisterTextField
@@ -126,6 +120,15 @@ const Account = () => {
                                     autoComplete="email"
                                     type="email"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
+                                />
+
+                                <LoginRegisterTextField
+                                    variant='outlined'
+                                    fullWidth label="Password"
+                                    autoComplete="Password"
+                                    required
+                                    type="password"
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                                 />
 
                                 <AccountButtonUpdate>Update</AccountButtonUpdate>
