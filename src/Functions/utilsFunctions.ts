@@ -81,7 +81,10 @@ export const transformDate = (date: string) => {
 };
 
 export const findMaxMinPrice = (symbolData: TickerDataType[], param: string) => {
-    return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0] : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0];
+    if (symbolData.length > 0) {
+        return param === "min" ? symbolData.map((elem) => elem.low).sort((a, b) => a - b)[0].toFixed(2)
+            : symbolData.map((elem) => elem.high).sort((a, b) => b - a)[0].toFixed(2);
+    }
 };
 
 export const transformFirstLetterToUpperCase = (word: string): string => {
@@ -197,8 +200,13 @@ export const createUserLoginInitials = (firstName: string, lastName: string) => 
 export const getExpiredDate = () => {
     const now = new Date();
     const hoursToNextDay = (24 - now.getHours()) * 60 * 60 * 1000;
-    const expiredDate = new Date(now.getTime() + (hoursToNextDay)) ;
+    const expiredDate = new Date(now.getTime() + (hoursToNextDay));
     expiredDate.setMinutes(0);
     expiredDate.setSeconds(0);
     return expiredDate.toString();
+};
+
+export const transformPassword = (password: string) => {
+    const pattern = /.+/g;
+    return password.split("").map((letter) => letter.replace(pattern, "*")).join("");
 };

@@ -17,6 +17,8 @@ import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/Reg
 import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
 import LoginExceptionModal from './LoginExceptionModal';
+import { putPasswordSymbols } from '../../Reducers/generalAppReducer';
+import { transformPassword } from '../../Functions/utilsFunctions';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -28,6 +30,7 @@ const Register = () => {
 
 	const handleSignUp = () => {
 		dispatch(registerUser({login, password, firstName, lastName, email}));
+		dispatch(putPasswordSymbols(transformPassword(password)));
 	};
 
 	const handleClear = () => {

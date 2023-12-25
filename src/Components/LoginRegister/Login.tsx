@@ -20,11 +20,12 @@ import {
 import { Link } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { loginUser } from '../../Actions/fetchLoginRegisterActions';
-import { createToken } from '../../Functions/utilsFunctions';
+import { createToken, transformPassword } from '../../Functions/utilsFunctions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
 import LoginExceptionModal from './LoginExceptionModal';
+import { putPasswordSymbols } from '../../Reducers/generalAppReducer';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -42,6 +43,7 @@ const Login = () => {
     const handleSignIn = () => {
         if (login !== '' && password !== '') {
             dispatch(loginUser(createToken(login, password), checked));
+            dispatch(putPasswordSymbols(transformPassword(password)));
         }
     };
 
@@ -51,7 +53,7 @@ const Login = () => {
         }
         return () => setIsLoggedIn(false);
     }, [userProfile, isLoggedIn, userException]);
-    
+
     return (
         <LoginAndRegisterContainer>
             <LoginExceptionModal />

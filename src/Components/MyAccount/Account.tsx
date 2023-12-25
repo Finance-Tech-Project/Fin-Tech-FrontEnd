@@ -1,17 +1,29 @@
-import React, { useState } from 'react'
-import { AccountButtonUpdate, AccountContainer, AccountTitle, AccountTypography } from '../../Styles/MyAccountStyles/AccountStyle'
-import { Box, Divider } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { AccountButtonUpdate, AccountContainer, AccountItemContainer, AccountTitle, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
+import { Divider } from '@mui/material'
 import { useAppSelector } from '../../app/hooks'
 import { UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 
 const Account = () => {
+    const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
+    const passwordSymbols: string = useAppSelector(state => state.generalAppReducer.passwordSymbols);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
+
+    const handleClear = () => {
+		setPassword('');
+		setFirstName('');
+		setLastName('');
+		setEmail('');
+	};
+
+	useEffect(() => {
+		return () => handleClear();
+	}, []);
 
     return (
         <AccountContainer>
@@ -19,17 +31,7 @@ const Account = () => {
                 <Grid
                     desktop={11} desktopOffset={0.5}
                 >
-                    <Box sx={{
-                        border: '2px solid rgba(70, 75, 114, 0.8)',
-                        backgroundColor: 'rgba(4, 3, 28, 0.6)',
-                        boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
-                        margin: '50px 0px 50px 0',
-                        borderTopLeftRadius: '120px',
-                        borderBottomRightRadius: '120px',
-                        padding: '50px 50px',
-                        minHeight: '516px',
-                    }}>
-
+                    <AccountWrapper>
                         <AccountTitle>My Account</AccountTitle>
                         <Divider orientation='horizontal'
                             sx={{
@@ -43,30 +45,35 @@ const Account = () => {
                             <Grid
                                 desktop={5.25} desktopOffset={0}
                             >
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                <AccountItemContainer>
                                     <AccountTypography>First Name:</AccountTypography>
                                     <AccountTypography>{userProfile?.firstName}</AccountTypography>
-                                </Box>
+                                </AccountItemContainer>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                <AccountItemContainer>
                                     <AccountTypography>Last Name:</AccountTypography>
                                     <AccountTypography>{userProfile?.lastName}</AccountTypography>
-                                </Box>
+                                </AccountItemContainer>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                <AccountItemContainer>
                                     <AccountTypography>Login:</AccountTypography>
                                     <AccountTypography>{userProfile?.login}</AccountTypography>
-                                </Box>
+                                </AccountItemContainer>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                <AccountItemContainer>
                                     <AccountTypography>User role:</AccountTypography>
                                     <AccountTypography>{userProfile?.role}</AccountTypography>
-                                </Box>
+                                </AccountItemContainer>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: '30px' }}>
+                                <AccountItemContainer>
+                                    <AccountTypography>Password:</AccountTypography>
+                                    <AccountTypography>{passwordSymbols}</AccountTypography>
+                                </AccountItemContainer>
+
+                                <AccountItemContainer>
                                     <AccountTypography>Email:</AccountTypography>
                                     <AccountTypography>{userProfile?.email}</AccountTypography>
-                                </Box>
+                                </AccountItemContainer>
                             </Grid>
 
                             <Grid sx={{ display: 'flex', justifyContent: 'center' }}
@@ -134,7 +141,7 @@ const Account = () => {
                                 <AccountButtonUpdate>Update</AccountButtonUpdate>
                             </Grid>
                         </Grid>
-                    </Box>
+                    </AccountWrapper>
                 </Grid>
             </Grid>
         </AccountContainer>

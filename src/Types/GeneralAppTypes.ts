@@ -1,4 +1,5 @@
 export interface GeneralApp {
     displaySize: number,
-    isMobile: boolean
+    isMobile: boolean,
+    passwordSymbols: string
 }

@@ -2,7 +2,6 @@ import { Box, Button, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
     minHeight: '720px',
-    // backgroundColor: 'rgba(49, 9, 81, 0.8)',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     [theme.breakpoints.up('desktop')]: {
         minHeight: '720px',
@@ -12,13 +11,29 @@ export const AccountContainer = styled(Box)(({ theme }) => ({
     }
 }));
 
+export const AccountWrapper = styled(Box)(({ theme }) => ({
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    backgroundColor: 'rgba(4, 3, 28, 0.6)',
+    boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
+    margin: '50px 0px 50px 0',
+    borderTopLeftRadius: '120px',
+    borderBottomRightRadius: '120px',
+    padding: '50px 50px',
+    minHeight: '516px'
+}));
+
+export const AccountItemContainer = styled(Box)(({ theme }) => ({
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    paddingTop: '30px'
+}));
+
 export const AccountTitle = styled(Typography)(({ theme }) => ({
     color: ' rgba(255, 196, 0, 1)',
     fontSize: '1.8rem',
     fontWeight: 600,
     textShadow: '5px 5px 6px #ADC5BD',
-    textAlign: 'start',
-    // paddingTop: '30px'
+    textAlign: 'start'
 }));
 
 export const AccountTypography = styled(Typography)(({ theme }) => ({
