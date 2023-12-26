@@ -3,8 +3,7 @@ import { GeneralApp } from "../Types/GeneralAppTypes";
 
 const initialGeneralApp: GeneralApp = {
     displaySize: window.screen.width,
-    isMobile: false,
-    passwordSymbols: ""
+    isMobile: false
 };
 
 const generalAppSlice = createSlice({
@@ -16,12 +15,9 @@ const generalAppSlice = createSlice({
         },
         putDesktopMobile(state, action: PayloadAction<boolean>) {
             state.isMobile = action.payload;
-        },
-        putPasswordSymbols(state, action: PayloadAction<string>) {
-            state.passwordSymbols = action.payload;
         }
     }
 });
 
-export const { putDisplaySize, putDesktopMobile, putPasswordSymbols } = generalAppSlice.actions;
+export const { putDisplaySize, putDesktopMobile } = generalAppSlice.actions;
 export const generalAppReducer = generalAppSlice.reducer;

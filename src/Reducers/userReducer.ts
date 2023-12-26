@@ -11,6 +11,7 @@ const checkStoragesAndGetData = () => {
             lastName: sesStorage ? sesStorage.lastName : locStorage.value.lastName,
             email: sesStorage ? sesStorage.email : locStorage.value.email,
             role: sesStorage ? sesStorage.role : locStorage.value.role,
+            passwordSymbols: sesStorage ? sesStorage.passwordSymbols : locStorage.value.passwordSymbols,
         }
         return initialState;
     } else return null;

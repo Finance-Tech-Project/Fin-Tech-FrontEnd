@@ -6,7 +6,7 @@ import { putUser } from "../Reducers/userReducer";
 import { Exception, LocaleStorageType, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
 import { AppDispatch } from "../app/store";
 
-export const registerUser = (user: UserRegister) => {
+export const registerUser = (user: UserRegister, passwordSymbols: string) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
@@ -21,6 +21,7 @@ export const registerUser = (user: UserRegister) => {
             });
             if (response.ok) {
                 const data: UserProfile = await response.json();
+                data.passwordSymbols = passwordSymbols;
                 dispatch(putUser(data));
                 dispatch(putToken(createToken(user.login, user.password)));
             } else {
@@ -39,7 +40,7 @@ export const registerUser = (user: UserRegister) => {
     }
 };
 
-export const loginUser = (token: string, rememberLogin: boolean) => {
+export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols: string) => {
     return async (dispatch: AppDispatch) => {
         const storage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!);
         if (!storage || new Date().getTime() > new Date(storage.expiry).getTime()) {
@@ -56,13 +57,15 @@ export const loginUser = (token: string, rememberLogin: boolean) => {
                 });
                 if (response.ok) {
                     const data: UserProfile = await response.json();
+                    data.passwordSymbols = passwordSymbols;
                     dispatch(putUser(data));
                     dispatch(putToken(token));
                     sessionStorage.setItem('userData', JSON.stringify(data));
                     if (rememberLogin) {
                         const userDataItem: LocaleStorageType = {
                             value: data,
-                            expiry: getExpiredDate()
+                            expiry: getExpiredDate(),
+                            passwordSymbols: passwordSymbols
                         };
                         localStorage.setItem('userData', JSON.stringify(userDataItem));
                     }

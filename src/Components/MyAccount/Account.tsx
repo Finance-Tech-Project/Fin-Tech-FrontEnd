@@ -8,7 +8,6 @@ import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRe
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
-    const passwordSymbols: string = useAppSelector(state => state.generalAppReducer.passwordSymbols);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -29,6 +28,7 @@ const Account = () => {
         <AccountContainer>
             <Grid container>
                 <Grid
+                    laptopL={11} laptopLOffset={0.5}
                     desktop={11} desktopOffset={0.5}
                 >
                     <AccountWrapper>
@@ -67,7 +67,7 @@ const Account = () => {
 
                                 <AccountItemContainer>
                                     <AccountTypography>Password:</AccountTypography>
-                                    <AccountTypography>{passwordSymbols}</AccountTypography>
+                                    <AccountTypography>{userProfile?.passwordSymbols && userProfile?.passwordSymbols}</AccountTypography>
                                 </AccountItemContainer>
 
                                 <AccountItemContainer>

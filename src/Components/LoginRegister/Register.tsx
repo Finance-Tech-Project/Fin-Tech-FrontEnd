@@ -1,36 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { LoginGridLinksContainerStyle } from '../../Styles/LoginRegisterStyles/LoginStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { 
-	LoginAndRegisterContainer, 
-	LoginRegisterAvatar, 
-	LoginRegisterAvatarIcon, 
-	LoginRegisterButton, 
-	LoginRegisterGridContainerStyle, 
-	LoginRegisterGridStyle, 
-	LoginRegisterLink, 
-	LoginRegisterTextField, 
-	LoginRegisterTypography 
+import {
+	LoginAndRegisterContainer,
+	LoginRegisterAvatar,
+	LoginRegisterAvatarIcon,
+	LoginRegisterButton,
+	LoginRegisterGridContainerStyle,
+	LoginRegisterGridStyle,
+	LoginRegisterLink,
+	LoginRegisterTextField,
+	LoginRegisterTypography
 } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/RegisterStyle';
 import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
 import LoginExceptionModal from './LoginExceptionModal';
-import { putPasswordSymbols } from '../../Reducers/generalAppReducer';
 import { transformPassword } from '../../Functions/utilsFunctions';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+	const [password, setPassword] = useState('');
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const dispatch = useAppDispatch();
 
 	const handleSignUp = () => {
-		dispatch(registerUser({login, password, firstName, lastName, email}));
-		dispatch(putPasswordSymbols(transformPassword(password)));
+		dispatch(registerUser({ login, password, firstName, lastName, email}, transformPassword(password)));
 	};
 
 	const handleClear = () => {
@@ -44,7 +42,7 @@ const Register = () => {
 	useEffect(() => {
 		return () => handleClear();
 	}, []);
-	
+
 	return (
 		<LoginAndRegisterContainer>
 			<LoginExceptionModal />
@@ -59,58 +57,58 @@ const Register = () => {
 					</LoginRegisterTypography>
 
 					<RegisterContainerTextField>
-							<LoginRegisterTextField
-								marginRight
-								marginBottom
-								autoComplete="fname"
-								name="firstName"
-								variant="outlined"
-								required
-								fullWidth
-								id="firstName"
-								label="First Name"
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
-							/>
-						
-							<LoginRegisterTextField
-								marginBottom
-								variant="outlined"
-								required
-								fullWidth
-								id="lastName"
-								label="Last Name"
-								name="lastName"
-								autoComplete="lname"
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
-							/>
+						<LoginRegisterTextField
+							marginRight
+							marginBottom
+							autoComplete="fname"
+							name="firstName"
+							variant="outlined"
+							required
+							fullWidth
+							id="firstName"
+							label="First Name"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
+						/>
+
+						<LoginRegisterTextField
+							marginBottom
+							variant="outlined"
+							required
+							fullWidth
+							id="lastName"
+							label="Last Name"
+							name="lastName"
+							autoComplete="lname"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
+						/>
 					</RegisterContainerTextField>
 
 					<RegisterContainerTextField>
-							<LoginRegisterTextField
-								marginRight
-								marginBottom
-								autoComplete="login"
-								name="login"
-								variant="outlined"
-								required
-								fullWidth
-								id="login"
-								label="Login"
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
-							/>
-						
-							<LoginRegisterTextField
-								marginBottom
-								variant="outlined"
-								required
-								fullWidth
-								id="email"
-								label="Email"
-								name="email"
-								autoComplete="email"
-								type="email"
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
-							/>
+						<LoginRegisterTextField
+							marginRight
+							marginBottom
+							autoComplete="login"
+							name="login"
+							variant="outlined"
+							required
+							fullWidth
+							id="login"
+							label="Login"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
+						/>
+
+						<LoginRegisterTextField
+							marginBottom
+							variant="outlined"
+							required
+							fullWidth
+							id="email"
+							label="Email"
+							name="email"
+							autoComplete="email"
+							type="email"
+							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
+						/>
 					</RegisterContainerTextField>
 				</Grid>
 
@@ -126,12 +124,12 @@ const Register = () => {
 					/>
 				</Grid>
 
-				<Grid sx={{width: '100%'}}>
-					<LoginRegisterButton 
+				<Grid sx={{ width: '100%' }}>
+					<LoginRegisterButton
 						type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
+						fullWidth
+						variant="contained"
+						color="primary"
 						onClick={handleSignUp}
 					>
 						Sign Up
@@ -139,12 +137,12 @@ const Register = () => {
 				</Grid>
 
 				<Grid container sx={() => LoginGridLinksContainerStyle(theme)}>
-                    <Grid>
-                        <LoginRegisterLink href="/signIn" variant="body2">
-                            {" Already have an account? Sign in"}
-                        </LoginRegisterLink>
-                    </Grid>
-                </Grid>
+					<Grid>
+						<LoginRegisterLink href="/signIn" variant="body2">
+							{" Already have an account? Sign in"}
+						</LoginRegisterLink>
+					</Grid>
+				</Grid>
 			</Grid>
 		</LoginAndRegisterContainer>
 	)

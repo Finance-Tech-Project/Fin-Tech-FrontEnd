@@ -3,7 +3,8 @@ export interface UserProfile {
     firstName: string,
     lastName: string,
     email: string,
-    role?: string
+    role?: string,
+    passwordSymbols?: string
 }
 
 export interface UserRegister extends UserProfile {
@@ -22,5 +23,6 @@ export interface UserExceptions {
 
 export interface LocaleStorageType {
     value: UserProfile,
-    expiry: string
+    expiry: string,
+    passwordSymbols: string
 }

@@ -25,15 +25,14 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
 import LoginExceptionModal from './LoginExceptionModal';
-import { putPasswordSymbols } from '../../Reducers/generalAppReducer';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
+    const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
     const dispatch = useAppDispatch();
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,8 +41,7 @@ const Login = () => {
 
     const handleSignIn = () => {
         if (login !== '' && password !== '') {
-            dispatch(loginUser(createToken(login, password), checked));
-            dispatch(putPasswordSymbols(transformPassword(password)));
+            dispatch(loginUser(createToken(login, password), checked, transformPassword(password)));
         }
     };
 

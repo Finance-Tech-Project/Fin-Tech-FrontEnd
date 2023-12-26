@@ -1,5 +1,6 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
 export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
     width: '100%',
@@ -23,7 +24,7 @@ export const MyAccountPanelInterfaceToolbarContainer = styled(Box)(({ theme }) =
 }));
 
 export const MyAccountPanelInterfaceToolbarWrapper = styled(Box)(({ theme }) => ({
-    width: '92%',
+    width: '90%',
     height: '100%',
     display: 'flex',
     justifyContent: 'space-between',
@@ -38,13 +39,25 @@ export const MyAccountPanelInterfaceToolbarText = styled(Typography)(({ theme })
     textShadow: '5px 5px 6px #ADC5BD'
 }));
 
-export const MyAccountPanelInterfaceToolbarArrow = styled(ArrowCircleLeftOutlinedIcon)(({ theme }) => ({
+export const MyAccountPanelInterfaceToolbarArrowLeft = styled(ArrowCircleLeftOutlinedIcon)(({ theme }) => ({
     color: 'orange',
     fontSize: '3rem',
     cursor: 'pointer',
     '&:hover': {
         color: 'rgba(219, 0, 219, 1)',
     }
+}));
+
+export const MyAccountPanelInterfaceToolbarArrowRight = styled(ArrowCircleRightOutlinedIcon)(({ theme }) => ({
+    color: 'orange',
+    fontSize: '3rem',
+    cursor: 'pointer',
+    '&:hover': {
+        color: 'rgba(219, 0, 219, 1)',
+    },
+    position: 'absolute',
+    top: '130px',
+    left: '30px'
 }));
 
 export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) => ({
