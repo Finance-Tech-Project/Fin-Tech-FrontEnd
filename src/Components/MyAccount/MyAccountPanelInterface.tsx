@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import {
     MyAccountPanelInterfaceContainer,
@@ -11,15 +11,17 @@ import {
     MyAccountPanelInterfaceToolbarText,
     MyAccountPanelInterfaceToolbarWrapper
 } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
-import { Box } from '@mui/material';
+import { Box, Collapse, Drawer } from '@mui/material';
 import MyAccountPanelInterfaceItem from './MyAccounPaneltInterfaceItem';
 import { myAccountPanelInterfaceButtons } from '../../Constants/ProjectConstants/myAccountPanelInterfaceConstants';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { userLogout } from '../../Reducers/userReducer';
 import { deleteToken } from '../../Reducers/tokenReducer';
 import { Link, Outlet } from 'react-router-dom';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 const MyAccountPanelInterface = () => {
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [open, setOpen] = React.useState(false);
     const dispatch = useAppDispatch();
 
@@ -39,57 +41,85 @@ const MyAccountPanelInterface = () => {
         localStorage.removeItem('userData');
     };
 
+    useEffect(() => {
+        displaySize > theme.breakpoints.values.laptopL && setOpen(true);
+    }, [displaySize]);
+    const drawerWidth = 320;
     return (
-        <Grid container sx={{ width: '100%' }}>
-            {open ? (
-                <Grid
-                    laptopL={2}
-                    desktop={2}
-                    desktopL={1.5}
-                >
-                    <MyAccountPanelInterfaceContainer>
-                        <MyAccountPanelInterfaceToolbarContainer>
-                            <MyAccountPanelInterfaceToolbarWrapper>
-                                <MyAccountPanelInterfaceToolbarText>Toolbar</MyAccountPanelInterfaceToolbarText>
-                                <MyAccountPanelInterfaceToolbarArrowLeft onClick={handleDrawerClose}></MyAccountPanelInterfaceToolbarArrowLeft>
-                            </MyAccountPanelInterfaceToolbarWrapper>
-                        </MyAccountPanelInterfaceToolbarContainer>
 
-                        <MyAccountPanelInterfaceToolbarButtonsContainer>
-                            <Box sx={{ height: '100%' }}>
-                                {myAccountPanelInterfaceButtons.map((button, index) => {
-                                    return (
-                                        <Link style={{ textDecoration: "none" }} to={`${button.route}`} key={index} >
-                                            <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} />
-                                        </Link>
-                                    );
-                                })}
-                            </Box>
-
-                            <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
-                                <Link to="/home">
-                                    <MyAccountPanelInterfaceToolbarButtonLogout
-                                        onClick={handleLogout}
-                                        disableRipple>
-                                        Logout
-                                    </MyAccountPanelInterfaceToolbarButtonLogout>
-                                </Link>
-                            </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
-                        </MyAccountPanelInterfaceToolbarButtonsContainer>
-                    </MyAccountPanelInterfaceContainer>
-                </Grid>
-            ) : (
-                <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>
-            )}
-
-
-            <Grid
-                laptopL={10}
-                desktop={open ? 10 : 12} desktopL={10.5}
+        <Box
+            sx={{
+                display: 'flex'
+            }}
+        >
+            <Drawer
+                sx={{
+                    '& .MuiDrawer-paper': {
+                        position: 'inherit',
+                        width: '320px',
+                        backgroundColor: 'rgba(0, 0, 0, 0)',
+                        overflow: 'hidden',
+                    }
+                }}
+                variant="persistent"
+                anchor="left"
+                open={open}
             >
+                <MyAccountPanelInterfaceContainer open={open}>
+                    <MyAccountPanelInterfaceToolbarContainer>
+                        <MyAccountPanelInterfaceToolbarWrapper>
+                            <MyAccountPanelInterfaceToolbarText>Toolbar</MyAccountPanelInterfaceToolbarText>
+                            <MyAccountPanelInterfaceToolbarArrowLeft onClick={handleDrawerClose}></MyAccountPanelInterfaceToolbarArrowLeft>
+                        </MyAccountPanelInterfaceToolbarWrapper>
+                    </MyAccountPanelInterfaceToolbarContainer>
+
+                    <MyAccountPanelInterfaceToolbarButtonsContainer>
+                        <Box sx={{ height: '100%' }}>
+                            {myAccountPanelInterfaceButtons.map((button, index) => {
+                                return (
+                                    <Link style={{ textDecoration: "none" }} to={`${button.route}`} key={index} >
+                                        <MyAccountPanelInterfaceItem context={button.title} icon={button.icon} />
+                                    </Link>
+                                );
+                            })}
+                        </Box>
+
+                        <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
+                            <Link to="/home">
+                                <MyAccountPanelInterfaceToolbarButtonLogout
+                                    onClick={handleLogout}
+                                    disableRipple>
+                                    Logout
+                                </MyAccountPanelInterfaceToolbarButtonLogout>
+                            </Link>
+                        </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
+                    </MyAccountPanelInterfaceToolbarButtonsContainer>
+                </MyAccountPanelInterfaceContainer>
+
+
+            </Drawer>
+            <Box
+                sx={{
+                    width: '100%',
+                    transition: theme.transitions.create('margin', {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.leavingScreen,
+                    }),
+                    marginLeft: `-${drawerWidth}px`,
+                    ...(open && {
+                        transition: theme.transitions.create('margin', {
+                            easing: theme.transitions.easing.easeOut,
+                            duration: theme.transitions.duration.enteringScreen,
+                        }),
+                        marginLeft: 0,
+                    }),
+                }}
+            >
+                {!open && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>}
                 <Outlet></Outlet>
-            </Grid>
-        </Grid>
+            </Box>
+
+        </Box>
     )
 }
 

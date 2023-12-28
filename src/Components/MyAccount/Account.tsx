@@ -5,7 +5,10 @@ import { useAppSelector } from '../../app/hooks'
 import { UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
-
+import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
+interface Props {
+    open: boolean
+}
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const [password, setPassword] = useState('');
@@ -40,7 +43,7 @@ const Account = () => {
                                 borderWidth: '3px',
                                 marginTop: '20px'
                             }} />
-
+                       
                         <Grid container sx={{ width: '100%', minHeight: '445px' }}>
                             <Grid
                                 desktop={5.25} desktopOffset={0}

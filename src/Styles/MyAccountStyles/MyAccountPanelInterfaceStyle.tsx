@@ -2,7 +2,9 @@ import { Box, Button, Typography, styled } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
+export const MyAccountPanelInterfaceContainer = styled(Box, {
+    shouldForwardProp: (prop) => prop !== 'open'
+})<any>(({ theme, open }) => ({
     width: '100%',
     height: '700px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
@@ -13,7 +15,7 @@ export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
     },
     [theme.breakpoints.up('desktopL')]: {
         minHeight: '810px',
-    },
+    }
 }));
 
 export const MyAccountPanelInterfaceToolbarContainer = styled(Box)(({ theme }) => ({
@@ -56,8 +58,8 @@ export const MyAccountPanelInterfaceToolbarArrowRight = styled(ArrowCircleRightO
         color: 'rgba(219, 0, 219, 1)',
     },
     position: 'absolute',
-    top: '130px',
-    left: '30px'
+    top: '200px',
+    right: '130px'
 }));
 
 export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) => ({

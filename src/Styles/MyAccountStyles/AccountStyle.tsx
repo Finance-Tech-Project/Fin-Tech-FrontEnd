@@ -1,6 +1,7 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
     minHeight: '720px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     [theme.breakpoints.up('desktop')]: {
