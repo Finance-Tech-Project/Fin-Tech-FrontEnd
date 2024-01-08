@@ -1,31 +1,36 @@
 import React, { useEffect, useState } from 'react'
 import { AccountButtonUpdate, AccountContainer, AccountItemContainer, AccountTitle, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
-import { Divider } from '@mui/material'
-import { useAppSelector } from '../../app/hooks'
+import { Box, Divider } from '@mui/material'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
-interface Props {
-    open: boolean
-}
+import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
+
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
+    const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const dispatch = useAppDispatch();
 
     const handleClear = () => {
-		setPassword('');
-		setFirstName('');
-		setLastName('');
-		setEmail('');
-	};
+        setPassword('');
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+    };
 
-	useEffect(() => {
-		return () => handleClear();
-	}, []);
+    const handleDrawerOpen = () => {
+        dispatch(setOpenColseToolbar(true));
+    };
+
+    useEffect(() => {
+        return () => handleClear();
+    }, []);
 
     return (
         <AccountContainer>
@@ -35,7 +40,11 @@ const Account = () => {
                     desktop={11} desktopOffset={0.5}
                 >
                     <AccountWrapper>
-                        <AccountTitle>My Account</AccountTitle>
+                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <AccountTitle>My Account</AccountTitle>
+                            {!openCloseToolbar && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>}
+                        </Box>
+
                         <Divider orientation='horizontal'
                             sx={{
                                 backgroundColor: '#966fbd',
@@ -43,7 +52,7 @@ const Account = () => {
                                 borderWidth: '3px',
                                 marginTop: '20px'
                             }} />
-                       
+
                         <Grid container sx={{ width: '100%', minHeight: '445px' }}>
                             <Grid
                                 desktop={5.25} desktopOffset={0}

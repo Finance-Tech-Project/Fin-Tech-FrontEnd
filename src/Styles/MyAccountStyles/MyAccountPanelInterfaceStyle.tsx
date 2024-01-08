@@ -57,9 +57,9 @@ export const MyAccountPanelInterfaceToolbarArrowRight = styled(ArrowCircleRightO
     '&:hover': {
         color: 'rgba(219, 0, 219, 1)',
     },
-    position: 'absolute',
-    top: '200px',
-    right: '130px'
+    // position: 'absolute',
+    // top: '200px',
+    // right: '130px'
 }));
 
 export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) => ({

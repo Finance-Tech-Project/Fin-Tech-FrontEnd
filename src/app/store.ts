@@ -9,6 +9,7 @@ import { generalAppReducer} from '../Reducers/generalAppReducer';
 import { userReducer } from '../Reducers/userReducer';
 import { tokenReducer } from '../Reducers/tokenReducer';
 import { userExceptionsReducer } from '../Reducers/userExeptionsReducer';
+import { accountInterfaceReducer } from '../Reducers/accountInterfaceReducer';
 
 export const store = configureStore({
 	reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
 		generalAppReducer: generalAppReducer,
 		userReducer: userReducer,
 		tokenReducer: tokenReducer,
-		userExceptionsReducer: userExceptionsReducer
+		userExceptionsReducer: userExceptionsReducer,
+		accountInterfaceReducer: accountInterfaceReducer
 	},
 });
 

@@ -19,20 +19,16 @@ import { userLogout } from '../../Reducers/userReducer';
 import { deleteToken } from '../../Reducers/tokenReducer';
 import { Link, Outlet } from 'react-router-dom';
 import { theme } from '../../Constants/MaterialConstants/theme';
+import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 
 const MyAccountPanelInterface = () => {
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
-    const [open, setOpen] = React.useState(false);
+    const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const dispatch = useAppDispatch();
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
     const handleDrawerClose = () => {
-        setOpen(false);
+        dispatch(setOpenColseToolbar(false));
     };
-
 
     const handleLogout = () => {
         dispatch(userLogout());
@@ -42,9 +38,12 @@ const MyAccountPanelInterface = () => {
     };
 
     useEffect(() => {
-        displaySize > theme.breakpoints.values.laptopL && setOpen(true);
+        if (displaySize > theme.breakpoints.values.laptopL) {
+            dispatch(setOpenColseToolbar(true));
+        }
     }, [displaySize]);
     const drawerWidth = 320;
+
     return (
 
         <Box
@@ -63,7 +62,7 @@ const MyAccountPanelInterface = () => {
                 }}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={openCloseToolbar}
             >
                 <MyAccountPanelInterfaceContainer open={open}>
                     <MyAccountPanelInterfaceToolbarContainer>
@@ -106,7 +105,7 @@ const MyAccountPanelInterface = () => {
                         duration: theme.transitions.duration.leavingScreen,
                     }),
                     marginLeft: `-${drawerWidth}px`,
-                    ...(open && {
+                    ...(openCloseToolbar && {
                         transition: theme.transitions.create('margin', {
                             easing: theme.transitions.easing.easeOut,
                             duration: theme.transitions.duration.enteringScreen,
@@ -115,7 +114,7 @@ const MyAccountPanelInterface = () => {
                     }),
                 }}
             >
-                {!open && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>}
+                {/* {!open && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>} */}
                 <Outlet></Outlet>
             </Box>
 

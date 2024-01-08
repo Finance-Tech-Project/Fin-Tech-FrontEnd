@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    open: false
+    openCloseToolbar: false
 };
 
 const accountInterfaceSlice = createSlice({
@@ -9,7 +9,10 @@ const accountInterfaceSlice = createSlice({
     initialState: initialState,
     reducers: {
         setOpenColseToolbar(state, action: PayloadAction<boolean>) {
-           state.open = action.payload; 
+           state.openCloseToolbar = action.payload; 
         }
     }
 });
+
+export const {setOpenColseToolbar} = accountInterfaceSlice.actions;
+export const accountInterfaceReducer = accountInterfaceSlice.reducer;
