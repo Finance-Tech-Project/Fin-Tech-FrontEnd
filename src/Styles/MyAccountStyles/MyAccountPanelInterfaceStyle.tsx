@@ -2,9 +2,7 @@ import { Box, Button, Typography, styled } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-export const MyAccountPanelInterfaceContainer = styled(Box, {
-    shouldForwardProp: (prop) => prop !== 'open'
-})<any>(({ theme, open }) => ({
+export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme}) => ({
     width: '100%',
     height: '700px',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',

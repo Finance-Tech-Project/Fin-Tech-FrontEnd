@@ -58,10 +58,14 @@ function App() {
 				<Route path={headerButtons[2].route} element={<Stocks />} />
 				<Route path={headerButtons[3].route} element={<Analytics />} />
 				<Route path={headerButtons[4].route} element={<Contacts />} />
-				<Route path={headerButtons[5].route} element={userProfile ? <MyAccount /> : <Navigate to={`/${headerButtonsLogin[0].route}`} /> } >
+				<Route path={headerButtons[5].route} 
+					element={userProfile ? <MyAccount /> : <Navigate to={`/${headerButtonsLogin[0].route}`} />}
+					
+				>
 					<Route path={myAccountPanelInterfaceButtons[0].route} element={<Account />} />
 					<Route path={myAccountPanelInterfaceButtons[1].route} element={<Watchlist />} />
 					<Route path={myAccountPanelInterfaceButtons[2].route} element={<Portfolio />} />
+					{/* <Route index element={<Account />} /> */}
 				</Route>
 
 				{headerButtonsLogin.map((path) => {

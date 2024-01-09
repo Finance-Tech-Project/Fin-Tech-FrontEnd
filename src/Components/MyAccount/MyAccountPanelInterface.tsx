@@ -1,9 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import {
     MyAccountPanelInterfaceContainer,
     MyAccountPanelInterfaceToolbarArrowLeft,
-    MyAccountPanelInterfaceToolbarArrowRight,
     MyAccountPanelInterfaceToolbarButtonLogout,
     MyAccountPanelInterfaceToolbarButtonLogoutContainer,
     MyAccountPanelInterfaceToolbarButtonsContainer,
@@ -11,13 +10,13 @@ import {
     MyAccountPanelInterfaceToolbarText,
     MyAccountPanelInterfaceToolbarWrapper
 } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
-import { Box, Collapse, Drawer } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import MyAccountPanelInterfaceItem from './MyAccounPaneltInterfaceItem';
 import { myAccountPanelInterfaceButtons } from '../../Constants/ProjectConstants/myAccountPanelInterfaceConstants';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { userLogout } from '../../Reducers/userReducer';
 import { deleteToken } from '../../Reducers/tokenReducer';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 
@@ -25,7 +24,7 @@ const MyAccountPanelInterface = () => {
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const dispatch = useAppDispatch();
-
+    let navigate = useNavigate();
     const handleDrawerClose = () => {
         dispatch(setOpenColseToolbar(false));
     };
@@ -41,16 +40,13 @@ const MyAccountPanelInterface = () => {
         if (displaySize > theme.breakpoints.values.laptopL) {
             dispatch(setOpenColseToolbar(true));
         }
+        navigate("/my_account/account")
     }, [displaySize]);
     const drawerWidth = 320;
 
     return (
 
-        <Box
-            sx={{
-                display: 'flex'
-            }}
-        >
+        <Box sx={{display: 'flex'}}>
             <Drawer
                 sx={{
                     '& .MuiDrawer-paper': {
@@ -64,7 +60,7 @@ const MyAccountPanelInterface = () => {
                 anchor="left"
                 open={openCloseToolbar}
             >
-                <MyAccountPanelInterfaceContainer open={open}>
+                <MyAccountPanelInterfaceContainer>
                     <MyAccountPanelInterfaceToolbarContainer>
                         <MyAccountPanelInterfaceToolbarWrapper>
                             <MyAccountPanelInterfaceToolbarText>Toolbar</MyAccountPanelInterfaceToolbarText>
@@ -94,9 +90,8 @@ const MyAccountPanelInterface = () => {
                         </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                     </MyAccountPanelInterfaceToolbarButtonsContainer>
                 </MyAccountPanelInterfaceContainer>
-
-
             </Drawer>
+
             <Box
                 sx={{
                     width: '100%',
@@ -111,10 +106,9 @@ const MyAccountPanelInterface = () => {
                             duration: theme.transitions.duration.enteringScreen,
                         }),
                         marginLeft: 0,
-                    }),
+                    })
                 }}
             >
-                {/* {!open && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>} */}
                 <Outlet></Outlet>
             </Box>
 
