@@ -1,9 +1,10 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
-    minHeight: '720px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
+    [theme.breakpoints.up('laptopL')]: {
+        minHeight: '700px',
+    },
     [theme.breakpoints.up('desktop')]: {
         minHeight: '720px',
     },
@@ -24,8 +25,8 @@ export const AccountWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const AccountItemContainer = styled(Box)(({ theme }) => ({
-    display: 'flex', 
-    justifyContent: 'space-between', 
+    display: 'flex',
+    justifyContent: 'space-between',
     paddingTop: '30px'
 }));
 

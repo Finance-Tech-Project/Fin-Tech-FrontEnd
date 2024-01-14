@@ -2,7 +2,7 @@ import { Avatar, Box, Typography, styled } from "@mui/material";
 
 export const MyAccountHeaderContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    minHeight: '96px',
+    minHeight: '92px',
     backgroundColor: 'rgba(4, 3, 28, 1)',
     display: 'flex',
     alignItems: 'center',

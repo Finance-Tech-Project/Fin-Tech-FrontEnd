@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react'
 import {
+    DrawerStyle,
+    MyAccountItemContainer,
     MyAccountPanelInterfaceContainer,
     MyAccountPanelInterfaceToolbarArrowLeft,
     MyAccountPanelInterfaceToolbarButtonLogout,
@@ -21,10 +23,10 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 
 const MyAccountPanelInterface = () => {
-    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const dispatch = useAppDispatch();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+
     const handleDrawerClose = () => {
         dispatch(setOpenColseToolbar(false));
     };
@@ -37,26 +39,20 @@ const MyAccountPanelInterface = () => {
     };
 
     useEffect(() => {
-        if (displaySize > theme.breakpoints.values.laptopL) {
-            dispatch(setOpenColseToolbar(true));
-        }
         navigate("/my_account/account")
-    }, [displaySize]);
-    const drawerWidth = 320;
+    }, []);
 
+    
     return (
-
-        <Box sx={{display: 'flex'}}>
+        <Box 
+            sx={{ 
+                display: 'flex',
+                
+            }}
+        >
             <Drawer
-                sx={{
-                    '& .MuiDrawer-paper': {
-                        position: 'inherit',
-                        width: '320px',
-                        backgroundColor: 'rgba(0, 0, 0, 0)',
-                        overflow: 'hidden',
-                    }
-                }}
-                variant="persistent"
+                sx={() => DrawerStyle(theme)}
+                // variant="persistent"
                 anchor="left"
                 open={openCloseToolbar}
             >
@@ -69,7 +65,7 @@ const MyAccountPanelInterface = () => {
                     </MyAccountPanelInterfaceToolbarContainer>
 
                     <MyAccountPanelInterfaceToolbarButtonsContainer>
-                        <Box sx={{ height: '100%' }}>
+                        <Box>
                             {myAccountPanelInterfaceButtons.map((button, index) => {
                                 return (
                                     <Link style={{ textDecoration: "none" }} to={`${button.route}`} key={index} >
@@ -92,26 +88,9 @@ const MyAccountPanelInterface = () => {
                 </MyAccountPanelInterfaceContainer>
             </Drawer>
 
-            <Box
-                sx={{
-                    width: '100%',
-                    transition: theme.transitions.create('margin', {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.leavingScreen,
-                    }),
-                    marginLeft: `-${drawerWidth}px`,
-                    ...(openCloseToolbar && {
-                        transition: theme.transitions.create('margin', {
-                            easing: theme.transitions.easing.easeOut,
-                            duration: theme.transitions.duration.enteringScreen,
-                        }),
-                        marginLeft: 0,
-                    })
-                }}
-            >
+            <MyAccountItemContainer>
                 <Outlet></Outlet>
-            </Box>
-
+            </MyAccountItemContainer>
         </Box>
     )
 }

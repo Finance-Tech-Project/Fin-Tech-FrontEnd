@@ -1,5 +1,7 @@
 import React from 'react'
 import { MyAccountPanelInterfaceToolbarButtons, MyAccountPanelInterfaceToolbarButtonsItem } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
+import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
+import { useAppDispatch } from '../../app/hooks'
 
 
 interface Props {
@@ -8,10 +10,15 @@ interface Props {
 }
 
 const MyAccountPanelInterfaceItem = ({context, icon}: Props) => {
+    const dispatch = useAppDispatch();
 
     return (
         <MyAccountPanelInterfaceToolbarButtonsItem>
-            <MyAccountPanelInterfaceToolbarButtons disableRipple startIcon={icon}>{context}</MyAccountPanelInterfaceToolbarButtons>
+            <MyAccountPanelInterfaceToolbarButtons 
+                onClick={() =>  dispatch(setOpenColseToolbar(false))} 
+                disableRipple 
+                startIcon={icon}
+            >{context}</MyAccountPanelInterfaceToolbarButtons>
         </MyAccountPanelInterfaceToolbarButtonsItem> 
     )
 }

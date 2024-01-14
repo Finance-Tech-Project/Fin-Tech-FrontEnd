@@ -7,10 +7,12 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
+import { theme } from '../../Constants/MaterialConstants/theme'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
+    const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -36,6 +38,8 @@ const Account = () => {
         <AccountContainer>
             <Grid container>
                 <Grid
+                    tablet={11} tabletOffset={0.5}
+                    laptop={11} laptopOffset={0.5}
                     laptopL={11} laptopLOffset={0.5}
                     desktop={11} desktopOffset={0.5}
                 >
@@ -53,8 +57,21 @@ const Account = () => {
                                 marginTop: '20px'
                             }} />
 
-                        <Grid container sx={{ width: '100%', minHeight: '445px' }}>
+                        <Grid container
+                            sx={{
+                                width: '100%',
+                                minHeight: '445px',
+                                [theme.breakpoints.up('mobileS')]: {
+                                    flexDirection: 'column'
+                                },
+                                [theme.breakpoints.up('laptopL')]: {
+                                    flexDirection: 'row'
+                                },
+                            }}
+                        >
                             <Grid
+
+                                laptopL={!openCloseToolbar ? 4.5 : 6} laptopLOffset={0}
                                 desktop={5.25} desktopOffset={0}
                             >
                                 <AccountItemContainer>
@@ -88,21 +105,38 @@ const Account = () => {
                                 </AccountItemContainer>
                             </Grid>
 
-                            <Grid sx={{ display: 'flex', justifyContent: 'center' }}
-                                desktop={0.5} desktopOffset={0.5}
-                            >
-                                <Divider orientation='vertical'
+                            {displaySize > theme.breakpoints.values.laptop ?
+                                <Grid
                                     sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center'
+                                    }}
+                                    laptopL={0.5} laptopLOffset={!openCloseToolbar ? 1 : 0.5}
+                                    desktop={0.5} desktopOffset={0.5}
+                                >
+                                    <Divider orientation='vertical'
+                                        sx={{
+                                            borderWidth: '3px',
+                                            backgroundColor: '#966fbd',
+                                            height: '98.5%'
+                                        }}
+                                    />
+                                </Grid>
+                                :
+                                <Divider orientation='horizontal'
+                                    sx={{
+                                        marginTop: '10px',
                                         borderWidth: '3px',
                                         backgroundColor: '#966fbd',
-                                        height: '98.5%'
-                                    }} />
-                            </Grid>
+                                    }}
+                                />
+                            }
+
 
                             <Grid sx={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                                laptopL={!openCloseToolbar ? 5 : 4.5} laptopLOffset={!openCloseToolbar ? 1 : 0.5}
                                 desktop={5.25} desktopOffset={0.5}
                             >
-
                                 <LoginRegisterTextField
                                     marginRight
                                     marginBottom
@@ -149,7 +183,6 @@ const Account = () => {
                                     type="password"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                                 />
-
                                 <AccountButtonUpdate>Update</AccountButtonUpdate>
                             </Grid>
                         </Grid>

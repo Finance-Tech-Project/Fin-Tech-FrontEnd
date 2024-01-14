@@ -21,7 +21,7 @@ export const MyAccountBlackoutContainer = styled(Box)(({ theme }) => ({
 
 export const MyAccountFooterContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    minHeight: '96px',
+    minHeight: '92px',
     backgroundColor: 'rgba(4, 3, 28, 1)',
     display: 'flex',
     alignItems: 'center',

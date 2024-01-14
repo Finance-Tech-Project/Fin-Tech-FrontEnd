@@ -1,26 +1,36 @@
-import { Box, Button, Typography, styled } from "@mui/material";
+import { Box, Button, Theme, Typography, styled } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
-export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme}) => ({
-    width: '100%',
-    height: '700px',
+export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
+    width: '99%',
+    height: '100%',
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     boxShadow: '10px 5px 10px 0px rgba(65, 6, 240, 0.5)',
-    [theme.breakpoints.up('desktop')]: {
-        minHeight: '720px',
-    },
-    [theme.breakpoints.up('desktopL')]: {
-        minHeight: '810px',
+}));
+
+export const DrawerStyle = (theme: Theme) => ({
+    '& .MuiDrawer-paper': {
+        width: '320px',
+        height: '99.7vh',
+        backgroundColor: 'rgba(44, 9, 81, 1)',
+        // border: '2px solid rgba(70, 75, 114, 0.8)',
+        overflow: 'hidden',
+        overflowY: 'visible',
     }
+});
+
+export const MyAccountItemContainer = styled(Box)(({ theme }) => ({
+    width: '100%'
 }));
 
 export const MyAccountPanelInterfaceToolbarContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    height: '100px',
+    height: '92px',
     borderBottom: '2px solid rgba(70, 75, 114, 0.8)',
     boxShadow: '5px 5px 15px 5px rgba(65, 6, 240, 0.5)'
+
 }));
 
 export const MyAccountPanelInterfaceToolbarWrapper = styled(Box)(({ theme }) => ({
@@ -54,10 +64,7 @@ export const MyAccountPanelInterfaceToolbarArrowRight = styled(ArrowCircleRightO
     cursor: 'pointer',
     '&:hover': {
         color: 'rgba(219, 0, 219, 1)',
-    },
-    // position: 'absolute',
-    // top: '200px',
-    // right: '130px'
+    }
 }));
 
 export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) => ({
@@ -82,6 +89,7 @@ export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) 
 
 export const MyAccountPanelInterfaceToolbarButtonLogout = styled(Button)(({ theme }) => ({
     width: '250px',
+    height: '92px',
     color: 'rgba(255, 146, 255, 1)',
     fontSize: '1.7rem',
     fontWeight: '400',
@@ -92,16 +100,10 @@ export const MyAccountPanelInterfaceToolbarButtonLogout = styled(Button)(({ them
 }));
 
 export const MyAccountPanelInterfaceToolbarButtonsContainer = styled(Box)(({ theme }) => ({
-    minHeight: '620px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    [theme.breakpoints.up('desktop')]: {
-        minHeight: '620px',
-    },
-    [theme.breakpoints.up('desktopL')]: {
-        minHeight: '710px',
-    },
+    height: '89vh'
 }));
 
 export const MyAccountPanelInterfaceToolbarButtonsItem = styled(Box)(({ theme }) => ({
@@ -113,7 +115,7 @@ export const MyAccountPanelInterfaceToolbarButtonsItem = styled(Box)(({ theme })
 
 export const MyAccountPanelInterfaceToolbarButtonLogoutContainer = styled(Box)(({ theme }) => ({
     width: '100%',
-    height: '100px',
+    height: '92px',
     borderTop: '2px solid rgba(70, 75, 114, 0.8)',
     boxShadow: '0px -5px 15px 5px rgba(65, 6, 240, 0.5)',
     display: 'flex',
