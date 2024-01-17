@@ -3,19 +3,18 @@ import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutl
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 
 export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
-    width: '99%',
     height: '100%',
-    backgroundColor: 'rgba(4, 3, 28, 0.6)',
-    border: '2px solid rgba(70, 75, 114, 0.8)',
-    boxShadow: '10px 5px 10px 0px rgba(65, 6, 240, 0.5)',
+    border: '2px solid rgba(150, 111, 189, 1)',
+    borderTop: 'none',
+    borderBottom: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
 }));
 
 export const DrawerStyle = (theme: Theme) => ({
     '& .MuiDrawer-paper': {
         width: '320px',
-        height: '99.7vh',
-        backgroundColor: 'rgba(44, 9, 81, 1)',
-        // border: '2px solid rgba(70, 75, 114, 0.8)',
         overflow: 'hidden',
         overflowY: 'visible',
     }
@@ -28,14 +27,15 @@ export const MyAccountItemContainer = styled(Box)(({ theme }) => ({
 export const MyAccountPanelInterfaceToolbarContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     height: '92px',
-    borderBottom: '2px solid rgba(70, 75, 114, 0.8)',
-    boxShadow: '5px 5px 15px 5px rgba(65, 6, 240, 0.5)'
-
+    borderBottom: '2px solid rgba(150, 111, 189, 1)',
+    backgroundColor: 'rgba(4, 3, 28, 1)',
+    boxShadow: '0px 5px 15px 5px rgba(65, 6, 240, 0.5)',
+    zIndex: 1
 }));
 
 export const MyAccountPanelInterfaceToolbarWrapper = styled(Box)(({ theme }) => ({
     width: '90%',
-    height: '100%',
+    height: '92px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -87,9 +87,20 @@ export const MyAccountPanelInterfaceToolbarButtons = styled(Button)(({ theme }) 
     }
 }));
 
+export const MyAccountPanelInterfaceToolbarButtonLogoutContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    minHeight: '93px',
+    borderTop: '2px solid rgba(150, 111, 189, 1)',
+    backgroundColor: 'rgba(4, 3, 28, 1)',
+    boxShadow: '0px -5px 15px 5px rgba(65, 6, 240, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+}));
+
 export const MyAccountPanelInterfaceToolbarButtonLogout = styled(Button)(({ theme }) => ({
     width: '250px',
-    height: '92px',
+    minHeight: '93px',
     color: 'rgba(255, 146, 255, 1)',
     fontSize: '1.7rem',
     fontWeight: '400',
@@ -102,8 +113,8 @@ export const MyAccountPanelInterfaceToolbarButtonLogout = styled(Button)(({ them
 export const MyAccountPanelInterfaceToolbarButtonsContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '89vh'
+    backgroundColor: 'rgba(44, 9, 81, 1)',
+    height: '100%'
 }));
 
 export const MyAccountPanelInterfaceToolbarButtonsItem = styled(Box)(({ theme }) => ({
@@ -113,12 +124,3 @@ export const MyAccountPanelInterfaceToolbarButtonsItem = styled(Box)(({ theme })
     alignItems: 'center'
 }));
 
-export const MyAccountPanelInterfaceToolbarButtonLogoutContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: '92px',
-    borderTop: '2px solid rgba(70, 75, 114, 0.8)',
-    boxShadow: '0px -5px 15px 5px rgba(65, 6, 240, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-}));

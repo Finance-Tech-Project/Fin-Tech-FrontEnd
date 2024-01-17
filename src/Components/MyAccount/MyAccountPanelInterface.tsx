@@ -42,19 +42,21 @@ const MyAccountPanelInterface = () => {
         navigate("/my_account/account")
     }, []);
 
-    
+
     return (
-        <Box 
-            sx={{ 
-                display: 'flex',
-                
-            }}
-        >
+        <Box>
             <Drawer
                 sx={() => DrawerStyle(theme)}
-                // variant="persistent"
                 anchor="left"
                 open={openCloseToolbar}
+                ModalProps={{
+                    sx: {
+                        '& .MuiBackdrop-root': {
+                            position: 'absolute',
+                           
+                        }
+                    }
+                }}
             >
                 <MyAccountPanelInterfaceContainer>
                     <MyAccountPanelInterfaceToolbarContainer>
@@ -74,17 +76,17 @@ const MyAccountPanelInterface = () => {
                                 );
                             })}
                         </Box>
-
-                        <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
-                            <Link to="/home">
-                                <MyAccountPanelInterfaceToolbarButtonLogout
-                                    onClick={handleLogout}
-                                    disableRipple>
-                                    Logout
-                                </MyAccountPanelInterfaceToolbarButtonLogout>
-                            </Link>
-                        </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                     </MyAccountPanelInterfaceToolbarButtonsContainer>
+
+                    <MyAccountPanelInterfaceToolbarButtonLogoutContainer>
+                        <Link to="/home">
+                            <MyAccountPanelInterfaceToolbarButtonLogout
+                                onClick={handleLogout}
+                                disableRipple>
+                                Logout
+                            </MyAccountPanelInterfaceToolbarButtonLogout>
+                        </Link>
+                    </MyAccountPanelInterfaceToolbarButtonLogoutContainer>
                 </MyAccountPanelInterfaceContainer>
             </Drawer>
 

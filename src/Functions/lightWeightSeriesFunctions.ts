@@ -97,7 +97,6 @@ export const changeChartTypeSeries = (
     symbolData: Array<TickerDataType>,
     symbolVolume: Array<TickerDataVolumeType>,
     seriesName: string,
-    movAvg?: AnalyticInterface,
     simpleIncome?: AnalyticInterface,
     volatility?: AnalyticInterface,
     sharpRatio?: AnalyticInterface

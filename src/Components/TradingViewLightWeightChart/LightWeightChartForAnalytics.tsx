@@ -95,7 +95,6 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedOnCom
 			tickerData,
 			tickerVolume,
 			seriesName!,
-			movAvgData,
 			simpleIncomeData,
 			volatilityData,
 			sharpRatioData
@@ -118,20 +117,13 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedOnCom
 		simpleIncome.period,
 		volatility.period,
 		sharpRatio.period,
-		movAvgData.data,
-		// simpleIncomeData.data,
-		// simpleIncomeData.dataToCompare,
-		// volatilityData.data,
-		// volatilityData.dataToCompare,
-		// sharpRatioData.data,
-		// sharpRatioData.dataToCompare
+		movAvgData.data
 	]);
 
 	return (
 		<ChartContainer ref={chartContainerRef} >
 			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedOnCompareTwoStocksButton} />
-			<Chart {...chartContainerRef.current} autoSize={true}>
-			</Chart>
+			<Chart />
 		</ChartContainer>
 	)
 }
