@@ -49,14 +49,6 @@ const MyAccountPanelInterface = () => {
                 sx={() => DrawerStyle(theme)}
                 anchor="left"
                 open={openCloseToolbar}
-                ModalProps={{
-                    sx: {
-                        '& .MuiBackdrop-root': {
-                            position: 'absolute',
-                           
-                        }
-                    }
-                }}
             >
                 <MyAccountPanelInterfaceContainer>
                     <MyAccountPanelInterfaceToolbarContainer>

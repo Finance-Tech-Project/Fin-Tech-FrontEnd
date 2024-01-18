@@ -6,7 +6,7 @@ export const AccountContainer = styled(Box)(({ theme }) => ({
         minHeight: '700px',
     },
     [theme.breakpoints.up('desktop')]: {
-        minHeight: '720px',
+        minHeight: '725px',
     },
     [theme.breakpoints.up('desktopL')]: {
         minHeight: '812px',
@@ -25,9 +25,16 @@ export const AccountWrapper = styled(Box)(({ theme }) => ({
 }));
 
 export const AccountItemContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    paddingTop: '30px'
+    paddingTop: '30px',
+    [theme.breakpoints.up('mobileL')]: {
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up('tablet')]: {
+        flexDirection: 'row'
+    },
 }));
 
 export const AccountTitle = styled(Typography)(({ theme }) => ({
@@ -40,7 +47,10 @@ export const AccountTitle = styled(Typography)(({ theme }) => ({
 
 export const AccountTypography = styled(Typography)(({ theme }) => ({
     color: 'white',
-    fontSize: '1.8rem'
+    fontSize: '1.8rem',
+    [theme.breakpoints.up('mobileL')]: {
+        textAlign: 'center',
+    },
 }));
 
 export const AccountButtonUpdate = styled(Button)(({ theme }) => ({

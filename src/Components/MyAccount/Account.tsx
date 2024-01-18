@@ -37,12 +37,7 @@ const Account = () => {
     return (
         <AccountContainer>
             <Grid container>
-                <Grid
-                    tablet={11} tabletOffset={0.5}
-                    laptop={11} laptopOffset={0.5}
-                    laptopL={11} laptopLOffset={0.5}
-                    desktop={11} desktopOffset={0.5}
-                >
+                <Grid mobileS={11} mobileSOffset={0.5}>
                     <AccountWrapper>
                         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <AccountTitle>My Account</AccountTitle>
@@ -70,8 +65,8 @@ const Account = () => {
                             }}
                         >
                             <Grid
-
-                                laptopL={!openCloseToolbar ? 4.5 : 6} laptopLOffset={0}
+                                mobileL={12}
+                                laptopL={4.5} laptopLOffset={0}
                                 desktop={5.25} desktopOffset={0}
                             >
                                 <AccountItemContainer>
@@ -101,17 +96,22 @@ const Account = () => {
 
                                 <AccountItemContainer>
                                     <AccountTypography>Email:</AccountTypography>
-                                    <AccountTypography>{userProfile?.email}</AccountTypography>
+                                    <Box>
+                                        <AccountTypography>{userProfile?.email.split("@")[0]}</AccountTypography>
+                                        <AccountTypography>{userProfile?.email.split("@")[1].concat("@")}</AccountTypography>
+                                    </Box>
+                                    
                                 </AccountItemContainer>
                             </Grid>
 
-                            {displaySize > theme.breakpoints.values.laptop ?
+                            {displaySize > theme.breakpoints.values.laptopL - 1 ?
                                 <Grid
                                     sx={{
+                                        width: '100%',
                                         display: 'flex',
                                         justifyContent: 'center'
                                     }}
-                                    laptopL={0.5} laptopLOffset={!openCloseToolbar ? 1 : 0.5}
+                                    laptopL={0.5} laptopLOffset={1}
                                     desktop={0.5} desktopOffset={0.5}
                                 >
                                     <Divider orientation='vertical'
@@ -125,6 +125,7 @@ const Account = () => {
                                 :
                                 <Divider orientation='horizontal'
                                     sx={{
+                                        width: '100%',
                                         marginTop: '10px',
                                         borderWidth: '3px',
                                         backgroundColor: '#966fbd',
@@ -132,9 +133,8 @@ const Account = () => {
                                 />
                             }
 
-
                             <Grid sx={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
-                                laptopL={!openCloseToolbar ? 5 : 4.5} laptopLOffset={!openCloseToolbar ? 1 : 0.5}
+                                laptopL={5} laptopLOffset={1}
                                 desktop={5.25} desktopOffset={0.5}
                             >
                                 <LoginRegisterTextField
