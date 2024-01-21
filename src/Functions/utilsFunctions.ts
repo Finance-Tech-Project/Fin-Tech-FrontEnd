@@ -210,3 +210,9 @@ export const transformPassword = (password: string) => {
     const pattern = /.+/g;
     return password.split("").map((letter) => letter.replace(pattern, "*")).join("");
 };
+
+export const divineForSignEmail = (email: string) => {
+    const arr = email.split("@")[1].split("");
+    arr.unshift("@");
+    return arr.join("");
+};

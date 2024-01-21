@@ -5,8 +5,6 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 export const MyAccountPanelInterfaceContainer = styled(Box)(({ theme }) => ({
     height: '100%',
     border: '2px solid rgba(150, 111, 189, 1)',
-    borderTop: 'none',
-    borderBottom: 'none',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between'

@@ -1,4 +1,4 @@
-import { Box, Button, Typography, styled } from "@mui/material";
+import { Box, Button, Theme, Typography, styled } from "@mui/material";
 
 export const AccountContainer = styled(Box)(({ theme }) => ({
     border: '2px solid rgba(70, 75, 114, 0.8)',
@@ -18,23 +18,68 @@ export const AccountWrapper = styled(Box)(({ theme }) => ({
     backgroundColor: 'rgba(4, 3, 28, 0.6)',
     boxShadow: '10px 10px 46px 0px rgba(65, 6, 240, 0.79)',
     margin: '50px 0px 50px 0',
-    borderTopLeftRadius: '120px',
-    borderBottomRightRadius: '120px',
-    padding: '50px 50px',
-    minHeight: '516px'
+    minHeight: '516px',
+    [theme.breakpoints.up('mobileS')]: {
+        borderTopLeftRadius: '0px',
+        borderBottomRightRadius: '0px',
+        padding: '25px 25px',
+    },
+    [theme.breakpoints.up('tablet')]: {
+        borderTopLeftRadius: '120px',
+        borderBottomRightRadius: '120px',
+        padding: '50px 50px',
+    }
 }));
+
+export const AccountTitleContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+}));
+
+export const AccountMainGridContainerStyle = (theme: Theme) => ({
+    width: '100%',
+    minHeight: '445px',
+    [theme.breakpoints.up('mobileS')]: {
+        flexDirection: 'column'
+    },
+    [theme.breakpoints.up('laptopL')]: {
+        flexDirection: 'row'
+    }
+});
+
+export const AccountTextFieldsGridStyle = (theme: Theme) => ({
+    paddingTop: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+});
+
+export const AccountDividerGridStyle = (theme: Theme) => ({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center'
+});
 
 export const AccountItemContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     paddingTop: '30px',
-    [theme.breakpoints.up('mobileL')]: {
+    [theme.breakpoints.up('mobileS')]: {
         flexDirection: 'column'
     },
     [theme.breakpoints.up('tablet')]: {
         flexDirection: 'row'
     },
+}));
+
+export const AccountItemTypographyEmailContainer = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    [theme.breakpoints.down('tablet')]: {
+        flexDirection: 'column'
+    }
 }));
 
 export const AccountTitle = styled(Typography)(({ theme }) => ({
@@ -48,7 +93,7 @@ export const AccountTitle = styled(Typography)(({ theme }) => ({
 export const AccountTypography = styled(Typography)(({ theme }) => ({
     color: 'white',
     fontSize: '1.8rem',
-    [theme.breakpoints.up('mobileL')]: {
+    [theme.breakpoints.down('tablet')]: {
         textAlign: 'center',
     },
 }));

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { AccountButtonUpdate, AccountContainer, AccountItemContainer, AccountTitle, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
-import { Box, Divider } from '@mui/material'
+import { AccountButtonUpdate, AccountContainer, AccountDividerGridStyle, AccountItemContainer, AccountItemTypographyEmailContainer, AccountMainGridContainerStyle, AccountTextFieldsGridStyle, AccountTitle, AccountTitleContainer, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
+import { Divider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
@@ -8,6 +8,7 @@ import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRe
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
 import { theme } from '../../Constants/MaterialConstants/theme'
+import { divineForSignEmail } from '../../Functions/utilsFunctions'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -39,10 +40,10 @@ const Account = () => {
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
                     <AccountWrapper>
-                        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <AccountTitleContainer>
                             <AccountTitle>My Account</AccountTitle>
                             {!openCloseToolbar && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>}
-                        </Box>
+                        </AccountTitleContainer>
 
                         <Divider orientation='horizontal'
                             sx={{
@@ -52,18 +53,7 @@ const Account = () => {
                                 marginTop: '20px'
                             }} />
 
-                        <Grid container
-                            sx={{
-                                width: '100%',
-                                minHeight: '445px',
-                                [theme.breakpoints.up('mobileS')]: {
-                                    flexDirection: 'column'
-                                },
-                                [theme.breakpoints.up('laptopL')]: {
-                                    flexDirection: 'row'
-                                },
-                            }}
-                        >
+                        <Grid container sx={() => AccountMainGridContainerStyle(theme)}>
                             <Grid
                                 mobileL={12}
                                 laptopL={4.5} laptopLOffset={0}
@@ -96,21 +86,15 @@ const Account = () => {
 
                                 <AccountItemContainer>
                                     <AccountTypography>Email:</AccountTypography>
-                                    <Box>
+                                    <AccountItemTypographyEmailContainer>
                                         <AccountTypography>{userProfile?.email.split("@")[0]}</AccountTypography>
-                                        <AccountTypography>{userProfile?.email.split("@")[1].concat("@")}</AccountTypography>
-                                    </Box>
-                                    
+                                        <AccountTypography>{divineForSignEmail(userProfile?.email!)}</AccountTypography>
+                                    </AccountItemTypographyEmailContainer>
                                 </AccountItemContainer>
                             </Grid>
 
                             {displaySize > theme.breakpoints.values.laptopL - 1 ?
-                                <Grid
-                                    sx={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        justifyContent: 'center'
-                                    }}
+                                <Grid sx={() => AccountDividerGridStyle(theme)}
                                     laptopL={0.5} laptopLOffset={1}
                                     desktop={0.5} desktopOffset={0.5}
                                 >
@@ -123,17 +107,19 @@ const Account = () => {
                                     />
                                 </Grid>
                                 :
-                                <Divider orientation='horizontal'
-                                    sx={{
-                                        width: '100%',
-                                        marginTop: '10px',
-                                        borderWidth: '3px',
-                                        backgroundColor: '#966fbd',
-                                    }}
-                                />
+                                <Grid>
+                                    <Divider orientation='horizontal'
+                                        sx={{
+                                            marginTop: '10px',
+                                            borderWidth: '3px',
+                                            backgroundColor: '#966fbd',
+                                        }}
+                                    />
+                                </Grid>
                             }
 
-                            <Grid sx={{ paddingTop: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}
+                            <Grid sx={() => AccountTextFieldsGridStyle(theme)}
+                                mobileL={12}
                                 laptopL={5} laptopLOffset={1}
                                 desktop={5.25} desktopOffset={0.5}
                             >
