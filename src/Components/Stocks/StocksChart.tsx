@@ -13,6 +13,9 @@ import { createCandlesData, createHistogramLineAreaData } from '../../Functions/
 import { getDataInInterval } from '../../Functions/utilsFunctions';
 import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { addSymbolToWatchList } from '../../Actions/fetchWatchListActions';
+import { LocaleStorageType, UserProfile } from '../../Types/LoginRegisterTypes';
+import { useNavigate } from 'react-router-dom';
 interface AutocompleteOption {
 	name: string,
 	companyName: string
@@ -24,6 +27,7 @@ interface Props {
 
 const StocksChart = ({ handleClickStatistics }: Props) => {
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
+	const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const interval: string = useAppSelector(state => state.intervalDataReducer);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
@@ -31,6 +35,19 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
+	const navigate = useNavigate();
+
+	const handleAddToWatchList = () => {
+		if (userProfile === null) {
+			navigate("/signIn");
+		} else {
+			const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!); 
+			const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
+			const token = locStorage.token === null ? sesStorage.token : locStorage.token;
+			console.log(token)
+			dispatch(addSymbolToWatchList(userProfile.login, token!, symbolName));
+		} 
+	};
 
 	const getTickers = async () => {
 		const allTickers: Array<TickerType> | undefined = await getSeacrhedSymbols(letters);
@@ -79,7 +96,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			getDataTicker();
 		}
 	}, [symbolName, interval, data, getDataInInterval(data, interval).length > 0]);
-
+	
 	return (
 		<StocksChartContainer>
 			<StocksChartSearchTickerContainer>
@@ -136,7 +153,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 
 				<StockChartButtonsContainer>
 					<MainButton onClick={handleClickStatistics} marginTop marginTop320 width sx={{ marginRight: '30px' }}>Get Statistics</MainButton>
-					<MainButton marginTop marginTop320 width>Add to watchlist</MainButton>
+					<MainButton marginTop marginTop320 width onClick={handleAddToWatchList}>Add to watchlist</MainButton>
 				</StockChartButtonsContainer>
 			</StocksChartSearchTickerContainer>
 

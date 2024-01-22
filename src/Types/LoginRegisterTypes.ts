@@ -4,7 +4,8 @@ export interface UserProfile {
     lastName: string,
     email: string,
     role?: string,
-    passwordSymbols?: string
+    passwordSymbols?: string,
+    token?: string 
 }
 
 export interface UserRegister extends UserProfile {
@@ -24,5 +25,13 @@ export interface UserExceptions {
 export interface LocaleStorageType {
     value: UserProfile,
     expiry: string,
-    passwordSymbols: string
+    passwordSymbols: string,
+    token: string
+}
+
+export interface UpdateUserProfile {
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
 }

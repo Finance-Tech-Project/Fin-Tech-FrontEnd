@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TickerDataVolumeType } from "../Types/TickersTypes";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
 
-
 interface AnalyticInterfaceReducer {
     movAvg: AnalyticInterface,
     simpleIncome: AnalyticInterface,

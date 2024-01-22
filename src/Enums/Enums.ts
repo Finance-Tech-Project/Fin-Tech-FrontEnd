@@ -57,6 +57,13 @@ export enum FetchConstantsForLoginRegister {
     LOGOUT = "logout"
 }
 
+export enum FetchConstantsForWatchListPortfolio {
+    ADD_TO_WATCHLIST = "/addToWatchList",
+    PORTFOLIO = "/portfolio",
+    USER_NAME = "?userName=",
+    SYMBOL = "&symbol="
+}
+
 export enum DefaultPeriods {
     SimpleIncomeDefaultPeriod = 2,
     VolatilityDefaultPeriod = 500,

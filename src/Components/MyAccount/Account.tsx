@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { AccountButtonUpdate, AccountContainer, AccountDividerGridStyle, AccountItemContainer, AccountItemTypographyEmailContainer, AccountMainGridContainerStyle, AccountTextFieldsGridStyle, AccountTitle, AccountTitleContainer, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
 import { Divider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { UserProfile } from '../../Types/LoginRegisterTypes'
+import { UpdateUserProfile, UserProfile } from '../../Types/LoginRegisterTypes'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle'
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
@@ -25,6 +25,10 @@ const Account = () => {
         setFirstName('');
         setLastName('');
         setEmail('');
+    };
+
+    const handleUpdate = () => {
+        // TODO
     };
 
     const handleDrawerOpen = () => {
@@ -169,7 +173,7 @@ const Account = () => {
                                     type="password"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                                 />
-                                <AccountButtonUpdate>Update</AccountButtonUpdate>
+                                <AccountButtonUpdate onClick={handleUpdate}>Update</AccountButtonUpdate>
                             </Grid>
                         </Grid>
                     </AccountWrapper>

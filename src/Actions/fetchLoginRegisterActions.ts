@@ -58,6 +58,7 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
                 if (response.ok) {
                     const data: UserProfile = await response.json();
                     data.passwordSymbols = passwordSymbols;
+                    data.token = token;
                     dispatch(putUser(data));
                     dispatch(putToken(token));
                     sessionStorage.setItem('userData', JSON.stringify(data));
@@ -65,7 +66,8 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
                         const userDataItem: LocaleStorageType = {
                             value: data,
                             expiry: getExpiredDate(),
-                            passwordSymbols: passwordSymbols
+                            passwordSymbols: passwordSymbols,
+                            token: token
                         };
                         localStorage.setItem('userData', JSON.stringify(userDataItem));
                     }
@@ -87,5 +89,11 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
             dispatch(putUser(storage.value));
             dispatch(putToken(token));
         }
+    }
+};
+
+export const updateUser = () => {
+    return async (dispatch: AppDispatch) => {
+        // TODO
     }
 };
