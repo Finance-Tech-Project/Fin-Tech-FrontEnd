@@ -26,14 +26,14 @@ export enum IntervalsFullName {
 }
 
 export enum FetchConstants {
-    BASE_URL = "http://fin-tech-backend.eu-north-1.elasticbeanstalk.com/", 
-    BASE_URL_LOCAL = "http://localhost:5000", 
+    BASE_URL = "http://fintechserver.eu-north-1.elasticbeanstalk.com", 
+    BASE_URL_LOCAL  = "http://localhost:5000", 
     START = "/start",
     SYMBOLS = "/symbols",
     SEARCH_SYMBOLS = "/searchSymbol/?search=",
     QUOTE_HISTORY = "/quote/history?",
     STATISTICS = "/statistics?ticker=",
-    ANALYTICS = "/analitics",
+    ANALYTICS = "/analytics",
     MOV_AVG = "/movAvg?",
     SIMPLE_INCOME = "/simpleIncome?",
     VOLATILITY = "/volatility?",
