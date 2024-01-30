@@ -27,7 +27,7 @@ export enum IntervalsFullName {
 
 export enum FetchConstants {
     BASE_URL = "http://fintechserver.eu-north-1.elasticbeanstalk.com", 
-    BASE_URL_LOCAL  = "http://localhost:5000", 
+    BASE_URL_LOCAL = "http://localhost:5000", 
     START = "/start",
     SYMBOLS = "/symbols",
     SEARCH_SYMBOLS = "/searchSymbol/?search=",
@@ -54,7 +54,8 @@ export enum FetchConstantsForLoginRegister {
     PASSWORD = "/password",
     RECOVERY = "recovery",
     ROLE = "/role",
-    LOGOUT = "logout"
+    LOGOUT = "logout",
+    UPDATE = "/update/"
 }
 
 export enum FetchConstantsForWatchListPortfolio {

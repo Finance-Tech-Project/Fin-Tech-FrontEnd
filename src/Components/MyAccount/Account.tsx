@@ -9,10 +9,12 @@ import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccount
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { divineForSignEmail } from '../../Functions/utilsFunctions'
+import { updateUser } from '../../Actions/fetchLoginRegisterActions'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
+    const token: string | null = useAppSelector(state => state.tokenReducer);
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -28,7 +30,13 @@ const Account = () => {
     };
 
     const handleUpdate = () => {
-        // TODO
+        const userUpdate: UpdateUserProfile = {
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+        };
+        dispatch(updateUser(userUpdate, userProfile?.login!, token!));
     };
 
     const handleDrawerOpen = () => {

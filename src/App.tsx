@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 import { getSymbolDataForDefaultPeriod } from './Actions/fetchDispatchActions';
 import { putDesktopMobile, putDisplaySize } from './Reducers/generalAppReducer';
 import { userLogout } from './Reducers/userReducer';
-import { deleteToken } from './Reducers/tokenReducer';
+import { deleteToken, putToken } from './Reducers/tokenReducer';
 import { myAccountPanelInterfaceButtons } from './Constants/ProjectConstants/myAccountPanelInterfaceConstants';
 import Account from './Components/MyAccount/Account';
 import Watchlist from './Components/MyAccount/Watchlist';
@@ -37,6 +37,13 @@ function App() {
 		}
 	};
 
+	const getTokenFromStorageIfPageReloaded = () => {
+		if (userProfile !== null) {
+			const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
+			dispatch(putToken(sesStorage.token!));
+		}
+	};
+
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			dispatch(putDisplaySize(window.screen.width));
@@ -47,7 +54,8 @@ function App() {
 		});
 		dispatch(getSymbolDataForDefaultPeriod(symbolName));
 		clearLocalStorageIfDateExpired();
-	}, [symbolName]);
+		getTokenFromStorageIfPageReloaded();
+	}, [symbolName, userProfile]);
 
 	return (
 		<Grid container>

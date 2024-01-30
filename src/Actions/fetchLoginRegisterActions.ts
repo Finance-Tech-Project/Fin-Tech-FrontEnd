@@ -3,7 +3,7 @@ import { createToken, getExpiredDate } from "../Functions/utilsFunctions";
 import { putToken } from "../Reducers/tokenReducer";
 import { putUserException } from "../Reducers/userExeptionsReducer";
 import { putUser } from "../Reducers/userReducer";
-import { Exception, LocaleStorageType, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
+import { Exception, LocaleStorageType, UpdateUserProfile, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
 import { AppDispatch } from "../app/store";
 
 export const registerUser = (user: UserRegister, passwordSymbols: string) => {
@@ -92,8 +92,28 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
     }
 };
 
-export const updateUser = () => {
+export const updateUser = (userUpdate: UpdateUserProfile, login: string, token: string) => {
     return async (dispatch: AppDispatch) => {
-        // TODO
+        try {
+            const response = await fetch(`${
+                FetchConstants.BASE_URL + 
+                FetchConstantsForLoginRegister.ACCOUNT +
+                FetchConstantsForLoginRegister.USER + 
+                FetchConstantsForLoginRegister.UPDATE + login
+            }`, {
+                method: 'PUT',
+                headers: {
+                    Authorization: token,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userUpdate)  
+            });
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+            }
+        } catch (error) {
+            
+        }
     }
 };
