@@ -4,7 +4,7 @@ import { putToken } from "../Reducers/tokenReducer";
 import { putUserException } from "../Reducers/userExeptionsReducer";
 import { putUser } from "../Reducers/userReducer";
 import { Exception, LocaleStorageType, UpdateUserProfile, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
-import { AppDispatch } from "../app/store";
+import { AppDispatch, RootState } from "../app/store";
 
 export const registerUser = (user: UserRegister, passwordSymbols: string) => {
     return async (dispatch: AppDispatch) => {
@@ -92,28 +92,23 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
     }
 };
 
-export const updateUser = (userUpdate: UpdateUserProfile, login: string, token: string) => {
-    return async (dispatch: AppDispatch) => {
+export const updateUser = (userUpdate: UpdateUserProfile, login: string, passwordSymbols: string) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {        
         try {
-            const response = await fetch(`${
-                FetchConstants.BASE_URL + 
+            await fetch(`${FetchConstants.BASE_URL +
                 FetchConstantsForLoginRegister.ACCOUNT +
-                FetchConstantsForLoginRegister.USER + 
+                FetchConstantsForLoginRegister.USER +
                 FetchConstantsForLoginRegister.UPDATE + login
-            }`, {
+                }`, {
                 method: 'PUT',
+                body: JSON.stringify(userUpdate),
                 headers: {
-                    Authorization: token,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userUpdate)  
+                    Authorization: getState().tokenReducer!,
+                    'Content-Type': 'application/json'
+                }
             });
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data);
-            }
         } catch (error) {
-            
+
         }
     }
 };

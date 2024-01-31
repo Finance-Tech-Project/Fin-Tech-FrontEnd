@@ -8,19 +8,22 @@ import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRe
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
 import { theme } from '../../Constants/MaterialConstants/theme'
-import { divineForSignEmail } from '../../Functions/utilsFunctions'
+import { divineForSignEmail, transformPassword } from '../../Functions/utilsFunctions'
 import { updateUser } from '../../Actions/fetchLoginRegisterActions'
+import { useNavigate } from 'react-router-dom'
+import { userLogout } from '../../Reducers/userReducer'
+import { deleteToken } from '../../Reducers/tokenReducer'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
-    const token: string | null = useAppSelector(state => state.tokenReducer);
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const handleClear = () => {
         setPassword('');
@@ -36,7 +39,12 @@ const Account = () => {
             firstName: firstName,
             lastName: lastName
         };
-        dispatch(updateUser(userUpdate, userProfile?.login!, token!));
+        dispatch(updateUser(userUpdate, userProfile?.login!, transformPassword(password)));
+        dispatch(userLogout());
+        dispatch(deleteToken());
+        sessionStorage.clear();
+        localStorage.removeItem('userData');
+        navigate("/signIn");
     };
 
     const handleDrawerOpen = () => {
@@ -45,7 +53,7 @@ const Account = () => {
 
     useEffect(() => {
         return () => handleClear();
-    }, []);
+    }, [userProfile]);
 
     return (
         <AccountContainer>
@@ -175,12 +183,13 @@ const Account = () => {
 
                                 <LoginRegisterTextField
                                     variant='outlined'
-                                    fullWidth label="Password"
+                                    fullWidth label="New Password"
                                     autoComplete="Password"
                                     required
                                     type="password"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                                 />
+
                                 <AccountButtonUpdate onClick={handleUpdate}>Update</AccountButtonUpdate>
                             </Grid>
                         </Grid>

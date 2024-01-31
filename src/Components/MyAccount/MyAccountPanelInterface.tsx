@@ -36,6 +36,7 @@ const MyAccountPanelInterface = () => {
         dispatch(deleteToken());
         sessionStorage.clear();
         localStorage.removeItem('userData');
+        dispatch(setOpenColseToolbar(false));
     };
 
     useEffect(() => {

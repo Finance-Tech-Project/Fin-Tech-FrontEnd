@@ -40,7 +40,9 @@ function App() {
 	const getTokenFromStorageIfPageReloaded = () => {
 		if (userProfile !== null) {
 			const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
-			dispatch(putToken(sesStorage.token!));
+			if (sesStorage.token) {
+				dispatch(putToken(sesStorage.token!));
+			}
 		}
 	};
 
@@ -66,7 +68,7 @@ function App() {
 				<Route path={headerButtons[2].route} element={<Stocks />} />
 				<Route path={headerButtons[3].route} element={<Analytics />} />
 				<Route path={headerButtons[4].route} element={<Contacts />} />
-				<Route path={headerButtons[5].route} 
+				<Route path={headerButtons[5].route}
 					element={userProfile ? <MyAccount /> : <Navigate to={`/${headerButtonsLogin[0].route}`} />}
 				>
 					<Route path={myAccountPanelInterfaceButtons[0].route} element={<Account />} />
