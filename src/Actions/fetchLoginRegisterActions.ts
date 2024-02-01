@@ -1,12 +1,14 @@
+import { NavigateFunction } from "react-router-dom";
 import { FetchConstants, FetchConstantsForLoginRegister } from "../Enums/Enums";
 import { createToken, getExpiredDate } from "../Functions/utilsFunctions";
+import { putPasswordSymbols } from "../Reducers/generalAppReducer";
 import { putToken } from "../Reducers/tokenReducer";
 import { putUserException } from "../Reducers/userExeptionsReducer";
 import { putUser } from "../Reducers/userReducer";
-import { Exception, LocaleStorageType, UpdateUserProfile, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
+import { Exception, LocaleStorageType, SessionStorageType, UpdateUserProfile, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
 import { AppDispatch, RootState } from "../app/store";
 
-export const registerUser = (user: UserRegister, passwordSymbols: string) => {
+export const registerUser = (user: UserRegister, passwordSymbols: string, navigate: NavigateFunction) => {
     return async (dispatch: AppDispatch) => {
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
@@ -21,9 +23,10 @@ export const registerUser = (user: UserRegister, passwordSymbols: string) => {
             });
             if (response.ok) {
                 const data: UserProfile = await response.json();
-                data.passwordSymbols = passwordSymbols;
                 dispatch(putUser(data));
                 dispatch(putToken(createToken(user.login, user.password)));
+                dispatch(putPasswordSymbols(passwordSymbols));
+                navigate("/home");
             } else {
                 const errorStatus = response.status + '';
                 throw new Error(errorStatus);
@@ -57,11 +60,21 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
                 });
                 if (response.ok) {
                     const data: UserProfile = await response.json();
-                    data.passwordSymbols = passwordSymbols;
-                    data.token = token;
                     dispatch(putUser(data));
                     dispatch(putToken(token));
-                    sessionStorage.setItem('userData', JSON.stringify(data));
+                    dispatch(putPasswordSymbols(passwordSymbols));
+
+                    const sesionStorageData: SessionStorageType = {
+                        passwordSymbols: passwordSymbols,
+                        token: token,
+                        login: data.login,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        email: data.email,
+                        role: data.role
+                    };
+                    sessionStorage.setItem('userData', JSON.stringify(sesionStorageData));
+
                     if (rememberLogin) {
                         const userDataItem: LocaleStorageType = {
                             value: data,
@@ -79,7 +92,7 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
                 if (error instanceof Error) {
                     const exception: Exception = {
                         exceptionType: parseInt(error.message),
-                        exceptionMessage: "You entered is not valid user name or password or you not have account in this site. Please enter correct user name and password or go in page sign up and create you account."
+                        exceptionMessage: "The username or password you entered is invalid, or you do not have an account on this site. Please enter the correct username and password, or go to the sign-up page to create your account."
                     };
                     dispatch(putUserException(exception));
                 }
@@ -95,7 +108,7 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
 export const updateUser = (userUpdate: UpdateUserProfile, login: string, passwordSymbols: string) => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {        
         try {
-            await fetch(`${FetchConstants.BASE_URL +
+            const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstantsForLoginRegister.ACCOUNT +
                 FetchConstantsForLoginRegister.USER +
                 FetchConstantsForLoginRegister.UPDATE + login
@@ -107,8 +120,55 @@ export const updateUser = (userUpdate: UpdateUserProfile, login: string, passwor
                     'Content-Type': 'application/json'
                 }
             });
+            if (response.ok) {
+                const data: UserProfile = await response.json();  
+                dispatch(putUser(data));
+                dispatch(putToken(createToken(login, userUpdate.password)));
+                dispatch(putPasswordSymbols(passwordSymbols));
+
+                const sesionStorageData: SessionStorageType = {
+                    passwordSymbols: passwordSymbols,
+                    token: createToken(login, userUpdate.password),
+                    login: data.login,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                    role: data.role
+                };
+                
+                sessionStorage.setItem('userData', JSON.stringify(sesionStorageData));
+                const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!);
+
+                if (locStorage !== null) {
+                    localStorage.setItem('userData', JSON.stringify(data));
+                }
+            }
         } catch (error) {
 
+        }
+    }
+};
+
+export const deleteUser = (login: string) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        try {
+            const response = await fetch(`${
+                FetchConstants.BASE_URL +
+                FetchConstantsForLoginRegister.ACCOUNT + 
+                FetchConstantsForLoginRegister.REMOVE_USER + login
+            }`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: getState().tokenReducer!,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                const user: UserProfile = await response.json();
+                console.log(user)
+            }
+        } catch (error) {
+            
         }
     }
 };

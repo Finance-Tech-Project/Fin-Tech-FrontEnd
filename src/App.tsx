@@ -20,7 +20,7 @@ import { myAccountPanelInterfaceButtons } from './Constants/ProjectConstants/myA
 import Account from './Components/MyAccount/Account';
 import Watchlist from './Components/MyAccount/Watchlist';
 import Portfolio from './Components/MyAccount/Portfolio';
-import { UserProfile } from './Types/LoginRegisterTypes';
+import { SessionStorageType, UserProfile } from './Types/LoginRegisterTypes';
 
 function App() {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
@@ -39,8 +39,8 @@ function App() {
 
 	const getTokenFromStorageIfPageReloaded = () => {
 		if (userProfile !== null) {
-			const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
-			if (sesStorage.token) {
+			const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
+			if (sesStorage && sesStorage.token) {
 				dispatch(putToken(sesStorage.token!));
 			}
 		}

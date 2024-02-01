@@ -14,7 +14,7 @@ import { getDataInInterval } from '../../Functions/utilsFunctions';
 import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { addSymbolToWatchList } from '../../Actions/fetchWatchListActions';
-import { LocaleStorageType, UserProfile } from '../../Types/LoginRegisterTypes';
+import { LocaleStorageType, SessionStorageType, UserProfile } from '../../Types/LoginRegisterTypes';
 import { useNavigate } from 'react-router-dom';
 interface AutocompleteOption {
 	name: string,
@@ -42,9 +42,8 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			navigate("/signIn");
 		} else {
 			const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!); 
-			const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
+			const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
 			const token = locStorage.token === null ? sesStorage.token : locStorage.token;
-			console.log(token)
 			dispatch(addSymbolToWatchList(userProfile.login, token!, symbolName));
 		} 
 	};

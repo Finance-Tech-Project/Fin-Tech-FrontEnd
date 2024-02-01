@@ -8,15 +8,17 @@ import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRe
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
 import { theme } from '../../Constants/MaterialConstants/theme'
-import { divineForSignEmail, transformPassword } from '../../Functions/utilsFunctions'
-import { updateUser } from '../../Actions/fetchLoginRegisterActions'
-import { useNavigate } from 'react-router-dom'
+import {  divineForSignEmail, transformPassword } from '../../Functions/utilsFunctions'
+import { deleteUser, updateUser } from '../../Actions/fetchLoginRegisterActions'
 import { userLogout } from '../../Reducers/userReducer'
 import { deleteToken } from '../../Reducers/tokenReducer'
+import { useNavigate } from 'react-router-dom'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
+    const passwordSymbols: string = useAppSelector(state => state.generalAppReducer.passwordSymbols);
+    const token: string | null = useAppSelector(state => state.tokenReducer);
     const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -40,11 +42,16 @@ const Account = () => {
             lastName: lastName
         };
         dispatch(updateUser(userUpdate, userProfile?.login!, transformPassword(password)));
+       handleClear();
+    };
+
+    const handleDeleteAccount = () => {
+        dispatch(deleteUser(userProfile?.login!));
         dispatch(userLogout());
         dispatch(deleteToken());
         sessionStorage.clear();
         localStorage.removeItem('userData');
-        navigate("/signIn");
+        navigate("/home");
     };
 
     const handleDrawerOpen = () => {
@@ -53,7 +60,7 @@ const Account = () => {
 
     useEffect(() => {
         return () => handleClear();
-    }, [userProfile]);
+    }, [userProfile, token]);
 
     return (
         <AccountContainer>
@@ -101,7 +108,7 @@ const Account = () => {
 
                                 <AccountItemContainer>
                                     <AccountTypography>Password:</AccountTypography>
-                                    <AccountTypography>{userProfile?.passwordSymbols && userProfile?.passwordSymbols}</AccountTypography>
+                                    <AccountTypography>{passwordSymbols}</AccountTypography>
                                 </AccountItemContainer>
 
                                 <AccountItemContainer>
@@ -111,6 +118,8 @@ const Account = () => {
                                         <AccountTypography>{divineForSignEmail(userProfile?.email!)}</AccountTypography>
                                     </AccountItemTypographyEmailContainer>
                                 </AccountItemContainer>
+
+                                <AccountButtonUpdate onClick={handleDeleteAccount}>Delete Account</AccountButtonUpdate>
                             </Grid>
 
                             {displaySize > theme.breakpoints.values.laptopL - 1 ?
@@ -154,6 +163,7 @@ const Account = () => {
                                     id="firstName"
                                     label="First Name"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFirstName(event.target.value.trim())}
+                                    value={firstName}
                                 />
 
                                 <LoginRegisterTextField
@@ -166,6 +176,7 @@ const Account = () => {
                                     name="lastName"
                                     autoComplete="lname"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
+                                    value={lastName}
                                 />
 
                                 <LoginRegisterTextField
@@ -179,6 +190,7 @@ const Account = () => {
                                     autoComplete="email"
                                     type="email"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
+                                    value={email}
                                 />
 
                                 <LoginRegisterTextField
@@ -188,6 +200,7 @@ const Account = () => {
                                     required
                                     type="password"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
+                                    value={password}
                                 />
 
                                 <AccountButtonUpdate onClick={handleUpdate}>Update</AccountButtonUpdate>

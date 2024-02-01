@@ -66,7 +66,7 @@ export const AccountItemContainer = styled(Box)(({ theme }) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
-    paddingTop: '30px',
+    paddingTop: '20px',
     [theme.breakpoints.up('mobileS')]: {
         flexDirection: 'column'
     },

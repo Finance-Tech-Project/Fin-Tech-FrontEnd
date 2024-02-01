@@ -18,6 +18,7 @@ import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
 import LoginExceptionModal from './LoginExceptionModal';
 import { transformPassword } from '../../Functions/utilsFunctions';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -26,9 +27,10 @@ const Register = () => {
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleSignUp = () => {
-		dispatch(registerUser({ login, password, firstName, lastName, email}, transformPassword(password)));
+		dispatch(registerUser({ login, password, firstName, lastName, email}, transformPassword(password), navigate));
 	};
 
 	const handleClear = () => {

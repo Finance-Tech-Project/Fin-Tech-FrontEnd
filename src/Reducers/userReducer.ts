@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { LocaleStorageType, UserProfile } from "../Types/LoginRegisterTypes";
+import { LocaleStorageType, SessionStorageType, UserProfile } from "../Types/LoginRegisterTypes";
 
 const checkStoragesAndGetData = () => {
-    const sesStorage: UserProfile = JSON.parse(sessionStorage.getItem('userData')!);
+    const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
     const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!);
     if (sesStorage || locStorage) {
         const initialState: UserProfile = {
@@ -10,8 +10,7 @@ const checkStoragesAndGetData = () => {
             firstName: sesStorage ? sesStorage.firstName : locStorage.value.firstName,
             lastName: sesStorage ? sesStorage.lastName : locStorage.value.lastName,
             email: sesStorage ? sesStorage.email : locStorage.value.email,
-            role: sesStorage ? sesStorage.role : locStorage.value.role,
-            passwordSymbols: sesStorage ? sesStorage.passwordSymbols : locStorage.value.passwordSymbols,
+            role: sesStorage ? sesStorage.role : locStorage.value.role
         }
         return initialState;
     } else return null;

@@ -55,7 +55,8 @@ export enum FetchConstantsForLoginRegister {
     RECOVERY = "recovery",
     ROLE = "/role",
     LOGOUT = "logout",
-    UPDATE = "/update/"
+    UPDATE = "/update/",
+    REMOVE_USER = "/removeUser/"
 }
 
 export enum FetchConstantsForWatchListPortfolio {
