@@ -22,7 +22,8 @@ const LoginExceptionModal = () => {
 		if (userException) {
             handleOpen();
         }
-		return () => navigate("/signIn");
+		// Need to fixed
+		// return () => navigate("/signIn");
 	}, [userException]);
 
 	return (
