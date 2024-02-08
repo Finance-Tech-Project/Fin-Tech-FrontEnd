@@ -17,8 +17,9 @@ import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/Reg
 import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
 import LoginExceptionModal from './LoginExceptionModal';
-import { transformPassword } from '../../Functions/utilsFunctions';
+import { transformPassword, validationEmail } from '../../Functions/utilsFunctions';
 import { useNavigate } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -26,11 +27,14 @@ const Register = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
+	const [emailFocus, setEmailFocus] = useState(false); 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const handleSignUp = () => {
-		dispatch(registerUser({ login, password, firstName, lastName, email}, transformPassword(password), navigate));
+		if (login !== "" && email !== "" && password !== "") {
+			dispatch(registerUser({ login, password, firstName, lastName, email }, transformPassword(password), navigate));
+		}
 	};
 
 	const handleClear = () => {
@@ -39,6 +43,12 @@ const Register = () => {
 		setFirstName('');
 		setLastName('');
 		setEmail('');
+	};
+
+	const handleEmailFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+		if (validationEmail(email)) {
+			console.log('valid')
+		}
 	};
 
 	useEffect(() => {
@@ -65,7 +75,6 @@ const Register = () => {
 							autoComplete="fname"
 							name="firstName"
 							variant="outlined"
-							required
 							fullWidth
 							id="firstName"
 							label="First Name"
@@ -75,7 +84,6 @@ const Register = () => {
 						<LoginRegisterTextField
 							marginBottom
 							variant="outlined"
-							required
 							fullWidth
 							id="lastName"
 							label="Last Name"
@@ -89,6 +97,7 @@ const Register = () => {
 						<LoginRegisterTextField
 							marginRight
 							marginBottom
+							validationColor={login !== "" ? false : true}
 							autoComplete="login"
 							name="login"
 							variant="outlined"
@@ -100,6 +109,7 @@ const Register = () => {
 						/>
 
 						<LoginRegisterTextField
+							validationColor={login !== "" ? false : true}
 							marginBottom
 							variant="outlined"
 							required
@@ -109,6 +119,7 @@ const Register = () => {
 							name="email"
 							autoComplete="email"
 							type="email"
+							onBlur={handleEmailFocus}
 							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
 						/>
 					</RegisterContainerTextField>
@@ -116,6 +127,7 @@ const Register = () => {
 
 				<Grid sx={{ width: '100%' }}>
 					<LoginRegisterTextField
+						validationColor={login !== "" ? false : true}
 						marginTop
 						variant='outlined'
 						fullWidth label="Password"
@@ -124,6 +136,10 @@ const Register = () => {
 						type="password"
 						onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
 					/>
+
+					<Box sx={{paddingTop: '20px'}}>
+						<Typography color="whitesmoke">Fields with symbol * are mandatory</Typography>
+					</Box>
 				</Grid>
 
 				<Grid sx={{ width: '100%' }}>

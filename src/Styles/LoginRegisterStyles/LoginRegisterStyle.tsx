@@ -60,16 +60,16 @@ export const LoginRegisterButton = styled(Button)(({ theme }) => ({
 }));
 
 export const LoginRegisterTextField = styled(TextField, {
-    shouldForwardProp: (prop) => prop !== 'marginRight' && prop !== 'marginBottom' && prop !== 'marginTop'
-})<any>(({ theme, marginRight, marginBottom, marginTop}) => ({
-    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+    shouldForwardProp: (prop) => prop !== 'marginRight' && prop !== 'marginBottom' && prop !== 'marginTop' && prop !== 'validationColor'
+})<any>(({ theme, marginRight, marginBottom, marginTop, validationColor}) => ({
+    boxShadow: !validationColor ? '5px 5px 25px 0px rgba(65, 6, 240, 0.8)' : '5px 5px 25px 0px rgba(253, 0, 0, 0.8)',
     '& .MuiInputBase-input': {
         color: 'white',
         zIndex: 1
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
-            borderColor: 'rgba(37, 59, 227, 0.8)',
+            borderColor: !validationColor ? 'rgba(37, 59, 227, 0.8)' : 'rgba(253, 0, 0, 0.8)',
             borderWidth: '1.5px',
             backgroundColor: 'rgba(1, 17, 36, 0.8)',
             color: 'white',

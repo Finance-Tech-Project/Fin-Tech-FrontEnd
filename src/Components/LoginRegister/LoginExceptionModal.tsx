@@ -4,14 +4,12 @@ import { LoginExceptionModalContainer, LoginExceptionModalTypography } from '../
 import { UserExceptions } from '../../Types/LoginRegisterTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearExceptions } from '../../Reducers/userExeptionsReducer';
-import { useNavigate } from 'react-router-dom';
 
 const LoginExceptionModal = () => {
 	const userException: UserExceptions | null = useAppSelector(state => state.userExceptionsReducer);
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 
 	const handleClose = () => {
 		setOpen(false);
@@ -22,8 +20,6 @@ const LoginExceptionModal = () => {
 		if (userException) {
             handleOpen();
         }
-		// Need to fixed
-		// return () => navigate("/signIn");
 	}, [userException]);
 
 	return (

@@ -216,3 +216,15 @@ export const divineForSignEmail = (email: string) => {
     arr.unshift("@");
     return arr.join("");
 };
+
+export const validationEmail = (email: string) => {
+    // So some of the email addresses that will be valid via this email validation technique are:
+    // username@domain.com
+    // user.name@domain.com
+    // user-name@domain.com
+    // username@domain.co.in
+    // user_name@domain.com
+    const pattern = /^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
+    const regex = new RegExp(pattern);
+    return regex.test(email);
+};
