@@ -20,6 +20,8 @@ import LoginExceptionModal from './LoginExceptionModal';
 import { transformPassword, validationEmail } from '../../Functions/utilsFunctions';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
+import { GeneralTooltipTextFieldEmail } from '../../Styles/AreCommonStyles/AreCommonStyles';
+import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -27,12 +29,19 @@ const Register = () => {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [email, setEmail] = useState('');
-	const [emailFocus, setEmailFocus] = useState(false); 
+	const [openTooltip, setOpenTooltip] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+
 	const handleSignUp = () => {
-		if (login !== "" && email !== "" && password !== "") {
+		if (login !== "" && email !== "" && password !== "" && validationEmail(email)) {
 			dispatch(registerUser({ login, password, firstName, lastName, email }, transformPassword(password), navigate));
 		}
 	};
@@ -45,9 +54,17 @@ const Register = () => {
 		setEmail('');
 	};
 
-	const handleEmailFocus = (event: React.FocusEvent<HTMLInputElement>) => {
-		if (validationEmail(email)) {
-			console.log('valid')
+	const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+		if (validationEmail(event.target.value.trim())) {
+			setEmail(event.target.value.trim());
+			setOpenTooltip(false);
+		} else {
+			setEmail('');
+			setOpenTooltip(true);
+		}
+
+		if (event.target.value.trim() === '') {
+			setOpenTooltip(false);
 		}
 	};
 
@@ -107,37 +124,43 @@ const Register = () => {
 							label="Login"
 							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLogin(event.target.value.trim())}
 						/>
-
-						<LoginRegisterTextField
-							validationColor={login !== "" ? false : true}
-							marginBottom
-							variant="outlined"
-							required
-							fullWidth
-							id="email"
-							label="Email"
-							name="email"
-							autoComplete="email"
-							type="email"
-							onBlur={handleEmailFocus}
-							onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
-						/>
+						<GeneralTooltipTextFieldEmail
+							title="Please enter correct email address for exmpale username@domain.com, user.name@domain.com, user-name@domain.com, username@domain.co.in, user_name@domain.com"
+							open={openTooltip}
+						>
+							<LoginRegisterTextField
+								validationColor={email !== "" ? false : true}
+								marginBottom
+								variant="outlined"
+								required
+								fullWidth
+								id="email"
+								label="Email"
+								name="email"
+								autoComplete="email"
+								type="email"
+								onChange={handleEmail}
+							/>
+						</GeneralTooltipTextFieldEmail>
 					</RegisterContainerTextField>
 				</Grid>
 
 				<Grid sx={{ width: '100%' }}>
 					<LoginRegisterTextField
-						validationColor={login !== "" ? false : true}
+						validationColor={password !== "" ? false : true}
 						marginTop
 						variant='outlined'
 						fullWidth label="Password"
 						autoComplete="Password"
 						required
-						type="password"
 						onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
+						type={showPassword ? 'text' : 'password'}
+                        InputProps={{
+                            endAdornment: visibilityIconsForPassword(showPassword, handleClickShowPassword, handleMouseDownPassword)
+                        }}
 					/>
 
-					<Box sx={{paddingTop: '20px'}}>
+					<Box sx={{ paddingTop: '20px' }}>
 						<Typography color="whitesmoke">Fields with symbol * are mandatory</Typography>
 					</Box>
 				</Grid>

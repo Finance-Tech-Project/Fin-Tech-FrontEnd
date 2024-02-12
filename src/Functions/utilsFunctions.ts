@@ -224,7 +224,7 @@ export const validationEmail = (email: string) => {
     // user-name@domain.com
     // username@domain.co.in
     // user_name@domain.com
-    const pattern = /^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
+    const pattern = /^(?=.{1,64}@)[a-zA-Z0-9_-]+(\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,4})$/;
     const regex = new RegExp(pattern);
     return regex.test(email);
 };

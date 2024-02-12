@@ -8,11 +8,13 @@ import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRe
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle'
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer'
 import { theme } from '../../Constants/MaterialConstants/theme'
-import {  divineForSignEmail, transformPassword } from '../../Functions/utilsFunctions'
+import { divineForSignEmail, transformPassword, validationEmail } from '../../Functions/utilsFunctions'
 import { deleteUser, updateUser } from '../../Actions/fetchLoginRegisterActions'
 import { userLogout } from '../../Reducers/userReducer'
 import { deleteToken } from '../../Reducers/tokenReducer'
 import { useNavigate } from 'react-router-dom'
+import { GeneralTooltipTextFieldEmail } from '../../Styles/AreCommonStyles/AreCommonStyles'
+import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword'
 
 const Account = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -24,8 +26,16 @@ const Account = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [openTooltip, setOpenTooltip] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     const handleClear = () => {
         setPassword('');
@@ -42,7 +52,7 @@ const Account = () => {
             lastName: lastName
         };
         dispatch(updateUser(userUpdate, userProfile?.login!, transformPassword(password)));
-       handleClear();
+        handleClear();
     };
 
     const handleDeleteAccount = () => {
@@ -52,6 +62,20 @@ const Account = () => {
         sessionStorage.clear();
         localStorage.removeItem('userData');
         navigate("/home");
+    };
+
+    const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (validationEmail(event.target.value.trim())) {
+            setEmail(event.target.value.trim());
+            setOpenTooltip(false);
+        } else {
+            setEmail('');
+            setOpenTooltip(true);
+        }
+
+        if (event.target.value.trim() === '') {
+            setOpenTooltip(false);
+        }
     };
 
     const handleDrawerOpen = () => {
@@ -158,7 +182,6 @@ const Account = () => {
                                     autoComplete="fname"
                                     name="firstName"
                                     variant="outlined"
-                                    required
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
@@ -169,7 +192,6 @@ const Account = () => {
                                 <LoginRegisterTextField
                                     marginBottom
                                     variant="outlined"
-                                    required
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
@@ -178,31 +200,32 @@ const Account = () => {
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLastName(event.target.value.trim())}
                                     value={lastName}
                                 />
+                                <GeneralTooltipTextFieldEmail open={openTooltip} title="Please enter correct email address for exmpale username@domain.com, user.name@domain.com, user-name@domain.com, username@domain.co.in, user_name@domain.com">
+                                    <LoginRegisterTextField
+                                        marginBottom
+                                        variant="outlined"
+                                        fullWidth
+                                        id="email"
+                                        label="Email"
+                                        name="email"
+                                        autoComplete="email"
+                                        type="email"
+                                        onChange={handleEmail}
+                                    />
+                                </GeneralTooltipTextFieldEmail>
 
-                                <LoginRegisterTextField
-                                    marginBottom
-                                    variant="outlined"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email"
-                                    name="email"
-                                    autoComplete="email"
-                                    type="email"
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value.trim())}
-                                    value={email}
-                                />
 
                                 <LoginRegisterTextField
                                     variant='outlined'
                                     fullWidth label="New Password"
                                     autoComplete="Password"
-                                    required
-                                    type="password"
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
                                     value={password}
+                                    type={showPassword ? 'text' : 'password'}
+                                    InputProps={{
+                                        endAdornment: visibilityIconsForPassword(showPassword, handleClickShowPassword, handleMouseDownPassword)
+                                    }}
                                 />
-
                                 <AccountButtonUpdate onClick={handleUpdate}>Update</AccountButtonUpdate>
                             </Grid>
                         </Grid>

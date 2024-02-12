@@ -1,4 +1,4 @@
-import { Autocomplete, Theme, Typography, styled } from "@mui/material";
+import { Autocomplete, Theme, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { ComponentName } from "../../Enums/Enums";
 
@@ -108,7 +108,7 @@ export const GeneralDatePickerPopperStyle = (theme: Theme, componentName: string
         width: componentName === ComponentName.Stocks ? (!isMobile ? '547px' : '553px') : (!isMobile ? '359px' : '364px')
     },
     [theme.breakpoints.up('desktop')]: {
-        width: componentName === ComponentName.Stocks ? (!isMobile ? '456px': '461px') : (!isMobile ? '481px' : '485px')
+        width: componentName === ComponentName.Stocks ? (!isMobile ? '456px' : '461px') : (!isMobile ? '481px' : '485px')
     },
     [theme.breakpoints.up('desktopL')]: {
         width: componentName === ComponentName.Stocks ? '298px' : '645px'
@@ -226,4 +226,25 @@ export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({
         fontWeight: 600,
     },
 }));
+
+export const GeneralTooltipTextFieldEmail = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} arrow classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: 'whitesmoke',
+        color: 'black',
+        fontSize: '1rem',
+        [theme.breakpoints.up('mobileS')]: {
+            maxWidth: '285px',
+        },
+        [theme.breakpoints.up('tablet')]: {
+            maxWidth: '400px',
+        }
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+        color: 'whitesmoke'
+    }
+}));
+
+
 

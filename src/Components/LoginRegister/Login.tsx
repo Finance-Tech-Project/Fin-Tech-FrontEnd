@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
 import LoginExceptionModal from './LoginExceptionModal';
+import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -33,7 +34,14 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [checked, setChecked] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked);
@@ -81,6 +89,10 @@ const Login = () => {
                         autoComplete="Password"
                         required
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value.trim())}
+                        type={showPassword ? 'text' : 'password'}
+                        InputProps={{
+                            endAdornment: visibilityIconsForPassword(showPassword, handleClickShowPassword, handleMouseDownPassword)
+                        }}
                     />
 
                     <LoginFormControlLabel sx={{ color: 'whitesmoke' }}
