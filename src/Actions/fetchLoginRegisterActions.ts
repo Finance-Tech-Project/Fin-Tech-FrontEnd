@@ -106,7 +106,8 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
 };
 
 export const updateUser = (userUpdate: UpdateUserProfile, login: string, passwordSymbols: string) => {
-    return async (dispatch: AppDispatch, getState: () => RootState) => {        
+    return async (dispatch: AppDispatch, getState: () => RootState) => {    
+        console.log(userUpdate.password)  
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstantsForLoginRegister.ACCOUNT +
@@ -123,12 +124,12 @@ export const updateUser = (userUpdate: UpdateUserProfile, login: string, passwor
             if (response.ok) {
                 const data: UserProfile = await response.json();  
                 dispatch(putUser(data));
-                dispatch(putToken(createToken(login, userUpdate.password)));
+                dispatch(putToken(userUpdate.password === '' ? getState().tokenReducer! : createToken(login, userUpdate.password)));
                 dispatch(putPasswordSymbols(passwordSymbols));
 
                 const sesionStorageData: SessionStorageType = {
-                    passwordSymbols: passwordSymbols,
-                    token: createToken(login, userUpdate.password),
+                    passwordSymbols: passwordSymbols === '' ? getState().generalAppReducer.passwordSymbols : passwordSymbols,
+                    token: userUpdate.password === '' ? getState().tokenReducer! : createToken(login, userUpdate.password),
                     login: data.login,
                     firstName: data.firstName,
                     lastName: data.lastName,

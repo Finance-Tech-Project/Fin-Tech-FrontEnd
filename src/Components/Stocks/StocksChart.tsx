@@ -28,6 +28,7 @@ interface Props {
 const StocksChart = ({ handleClickStatistics }: Props) => {
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
+	const token: string | null = useAppSelector(state => state.tokenReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const interval: string = useAppSelector(state => state.intervalDataReducer);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
@@ -41,10 +42,10 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 		if (userProfile === null) {
 			navigate("/signIn");
 		} else {
-			const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!); 
-			const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
-			const token = locStorage.token === null ? sesStorage.token : locStorage.token;
-			dispatch(addSymbolToWatchList(userProfile.login, token!, symbolName));
+			// const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!); 
+			// const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
+			// const token = locStorage.token === null ? sesStorage.token : locStorage.token;
+			addSymbolToWatchList(userProfile.login, token!, symbolName);
 		} 
 	};
 

@@ -1,4 +1,4 @@
-import { Autocomplete, Theme, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from "@mui/material";
+import { Autocomplete, Box, Theme, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { ComponentName } from "../../Enums/Enums";
 
@@ -202,6 +202,21 @@ export const GeneralTitleHeader = styled(Typography)(({ theme }) => ({
     [theme.breakpoints.up('tablet')]: {
         paddingTop: '40px',
     }
+}));
+
+export const GeneralAccountsTitleHeader = styled(Typography)(({ theme }) => ({
+    color: ' rgba(255, 196, 0, 1)',
+    fontSize: '1.8rem',
+    fontWeight: 600,
+    textShadow: '5px 5px 6px #ADC5BD',
+    textAlign: 'start'
+}));
+
+export const GeneralAccountTitleContainer = styled(Box)(({ theme }) => ({
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
 }));
 
 export const GeneralStocksBlocksTitle = styled(Typography)(({ theme }) => ({

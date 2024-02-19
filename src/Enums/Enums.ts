@@ -62,6 +62,7 @@ export enum FetchConstantsForLoginRegister {
 export enum FetchConstantsForWatchListPortfolio {
     ADD_TO_WATCHLIST = "/addToWatchList",
     PORTFOLIO = "/portfolio",
+    WATCHLIST = "/watchList",
     USER_NAME = "?userName=",
     SYMBOL = "&symbol="
 }

@@ -31,13 +31,6 @@ export const AccountWrapper = styled(Box)(({ theme }) => ({
     }
 }));
 
-export const AccountTitleContainer = styled(Box)(({ theme }) => ({
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-}));
-
 export const AccountMainGridContainerStyle = (theme: Theme) => ({
     width: '100%',
     minHeight: '445px',
@@ -80,14 +73,6 @@ export const AccountItemTypographyEmailContainer = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('tablet')]: {
         flexDirection: 'column'
     }
-}));
-
-export const AccountTitle = styled(Typography)(({ theme }) => ({
-    color: ' rgba(255, 196, 0, 1)',
-    fontSize: '1.8rem',
-    fontWeight: 600,
-    textShadow: '5px 5px 6px #ADC5BD',
-    textAlign: 'start'
 }));
 
 export const AccountTypography = styled(Typography)(({ theme }) => ({

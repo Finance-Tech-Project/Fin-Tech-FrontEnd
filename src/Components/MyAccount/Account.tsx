@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AccountButtonUpdate, AccountContainer, AccountDividerGridStyle, AccountItemContainer, AccountItemTypographyEmailContainer, AccountMainGridContainerStyle, AccountTextFieldsGridStyle, AccountTitle, AccountTitleContainer, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
+import { AccountButtonUpdate, AccountContainer, AccountDividerGridStyle, AccountItemContainer, AccountItemTypographyEmailContainer, AccountMainGridContainerStyle, AccountTextFieldsGridStyle, AccountTypography, AccountWrapper } from '../../Styles/MyAccountStyles/AccountStyle'
 import { Divider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { UpdateUserProfile, UserProfile } from '../../Types/LoginRegisterTypes'
@@ -13,7 +13,7 @@ import { deleteUser, updateUser } from '../../Actions/fetchLoginRegisterActions'
 import { userLogout } from '../../Reducers/userReducer'
 import { deleteToken } from '../../Reducers/tokenReducer'
 import { useNavigate } from 'react-router-dom'
-import { GeneralTooltipTextFieldEmail } from '../../Styles/AreCommonStyles/AreCommonStyles'
+import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader, GeneralTooltipTextFieldEmail } from '../../Styles/AreCommonStyles/AreCommonStyles'
 import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword'
 
 const Account = () => {
@@ -45,14 +45,19 @@ const Account = () => {
     };
 
     const handleUpdate = () => {
-        const userUpdate: UpdateUserProfile = {
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName
-        };
-        dispatch(updateUser(userUpdate, userProfile?.login!, transformPassword(password)));
-        handleClear();
+        if (validationEmail(email)) {
+            setOpenTooltip(false);
+            const userUpdate: UpdateUserProfile = {
+                email: email,
+                password: password,
+                firstName: firstName,
+                lastName: lastName
+            };
+            dispatch(updateUser(userUpdate, userProfile?.login!, transformPassword(password)));
+            handleClear();
+        } else {
+            setOpenTooltip(true);
+        }
     };
 
     const handleDeleteAccount = () => {
@@ -65,11 +70,10 @@ const Account = () => {
     };
 
     const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value.trim());
         if (validationEmail(event.target.value.trim())) {
-            setEmail(event.target.value.trim());
             setOpenTooltip(false);
         } else {
-            setEmail('');
             setOpenTooltip(true);
         }
 
@@ -91,10 +95,10 @@ const Account = () => {
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
                     <AccountWrapper>
-                        <AccountTitleContainer>
-                            <AccountTitle>My Account</AccountTitle>
+                        <GeneralAccountTitleContainer>
+                            <GeneralAccountsTitleHeader>My Account</GeneralAccountsTitleHeader>
                             {!openCloseToolbar && <MyAccountPanelInterfaceToolbarArrowRight onClick={handleDrawerOpen}></MyAccountPanelInterfaceToolbarArrowRight>}
-                        </AccountTitleContainer>
+                        </GeneralAccountTitleContainer>
 
                         <Divider orientation='horizontal'
                             sx={{
@@ -210,6 +214,7 @@ const Account = () => {
                                         name="email"
                                         autoComplete="email"
                                         type="email"
+                                        value={email}
                                         onChange={handleEmail}
                                     />
                                 </GeneralTooltipTextFieldEmail>
