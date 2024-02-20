@@ -6,3 +6,8 @@ export interface WatchListType {
     close: number,
     hasDividends: number
 }
+
+export interface WatchListColumnsType {
+    id: string,
+    label: string
+}

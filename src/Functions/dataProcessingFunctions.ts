@@ -1,6 +1,7 @@
 import { HistoricalTableColumnType, HistoricalTableType } from "../Types/HistoricalTableTypes";
 import { Statistics, StatisticsColumn, StatisticsRows } from "../Types/StatisticsTypes";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
+import { WatchListColumnsType, WatchListType } from "../Types/WatchListTypes";
 import { transformDate, transformVolume } from "./utilsFunctions";
 
 // This function creates an object for columns in table with Material UI.
@@ -139,5 +140,34 @@ export const createRowsForStatistic = (statsObject: Map<string, string | number 
         })
         return res;
     }
+};
+
+export const createColumnsForWatchList = (data: Array<WatchListType>) => {
+    const dataKeys = Object.keys(data[0]);
+    const res: WatchListColumnsType[] = dataKeys.map((key) => {
+        const column: WatchListColumnsType = {
+            id: key.toString(),
+            label: key
+        }
+        return column;
+    })
+    
+    return res;
+};
+
+export const createRowsForWatchList = (data: Array<WatchListType>) => {
+    const res = data.map((item) => {
+        const row: WatchListType = {
+            symbolName: item.symbolName,
+            companyName: item.companyName,
+            exchange: item.exchange,
+            industryCategory: item.industryCategory,
+            close: item.close,
+            hasDividends: item.hasDividends
+        }
+        return row;
+    });
+    console.log(res)
+    return res;
 };
 

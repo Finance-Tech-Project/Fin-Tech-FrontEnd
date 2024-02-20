@@ -1,6 +1,5 @@
 import { FetchConstants, FetchConstantsForWatchListPortfolio } from "../Enums/Enums";
 import { WatchListType } from "../Types/WatchListTypes";
-import { AppDispatch, RootState } from "../app/store";
 
 export const addSymbolToWatchList = async (login: string, token: string, symbol: string) => {
     try {
@@ -28,11 +27,13 @@ export const addSymbolToWatchList = async (login: string, token: string, symbol:
 
 export const getWatchList = async (login: string) => {
     try {
-        const response = await fetch(`${FetchConstants.BASE_URL +
-            FetchConstantsForWatchListPortfolio.PORTFOLIO +
-            FetchConstantsForWatchListPortfolio.WATCHLIST +
-            FetchConstantsForWatchListPortfolio.USER_NAME + login
-            }`);
+        const response = await fetch(`${
+                FetchConstants.BASE_URL +
+                FetchConstantsForWatchListPortfolio.PORTFOLIO +
+                FetchConstantsForWatchListPortfolio.WATCHLIST +
+                FetchConstantsForWatchListPortfolio.USER_NAME + login
+            }`
+        );
 
         if (response.ok) {
             const data: Array<WatchListType> = await response.json();
