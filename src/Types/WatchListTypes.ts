@@ -4,10 +4,21 @@ export interface WatchListType {
     exchange: string,
     industryCategory: string,
     close: number,
-    hasDividends: number
+    hasDividends: number,
+    index: number
 }
 
 export interface WatchListColumnsType {
-    id: string,
-    label: string
+    id: 'symbolName' | 'companyName' | 'exchange' | 'industryCategory' | 'close' | 'hasDividends',
+    label: string,
+    index: number
+}
+
+export enum WatchListColumnIdType {
+    "symbolName" = "symbolName",
+    "companyName" = "companyName",
+    "exchange" = "exchange",
+    "industryCategory" = "industryCategory",
+    "close" = "close",
+    "hasDividends" = "hasDividends"
 }
