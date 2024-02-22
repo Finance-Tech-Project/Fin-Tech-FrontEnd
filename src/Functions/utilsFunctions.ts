@@ -228,3 +228,10 @@ export const validationEmail = (email: string) => {
     const regex = new RegExp(pattern);
     return regex.test(email);
 };
+
+export const transformTextForWatchListTable = (text: string) => {
+    const uppercaseLetterRegex = /[A-Z]/g;
+    return !uppercaseLetterRegex.test(text) ? transformFirstLetterToUpperCase(text) : text.split('').map((letter, index) => {
+        return index === 0 ? letter.toUpperCase() : uppercaseLetterRegex.test(letter) ? ' ' + letter.toLowerCase() : letter; 
+    });
+};

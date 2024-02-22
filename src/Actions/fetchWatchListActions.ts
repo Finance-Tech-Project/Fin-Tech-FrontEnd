@@ -37,7 +37,6 @@ export const getWatchList = async (login: string) => {
 
         if (response.ok) {
             const data: Array<WatchListType> = await response.json();
-            console.log(data)
             return data;
         }
     } catch (error) {

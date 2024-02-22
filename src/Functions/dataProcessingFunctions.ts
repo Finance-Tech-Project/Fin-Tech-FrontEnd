@@ -151,8 +151,7 @@ export const createColumnsForWatchList = (data: Array<WatchListType>) => {
             index: 0
         }
         return column;
-    })
-    
+    });
     return res;
 };
 
@@ -169,7 +168,6 @@ export const createRowsForWatchList = (data: Array<WatchListType>) => {
         }
         return row;
     });
-    console.log(res)
     return res;
 };
 

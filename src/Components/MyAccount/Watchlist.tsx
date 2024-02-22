@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { WatchListContainer, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader } from '../../Styles/AreCommonStyles/AreCommonStyles';
-import { Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
 import { getWatchList } from '../../Actions/fetchWatchListActions';
 import { createColumnsForWatchList, createRowsForWatchList } from '../../Functions/dataProcessingFunctions';
 import { WatchListColumnsType, WatchListType } from '../../Types/WatchListTypes';
+import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 
 const Watchlist = () => {
     const login = useAppSelector(state => state.userReducer?.login);
@@ -18,7 +19,18 @@ const Watchlist = () => {
     const [selected, setSelected] = useState<readonly string[]>([]);
     const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
     const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('');
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const dispatch = useAppDispatch();
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const handleDrawerOpen = () => {
         dispatch(setOpenColseToolbar(true));
@@ -35,7 +47,7 @@ const Watchlist = () => {
     };
 
     const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
-        setSelectedTicker(event.currentTarget.childNodes[0].firstChild?.nodeValue);
+        setSelectedTicker(event.currentTarget.firstChild?.textContent);
         setSelectedTickerName(event.currentTarget.childNodes[1].firstChild?.nodeValue);
     };
 
@@ -75,10 +87,9 @@ const Watchlist = () => {
     };
 
     useEffect(() => {
-        console.log('watchlist rendered')
         fetchWatchList();
     }, []);
-
+ 
     return (
         <WatchListContainer>
             <Grid container>
@@ -97,18 +108,26 @@ const Watchlist = () => {
                                 marginTop: '20px'
                             }} />
 
-                        <TableContainer component={Paper} sx={{ width: '1000px' }}>
-                            <Table>
+                        <TableContainer component={Paper}
+                            sx={{
+                                width: '100%',
+                                marginTop: '30px',
+                                border: '2px solid rgba(70, 75, 114, 0.8)',
+                                borderBottom: 'none'
+                            }}>
+                            <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
-                                    <TableRow>
+                                    <TableRow sx={{ backgroundColor: '#190033' }}>
                                         {columns.map((column: WatchListColumnsType) => {
-
                                             return (
-                                                <TableCell key={column.id}> 
-                                                    {column.id === 'symbolName' && <Checkbox
-                                                        onChange={handleSelectAllClick}
-                                                    />}
-                                                    {column.id}
+                                                <TableCell key={column.id} sx={{
+                                                    '&.MuiTableCell-root': {
+                                                        backgroundColor: '#190033',
+                                                        color: 'white'
+                                                    }
+                                                }}>
+                                                    {column.id === 'symbolName' && <Checkbox sx={{ color: 'white' }} onChange={handleSelectAllClick} />}
+                                                    {transformTextForWatchListTable(column.id)}
                                                 </TableCell>
                                             );
                                         })}
@@ -116,7 +135,7 @@ const Watchlist = () => {
                                 </TableHead>
                                 <TableBody>
                                     {rows
-                                        // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row, index) => {
                                             const isItemSelected = isSelected(row.symbolName);
                                             const labelId = `enhanced-table-checkbox-${index}`;
@@ -125,8 +144,28 @@ const Watchlist = () => {
                                                     {columns.map((column) => {
                                                         const value = row[column.id];
                                                         return (
-                                                            <TableCell key={column.id}>
-                                                                {value === row.symbolName && <Checkbox
+                                                            <TableCell
+                                                                sx={{
+                                                                    '&.MuiTableCell-root': {
+                                                                        color: 'white',
+                                                                        backgroundColor: '#3e3e3e',
+                                                                        fontFamily: 'Inter, sans-serif',
+                                                                        '&:nth-of-type(1)': {
+                                                                            position: 'relative',
+                                                                            zIndex: 1,
+                                                                            borderRight: '1px solid #190033',
+                                                                            boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
+                                                                            '&:hover': {
+                                                                                cursor: 'pointer',
+                                                                                borderBottom: '2px solid #190033',
+                                                                                marginBottom: '5px'
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                }}
+
+                                                                key={column.id}>
+                                                                {value === row.symbolName && <Checkbox sx={{ color: 'white' }}
                                                                     checked={isItemSelected}
                                                                     onChange={event => handleClick(event, row.symbolName)}
                                                                     inputProps={{ 'aria-labelledby': labelId }}
@@ -142,6 +181,20 @@ const Watchlist = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <TablePagination
+                            sx={{
+                                width: '100%',
+                                border: '2px solid rgba(70, 75, 114, 0.8)',
+                                borderTop: 'none'
+                            }}
+                            rowsPerPageOptions={[10, 100, 1000]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
                     </WatchListWrapper>
                 </Grid>
             </Grid>
