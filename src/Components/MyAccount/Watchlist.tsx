@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { WatchListContainer, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader } from '../../Styles/AreCommonStyles/AreCommonStyles';
-import { Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { Box, Button, Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
@@ -10,6 +10,7 @@ import { getWatchList } from '../../Actions/fetchWatchListActions';
 import { createColumnsForWatchList, createRowsForWatchList } from '../../Functions/dataProcessingFunctions';
 import { WatchListColumnsType, WatchListType } from '../../Types/WatchListTypes';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
+import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
 
 const Watchlist = () => {
     const login = useAppSelector(state => state.userReducer?.login);
@@ -21,6 +22,7 @@ const Watchlist = () => {
     const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [openModalForCreatePortfolio, setOpenModalForCreatePortfolio] = useState(false);
     const dispatch = useAppDispatch();
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -86,12 +88,17 @@ const Watchlist = () => {
         setRows(createRowsForWatchList(res!));
     };
 
+    const handleCreatePortfolio = () => {
+        setOpenModalForCreatePortfolio(true);
+    };
+
     useEffect(() => {
         fetchWatchList();
     }, []);
- 
+
     return (
         <WatchListContainer>
+            {openModalForCreatePortfolio && <WatchListModalPortfolioCreate />}
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
                     <WatchListWrapper>
@@ -110,7 +117,7 @@ const Watchlist = () => {
 
                         <TableContainer component={Paper}
                             sx={{
-                                width: '100%',
+                                width: '99.75%',
                                 marginTop: '30px',
                                 border: '2px solid rgba(70, 75, 114, 0.8)',
                                 borderBottom: 'none'
@@ -183,7 +190,7 @@ const Watchlist = () => {
                         </TableContainer>
                         <TablePagination
                             sx={{
-                                width: '100%',
+                                width: '99.75%',
                                 border: '2px solid rgba(70, 75, 114, 0.8)',
                                 borderTop: 'none'
                             }}
@@ -195,6 +202,33 @@ const Watchlist = () => {
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
+
+                        <Box sx={{ width: '100%', display: 'flex', paddingTop: '20px' }}>
+                            <Grid desktop={2} desktopOffset={7.5}>
+                                <Button sx={{
+                                    width: '100%',
+                                    height: '56px',
+                                    border: '1.5px solid rgba(37, 59, 227, 0.8)',
+                                    backgroundColor: 'rgba(1, 17, 36, 0.8)',
+                                    color: 'white',
+                                    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+                                    // marginTop: '20px'
+                                }} onClick={handleCreatePortfolio}>Create portfolio</Button>
+                            </Grid>
+
+                            <Grid desktop={2} desktopOffset={0.5}>
+                                <Button sx={{
+                                    width: '100%',
+                                    height: '56px',
+                                    border: '1.5px solid rgba(37, 59, 227, 0.8)',
+                                    backgroundColor: 'rgba(1, 17, 36, 0.8)',
+                                    color: 'white',
+                                    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+                                    // marginTop: '20px'
+                                }}>Remove from watchlist</Button>
+                            </Grid>
+
+                        </Box>
                     </WatchListWrapper>
                 </Grid>
             </Grid>
