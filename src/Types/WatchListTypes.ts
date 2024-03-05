@@ -22,3 +22,15 @@ export enum WatchListColumnIdType {
     "close" = "close",
     "hasDividends" = "hasDividends"
 }
+
+export interface WatchListModalType {
+    symbolName: string,
+    companyName: string,
+    amountOfStocks: number
+}
+
+export interface WatchListModalColumnsType {
+    id: 'symbolName' | 'companyName' | 'amountOfStocks',
+    label: string,
+    index: number
+}

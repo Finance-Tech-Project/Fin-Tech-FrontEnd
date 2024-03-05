@@ -39,7 +39,6 @@ const Watchlist = () => {
     };
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.checked);
         if (event.target.checked) {
             const selectedTickers: string[] = rows.map((e) => e.symbolName)
             setSelected(selectedTickers);
@@ -98,7 +97,11 @@ const Watchlist = () => {
 
     return (
         <WatchListContainer>
-            {openModalForCreatePortfolio && <WatchListModalPortfolioCreate />}
+            {openModalForCreatePortfolio && 
+                <WatchListModalPortfolioCreate 
+                    selected={selected}
+                    setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}/>
+            }
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
                     <WatchListWrapper>
@@ -212,7 +215,6 @@ const Watchlist = () => {
                                     backgroundColor: 'rgba(1, 17, 36, 0.8)',
                                     color: 'white',
                                     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                                    // marginTop: '20px'
                                 }} onClick={handleCreatePortfolio}>Create portfolio</Button>
                             </Grid>
 
@@ -224,7 +226,6 @@ const Watchlist = () => {
                                     backgroundColor: 'rgba(1, 17, 36, 0.8)',
                                     color: 'white',
                                     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                                    // marginTop: '20px'
                                 }}>Remove from watchlist</Button>
                             </Grid>
 
