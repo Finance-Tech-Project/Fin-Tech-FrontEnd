@@ -5,7 +5,7 @@ import { Box, CircularProgress, Divider, ThemeProvider } from '@mui/material'
 import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { useAppSelector } from '../../app/hooks'
 import { getStatisticsForSymbol } from '../../Actions/fetchActions'
-import { Statistics, StatisticsColumn } from '../../Types/StatisticsTypes'
+import { Statistics, StatisticsColumnType } from '../../Types/StatisticsTypes'
 import { createColumnsForStatistic } from '../../Functions/dataProcessingFunctions'
 import StocksStatisticsTable from './StocksStatisticsTable'
 import { theme } from '../../Constants/MaterialConstants/theme'
@@ -18,7 +18,7 @@ interface Props {
 const StocksStatistics = ({ handleClickStatistics }: Props) => {
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
-	const [columns, setColumns] = useState<Array<StatisticsColumn>>([]);
+	const [columns, setColumns] = useState<Array<StatisticsColumnType>>([]);
 	const [statistics, setStatistics] = useState<Statistics[]>([]);
 	
 	const getStats = async () => {

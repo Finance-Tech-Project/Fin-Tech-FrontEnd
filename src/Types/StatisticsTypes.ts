@@ -4,7 +4,7 @@ export interface Statistics {
     index?: number
 }
 
-export interface StatisticsColumn {
+export interface StatisticsColumnType {
     id: "valuationMeasures" | "profitability" | "stockPriceHistory" | "shareStatistics" | "incomeStatement" | "balanceSheet" | "cashFlowStatement" | "dividendsAndSplits" | "fiscalYear",
     label?: string,
     index?: number

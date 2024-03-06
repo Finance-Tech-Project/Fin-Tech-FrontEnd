@@ -1,5 +1,5 @@
 import { HistoricalTableColumnType, HistoricalTableType } from "../Types/HistoricalTableTypes";
-import { Statistics, StatisticsColumn, StatisticsRows } from "../Types/StatisticsTypes";
+import { Statistics, StatisticsColumnType, StatisticsRows } from "../Types/StatisticsTypes";
 import { ColumnType, TickerColumnType, TickerDataType, TickerDataVolumeType, TickerType } from "../Types/TickersTypes";
 import { WatchListColumnIdType, WatchListColumnsType, WatchListType } from "../Types/WatchListTypes";
 import { transformDate, transformVolume } from "./utilsFunctions";
@@ -115,8 +115,8 @@ export const createHistogramLineAreaData = (tickerData: Array<TickerDataType>) =
 
 export const createColumnsForStatistic = (statsObject: Statistics[] | undefined) => {
     if (statsObject) {
-        const res: StatisticsColumn[] = statsObject!.map((item, index) => {
-            const column: StatisticsColumn = {
+        const res: StatisticsColumnType[] = statsObject!.map((item, index) => {
+            const column: StatisticsColumnType = {
                 id: "valuationMeasures",
                 label: "",
                 index: index

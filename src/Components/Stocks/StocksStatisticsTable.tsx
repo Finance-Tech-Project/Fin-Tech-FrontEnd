@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Statistics, StatisticsColumn, StatisticsRows } from '../../Types/StatisticsTypes'
+import { Statistics, StatisticsColumnType, StatisticsRows } from '../../Types/StatisticsTypes'
 import { createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
 import { transformDateForStatistics, transformTextForStatistics } from '../../Functions/utilsFunctions'
 import { TableCellWithHighlights, TableCellWithoutHighlights } from '../../Styles/StocksStyles/SocksStatisticsStyle'
 
 interface Props {
-	columnName: StatisticsColumn,
+	columnName: StatisticsColumnType,
 	statistics: Statistics[] | undefined,
 	columnsLength: number
 }
