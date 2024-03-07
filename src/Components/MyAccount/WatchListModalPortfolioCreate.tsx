@@ -1,18 +1,27 @@
-import { Backdrop, Box, Fade, Modal, Paper, Table, TableContainer, TableHead, TableRow, TextField } from '@mui/material'
+import { Backdrop, Box, Fade, Modal, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
+import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType, WatchListCreatePortfolioTypeReadonly } from '../../Types/WatchListModalCreatePortfolioType';
+import { WatchListType } from '../../Types/WatchListTypes';
+import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
+import { transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions';
+import { SelectedSymbols } from './Watchlist';
+
 interface Props {
-	selected: readonly string[],
-	setOpenModalForCreatePortfolio: (value: React.SetStateAction<boolean>) => void
+	selected: readonly WatchListCreatePortfolioTypeReadonly[],
+	setOpenModalForCreatePortfolio: (value: React.SetStateAction<boolean>) => void,
+	selectedRows: Array<WatchListType>
 }
-const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected }: Props) => {
+const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected, selectedRows }: Props) => {
 	const [open, setOpen] = useState(true);
+	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selectedRows));
+	// const [rows, setRows] = useState<Array<WatchListType>>([]);
 
 	const handleClose = () => {
 		setOpen(false)
 		setOpenModalForCreatePortfolio(false)
 	};
-
+	
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
@@ -47,13 +56,23 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							border: '2px solid rgba(70, 75, 114, 0.8)',
 							borderBottom: 'none'
 						}}>
-							<Table stickyHeader aria-label="sticky table">
-								<TableHead>
-									<TableRow sx={{ backgroundColor: '#190033' }}>
-
-									</TableRow>
-								</TableHead>
-							</Table>
+						<Table stickyHeader aria-label="sticky table">
+							<TableHead>
+								<TableRow sx={{ backgroundColor: '#190033' }}>
+									{columns?.map((column) => {
+										return (
+											<TableCell component="th" sx={{
+												'&.MuiTableCell-root': {
+													textAlign: 'center',
+													backgroundColor: '#190033',
+													color: 'white'
+												}
+											}} key={column.id}>{transformFirstLetterToUpperCase(column.label)}</TableCell>
+										);
+									})}
+								</TableRow>
+							</TableHead>
+						</Table>
 					</TableContainer>
 					<LoginRegisterTextField type="number" ></LoginRegisterTextField>
 				</Box>

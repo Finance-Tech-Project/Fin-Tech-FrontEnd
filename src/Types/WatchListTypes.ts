@@ -15,22 +15,12 @@ export interface WatchListColumnsType {
 }
 
 export enum WatchListColumnIdType {
-    "symbolName" = "symbolName",
-    "companyName" = "companyName",
-    "exchange" = "exchange",
-    "industryCategory" = "industryCategory",
-    "close" = "close",
-    "hasDividends" = "hasDividends"
+    symbolName = "symbolName",
+    companyName = "companyName",
+    exchange = "exchange",
+    industryCategory = "industryCategory",
+    close = "close",
+    hasDividends = "hasDividends"
 }
 
-export interface WatchListModalType {
-    symbolName: string,
-    companyName: string,
-    amountOfStocks: number
-}
 
-export interface WatchListModalColumnsType {
-    id: 'symbolName' | 'companyName' | 'amountOfStocks',
-    label: string,
-    index: number
-}

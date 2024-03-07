@@ -4,10 +4,11 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { MainFindTickerTableContainer } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { TickerColumnType, TickerType } from '../../../Types/TickersTypes';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
-import { createColumns, createRows } from '../../../Functions/dataProcessingFunctions';
 import { getTikersForMainPage } from '../../../Actions/fetchActions';
 import { transformFirstLetterToUpperCase } from '../../../Functions/utilsFunctions';
 import { theme } from '../../../Constants/MaterialConstants/theme';
+import { CreatingColumnsForTables } from '../../../Classes/CreatingColumnsForTables';
+import { CreatingRowsForTables } from '../../../Classes/CreatingRowsForTables';
 
 interface Props {
     data: string,
@@ -40,8 +41,8 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
 
     useEffect(() => {
         setTimeout(async () => {
-            setColumns(createColumns(await allTickers)!);
-            setRows(createRows(data, await allTickers)!);
+            setColumns(new CreatingColumnsForTables().createColumnsForStartPage(await allTickers));
+            setRows(new CreatingRowsForTables().createRowsForStartPage(data, await allTickers));
         }, 0);
     }, [data]);
 

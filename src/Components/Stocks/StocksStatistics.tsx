@@ -6,10 +6,10 @@ import { MainButton } from '../../Styles/MainStyles/MainContextStyle'
 import { useAppSelector } from '../../app/hooks'
 import { getStatisticsForSymbol } from '../../Actions/fetchActions'
 import { Statistics, StatisticsColumnType } from '../../Types/StatisticsTypes'
-import { createColumnsForStatistic } from '../../Functions/dataProcessingFunctions'
 import StocksStatisticsTable from './StocksStatisticsTable'
 import { theme } from '../../Constants/MaterialConstants/theme'
 import { GeneralStocksBlocksTitle } from '../../Styles/AreCommonStyles/AreCommonStyles'
+import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables'
 
 interface Props {
 	handleClickStatistics: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -33,7 +33,7 @@ const StocksStatistics = ({ handleClickStatistics }: Props) => {
 
 	useEffect(() => {
 		setTimeout(async () => {
-			setColumns(createColumnsForStatistic(await stats)!);
+			setColumns(new CreatingColumnsForTables().createColumnsForStatistic(await stats));
 		}, 0);
 	}, [(columns[0] !== undefined)]);
 

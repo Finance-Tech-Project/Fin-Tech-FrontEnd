@@ -2,9 +2,9 @@
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Statistics, StatisticsColumnType, StatisticsRows } from '../../Types/StatisticsTypes'
-import { createRowsForStatistic } from '../../Functions/dataProcessingFunctions'
 import { transformDateForStatistics, transformTextForStatistics } from '../../Functions/utilsFunctions'
 import { TableCellWithHighlights, TableCellWithoutHighlights } from '../../Styles/StocksStyles/SocksStatisticsStyle'
+import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables'
 
 interface Props {
 	columnName: StatisticsColumnType,
@@ -16,7 +16,7 @@ const StocksStatisticsTable = ({ statistics, columnName, columnsLength }: Props)
 	const [rows, setRows] = useState<Array<StatisticsRows> | undefined>([]);
 
 	useEffect(() => {
-		columnName && setRows(createRowsForStatistic(statistics![columnName.index!].statisticData));
+		columnName && setRows(new CreatingRowsForTables().createRowsForStatistic(statistics![columnName.index!].statisticData));
 	}, [statistics]);
 
 	return (

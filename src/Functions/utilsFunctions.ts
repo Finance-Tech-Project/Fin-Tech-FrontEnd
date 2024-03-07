@@ -1,7 +1,7 @@
 import { Theme } from "@mui/material";
 import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation } from "../Enums/Enums";
 import { AnalyticInterface } from "../Types/AnalyticTypes";
-import { SymbolData, Symbols } from "../Types/DataReducerTypes";
+import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
 
 export const transformTextForStatistics = (word: string | undefined) => {
@@ -108,7 +108,6 @@ export const getDataInInterval = (data: SymbolData, interval: string) => {
 
 export const getColorForLightWeightHeader = (
     seriesName: ChartSeriesNames,
-    symbolName: Symbols,
     simpleIncome: AnalyticInterface,
     volatility: AnalyticInterface,
     sharpRatio: AnalyticInterface,

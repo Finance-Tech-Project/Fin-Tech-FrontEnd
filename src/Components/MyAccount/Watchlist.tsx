@@ -7,18 +7,26 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
 import { getWatchList } from '../../Actions/fetchWatchListActions';
-import { createColumnsForWatchList, createRowsForWatchList } from '../../Functions/dataProcessingFunctions';
 import { WatchListColumnsType, WatchListType } from '../../Types/WatchListTypes';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
+import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
+import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
+import { WatchListCreatePortfolioType, WatchListCreatePortfolioTypeReadonly } from '../../Types/WatchListModalCreatePortfolioType';
+
+export interface SelectedSymbols {
+    readonly symbolName: string,
+    readonly companyName: string
+}
 
 const Watchlist = () => {
     const login = useAppSelector(state => state.userReducer?.login);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const [columns, setColumns] = useState<Array<WatchListColumnsType>>([]);
     const [rows, setRows] = useState<Array<WatchListType>>([]);
-    const [selected, setSelected] = useState<readonly string[]>([]);
+    const [selected, setSelected] = useState<readonly WatchListCreatePortfolioTypeReadonly[]>([]);
     const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
+    const [selectedPortfolioCreate, setSelectedPortfolioCreate] = useState<Array<WatchListCreatePortfolioType>>([]);
     const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('');
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -40,19 +48,35 @@ const Watchlist = () => {
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const selectedTickers: string[] = rows.map((e) => e.symbolName)
+            const selectedTickers: WatchListCreatePortfolioTypeReadonly[] = rows.map((item) => {
+                return {
+                    symbolName: item.symbolName,
+                    companyName: item.companyName,
+                    amountOfStocks: 1,
+                    removeSymbol:  <Button sx={{
+                        width: '100%',
+                        height: '56px',
+                        border: '1.5px solid rgba(37, 59, 227, 0.8)',
+                        backgroundColor: 'rgba(1, 17, 36, 0.8)',
+                        color: 'white',
+                        boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+                    }}>Remove</Button>
+                };
+            })
             setSelected(selectedTickers);
             return;
         }
         setSelected([]);
     };
 
+    
+
     const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
         setSelectedTicker(event.currentTarget.firstChild?.textContent);
         setSelectedTickerName(event.currentTarget.childNodes[1].firstChild?.nodeValue);
     };
 
-    const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string) => {
+    const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string, ) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected: readonly string[] = [];
 
@@ -83,8 +107,8 @@ const Watchlist = () => {
 
     const fetchWatchList = async () => {
         const res = await getWatchList(login!);
-        setColumns(createColumnsForWatchList(res!));
-        setRows(createRowsForWatchList(res!));
+        setColumns(new CreatingColumnsForTables().createColumnsForWatchList(res));
+        setRows(new CreatingRowsForTables().createRowsForWatchList(res));
     };
 
     const handleCreatePortfolio = () => {
@@ -94,13 +118,16 @@ const Watchlist = () => {
     useEffect(() => {
         fetchWatchList();
     }, []);
-
+    // console.log(selectedPortfolioCreate)
+    
     return (
         <WatchListContainer>
             {openModalForCreatePortfolio && 
                 <WatchListModalPortfolioCreate 
                     selected={selected}
-                    setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}/>
+                    setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}
+                    selectedRows={rows}
+                />
             }
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>

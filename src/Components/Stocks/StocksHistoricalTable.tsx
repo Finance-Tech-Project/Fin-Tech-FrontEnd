@@ -4,7 +4,6 @@ import { StocksHistoricalTableApplyButton, StocksHistoricalTableContainer, Stock
 import { Divider, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import { HistoricalTableColumnType, HistoricalTableType } from '../../Types/HistoricalTableTypes'
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles'
-import { createColumnsForHistoricalTable, createRowsForHistoricalTable } from '../../Functions/dataProcessingFunctions'
 import { theme } from '../../Constants/MaterialConstants/theme';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers'
@@ -19,6 +18,8 @@ import { GeneralDatePicker, GeneralDatePickerDesktopPaperStyle, GeneralDatePicke
 import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
 import { ComponentName, IntervalsAbbreviation, IntervalsFullName } from '../../Enums/Enums'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables'
+import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables'
 
 const StocksHistoricalTable = () => {
     const data = useAppSelector(state => state.historicalDataReducer.dataStock);
@@ -56,8 +57,8 @@ const StocksHistoricalTable = () => {
 
     const setSymbolData = () => {
         const symbolDataInInterval: TickerDataType[] = getDataInInterval(data, interval);
-        setHistoricalTableRows(createRowsForHistoricalTable(symbolDataInInterval));
-        setHistoricalTableColumns(createColumnsForHistoricalTable(symbolDataInInterval));
+        setHistoricalTableRows(new CreatingRowsForTables().createRowsForHistoricalTable(symbolDataInInterval));
+        setHistoricalTableColumns(new CreatingColumnsForTables().createColumnsForHistoricalTable(symbolDataInInterval));
         setDateFrom(symbolDataInInterval[0].time);
         setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
     };

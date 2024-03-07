@@ -21,7 +21,6 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
     return (
         <ThemeProvider theme={theme}>
             <Box sx={{
-                
                 [theme.breakpoints.up('mobileS')]: {
                     padding: '15px 0px 15px 10px',
                 },
@@ -32,7 +31,6 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                 <MainHeaderChartTickerName fontSize
                     sx={{ color: getColorForLightWeightHeader(
                         seriesName, 
-                        symbolName, 
                         simpleIncome, 
                         volatility, 
                         sharpRatio, 
@@ -49,7 +47,6 @@ const HeaderItemCompanyName = ({ checkSymbolName }: Props) => {
                         width: '100%',
                         backgroundColor: `${getColorForLightWeightHeader(
                             seriesName, 
-                            symbolName, 
                             simpleIncome, 
                             volatility, 
                             sharpRatio, 
