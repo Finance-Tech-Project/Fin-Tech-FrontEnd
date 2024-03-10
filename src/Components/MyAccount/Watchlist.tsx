@@ -12,7 +12,8 @@ import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
-import { WatchListCreatePortfolioType, WatchListCreatePortfolioTypeReadonly } from '../../Types/WatchListModalCreatePortfolioType';
+import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
+import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -24,10 +25,7 @@ const Watchlist = () => {
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const [columns, setColumns] = useState<Array<WatchListColumnsType>>([]);
     const [rows, setRows] = useState<Array<WatchListType>>([]);
-    const [selected, setSelected] = useState<readonly WatchListCreatePortfolioTypeReadonly[]>([]);
-    const [selectedTicker, setSelectedTicker] = useState<string | null | undefined>('');
-    const [selectedPortfolioCreate, setSelectedPortfolioCreate] = useState<Array<WatchListCreatePortfolioType>>([]);
-    const [selectedTickerName, setSelectedTickerName] = useState<string | null | undefined>('');
+    const [selected, setSelected] = useState<WatchListCreatePortfolioType[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [openModalForCreatePortfolio, setOpenModalForCreatePortfolio] = useState(false);
@@ -46,14 +44,43 @@ const Watchlist = () => {
         dispatch(setOpenColseToolbar(true));
     };
 
+    const createObjectForWatchListPortfolio = (symbolName: string, companyName: string) => {
+        const res: WatchListCreatePortfolioType = {
+            symbolName: symbolName,
+            companyName: companyName,
+            amountOfStocks: <LoginRegisterTextField type="number" defaultValue='1'
+                sx={{
+                    '& .MuiInputBase-input': {
+                        width: '90px'
+                    }
+                }}
+            ></LoginRegisterTextField>,
+            removeSymbol: <Button sx={{
+                width: '100%',
+                height: '56px',
+                border: '1.5px solid rgba(37, 59, 227, 0.8)',
+                backgroundColor: 'rgba(1, 17, 36, 0.8)',
+                color: 'white',
+                boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+            }}>Remove</Button>
+        };
+        return res;
+    };
+
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            const selectedTickers: WatchListCreatePortfolioTypeReadonly[] = rows.map((item) => {
+            const selectedTickers: WatchListCreatePortfolioType[] = rows.map((item) => {
                 return {
                     symbolName: item.symbolName,
                     companyName: item.companyName,
-                    amountOfStocks: 1,
-                    removeSymbol:  <Button sx={{
+                    amountOfStocks: <LoginRegisterTextField type="number" defaultValue='1'
+                        sx={{
+                            '& .MuiInputBase-input': {
+                                width: '90px'
+                            }
+                        }}
+                    ></LoginRegisterTextField>,
+                    removeSymbol: <Button sx={{
                         width: '100%',
                         height: '56px',
                         border: '1.5px solid rgba(37, 59, 227, 0.8)',
@@ -69,19 +96,13 @@ const Watchlist = () => {
         setSelected([]);
     };
 
-    
-
-    const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
-        setSelectedTicker(event.currentTarget.firstChild?.textContent);
-        setSelectedTickerName(event.currentTarget.childNodes[1].firstChild?.nodeValue);
-    };
-
-    const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string, ) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected: readonly string[] = [];
+    const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string, companyName: string) => {
+        const selectedIndex = selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName);
+        console.log(selectedIndex)
+        let newSelected: WatchListCreatePortfolioType[] = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, createObjectForWatchListPortfolio(name, companyName));
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -103,7 +124,8 @@ const Watchlist = () => {
         }
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
+    const isSelected = (name: string, companyName: string) =>
+        selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName) !== -1;
 
     const fetchWatchList = async () => {
         const res = await getWatchList(login!);
@@ -118,15 +140,14 @@ const Watchlist = () => {
     useEffect(() => {
         fetchWatchList();
     }, []);
-    // console.log(selectedPortfolioCreate)
-    
+    console.log(selected)
+
     return (
         <WatchListContainer>
-            {openModalForCreatePortfolio && 
-                <WatchListModalPortfolioCreate 
+            {openModalForCreatePortfolio &&
+                <WatchListModalPortfolioCreate
                     selected={selected}
                     setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}
-                    selectedRows={rows}
                 />
             }
             <Grid container>
@@ -174,10 +195,10 @@ const Watchlist = () => {
                                     {rows
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row, index) => {
-                                            const isItemSelected = isSelected(row.symbolName);
+                                            const isItemSelected = isSelected(row.symbolName, row.companyName);
                                             const labelId = `enhanced-table-checkbox-${index}`;
                                             return (
-                                                <TableRow role="checkbox" aria-checked={isItemSelected} selected={isItemSelected} key={row.companyName} onClick={handleRowClick}>
+                                                <TableRow role="checkbox" aria-checked={isItemSelected} selected={isItemSelected} key={row.companyName}>
                                                     {columns.map((column) => {
                                                         const value = row[column.id];
                                                         return (
@@ -204,7 +225,7 @@ const Watchlist = () => {
                                                                 key={column.id}>
                                                                 {value === row.symbolName && <Checkbox sx={{ color: 'white' }}
                                                                     checked={isItemSelected}
-                                                                    onChange={event => handleClick(event, row.symbolName)}
+                                                                    onChange={event => handleClick(event, row.symbolName, row.companyName)}
                                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                                 />}
                                                                 {value}

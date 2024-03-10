@@ -75,7 +75,7 @@ export class CreatingColumnsForTables<T> {
     };
 
     public createColumnsForWatchListPortfolioCreate = (data: Array<T> | undefined): Array<WatchListCreatePortfolioColumnsType> => {
-        return data !== undefined ? this.getKeys(data).slice(0, 2).map((item, index) => {
+        return data !== undefined ? this.getKeys(data).map((item, index) => {
             const column: WatchListCreatePortfolioColumnsType = {
                 id: item.toString() as WatchListCreatePortfolioIdType,
                 label: item,

@@ -1,27 +1,30 @@
-import { Backdrop, Box, Fade, Modal, Paper, Table, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import React, { useState } from 'react'
+import { Backdrop, Box, Button, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
-import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType, WatchListCreatePortfolioTypeReadonly } from '../../Types/WatchListModalCreatePortfolioType';
-import { WatchListType } from '../../Types/WatchListTypes';
+import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
+import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
-import { transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions';
-import { SelectedSymbols } from './Watchlist';
+import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 
 interface Props {
-	selected: readonly WatchListCreatePortfolioTypeReadonly[],
+	selected: WatchListCreatePortfolioType[],
 	setOpenModalForCreatePortfolio: (value: React.SetStateAction<boolean>) => void,
-	selectedRows: Array<WatchListType>
 }
-const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected, selectedRows }: Props) => {
+const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected }: Props) => {
 	const [open, setOpen] = useState(true);
-	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selectedRows));
-	// const [rows, setRows] = useState<Array<WatchListType>>([]);
+	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>([]);
+	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
 
 	const handleClose = () => {
 		setOpen(false)
 		setOpenModalForCreatePortfolio(false)
 	};
-	
+
+	useEffect(() => {
+		setColumns(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selected));
+		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected));
+	}, []);
+
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
@@ -48,7 +51,25 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 					boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
 					padding: '20px'
 				}}>
-					<LoginRegisterTextField label='Enter portfolio name'></LoginRegisterTextField>
+					<Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+						<LoginRegisterTextField label='Enter portfolio name' 
+							sx={{
+								'& .MuiInputBase-input': {
+									width: '250px'
+								}
+							}}
+						></LoginRegisterTextField>
+						<Button sx={{
+							width: '250px',
+							height: '56px',
+							border: '1.5px solid rgba(37, 59, 227, 0.8)',
+							backgroundColor: 'rgba(1, 17, 36, 0.8)',
+							color: 'white',
+							boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+						}}>Create portfolio</Button>
+					</Box>
+
+
 					<TableContainer component={Paper}
 						sx={{
 							width: '99.75%',
@@ -63,18 +84,53 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 										return (
 											<TableCell component="th" sx={{
 												'&.MuiTableCell-root': {
-													textAlign: 'center',
+													// textAlign: 'center',
 													backgroundColor: '#190033',
 													color: 'white'
 												}
-											}} key={column.id}>{transformFirstLetterToUpperCase(column.label)}</TableCell>
+											}} key={column.id}>{transformTextForWatchListTable(column.label)}</TableCell>
 										);
 									})}
 								</TableRow>
 							</TableHead>
+
+							<TableBody>
+								{rows.map((row) => {
+									return (
+										<TableRow key={row.symbolName}>
+											{columns.map((column) => {
+												const value = row[column.id];
+												return (
+													<TableCell key={column.id}
+														sx={{
+															'&.MuiTableCell-root': {
+																color: 'white',
+																backgroundColor: '#3e3e3e',
+																fontFamily: 'Inter, sans-serif',
+																'&:nth-of-type(1)': {
+																	position: 'relative',
+																	zIndex: 1,
+																	borderRight: '1px solid #190033',
+																	boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
+																	'&:hover': {
+																		cursor: 'pointer',
+																		borderBottom: '2px solid #190033',
+																		marginBottom: '5px'
+																	}
+																}
+															},
+														}}>
+
+														{value}
+													</TableCell>
+												);
+											})}
+										</TableRow>
+									);
+								})}
+							</TableBody>
 						</Table>
 					</TableContainer>
-					<LoginRegisterTextField type="number" ></LoginRegisterTextField>
 				</Box>
 			</Fade>
 		</Modal>
