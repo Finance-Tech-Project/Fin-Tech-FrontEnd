@@ -81,16 +81,14 @@ export class CreatingRowsForTables<T> {
     };
 
     public createRowsForWatchListPortfolioCreate = (data: Array<WatchListCreatePortfolioType> | undefined): Array<WatchListCreatePortfolioType> => {
-        return data !== undefined ? data.map((item, index) => {
+        return data !== undefined ? data.map((item) => {
             const row: WatchListCreatePortfolioType = {
                 symbolName: item.symbolName,
                 companyName: item.companyName,
-                amountOfStocks: <LoginRegisterTextField type="number" defaultValue='1' 
-                    sx={{
-                        '& .MuiInputBase-input': {
-                            width: '90px'
-                        }
-                    }}
+                amountOfStocks: <LoginRegisterTextField
+                    type="number"
+                    defaultValue='1'
+                    widthForTableModalPortfolioCreate
                 ></LoginRegisterTextField>,
                 removeSymbol: <Button sx={{
                     width: '100%',

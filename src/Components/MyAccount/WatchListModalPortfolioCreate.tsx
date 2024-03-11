@@ -1,10 +1,12 @@
-import { Backdrop, Box, Button, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Backdrop, Box, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
+import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
+import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -18,6 +20,14 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const handleClose = () => {
 		setOpen(false)
 		setOpenModalForCreatePortfolio(false)
+	};
+
+	const removeFromModalTablePortfolioCreate = (event: React.MouseEvent<Element>) => {
+		const removed = event.currentTarget.firstChild?.textContent;
+		console.log(removed)
+		const index = selected.findIndex(item => item.symbolName === removed);
+		selected.splice(index, 1);
+		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected.length === 0 || !selected ? new Array<WatchListCreatePortfolioType>() : selected ));
 	};
 
 	useEffect(() => {
@@ -40,33 +50,14 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			}}
 		>
 			<Fade in={open}>
-				<Box sx={{
-					position: 'absolute' as 'absolute',
-					top: '50%',
-					left: '50%',
-					transform: 'translate(-50%, -50%)',
-					width: 800,
-					backgroundColor: '#2c0951',
-					border: '2px solid rgba(37, 59, 227, 0.8)',
-					boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-					padding: '20px'
-				}}>
+				<WatchListModalPortfolioCreateContainer>
 					<Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-						<LoginRegisterTextField label='Enter portfolio name' 
-							sx={{
-								'& .MuiInputBase-input': {
-									width: '250px'
-								}
-							}}
+						<LoginRegisterTextField 
+							label='Enter portfolio name'  
+							widthForModalPortfolioCreate
 						></LoginRegisterTextField>
-						<Button sx={{
-							width: '250px',
-							height: '56px',
-							border: '1.5px solid rgba(37, 59, 227, 0.8)',
-							backgroundColor: 'rgba(1, 17, 36, 0.8)',
-							color: 'white',
-							boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-						}}>Create portfolio</Button>
+
+						<WatchListModalPortfolioCreateButtons>Create portfolio</WatchListModalPortfolioCreateButtons>
 					</Box>
 
 
@@ -84,7 +75,6 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 										return (
 											<TableCell component="th" sx={{
 												'&.MuiTableCell-root': {
-													// textAlign: 'center',
 													backgroundColor: '#190033',
 													color: 'white'
 												}
@@ -97,32 +87,11 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							<TableBody>
 								{rows.map((row) => {
 									return (
-										<TableRow key={row.symbolName}>
+										<TableRow key={row.symbolName} onClick={removeFromModalTablePortfolioCreate}>
 											{columns.map((column) => {
 												const value = row[column.id];
 												return (
-													<TableCell key={column.id}
-														sx={{
-															'&.MuiTableCell-root': {
-																color: 'white',
-																backgroundColor: '#3e3e3e',
-																fontFamily: 'Inter, sans-serif',
-																'&:nth-of-type(1)': {
-																	position: 'relative',
-																	zIndex: 1,
-																	borderRight: '1px solid #190033',
-																	boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
-																	'&:hover': {
-																		cursor: 'pointer',
-																		borderBottom: '2px solid #190033',
-																		marginBottom: '5px'
-																	}
-																}
-															},
-														}}>
-
-														{value}
-													</TableCell>
+													<TabelCellTicker key={column.id}>{value}</TabelCellTicker>
 												);
 											})}
 										</TableRow>
@@ -131,7 +100,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							</TableBody>
 						</Table>
 					</TableContainer>
-				</Box>
+				</WatchListModalPortfolioCreateContainer>
 			</Fade>
 		</Modal>
 	)

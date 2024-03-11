@@ -48,13 +48,11 @@ const Watchlist = () => {
         const res: WatchListCreatePortfolioType = {
             symbolName: symbolName,
             companyName: companyName,
-            amountOfStocks: <LoginRegisterTextField type="number" defaultValue='1'
-                sx={{
-                    '& .MuiInputBase-input': {
-                        width: '90px'
-                    }
-                }}
-            ></LoginRegisterTextField>,
+            amountOfStocks: <LoginRegisterTextField 
+                                type="number" 
+                                defaultValue='1' 
+                                widthForTableModalPortfolioCreate
+                            ></LoginRegisterTextField>,
             removeSymbol: <Button sx={{
                 width: '100%',
                 height: '56px',
@@ -73,13 +71,11 @@ const Watchlist = () => {
                 return {
                     symbolName: item.symbolName,
                     companyName: item.companyName,
-                    amountOfStocks: <LoginRegisterTextField type="number" defaultValue='1'
-                        sx={{
-                            '& .MuiInputBase-input': {
-                                width: '90px'
-                            }
-                        }}
-                    ></LoginRegisterTextField>,
+                    amountOfStocks: <LoginRegisterTextField 
+                                        type="number" 
+                                        defaultValue='1' 
+                                        widthForTableModalPortfolioCreate
+                                    ></LoginRegisterTextField>,
                     removeSymbol: <Button sx={{
                         width: '100%',
                         height: '56px',
@@ -98,7 +94,7 @@ const Watchlist = () => {
 
     const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string, companyName: string) => {
         const selectedIndex = selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName);
-        console.log(selectedIndex)
+        
         let newSelected: WatchListCreatePortfolioType[] = [];
 
         if (selectedIndex === -1) {
@@ -140,7 +136,6 @@ const Watchlist = () => {
     useEffect(() => {
         fetchWatchList();
     }, []);
-    console.log(selected)
 
     return (
         <WatchListContainer>

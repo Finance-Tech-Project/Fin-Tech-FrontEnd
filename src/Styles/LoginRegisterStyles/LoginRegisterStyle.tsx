@@ -60,12 +60,28 @@ export const LoginRegisterButton = styled(Button)(({ theme }) => ({
 }));
 
 export const LoginRegisterTextField = styled(TextField, {
-    shouldForwardProp: (prop) => prop !== 'marginRight' && prop !== 'marginBottom' && prop !== 'marginTop' && prop !== 'validationColor'
-})<any>(({ theme, marginRight, marginBottom, marginTop, validationColor}) => ({
+    shouldForwardProp: (prop) => 
+        prop !== 'marginRight' && 
+        prop !== 'marginBottom' && 
+        prop !== 'marginTop' && 
+        prop !== 'validationColor' &&
+        prop !== 'widthForModalPortfolioCreate' &&
+        prop !== 'widthForTableModalPortfolioCreate'
+})<any>(({ 
+    theme, 
+    marginRight, 
+    marginBottom, 
+    marginTop, 
+    validationColor, 
+    widthForModalPortfolioCreate, 
+    widthForTableModalPortfolioCreate
+}) => ({
     boxShadow: !validationColor ? '5px 5px 25px 0px rgba(65, 6, 240, 0.8)' : '5px 5px 25px 0px rgba(253, 0, 0, 0.8)',
     '& .MuiInputBase-input': {
         color: 'white',
-        zIndex: 1
+        zIndex: 1,
+        ...(widthForModalPortfolioCreate && {width: '250px'}),
+        ...(widthForTableModalPortfolioCreate && {width: '93px'})
     },
     '& .MuiOutlinedInput-root': {
         '& fieldset': {
