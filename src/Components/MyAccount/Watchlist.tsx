@@ -13,7 +13,6 @@ import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
-import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -48,19 +47,8 @@ const Watchlist = () => {
         const res: WatchListCreatePortfolioType = {
             symbolName: symbolName,
             companyName: companyName,
-            amountOfStocks: <LoginRegisterTextField 
-                                type="number" 
-                                defaultValue='1' 
-                                widthForTableModalPortfolioCreate
-                            ></LoginRegisterTextField>,
-            removeSymbol: <Button sx={{
-                width: '100%',
-                height: '56px',
-                border: '1.5px solid rgba(37, 59, 227, 0.8)',
-                backgroundColor: 'rgba(1, 17, 36, 0.8)',
-                color: 'white',
-                boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-            }}>Remove</Button>
+            amountOfStocks: null,
+            removeSymbol: null
         };
         return res;
     };
@@ -71,20 +59,9 @@ const Watchlist = () => {
                 return {
                     symbolName: item.symbolName,
                     companyName: item.companyName,
-                    amountOfStocks: <LoginRegisterTextField 
-                                        type="number" 
-                                        defaultValue='1' 
-                                        widthForTableModalPortfolioCreate
-                                    ></LoginRegisterTextField>,
-                    removeSymbol: <Button sx={{
-                        width: '100%',
-                        height: '56px',
-                        border: '1.5px solid rgba(37, 59, 227, 0.8)',
-                        backgroundColor: 'rgba(1, 17, 36, 0.8)',
-                        color: 'white',
-                        boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                    }}>Remove</Button>
-                };
+                    amountOfStocks: null,
+                    removeSymbol: null
+                }
             })
             setSelected(selectedTickers);
             return;
@@ -94,7 +71,7 @@ const Watchlist = () => {
 
     const handleClick = (event: React.ChangeEvent<HTMLInputElement>, name: string, companyName: string) => {
         const selectedIndex = selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName);
-        
+
         let newSelected: WatchListCreatePortfolioType[] = [];
 
         if (selectedIndex === -1) {
@@ -134,6 +111,7 @@ const Watchlist = () => {
     };
 
     useEffect(() => {
+        setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
         fetchWatchList();
     }, []);
 

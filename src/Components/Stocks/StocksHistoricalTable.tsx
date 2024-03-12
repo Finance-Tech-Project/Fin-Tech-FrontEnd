@@ -190,7 +190,7 @@ const StocksHistoricalTable = () => {
                                                 backgroundColor: '#190033',
                                                 color: 'white'
                                             }
-                                        }} key={column.id}>{transformFirstLetterToUpperCase(column.lable)}</TableCell>
+                                        }} key={column.id}>{transformFirstLetterToUpperCase(column.label)}</TableCell>
                                     );
                                 })}
                             </TableRow>

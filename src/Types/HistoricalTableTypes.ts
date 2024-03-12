@@ -1,6 +1,7 @@
 export interface HistoricalTableColumnType {
     id: 'date' | 'open' | 'high' | 'low' | 'close' | 'volume',
-    lable: string
+    label: string,
+    index?: number
 }
 
 export interface HistoricalTableType {
@@ -11,3 +12,13 @@ export interface HistoricalTableType {
     close: number,
     volume: number | string
 }
+
+export enum HistoricalTableColumnIdType {
+    date = "date",
+    open = "open",
+    high = "high",
+    low = "low",
+    close = "close",
+    volume = "volume"
+}
+

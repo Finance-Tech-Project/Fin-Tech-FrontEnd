@@ -1,6 +1,6 @@
-export enum ColumnType {
-	"name" = "name",
-    "companyName" = "companyName",
+export enum TickerColumnIdType {
+	name = "name",
+    companyName = "companyName"
 }
 
 export interface TickerType {

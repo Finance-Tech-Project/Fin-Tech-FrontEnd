@@ -1,7 +1,7 @@
-import { Backdrop, Box, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Backdrop, Box, Button, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
-import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
+import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioIdType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
@@ -22,12 +22,10 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		setOpenModalForCreatePortfolio(false)
 	};
 
-	const removeFromModalTablePortfolioCreate = (event: React.MouseEvent<Element>) => {
-		const removed = event.currentTarget.firstChild?.textContent;
-		console.log(removed)
-		const index = selected.findIndex(item => item.symbolName === removed);
+	const removeFromModalTablePortfolioCreate = (symbolName: string) => {
+		const index = selected.findIndex(item => item.symbolName === symbolName);
 		selected.splice(index, 1);
-		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected.length === 0 || !selected ? new Array<WatchListCreatePortfolioType>() : selected ));
+		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected.length === 0 || !selected ? new Array<WatchListCreatePortfolioType>() : selected));
 	};
 
 	useEffect(() => {
@@ -51,9 +49,9 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		>
 			<Fade in={open}>
 				<WatchListModalPortfolioCreateContainer>
-					<Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-						<LoginRegisterTextField 
-							label='Enter portfolio name'  
+					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+						<LoginRegisterTextField
+							label='Enter portfolio name'
 							widthForModalPortfolioCreate
 						></LoginRegisterTextField>
 
@@ -87,11 +85,30 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							<TableBody>
 								{rows.map((row) => {
 									return (
-										<TableRow key={row.symbolName} onClick={removeFromModalTablePortfolioCreate}>
+										<TableRow key={row.symbolName}>
 											{columns.map((column) => {
 												const value = row[column.id];
 												return (
-													<TabelCellTicker key={column.id}>{value}</TabelCellTicker>
+													<TabelCellTicker key={column.id}>
+														{value}
+														{column.id === 'amountOfStocks' &&
+															<LoginRegisterTextField
+																type="number"
+																defaultValue='1'
+																widthForTableModalPortfolioCreate
+															></LoginRegisterTextField>
+														}
+														{column.id === 'removeSymbol' &&
+															<Button sx={{
+																width: '100%',
+																height: '56px',
+																border: '1.5px solid rgba(37, 59, 227, 0.8)',
+																backgroundColor: 'rgba(1, 17, 36, 0.8)',
+																color: 'white',
+																boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
+															}} onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}>Remove</Button>
+														}
+													</TabelCellTicker>
 												);
 											})}
 										</TableRow>

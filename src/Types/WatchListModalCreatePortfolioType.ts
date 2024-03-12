@@ -1,8 +1,8 @@
 export interface WatchListCreatePortfolioType {
     symbolName: string,
     companyName: string,
-    amountOfStocks: JSX.Element,
-    removeSymbol: JSX.Element
+    amountOfStocks: JSX.Element | null,
+    removeSymbol: JSX.Element | null
 }
 
 export interface WatchListCreatePortfolioColumnsType {
