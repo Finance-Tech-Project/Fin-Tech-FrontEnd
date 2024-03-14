@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material";
+import { Box, Theme, styled } from "@mui/material";
 
 export const WatchListContainer = styled(Box)(({ theme }) => ({
     border: '2px solid rgba(70, 75, 114, 0.8)',
@@ -30,3 +30,12 @@ export const WatchListWrapper = styled(Box)(({ theme }) => ({
         padding: '50px 50px',
     }
 }));
+
+export const WatchLisTableContainerStyle = (theme: Theme) => ({
+    backgroundColor: '#2c0951',
+    maxHeight: '690px',
+    width: '99.75%',
+    marginTop: '30px',
+    border: '2px solid rgba(70, 75, 114, 0.8)',
+    borderBottom: 'none'
+});

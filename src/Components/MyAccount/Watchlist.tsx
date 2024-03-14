@@ -1,18 +1,21 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { WatchListContainer, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
+import { WatchLisTableContainerStyle, WatchListContainer, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { Box, Button, Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
-import { getWatchList } from '../../Actions/fetchWatchListActions';
+import { getWatchList, removeSymbolsFromWatchList } from '../../Actions/fetchWatchListActions';
 import { WatchListColumnsType, WatchListType } from '../../Types/WatchListTypes';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
+import { theme } from '../../Constants/MaterialConstants/theme';
+import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -21,6 +24,7 @@ export interface SelectedSymbols {
 
 const Watchlist = () => {
     const login = useAppSelector(state => state.userReducer?.login);
+    const token = useAppSelector(state => state.tokenReducer);
     const openCloseToolbar = useAppSelector(state => state.accountInterfaceReducer.openCloseToolbar);
     const [columns, setColumns] = useState<Array<WatchListColumnsType>>([]);
     const [rows, setRows] = useState<Array<WatchListType>>([]);
@@ -52,6 +56,18 @@ const Watchlist = () => {
         };
         return res;
     };
+
+    const handleRemoveSymbolsFromWatchList = (event: React.MouseEvent<HTMLElement>) => {
+        if (Boolean(event.currentTarget)) {
+            const symbolsNames = selected.map((item) => item.symbolName);
+            removeSymbolsFromWatchList(login!, token!, symbolsNames);
+            setSelected([]);
+            setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
+            setRows(new CreatingRowsForTables().createRowsForWatchList([]));
+            fetchWatchList();
+        }
+    };
+
 
     const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
@@ -90,12 +106,12 @@ const Watchlist = () => {
         setSelected(newSelected);
     };
 
-    const handleDeleteAllSelectedTickers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (!Boolean(event.currentTarget.value)) {
-            setSelected([]);
-            return;
-        }
-    };
+    // const handleDeleteAllSelectedTickers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     if (!Boolean(event.currentTarget.value)) {
+    //         setSelected([]);
+    //         return;
+    //     }
+    // };
 
     const isSelected = (name: string, companyName: string) =>
         selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName) !== -1;
@@ -140,12 +156,7 @@ const Watchlist = () => {
                             }} />
 
                         <TableContainer component={Paper}
-                            sx={{
-                                width: '99.75%',
-                                marginTop: '30px',
-                                border: '2px solid rgba(70, 75, 114, 0.8)',
-                                borderBottom: 'none'
-                            }}>
+                            sx={() => WatchLisTableContainerStyle(theme)}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
                                     <TableRow sx={{ backgroundColor: '#190033' }}>
@@ -175,34 +186,15 @@ const Watchlist = () => {
                                                     {columns.map((column) => {
                                                         const value = row[column.id];
                                                         return (
-                                                            <TableCell
-                                                                sx={{
-                                                                    '&.MuiTableCell-root': {
-                                                                        color: 'white',
-                                                                        backgroundColor: '#3e3e3e',
-                                                                        fontFamily: 'Inter, sans-serif',
-                                                                        '&:nth-of-type(1)': {
-                                                                            position: 'relative',
-                                                                            zIndex: 1,
-                                                                            borderRight: '1px solid #190033',
-                                                                            boxShadow: '5px 0px 20px 0px rgba(0,20,135,1)',
-                                                                            '&:hover': {
-                                                                                cursor: 'pointer',
-                                                                                borderBottom: '2px solid #190033',
-                                                                                marginBottom: '5px'
-                                                                            }
-                                                                        }
-                                                                    },
-                                                                }}
-
+                                                            <TabelCellTicker
                                                                 key={column.id}>
                                                                 {value === row.symbolName && <Checkbox sx={{ color: 'white' }}
                                                                     checked={isItemSelected}
                                                                     onChange={event => handleClick(event, row.symbolName, row.companyName)}
                                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                                 />}
-                                                                {value}
-                                                            </TableCell>
+                                                                {typeof value === 'number' ? value.toFixed(2) : value}
+                                                            </TabelCellTicker>
                                                         )
                                                     })}
                                                 </TableRow>
@@ -247,7 +239,7 @@ const Watchlist = () => {
                                     backgroundColor: 'rgba(1, 17, 36, 0.8)',
                                     color: 'white',
                                     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                                }}>Remove from watchlist</Button>
+                                }} onClick={(event) => handleRemoveSymbolsFromWatchList(event)}>Remove from watchlist</Button>
                             </Grid>
 
                         </Box>

@@ -14,8 +14,9 @@ import { getDataInInterval } from '../../Functions/utilsFunctions';
 import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { addSymbolToWatchList } from '../../Actions/fetchWatchListActions';
-import { LocaleStorageType, SessionStorageType, UserProfile } from '../../Types/LoginRegisterTypes';
+import { UserProfile } from '../../Types/LoginRegisterTypes';
 import { useNavigate } from 'react-router-dom';
+import StockModalAddToWatchList from './StockModalAddToWatchList';
 interface AutocompleteOption {
 	name: string,
 	companyName: string
@@ -36,16 +37,17 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
+	const [responseStatus, setResponseStatus] = useState(0);
+	const [openModalAddToWatchList, setOpenModalAddToWatchList] = useState(false);
 	const navigate = useNavigate();
 
-	const handleAddToWatchList = () => {
+	const handleAddToWatchList = async () => {
 		if (userProfile === null) {
 			navigate("/signIn");
 		} else {
-			// const locStorage: LocaleStorageType = JSON.parse(localStorage.getItem('userData')!); 
-			// const sesStorage: SessionStorageType = JSON.parse(sessionStorage.getItem('userData')!);
-			// const token = locStorage.token === null ? sesStorage.token : locStorage.token;
-			addSymbolToWatchList(userProfile.login, token!, symbolName);
+			const response: Response | undefined = await addSymbolToWatchList(userProfile.login, token!, symbolName);
+			setResponseStatus(response?.status!);
+			response!.ok && setOpenModalAddToWatchList(true);
 		} 
 	};
 
@@ -99,6 +101,8 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	
 	return (
 		<StocksChartContainer>
+			{openModalAddToWatchList && 
+				<StockModalAddToWatchList responseStatus={responseStatus} setOpenModalAddToWatchList={setOpenModalAddToWatchList}/>}
 			<StocksChartSearchTickerContainer>
 				<Grid container sx={{width: '100%'}}>
 					<Grid 

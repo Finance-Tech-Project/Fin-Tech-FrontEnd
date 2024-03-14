@@ -1,12 +1,14 @@
-import { Backdrop, Box, Button, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Backdrop, Box, Fade, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
-import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioIdType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
+import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
 import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
-import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
+import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer, WatchListModalPortfolioCreateContainerStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
+import { theme } from '../../Constants/MaterialConstants/theme';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -16,6 +18,17 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [open, setOpen] = useState(true);
 	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>([]);
 	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
+	const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
 	const handleClose = () => {
 		setOpen(false)
@@ -60,12 +73,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 
 
 					<TableContainer component={Paper}
-						sx={{
-							width: '99.75%',
-							marginTop: '30px',
-							border: '2px solid rgba(70, 75, 114, 0.8)',
-							borderBottom: 'none'
-						}}>
+						sx={() => WatchListModalPortfolioCreateContainerStyle(theme)}>
 						<Table stickyHeader aria-label="sticky table">
 							<TableHead>
 								<TableRow sx={{ backgroundColor: '#190033' }}>
@@ -83,7 +91,9 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							</TableHead>
 
 							<TableBody>
-								{rows.map((row) => {
+								{rows
+									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((row) => {
 									return (
 										<TableRow key={row.symbolName}>
 											{columns.map((column) => {
@@ -99,14 +109,9 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 															></LoginRegisterTextField>
 														}
 														{column.id === 'removeSymbol' &&
-															<Button sx={{
-																width: '100%',
-																height: '56px',
-																border: '1.5px solid rgba(37, 59, 227, 0.8)',
-																backgroundColor: 'rgba(1, 17, 36, 0.8)',
-																color: 'white',
-																boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-															}} onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}>Remove</Button>
+															<WatchListModalPortfolioCreateButtons widthForTable
+																onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}
+															>Remove</WatchListModalPortfolioCreateButtons>
 														}
 													</TabelCellTicker>
 												);
@@ -117,6 +122,20 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 							</TableBody>
 						</Table>
 					</TableContainer>
+					<TablePagination
+                            sx={{
+                                width: '99.75%',
+                                border: '2px solid rgba(70, 75, 114, 0.8)',
+                                borderTop: 'none'
+                            }}
+                            rowsPerPageOptions={[10, 100, 1000]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
 				</WatchListModalPortfolioCreateContainer>
 			</Fade>
 		</Modal>

@@ -64,7 +64,8 @@ export enum FetchConstantsForWatchListPortfolio {
     PORTFOLIO = "/portfolio",
     WATCHLIST = "/watchList",
     USER_NAME = "?userName=",
-    SYMBOL = "&symbol="
+    SYMBOL = "&symbol=",
+    REMOVE_SYMBOLS_FROM_WATCHLIST = "/removeFromWatchList",
 }
 
 export enum DefaultPeriods {
