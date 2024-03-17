@@ -59,7 +59,8 @@ export const removeSymbolsFromWatchList = async (login: string, token: string, s
         });
 
         if (response.ok) {
-            console.log("Symbols succesfully deleted from watchlist")
+           const res: Array<WatchListType> = await response.json();
+           return res;
         }
     } catch (error) {
         

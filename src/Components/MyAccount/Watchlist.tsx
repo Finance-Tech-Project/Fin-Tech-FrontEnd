@@ -16,6 +16,7 @@ import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
+import WatchListModalCircularProgress from './WatchListModalCircularProgress';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -32,6 +33,7 @@ const Watchlist = () => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [openModalForCreatePortfolio, setOpenModalForCreatePortfolio] = useState(false);
+    const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
     const dispatch = useAppDispatch();
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -57,14 +59,17 @@ const Watchlist = () => {
         return res;
     };
 
-    const handleRemoveSymbolsFromWatchList = (event: React.MouseEvent<HTMLElement>) => {
+    const handleRemoveSymbolsFromWatchList = async (event: React.MouseEvent<HTMLElement>) => {
         if (Boolean(event.currentTarget)) {
             const symbolsNames = selected.map((item) => item.symbolName);
-            removeSymbolsFromWatchList(login!, token!, symbolsNames);
+            setOpenModalForCircularProgress(true);
+            const res: Array<WatchListType> | undefined = await removeSymbolsFromWatchList(login!, token!, symbolsNames);
+            if (res) {
+                setColumns(new CreatingColumnsForTables().createColumnsForWatchList(res));
+                setRows(new CreatingRowsForTables().createRowsForWatchList(res));
+            }
             setSelected([]);
-            setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
-            setRows(new CreatingRowsForTables().createRowsForWatchList([]));
-            fetchWatchList();
+            setOpenModalForCircularProgress(false);
         }
     };
 
@@ -117,9 +122,11 @@ const Watchlist = () => {
         selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName) !== -1;
 
     const fetchWatchList = async () => {
+        setOpenModalForCircularProgress(true);
         const res = await getWatchList(login!);
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList(res));
         setRows(new CreatingRowsForTables().createRowsForWatchList(res));
+        setOpenModalForCircularProgress(false);
     };
 
     const handleCreatePortfolio = () => {
@@ -127,8 +134,11 @@ const Watchlist = () => {
     };
 
     useEffect(() => {
+        
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
+        
         fetchWatchList();
+        
     }, []);
 
     return (
@@ -138,6 +148,9 @@ const Watchlist = () => {
                     selected={selected}
                     setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}
                 />
+            }
+            {openModalForCircularProgress && 
+                <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress}/>
             }
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
