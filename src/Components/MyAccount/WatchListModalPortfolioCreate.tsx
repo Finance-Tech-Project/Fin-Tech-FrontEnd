@@ -9,35 +9,66 @@ import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer, WatchListModalPortfolioCreateContainerStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
+import { PortfolioType } from '../../Types/PortfolioTypes';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
 	setOpenModalForCreatePortfolio: (value: React.SetStateAction<boolean>) => void,
 }
+
 const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected }: Props) => {
+	const login = useAppSelector(state => state.userReducer?.login);
 	const [open, setOpen] = useState(true);
 	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>([]);
 	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
 	const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+	const initialMap = () => {
+		if (selected && selected.length > 0) {
+			const res: Map<string, number> = new Map<string, number>();
+			selected.forEach((item) => {
+				res.set(item.symbolName, 1);
+			});
+			return res;
+		} else {
+			return new Map<string, number>();
+		}
+	};
+
+	const [amountOfStocks, setAmountOfStocks] = useState<Map<string, number>>(initialMap());
+	const [portfolioName, setPortfolioName] = useState('');
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 	const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
+		setPage(newPage);
+	};
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+	const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setRowsPerPage(+event.target.value);
+		setPage(0);
+	};
 
 	const handleClose = () => {
-		setOpen(false)
-		setOpenModalForCreatePortfolio(false)
+		setOpen(false);
+		setOpenModalForCreatePortfolio(false);
+	};
+
+	const handleCreatePortfolio = () => {
+		const portfolio = {} as PortfolioType;
+		if (login && portfolioName !== '') {
+			portfolio.userLogin = login;
+			portfolio.portfolioName = portfolioName;
+			portfolio.portfolioDate = new Date();
+			portfolio.stocks = amountOfStocks;
+		}
+		console.log(portfolio);
 	};
 
 	const removeFromModalTablePortfolioCreate = (symbolName: string) => {
 		const index = selected.findIndex(item => item.symbolName === symbolName);
 		selected.splice(index, 1);
+		amountOfStocks.delete(symbolName);
 		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected.length === 0 || !selected ? new Array<WatchListCreatePortfolioType>() : selected));
 	};
 
@@ -66,9 +97,11 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 						<LoginRegisterTextField
 							label='Enter portfolio name'
 							widthForModalPortfolioCreate
+							onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPortfolioName(e.target.value)}
+							value={portfolioName}
 						></LoginRegisterTextField>
 
-						<WatchListModalPortfolioCreateButtons>Create portfolio</WatchListModalPortfolioCreateButtons>
+						<WatchListModalPortfolioCreateButtons onClick={handleCreatePortfolio}>Create portfolio</WatchListModalPortfolioCreateButtons>
 					</Box>
 
 
@@ -94,48 +127,51 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 								{rows
 									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 									.map((row) => {
-									return (
-										<TableRow key={row.symbolName}>
-											{columns.map((column) => {
-												const value = row[column.id];
-												return (
-													<TabelCellTicker key={column.id}>
-														{value}
-														{column.id === 'amountOfStocks' &&
-															<LoginRegisterTextField
-																type="number"
-																defaultValue='1'
-																widthForTableModalPortfolioCreate
-															></LoginRegisterTextField>
-														}
-														{column.id === 'removeSymbol' &&
-															<WatchListModalPortfolioCreateButtons widthForTable
-																onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}
-															>Remove</WatchListModalPortfolioCreateButtons>
-														}
-													</TabelCellTicker>
-												);
-											})}
-										</TableRow>
-									);
-								})}
+										return (
+											<TableRow key={row.symbolName}>
+												{columns.map((column) => {
+													const value = row[column.id];
+													return (
+														<TabelCellTicker key={column.id}>
+															{value}
+															{column.id === 'amountOfStocks' &&
+																<LoginRegisterTextField
+																	id="standard-number"
+																	type="number"
+																	widthForTableModalPortfolioCreate
+																	defaultValue='1'
+																	onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+																		setAmountOfStocks((prev) => prev.set(row.symbolName, +e.target.value))}
+																></LoginRegisterTextField>
+															}
+															{column.id === 'removeSymbol' &&
+																<WatchListModalPortfolioCreateButtons widthForTable
+																	onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}
+																>Remove</WatchListModalPortfolioCreateButtons>
+															}
+														</TabelCellTicker>
+													);
+												})}
+											</TableRow>
+										);
+									})}
 							</TableBody>
 						</Table>
 					</TableContainer>
 					<TablePagination
-                            sx={{
-                                width: '99.75%',
-                                border: '2px solid rgba(70, 75, 114, 0.8)',
-                                borderTop: 'none'
-                            }}
-                            rowsPerPageOptions={[10, 100, 1000]}
-                            component="div"
-                            count={rows.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={handleChangePage}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                        />
+						sx={{
+							width: '99.75%',
+							border: '2px solid rgba(70, 75, 114, 0.8)',
+							borderTop: 'none'
+						}}
+						rowsPerPageOptions={[10, 100, 1000]}
+						component="div"
+						count={rows.length}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+					/>
 				</WatchListModalPortfolioCreateContainer>
 			</Fade>
 		</Modal>

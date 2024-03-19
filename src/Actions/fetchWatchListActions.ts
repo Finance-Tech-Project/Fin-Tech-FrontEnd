@@ -1,4 +1,5 @@
 import { FetchConstants, FetchConstantsForWatchListPortfolio } from "../Enums/Enums";
+import { PortfolioType } from "../Types/PortfolioTypes";
 import { WatchListType } from "../Types/WatchListTypes";
 
 export const addSymbolToWatchList = async (login: string, token: string, symbol: string) => {
@@ -62,6 +63,14 @@ export const removeSymbolsFromWatchList = async (login: string, token: string, s
            const res: Array<WatchListType> = await response.json();
            return res;
         }
+    } catch (error) {
+        
+    }
+};
+
+export const createPortfolio = async (portfolio: PortfolioType) => {
+    try {
+        
     } catch (error) {
         
     }

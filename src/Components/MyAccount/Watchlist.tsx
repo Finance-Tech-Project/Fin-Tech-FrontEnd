@@ -134,11 +134,8 @@ const Watchlist = () => {
     };
 
     useEffect(() => {
-        
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
-        
         fetchWatchList();
-        
     }, []);
 
     return (
