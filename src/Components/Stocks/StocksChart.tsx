@@ -17,6 +17,8 @@ import { addSymbolToWatchList } from '../../Actions/fetchWatchListActions';
 import { UserProfile } from '../../Types/LoginRegisterTypes';
 import { useNavigate } from 'react-router-dom';
 import StockModalAddToWatchList from './StockModalAddToWatchList';
+import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
+import { GeneralStatusMessageResponse } from '../../Types/GeneralAppTypes';
 interface AutocompleteOption {
 	name: string,
 	companyName: string
@@ -37,7 +39,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
-	const [responseStatus, setResponseStatus] = useState(0);
+	const [responseStatusMessage, setResponseStatusMessage] = useState<GeneralStatusMessageResponse>();
 	const [openModalAddToWatchList, setOpenModalAddToWatchList] = useState(false);
 	const navigate = useNavigate();
 
@@ -46,7 +48,10 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			navigate("/signIn");
 		} else {
 			const response: Response | undefined = await addSymbolToWatchList(userProfile.login, token!, symbolName);
-			setResponseStatus(response?.status!);
+			setResponseStatusMessage({
+				responseStatus: response?.status!,
+				message: response!.ok ? '* Your symbol successfully added to watchlist' : response?.status === 201 ? '* Symbol already exists in watchlist.' : ''
+			});
 			response!.ok && setOpenModalAddToWatchList(true);
 		} 
 	};
@@ -102,7 +107,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	return (
 		<StocksChartContainer>
 			{openModalAddToWatchList && 
-				<StockModalAddToWatchList responseStatus={responseStatus} setOpenModalAddToWatchList={setOpenModalAddToWatchList}/>}
+				<ModalFetchResponses responseStatus={responseStatus} message=''/>}
 			<StocksChartSearchTickerContainer>
 				<Grid container sx={{width: '100%'}}>
 					<Grid 

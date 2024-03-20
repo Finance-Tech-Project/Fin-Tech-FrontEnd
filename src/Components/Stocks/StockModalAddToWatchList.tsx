@@ -1,6 +1,6 @@
 import { Backdrop, Fade, Modal, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import { StockModalAddToWatchListContainer } from '../../Styles/StocksStyles/StockModalAddToWatchListStyle';
+import { GeneralModalFetchResponseContainer } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 interface Props {
 	responseStatus: number,
@@ -30,10 +30,10 @@ const StockModalAddToWatchList = ({responseStatus, setOpenModalAddToWatchList }:
 			}}
 		>
 			<Fade in={open}>
-				<StockModalAddToWatchListContainer>
+				<GeneralModalFetchResponseContainer>
 					{responseStatus === 200 && <Typography variant='h5' sx={{ color: 'white' }}>* Your symbol successfully added to watchlist.</Typography>}
 					{responseStatus === 201 && <Typography variant='h5' sx={{ color: 'white' }}>* Symbol already exists in watchlist.</Typography>}
-				</StockModalAddToWatchListContainer>
+				</GeneralModalFetchResponseContainer>
 			</Fade>
 		</Modal>
 	)

@@ -68,9 +68,24 @@ export const removeSymbolsFromWatchList = async (login: string, token: string, s
     }
 };
 
-export const createPortfolio = async (portfolio: PortfolioType) => {
+export const createPortfolio = async (token: string, portfolio: PortfolioType) => {
     try {
-        
+        const response = await fetch(`${
+            FetchConstants.BASE_URL + 
+            FetchConstantsForWatchListPortfolio.PORTFOLIO + 
+            FetchConstantsForWatchListPortfolio.CREATE
+        }`, {
+            method: 'POST',
+            body: JSON.stringify(portfolio),
+            headers: {
+                Authorization: token,
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.ok) {
+            return response.status;
+        }
     } catch (error) {
         
     }

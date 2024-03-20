@@ -11,6 +11,9 @@ import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { PortfolioType } from '../../Types/PortfolioTypes';
 import { useAppSelector } from '../../app/hooks';
+import { createPortfolio } from '../../Actions/fetchWatchListActions';
+import WatchListModalCircularProgress from './WatchListModalCircularProgress';
+import WatchListModalResponsePortfolioCreate from './WatchListModalResponsePortfolioCreate';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -18,6 +21,7 @@ interface Props {
 }
 
 const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selected }: Props) => {
+	const token = useAppSelector(state => state.tokenReducer);
 	const login = useAppSelector(state => state.userReducer?.login);
 	const [open, setOpen] = useState(true);
 	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>([]);
@@ -39,6 +43,8 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [amountOfStocks, setAmountOfStocks] = useState<Map<string, number>>(initialMap());
 	const [portfolioName, setPortfolioName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
+	const [openModalResponsePortfolioCreate, setOpenModalResponsePortfolioCreate] = useState(false);
 
 	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -54,15 +60,25 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		setOpenModalForCreatePortfolio(false);
 	};
 
-	const handleCreatePortfolio = () => {
+	const handleCreatePortfolio = async () => {
+		setOpenModalForCircularProgress(true);
 		const portfolio = {} as PortfolioType;
 		if (login && portfolioName !== '') {
 			portfolio.userLogin = login;
 			portfolio.portfolioName = portfolioName;
-			portfolio.portfolioDate = new Date();
-			portfolio.stocks = amountOfStocks;
+			portfolio.portfolioDate = new Date().toISOString().split("T").splice(0, 1)[0];
+			portfolio.stocks = Object.fromEntries(amountOfStocks);
+			const responseStatus = await createPortfolio(token!, portfolio);
+			setOpenModalForCircularProgress(false);
+			if (responseStatus && responseStatus === 200) {
+				
+				setOpenModalResponsePortfolioCreate(true);
+				selected.splice(0, selected.length);
+				amountOfStocks.clear();
+				setPortfolioName('');
+				
+			}
 		}
-		console.log(portfolio);
 	};
 
 	const removeFromModalTablePortfolioCreate = (symbolName: string) => {
@@ -93,6 +109,9 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		>
 			<Fade in={open}>
 				<WatchListModalPortfolioCreateContainer>
+					{openModalForCircularProgress && <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress}/>}
+					{openModalResponsePortfolioCreate && 
+						<WatchListModalResponsePortfolioCreate setOpenModalResponsePortfolioCreate={setOpenModalResponsePortfolioCreate}/>}
 					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 						<LoginRegisterTextField
 							label='Enter portfolio name'

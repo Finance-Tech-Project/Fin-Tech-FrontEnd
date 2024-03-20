@@ -3,3 +3,8 @@ export interface GeneralApp {
     isMobile: boolean,
     passwordSymbols: string
 }
+
+export interface GeneralStatusMessageResponse {
+    responseStatus: number,
+    message: string
+}
