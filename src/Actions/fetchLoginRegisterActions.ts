@@ -5,7 +5,7 @@ import { putPasswordSymbols } from "../Reducers/generalAppReducer";
 import { putToken } from "../Reducers/tokenReducer";
 import { putUserException } from "../Reducers/userExeptionsReducer";
 import { putUser } from "../Reducers/userReducer";
-import { Exception, LocaleStorageType, SessionStorageType, UpdateUserProfile, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
+import { LocaleStorageType, SessionStorageType, UpdateUserProfile, UserExceptions, UserProfile, UserRegister } from "../Types/LoginRegisterTypes";
 import { AppDispatch, RootState } from "../app/store";
 
 export const registerUser = (user: UserRegister, passwordSymbols: string, navigate: NavigateFunction) => {
@@ -33,7 +33,7 @@ export const registerUser = (user: UserRegister, passwordSymbols: string, naviga
             }
         } catch (error) {
             if (error instanceof Error) {
-                const exception: Exception = {
+                const exception: UserExceptions = {
                     exceptionType: parseInt(error.message),
                     exceptionMessage: "The user you entered for registration is already registered. Please go to the login page and log in."
                 };
@@ -90,7 +90,7 @@ export const loginUser = (token: string, rememberLogin: boolean, passwordSymbols
                 }
             } catch (error) {
                 if (error instanceof Error) {
-                    const exception: Exception = {
+                    const exception: UserExceptions = {
                         exceptionType: parseInt(error.message),
                         exceptionMessage: "The username or password you entered is invalid, or you do not have an account on this site. Please enter the correct username and password, or go to the sign-up page to create your account."
                     };

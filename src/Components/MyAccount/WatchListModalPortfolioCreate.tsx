@@ -10,10 +10,12 @@ import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateCont
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { PortfolioType } from '../../Types/PortfolioTypes';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createPortfolio } from '../../Actions/fetchWatchListActions';
 import WatchListModalCircularProgress from './WatchListModalCircularProgress';
-import WatchListModalResponsePortfolioCreate from './WatchListModalResponsePortfolioCreate';
+
+import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
+import { createMapToOpenCloseModal } from '../../Functions/dataProcessingFunctions';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -27,6 +29,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [columns, setColumns] = useState<Array<WatchListCreatePortfolioColumnsType>>([]);
 	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
 	const [page, setPage] = React.useState(0);
+	const dispatch = useAppDispatch();
 
 	const initialMap = () => {
 		if (selected && selected.length > 0) {
@@ -45,6 +48,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
 	const [openModalResponsePortfolioCreate, setOpenModalResponsePortfolioCreate] = useState(false);
+
 
 	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -68,15 +72,15 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			portfolio.portfolioName = portfolioName;
 			portfolio.portfolioDate = new Date().toISOString().split("T").splice(0, 1)[0];
 			portfolio.stocks = Object.fromEntries(amountOfStocks);
-			const responseStatus = await createPortfolio(token!, portfolio);
+			const responseStatus = await dispatch(createPortfolio(token!, portfolio));
 			setOpenModalForCircularProgress(false);
-			if (responseStatus && responseStatus === 200) {
-				
+			if (responseStatus && (responseStatus === 200 || responseStatus === 201)) {
+
 				setOpenModalResponsePortfolioCreate(true);
 				selected.splice(0, selected.length);
 				amountOfStocks.clear();
 				setPortfolioName('');
-				
+
 			}
 		}
 	};
@@ -91,6 +95,8 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	useEffect(() => {
 		setColumns(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selected));
 		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected));
+		createMapToOpenCloseModal('setOpenModalResponsePortfolioCreate', setOpenModalResponsePortfolioCreate);
+		createMapToOpenCloseModal('setOpenModalForCreatePortfolio', setOpenModalForCreatePortfolio);
 	}, []);
 
 	return (
@@ -109,9 +115,12 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		>
 			<Fade in={open}>
 				<WatchListModalPortfolioCreateContainer>
-					{openModalForCircularProgress && <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress}/>}
-					{openModalResponsePortfolioCreate && 
-						<WatchListModalResponsePortfolioCreate setOpenModalResponsePortfolioCreate={setOpenModalResponsePortfolioCreate}/>}
+					{openModalForCircularProgress && <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress} />}
+					{openModalResponsePortfolioCreate &&
+						<ModalFetchResponses 
+							setOpenCloseModal={setOpenModalResponsePortfolioCreate} 
+							MapOfFunctionsToOpenCloseModal={createMapToOpenCloseModal()}
+						/>}
 					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 						<LoginRegisterTextField
 							label='Enter portfolio name'

@@ -1,20 +1,27 @@
 import { Backdrop, Fade, Modal, Typography } from '@mui/material';
 import React, { useState } from 'react'
 import { GeneralModalFetchResponseContainer } from '../../Styles/AreCommonStyles/AreCommonStyles';
-import { GeneralStatusMessageResponse } from '../../Types/GeneralAppTypes';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { clearExceptions } from '../../Reducers/userExeptionsReducer';
 
 interface Props {
-    response: GeneralStatusMessageResponse,
-    message: string,
     setOpenCloseModal: (value: React.SetStateAction<boolean>) => void,
+    MapOfFunctionsToOpenCloseModal: Map<string, (value: React.SetStateAction<boolean>) => void>
 
 }
-const ModalFetchResponses = ({ response, message, setOpenCloseModal }: Props) => {
+const ModalFetchResponses = ({ setOpenCloseModal, MapOfFunctionsToOpenCloseModal }: Props) => {
+    const exception = useAppSelector(state => state.userExceptionsReducer);
     const [open, setOpen] = useState(true);
+    const dispatch = useAppDispatch();
 
     const handleClose = () => {
         setOpen(false);
-        setOpenCloseModal(false);
+        // setOpenCloseModal(false);
+        const setOpenModalResponsePortfolioCreate = MapOfFunctionsToOpenCloseModal.get('setOpenModalResponsePortfolioCreate');
+        const setOpenModalForCreatePortfolio = MapOfFunctionsToOpenCloseModal.get('setOpenModalForCreatePortfolio');
+        setOpenModalResponsePortfolioCreate!(false);
+        setOpenModalForCreatePortfolio!(false);
+        dispatch(clearExceptions());
     };
 
     return (
@@ -33,8 +40,7 @@ const ModalFetchResponses = ({ response, message, setOpenCloseModal }: Props) =>
         >
             <Fade in={open}>
                 <GeneralModalFetchResponseContainer>
-                    {response.responseStatus === 200 && <Typography variant='h5' sx={{ color: 'white' }}>{message}</Typography>}
-                    {response.responseStatus === 201 && <Typography variant='h5' sx={{ color: 'white' }}>{message}</Typography>}
+                   {exception?.exceptionMessage && <Typography variant='h5' sx={{ color: 'white' }}>{exception?.exceptionMessage}</Typography>} 
                 </GeneralModalFetchResponseContainer>
             </Fade>
         </Modal>

@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Exception, UserExceptions } from "../Types/LoginRegisterTypes";
+import {  UserExceptions } from "../Types/LoginRegisterTypes";
 
 const initialState = null as UserExceptions | null;
 
@@ -7,7 +7,7 @@ export const userExceptionsSlice = createSlice({
     name: 'userExceptions',
     initialState: initialState,
     reducers: {
-        putUserException(state, action: PayloadAction<Exception>) {
+        putUserException(state, action: PayloadAction<UserExceptions>) {
            return action.payload;
         },
         clearExceptions(state) {

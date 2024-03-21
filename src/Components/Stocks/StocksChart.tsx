@@ -16,9 +16,8 @@ import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { addSymbolToWatchList } from '../../Actions/fetchWatchListActions';
 import { UserProfile } from '../../Types/LoginRegisterTypes';
 import { useNavigate } from 'react-router-dom';
-import StockModalAddToWatchList from './StockModalAddToWatchList';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
-import { GeneralStatusMessageResponse } from '../../Types/GeneralAppTypes';
+import { putUserException } from '../../Reducers/userExeptionsReducer';
 interface AutocompleteOption {
 	name: string,
 	companyName: string
@@ -39,7 +38,6 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
-	const [responseStatusMessage, setResponseStatusMessage] = useState<GeneralStatusMessageResponse>();
 	const [openModalAddToWatchList, setOpenModalAddToWatchList] = useState(false);
 	const navigate = useNavigate();
 
@@ -48,11 +46,20 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			navigate("/signIn");
 		} else {
 			const response: Response | undefined = await addSymbolToWatchList(userProfile.login, token!, symbolName);
-			setResponseStatusMessage({
-				responseStatus: response?.status!,
-				message: response!.ok ? '* Your symbol successfully added to watchlist' : response?.status === 201 ? '* Symbol already exists in watchlist.' : ''
-			});
-			response!.ok && setOpenModalAddToWatchList(true);
+			// This block need write in method addSymbolToWatchList
+			if (response?.status === 200) {
+				dispatch(putUserException({
+					exceptionType: response?.status,
+					exceptionMessage: '* Your symbol succesfully added to watchlist.'
+				}));
+				setOpenModalAddToWatchList(true);
+			} else if (response?.status === 201) {
+				dispatch(putUserException({
+					exceptionType: response?.status,
+					exceptionMessage: '* Your symbol already exists in watchlist.'
+				}));
+				setOpenModalAddToWatchList(true);
+			}
 		} 
 	};
 
@@ -107,7 +114,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	return (
 		<StocksChartContainer>
 			{openModalAddToWatchList && 
-				<ModalFetchResponses responseStatus={responseStatus} message=''/>}
+				<ModalFetchResponses setOpenCloseModal={setOpenModalAddToWatchList}/>}
 			<StocksChartSearchTickerContainer>
 				<Grid container sx={{width: '100%'}}>
 					<Grid 
