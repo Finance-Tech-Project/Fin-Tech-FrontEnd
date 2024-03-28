@@ -6,21 +6,17 @@ import { clearExceptions } from '../../Reducers/userExeptionsReducer';
 
 interface Props {
     setOpenCloseModal: (value: React.SetStateAction<boolean>) => void,
-    MapOfFunctionsToOpenCloseModal: Map<string, (value: React.SetStateAction<boolean>) => void>
+   
 
 }
-const ModalFetchResponses = ({ setOpenCloseModal, MapOfFunctionsToOpenCloseModal }: Props) => {
+const ModalFetchResponses = ({ setOpenCloseModal}: Props) => {
     const exception = useAppSelector(state => state.userExceptionsReducer);
     const [open, setOpen] = useState(true);
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
         setOpen(false);
-        // setOpenCloseModal(false);
-        const setOpenModalResponsePortfolioCreate = MapOfFunctionsToOpenCloseModal.get('setOpenModalResponsePortfolioCreate');
-        const setOpenModalForCreatePortfolio = MapOfFunctionsToOpenCloseModal.get('setOpenModalForCreatePortfolio');
-        setOpenModalResponsePortfolioCreate!(false);
-        setOpenModalForCreatePortfolio!(false);
+        setOpenCloseModal(false);
         dispatch(clearExceptions());
     };
 

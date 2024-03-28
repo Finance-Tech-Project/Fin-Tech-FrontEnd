@@ -16,7 +16,7 @@ import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
-import WatchListModalCircularProgress from './WatchListModalCircularProgress';
+import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -111,13 +111,6 @@ const Watchlist = () => {
         setSelected(newSelected);
     };
 
-    // const handleDeleteAllSelectedTickers = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    //     if (!Boolean(event.currentTarget.value)) {
-    //         setSelected([]);
-    //         return;
-    //     }
-    // };
-
     const isSelected = (name: string, companyName: string) =>
         selected.findIndex((elem) => elem.symbolName === createObjectForWatchListPortfolio(name, companyName).symbolName) !== -1;
 
@@ -136,7 +129,6 @@ const Watchlist = () => {
     useEffect(() => {
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
         fetchWatchList();
-        
     }, []);
 
     return (
@@ -148,7 +140,7 @@ const Watchlist = () => {
                 />
             }
             {openModalForCircularProgress && 
-                <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress}/>
+                <ModalCircularProgress openCloseModal={openModalForCircularProgress}/>
             }
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>

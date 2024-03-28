@@ -25,11 +25,6 @@ export const createHistogramLineAreaData = (tickerData: Array<TickerDataType>) =
     return data;
 };
 
-export const createMapToOpenCloseModal = (functionName: string, functionSignature: React.Dispatch<React.SetStateAction<boolean>>) => {
-    const res = new Map<string, (value: React.SetStateAction<boolean>) => void>();
-    res.set(functionName, functionSignature);
-    return res;
-};
 
 
 

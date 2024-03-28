@@ -12,10 +12,8 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { PortfolioType } from '../../Types/PortfolioTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createPortfolio } from '../../Actions/fetchWatchListActions';
-import WatchListModalCircularProgress from './WatchListModalCircularProgress';
-
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
-import { createMapToOpenCloseModal } from '../../Functions/dataProcessingFunctions';
+import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -95,8 +93,6 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	useEffect(() => {
 		setColumns(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selected));
 		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected));
-		createMapToOpenCloseModal('setOpenModalResponsePortfolioCreate', setOpenModalResponsePortfolioCreate);
-		createMapToOpenCloseModal('setOpenModalForCreatePortfolio', setOpenModalForCreatePortfolio);
 	}, []);
 
 	return (
@@ -115,11 +111,10 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		>
 			<Fade in={open}>
 				<WatchListModalPortfolioCreateContainer>
-					{openModalForCircularProgress && <WatchListModalCircularProgress openCloseModal={openModalForCircularProgress} />}
+					{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
 					{openModalResponsePortfolioCreate &&
 						<ModalFetchResponses 
 							setOpenCloseModal={setOpenModalResponsePortfolioCreate} 
-							MapOfFunctionsToOpenCloseModal={createMapToOpenCloseModal()}
 						/>}
 					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 						<LoginRegisterTextField

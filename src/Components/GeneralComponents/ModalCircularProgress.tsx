@@ -1,10 +1,11 @@
 import { Backdrop, Box, CircularProgress, Fade, Modal } from '@mui/material'
+import React from 'react'
 
 interface Props {
     openCloseModal: boolean
 }
 
-const WatchListModalCircularProgress = ({ openCloseModal }: Props) => {
+const ModalCircularProgress = ({ openCloseModal }: Props) => {
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -33,4 +34,4 @@ const WatchListModalCircularProgress = ({ openCloseModal }: Props) => {
     )
 }
 
-export default WatchListModalCircularProgress
+export default ModalCircularProgress

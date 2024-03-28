@@ -18,6 +18,7 @@ import { UserProfile } from '../../Types/LoginRegisterTypes';
 import { useNavigate } from 'react-router-dom';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 import { putUserException } from '../../Reducers/userExeptionsReducer';
+import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
 interface AutocompleteOption {
 	name: string,
 	companyName: string
@@ -39,12 +40,14 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
 	const [openModalAddToWatchList, setOpenModalAddToWatchList] = useState(false);
+	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
 	const navigate = useNavigate();
 
 	const handleAddToWatchList = async () => {
 		if (userProfile === null) {
 			navigate("/signIn");
 		} else {
+			setOpenModalForCircularProgress(true);
 			const response: Response | undefined = await addSymbolToWatchList(userProfile.login, token!, symbolName);
 			// This block need write in method addSymbolToWatchList
 			if (response?.status === 200) {
@@ -52,12 +55,14 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 					exceptionType: response?.status,
 					exceptionMessage: '* Your symbol succesfully added to watchlist.'
 				}));
+				setOpenModalForCircularProgress(false);
 				setOpenModalAddToWatchList(true);
 			} else if (response?.status === 201) {
 				dispatch(putUserException({
 					exceptionType: response?.status,
 					exceptionMessage: '* Your symbol already exists in watchlist.'
 				}));
+				setOpenModalForCircularProgress(false);
 				setOpenModalAddToWatchList(true);
 			}
 		} 
@@ -115,6 +120,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 		<StocksChartContainer>
 			{openModalAddToWatchList && 
 				<ModalFetchResponses setOpenCloseModal={setOpenModalAddToWatchList}/>}
+			{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress}/>}
 			<StocksChartSearchTickerContainer>
 				<Grid container sx={{width: '100%'}}>
 					<Grid 
