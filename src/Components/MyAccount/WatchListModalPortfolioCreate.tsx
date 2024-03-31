@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createPortfolio } from '../../Actions/fetchWatchListActions';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
+import { putUserException } from '../../Reducers/userExeptionsReducer';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -45,7 +46,6 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [portfolioName, setPortfolioName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
-	const [openModalResponsePortfolioCreate, setOpenModalResponsePortfolioCreate] = useState(false);
 
 
 	const handleChangePage = (event: unknown, newPage: number) => {
@@ -73,13 +73,17 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			const responseStatus = await dispatch(createPortfolio(token!, portfolio));
 			setOpenModalForCircularProgress(false);
 			if (responseStatus && (responseStatus === 200 || responseStatus === 201)) {
-
-				setOpenModalResponsePortfolioCreate(true);
 				selected.splice(0, selected.length);
 				amountOfStocks.clear();
 				setPortfolioName('');
-
 			}
+		}
+		if (portfolioName === '') {
+			setOpenModalForCircularProgress(false);
+			dispatch(putUserException({
+				exceptionType: 0,
+				exceptionMessage: 'Please enter your portfolio name.'
+			}));
 		}
 	};
 
@@ -112,10 +116,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			<Fade in={open}>
 				<WatchListModalPortfolioCreateContainer>
 					{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
-					{openModalResponsePortfolioCreate &&
-						<ModalFetchResponses 
-							setOpenCloseModal={setOpenModalResponsePortfolioCreate} 
-						/>}
+					<ModalFetchResponses/>
 					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
 						<LoginRegisterTextField
 							label='Enter portfolio name'

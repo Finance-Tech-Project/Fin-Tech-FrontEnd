@@ -1,24 +1,28 @@
 import { Backdrop, Fade, Modal, Typography } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GeneralModalFetchResponseContainer } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearExceptions } from '../../Reducers/userExeptionsReducer';
 
 interface Props {
-    setOpenCloseModal: (value: React.SetStateAction<boolean>) => void,
-   
-
+    setOpenCloseModal?: (value: React.SetStateAction<boolean>) => void,
 }
-const ModalFetchResponses = ({ setOpenCloseModal}: Props) => {
+const ModalFetchResponses = ({ setOpenCloseModal }: Props) => {
     const exception = useAppSelector(state => state.userExceptionsReducer);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const dispatch = useAppDispatch();
 
     const handleClose = () => {
         setOpen(false);
-        setOpenCloseModal(false);
+        setOpenCloseModal !== undefined && setOpenCloseModal(false);
         dispatch(clearExceptions());
     };
+
+    useEffect(() => {
+		if (exception) {
+            setOpen(true);
+        }
+	}, [exception]);
 
     return (
         <Modal
@@ -36,7 +40,7 @@ const ModalFetchResponses = ({ setOpenCloseModal}: Props) => {
         >
             <Fade in={open}>
                 <GeneralModalFetchResponseContainer>
-                   {exception?.exceptionMessage && <Typography variant='h5' sx={{ color: 'white' }}>{exception?.exceptionMessage}</Typography>} 
+                    {exception?.exceptionMessage && <Typography variant='h5' sx={{ color: 'white' }}>{exception?.exceptionMessage}</Typography>}
                 </GeneralModalFetchResponseContainer>
             </Fade>
         </Modal>

@@ -16,12 +16,12 @@ import { theme } from '../../Constants/MaterialConstants/theme';
 import { RegisterContainerTextField } from '../../Styles/LoginRegisterStyles/RegisterStyle';
 import { registerUser } from '../../Actions/fetchLoginRegisterActions';
 import { useAppDispatch } from '../../app/hooks';
-import LoginExceptionModal from './LoginExceptionModal';
 import { transformPassword, validationEmail } from '../../Functions/utilsFunctions';
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { GeneralTooltipTextFieldEmail } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword';
+import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 
 const Register = () => {
 	const [login, setLogin] = useState('');
@@ -74,7 +74,7 @@ const Register = () => {
 
 	return (
 		<LoginAndRegisterContainer>
-			<LoginExceptionModal />
+			<ModalFetchResponses />
 			<Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
 				<Grid sx={() => LoginRegisterGridStyle(theme)}>
 					<LoginRegisterAvatar>

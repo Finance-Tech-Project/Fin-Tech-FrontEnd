@@ -39,7 +39,6 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType>>([]);
 	const [letters, setLetters] = useState<string>('');
-	const [openModalAddToWatchList, setOpenModalAddToWatchList] = useState(false);
 	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
 	const navigate = useNavigate();
 
@@ -56,14 +55,12 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 					exceptionMessage: '* Your symbol succesfully added to watchlist.'
 				}));
 				setOpenModalForCircularProgress(false);
-				setOpenModalAddToWatchList(true);
 			} else if (response?.status === 201) {
 				dispatch(putUserException({
 					exceptionType: response?.status,
 					exceptionMessage: '* Your symbol already exists in watchlist.'
 				}));
 				setOpenModalForCircularProgress(false);
-				setOpenModalAddToWatchList(true);
 			}
 		} 
 	};
@@ -118,8 +115,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	
 	return (
 		<StocksChartContainer>
-			{openModalAddToWatchList && 
-				<ModalFetchResponses setOpenCloseModal={setOpenModalAddToWatchList}/>}
+			<ModalFetchResponses />
 			{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress}/>}
 			<StocksChartSearchTickerContainer>
 				<Grid container sx={{width: '100%'}}>

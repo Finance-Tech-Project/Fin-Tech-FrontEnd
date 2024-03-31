@@ -24,8 +24,8 @@ import { createToken, transformPassword } from '../../Functions/utilsFunctions';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { UserExceptions, UserProfile } from '../../Types/LoginRegisterTypes';
 import { Navigate } from 'react-router-dom';
-import LoginExceptionModal from './LoginExceptionModal';
 import { visibilityIconsForPassword } from '../../Constants/MaterialConstants/VisibilityIconsForPassword';
+import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 
 const Login = () => {
     const userProfile: UserProfile | null = useAppSelector(state => state.userReducer);
@@ -62,7 +62,7 @@ const Login = () => {
 
     return (
         <LoginAndRegisterContainer>
-            <LoginExceptionModal />
+            <ModalFetchResponses />
             <Grid container sx={() => LoginRegisterGridContainerStyle(theme)}>
                 <Grid sx={() => LoginRegisterGridStyle(theme)}>
                     <LoginRegisterAvatar>
