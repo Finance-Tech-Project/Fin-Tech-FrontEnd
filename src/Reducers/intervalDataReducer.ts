@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IntervalsAbbreviation } from "../Enums/Enums";
 
-const initialInterval: string | null | undefined = IntervalsAbbreviation.Dayily;
+const initialInterval: string | null | undefined = IntervalsAbbreviation.Daily;
 
 const intervalDataSlice = createSlice({
     name: "intervalData",

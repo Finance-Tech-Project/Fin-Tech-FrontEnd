@@ -9,6 +9,7 @@ import { changeChartTypeSeries } from '../../Functions/lightWeightSeriesFunction
 import LightWeightChartButtons from './LightWeightChartButtons';
 import { useAppSelector } from '../../app/hooks';
 
+
 interface Props {
 	tickerData: Array<TickerDataType>,
 	tickerVolume: Array<TickerDataVolumeType>
@@ -53,13 +54,13 @@ const LightWeightChart = ({ tickerData, tickerVolume }: Props) => {
 		changeChartTypeSeries(chart, tickerData, tickerVolume, seriesName!);
 		chart.timeScale().fitContent();
 		window.addEventListener('resize', handleResize);
-
+		
 		return () => {
 			window.removeEventListener('resize', handleResize);
 			chart.remove();
 		};
 	}, [tickerData, tickerVolume, seriesName]);
-	
+
 	return (
 		<ChartContainer ref={chartContainerRef}>
 			<LightWeightChartButtons />

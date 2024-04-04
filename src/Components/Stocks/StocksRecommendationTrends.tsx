@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import { StocksRecommendationTrendsContainer } from '../../Styles/StocksStyles/StocksRecommendationTrendsStyle'
 import { Divider, Box, ThemeProvider } from '@mui/material'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';

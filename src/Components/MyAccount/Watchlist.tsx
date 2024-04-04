@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
-import { WatchLisTableContainerStyle, WatchListContainer, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
+import { WatchLisTableContainerStyle, WatchListButtons, WatchListButtonsContainer, WatchListContainer, WatchListFindSymbolTextField, WatchListWrapper } from '../../Styles/MyAccountStyles/WatchListStyle'
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader } from '../../Styles/AreCommonStyles/AreCommonStyles';
-import { Box, Button, Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { Checkbox, Divider, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
 import { getWatchList, removeSymbolsFromWatchList } from '../../Actions/fetchWatchListActions';
 import { WatchListColumnsType, WatchListType } from '../../Types/WatchListTypes';
-import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
 import WatchListModalPortfolioCreate from './WatchListModalPortfolioCreate';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
@@ -17,6 +16,8 @@ import { WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePo
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
+import { findSymbolsInRows } from '../../Functions/dataProcessingFunctions';
+import { transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
 
 export interface SelectedSymbols {
     readonly symbolName: string,
@@ -34,6 +35,7 @@ const Watchlist = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [openModalForCreatePortfolio, setOpenModalForCreatePortfolio] = useState(false);
     const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
+    const [searchedSymbol, setSearchedSymbol] = useState('');
     const dispatch = useAppDispatch();
 
     const handleChangePage = (event: unknown, newPage: number) => {
@@ -48,6 +50,8 @@ const Watchlist = () => {
     const handleDrawerOpen = () => {
         dispatch(setOpenColseToolbar(true));
     };
+
+    const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => setSearchedSymbol(event.target.value);
 
     const createObjectForWatchListPortfolio = (symbolName: string, companyName: string) => {
         const res: WatchListCreatePortfolioType = {
@@ -116,7 +120,7 @@ const Watchlist = () => {
 
     const fetchWatchList = async () => {
         setOpenModalForCircularProgress(true);
-        const res = await getWatchList(login!);
+        const res: WatchListType[] | undefined = await getWatchList(login!);
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList(res));
         setRows(new CreatingRowsForTables().createRowsForWatchList(res));
         setOpenModalForCircularProgress(false);
@@ -130,18 +134,16 @@ const Watchlist = () => {
         setColumns(new CreatingColumnsForTables().createColumnsForWatchList([]));
         fetchWatchList();
     }, []);
-
+   
     return (
         <WatchListContainer>
             {openModalForCreatePortfolio &&
                 <WatchListModalPortfolioCreate
                     selected={selected}
                     setOpenModalForCreatePortfolio={setOpenModalForCreatePortfolio}
-                />
-            }
-            {openModalForCircularProgress && 
-                <ModalCircularProgress openCloseModal={openModalForCircularProgress}/>
-            }
+                />}
+            {openModalForCircularProgress &&
+                <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
             <Grid container>
                 <Grid mobileS={11} mobileSOffset={0.5}>
                     <WatchListWrapper>
@@ -156,7 +158,13 @@ const Watchlist = () => {
                                 borderStyle: 'solid',
                                 borderWidth: '3px',
                                 marginTop: '20px'
-                            }} />
+                            }}
+                        />
+
+                        <WatchListFindSymbolTextField 
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleChangeData(event)} 
+                            variant="outlined" label="Find symbol in watchlist" 
+                        />
 
                         <TableContainer component={Paper}
                             sx={() => WatchLisTableContainerStyle(theme)}>
@@ -171,8 +179,9 @@ const Watchlist = () => {
                                                         color: 'white'
                                                     }
                                                 }}>
-                                                    {column.id === 'symbolName' && <Checkbox sx={{ color: 'white' }} onChange={handleSelectAllClick} />}
-                                                    {transformTextForWatchListTable(column.id)}
+                                                    {column.id === 'symbolName' &&
+                                                        <Checkbox sx={{ color: 'white' }} onChange={handleSelectAllClick} />}
+                                                    {transformTextForTableColumnHeadings(column.id)}
                                                 </TableCell>
                                             );
                                         })}
@@ -181,11 +190,19 @@ const Watchlist = () => {
                                 <TableBody>
                                     {rows
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        //Ticker search by letters entered in the text field by symbol and company name
+                                        .filter((symbol) => findSymbolsInRows(symbol.symbolName, searchedSymbol) 
+                                            || findSymbolsInRows(symbol.companyName, searchedSymbol))
                                         .map((row, index) => {
                                             const isItemSelected = isSelected(row.symbolName, row.companyName);
                                             const labelId = `enhanced-table-checkbox-${index}`;
                                             return (
-                                                <TableRow role="checkbox" aria-checked={isItemSelected} selected={isItemSelected} key={row.companyName}>
+                                                <TableRow
+                                                    role="checkbox"
+                                                    aria-checked={isItemSelected}
+                                                    selected={isItemSelected}
+                                                    key={row.companyName}
+                                                >
                                                     {columns.map((column) => {
                                                         const value = row[column.id];
                                                         return (
@@ -222,30 +239,26 @@ const Watchlist = () => {
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
 
-                        <Box sx={{ width: '100%', display: 'flex', paddingTop: '20px' }}>
-                            <Grid desktop={2} desktopOffset={7.5}>
-                                <Button sx={{
-                                    width: '100%',
-                                    height: '56px',
-                                    border: '1.5px solid rgba(37, 59, 227, 0.8)',
-                                    backgroundColor: 'rgba(1, 17, 36, 0.8)',
-                                    color: 'white',
-                                    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                                }} onClick={handleCreatePortfolio}>Create portfolio</Button>
+                        <WatchListButtonsContainer>
+                            <Grid desktop={2} desktopOffset={7.5}
+                                laptopL={3} laptopLOffset={6.5}
+                                laptop={5} tablet={5.5}
+                                mobileS={12}
+                            >
+                                <WatchListButtons marginBottom onClick={handleCreatePortfolio}>Create portfolio</WatchListButtons>
                             </Grid>
 
-                            <Grid desktop={2} desktopOffset={0.5}>
-                                <Button sx={{
-                                    width: '100%',
-                                    height: '56px',
-                                    border: '1.5px solid rgba(37, 59, 227, 0.8)',
-                                    backgroundColor: 'rgba(1, 17, 36, 0.8)',
-                                    color: 'white',
-                                    boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-                                }} onClick={(event) => handleRemoveSymbolsFromWatchList(event)}>Remove from watchlist</Button>
+                            <Grid desktop={2} desktopOffset={0.5}
+                                laptopL={3} laptopLOffset={0.5}
+                                laptop={5} laptopOffset={2}
+                                tablet={5.5} tabletOffset={1}
+                                mobileS={12}
+                            >
+                                <WatchListButtons onClick={(event: React.MouseEvent<HTMLElement>) => handleRemoveSymbolsFromWatchList(event)}
+                                >Remove from watchlist</WatchListButtons>
                             </Grid>
 
-                        </Box>
+                        </WatchListButtonsContainer>
                     </WatchListWrapper>
                 </Grid>
             </Grid>

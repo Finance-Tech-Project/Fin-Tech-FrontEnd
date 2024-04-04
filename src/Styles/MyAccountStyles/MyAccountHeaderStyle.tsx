@@ -39,11 +39,9 @@ export const MyAccountHeaderTypography = styled(Typography)(({ theme }) => ({
         fontSize: '1.1rem',
     },
     [theme.breakpoints.up('tablet')]: {
-        
         fontSize: '1.4rem',
     },
     [theme.breakpoints.up('laptop')]: {
-       
         fontSize: '1.6rem',
     },
 }));
@@ -54,5 +52,5 @@ export const MyAccountHeaderRegisterNameContainer = styled(Box)(({ theme }) => (
     alignItems: 'center',
     [theme.breakpoints.down('tablet')]: {
         padding: '10px 0 10px 0',
-    },
+    }
 }));

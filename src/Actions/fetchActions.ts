@@ -9,7 +9,7 @@ export const getSeacrhedSymbols = async (letters: string) => {
             const data: Array<TickerType> = await response.json();
             const res: Array<TickerType> = data.map(ticker => {
                 const tickers: TickerType = {
-                    name: ticker.name,
+                    symbolName: ticker["name"]!,
                     companyName: ticker.companyName,
                 };
                 return tickers;
@@ -28,7 +28,7 @@ export const getTikersForMainPage = async () => {
             const data: Array<TickerType> = await response.json();
             const res: Array<TickerType> = data.map(ticker => {
                 const tickers: TickerType = {
-                    name: ticker.name,
+                    symbolName: ticker["name"]!,
                     companyName: ticker.companyName,
                 };
                 return tickers;

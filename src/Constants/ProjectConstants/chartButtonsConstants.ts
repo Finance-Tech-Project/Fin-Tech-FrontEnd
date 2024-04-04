@@ -2,7 +2,7 @@ import { ChartSeriesNames, IntervalsAbbreviation } from "../../Enums/Enums";
 import { getPeriod } from "../../Functions/getPeriod";
 
 export const chartButtonsPeriod: Array<IntervalsAbbreviation> = [
-    IntervalsAbbreviation.Dayily, 
+    IntervalsAbbreviation.Daily, 
     IntervalsAbbreviation.Weekly, 
     IntervalsAbbreviation.Monthly, 
     IntervalsAbbreviation.Yearly

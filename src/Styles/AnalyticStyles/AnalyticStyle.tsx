@@ -45,6 +45,7 @@ export const AnalyticButtons = styled(Button, {
     zIndex: 1,
     color: 'white',
     borderRadius: '6px',
+    boxShadow: '5px 5px 7.5px 1px rgba(255, 98, 181, 0.79)',
     [theme.breakpoints.up('mobileS')]: {
         marginBottom: '20px',
         ...(marginTopForTwoStocksButtons && { marginTop: '20px' })

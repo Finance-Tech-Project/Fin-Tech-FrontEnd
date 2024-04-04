@@ -110,6 +110,7 @@ export const MainButton = styled(Button, {
     zIndex: 1,
     color: 'white',
     borderRadius: '6px',
+    boxShadow: '5px 5px 7.5px 1px rgba(255, 98, 181, 0.79)',
     ...(marginTop && { marginTop: '0px' }),
     [theme.breakpoints.up('mobileS')]: {
         marginTop: '20px',

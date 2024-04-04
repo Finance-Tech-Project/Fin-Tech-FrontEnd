@@ -25,9 +25,6 @@ export const TabelCellTicker = styled(TableCell)(({ theme }) => ({
     },
     [theme.breakpoints.up('tablet')]: {
         height: '30.5px'
-    },
-    [theme.breakpoints.up('laptop')]: {
-        height: '30.5px'
     }
 }));
 

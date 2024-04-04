@@ -25,6 +25,13 @@ export const createHistogramLineAreaData = (tickerData: Array<TickerDataType>) =
     return data;
 };
 
+// This function to check types. Return true or false.
+// export const instanceOf = <T>(value: any, fieldName: string): value is T => fieldName in value;
+
+// Search in table rows
+export const findSymbolsInRows = (currentSymbol: string, searchedSymbol: string)=> 
+    currentSymbol.toLowerCase().includes(searchedSymbol.toLowerCase()) ? currentSymbol : undefined;
+
 
 
 

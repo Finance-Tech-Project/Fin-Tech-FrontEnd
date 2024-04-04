@@ -3,6 +3,7 @@ import { ChartSeriesNames, DefaultPeriods, IntervalsAbbreviation } from "../Enum
 import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
+import { WatchListCreatePortfolioType } from "../Types/WatchListModalCreatePortfolioType";
 
 export const transformTextForStatistics = (word: string | undefined) => {
     if (word) {
@@ -93,13 +94,13 @@ export const transformFirstLetterToUpperCase = (word: string): string => {
 
 export const transformVolume = (volume: string | number) => {
     if (typeof volume === 'number') {
-        const res = Intl.NumberFormat().format(volume).replace(/\s/g, ',')
+        const res = Intl.NumberFormat().format(volume).replace(/\s/g, ',');
         return res;
     }
 }
 
 export const getDataInInterval = (data: SymbolData, interval: string) => {
-    return interval === IntervalsAbbreviation.Dayily
+    return interval === IntervalsAbbreviation.Daily
         ? data.dailyData : interval === IntervalsAbbreviation.Weekly
             ? data.weeklyData : interval === IntervalsAbbreviation.Monthly
                 ? data.monthlyData : interval === IntervalsAbbreviation.Yearly
@@ -228,9 +229,21 @@ export const validationEmail = (email: string) => {
     return regex.test(email);
 };
 
-export const transformTextForWatchListTable = (text: string) => {
+export const transformTextForTableColumnHeadings = (text: string) => {
     const uppercaseLetterRegex = /[A-Z]/g;
     return !uppercaseLetterRegex.test(text) ? transformFirstLetterToUpperCase(text) : text.split('').map((letter, index) => {
         return index === 0 ? letter.toUpperCase() : uppercaseLetterRegex.test(letter) ? ' ' + letter.toLowerCase() : letter; 
     });
+};
+
+export const initialMapForWatchListPortfolioCreate = (selectedSymbols: Array<WatchListCreatePortfolioType>) => {
+    if (selectedSymbols && selectedSymbols.length > 0) {
+        const res: Map<string, number> = new Map<string, number>();
+        selectedSymbols.forEach((item) => {
+            res.set(item.symbolName, 1);
+        });
+        return res;
+    } else {
+        return new Map<string, number>();
+    }
 };

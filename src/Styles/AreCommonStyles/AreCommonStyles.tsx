@@ -17,6 +17,7 @@ export const SelectStyle = (theme: Theme) => ({
         backgroundColor: '#190033'
     },
     '&.MuiOutlinedInput-root': {
+        boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
         '& fieldset': {
             borderColor: 'rgba(70, 75, 114, 0.8)',
             borderWidth: '1.5px'
@@ -34,9 +35,10 @@ export const GeneralDatePicker = styled(DesktopDatePicker)(({ theme }) => ({
     width: '100%',
     '.MuiInputBase-input': {
         color: 'white',
-        borderColor: 'white',
+        borderColor: 'white'
     },
     '& .MuiOutlinedInput-root': {
+        boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
         '& fieldset': {
             borderColor: 'rgba(70, 75, 114, 0.8)',
             borderWidth: '1.5px'
@@ -54,7 +56,6 @@ export const GeneralDatePicker = styled(DesktopDatePicker)(({ theme }) => ({
     '& .MuiButtonBase-root': {
         color: 'white',
     },
-
     [theme.breakpoints.up('mobileS')]: {
         marginTop: '20px'
     },
@@ -67,10 +68,13 @@ export const GeneralDatePickerLayoutStyle = (theme: Theme) => ({
     '& .MuiDateCalendar-root': {
         width: '100%',
         color: 'white',
-        backgroundColor: '#190033',
+        backgroundColor: 'rgba(44, 9, 81, 1)',
         [theme.breakpoints.down('mobileM')]: {
             height: '266px'
         }
+    },
+    '& .MuiYearCalendar-root': {
+        width: '100%',
     },
     '& .MuiButtonBase-root': {
         color: 'white'
@@ -158,6 +162,7 @@ export const GeneralDatePickerDesktopPaperStyle = (theme: Theme) => ({
 
 export const GeneralAutocomplete = styled(Autocomplete)(({ theme }) => ({
     width: '100%',
+    boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
     '.MuiInputBase-input': {
         color: 'white',
         borderColor: 'white'

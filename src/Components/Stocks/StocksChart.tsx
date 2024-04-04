@@ -19,8 +19,12 @@ import { useNavigate } from 'react-router-dom';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 import { putUserException } from '../../Reducers/userExeptionsReducer';
 import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
+import CircularProgressForChart from '../GeneralComponents/CircularProgressForChart';
+import { putDataInterval } from '../../Reducers/intervalDataReducer';
+import { IntervalsAbbreviation } from '../../Enums/Enums';
+
 interface AutocompleteOption {
-	name: string,
+	symbolName: string,
 	companyName: string
 }
 
@@ -34,6 +38,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 	const token: string | null = useAppSelector(state => state.tokenReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
 	const interval: string = useAppSelector(state => state.intervalDataReducer);
+	const openCircularProgressForChart = useAppSelector(state => state.generalAppReducer.flagToCircularProgressInChart);
 	const [autocompleteTickers, setAutocompleteTickers] = useState<AutocompleteOption[]>([]);
 	const dispatch = useAppDispatch();
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
@@ -62,7 +67,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 				}));
 				setOpenModalForCircularProgress(false);
 			}
-		} 
+		}
 	};
 
 	const getTickers = async () => {
@@ -70,7 +75,7 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 		if (allTickers) {
 			const res: AutocompleteOption[] | undefined = allTickers?.map((ticker) => {
 				const autocompleteTickers: AutocompleteOption = {
-					name: ticker.name,
+					symbolName: ticker.symbolName,
 					companyName: ticker.companyName
 				}
 				return autocompleteTickers;
@@ -91,10 +96,11 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			dispatch(putSymbolCompanyName("Apple Inc."));
 		}
 		autocompleteTickers.forEach((ticker) => {
-			if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
+			if (ticker.symbolName === event.currentTarget.childNodes[0].childNodes[0].textContent) {
 				dispatch(putSymbolCompanyName(ticker.companyName));
 			}
-		})
+		});
+		dispatch(putDataInterval(IntervalsAbbreviation.Daily));
 	};
 
 	const getDataTicker = () => {
@@ -112,14 +118,14 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 			getDataTicker();
 		}
 	}, [symbolName, interval, data, getDataInInterval(data, interval).length > 0]);
-	
+
 	return (
 		<StocksChartContainer>
 			<ModalFetchResponses />
-			{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress}/>}
+			{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
 			<StocksChartSearchTickerContainer>
-				<Grid container sx={{width: '100%'}}>
-					<Grid 
+				<Grid container sx={{ width: '100%' }}>
+					<Grid
 						mobileS={12}
 						laptop={10}
 						laptopL={6}
@@ -141,20 +147,22 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 							componentsProps={{
 								paper: {
 									sx: {
+										border: '2px solid rgba(70, 75, 114, 0.8)',
+										boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
 										bgcolor: "rgba(44, 9, 81, 1)",
 										color: 'white'
 									}
 								}
 							}}
 							disablePortal={true}
-							getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
-							isOptionEqualToValue={(option: any) => option.name || option.companyName}
+							getOptionLabel={(option: any) => (option.symbolName || option.companyName) ?? option}
+							isOptionEqualToValue={(option: any) => option.symbolName || option.companyName}
 							options={autocompleteTickers}
 							noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
 							renderOption={(props, option: any) => (
-								<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
+								<Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.symbolName}>
 									<Box sx={{ width: '100%', paddingBottom: '10px' }} >
-										<Typography>{option.name}</Typography>
+										<Typography>{option.symbolName}</Typography>
 										<Typography>{option.companyName}</Typography>
 										<Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
 									</Box>
@@ -175,8 +183,10 @@ const StocksChart = ({ handleClickStatistics }: Props) => {
 				</StockChartButtonsContainer>
 			</StocksChartSearchTickerContainer>
 
-			<LightWeightChartHeader data={getDataInInterval(data, interval)} />
-			<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />
+			<Box sx={{ boxShadow: '5px 5px 30px 0px rgba(65, 6, 240, 0.79)' }}>
+				<LightWeightChartHeader data={getDataInInterval(data, interval)} />
+				{openCircularProgressForChart ? <CircularProgressForChart /> : <LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume} />}
+			</Box>
 		</StocksChartContainer>
 	)
 }

@@ -1,5 +1,6 @@
-import React from 'react';
-import { findMaxMinPrice } from '../../Functions/utilsFunctions';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
+import { findMaxMinPrice, getDataInInterval } from '../../Functions/utilsFunctions';
 import {
 	MainHeaderChartContainer,
 	MainHeaderChartTickerDescr,
@@ -26,13 +27,24 @@ interface Props {
 }
 
 const LightWeightChartHeader = ({ data, isClickedOnCompareTwoStocksButton }: Props) => {
+	const historicalData = useAppSelector(state => state.historicalDataReducer.dataStock);
+	const interval = useAppSelector(state => state.intervalDataReducer);
 	const symbolName = useAppSelector(state => state.selectedSymbolReducer);
-	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
 	const volatility: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.volatility);
 	const sharpRatio: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.sharpRatio);
+	const [dateFrom, setDateFrom] = useState('');
+	const [dateTo, setDateTo] = useState('');
 	const checkSymbolName = true;
-		
+
+	useEffect(() => {
+		const symbolDataInInterval: TickerDataType[] = getDataInInterval(historicalData, interval);
+		if (symbolDataInInterval.length > 0) {
+			setDateFrom(symbolDataInInterval[0].time);
+			setDateTo(symbolDataInInterval[symbolDataInInterval.length - 1].time);
+		}
+	}, [getDataInInterval(historicalData, interval).length > 0, interval, data]);
+
 	return (
 		<MainHeaderChartContainer>
 			{simpleIncome.dataToCompare!.length === 0 &&
@@ -53,7 +65,8 @@ const LightWeightChartHeader = ({ data, isClickedOnCompareTwoStocksButton }: Pro
 									</MainHeaderChartTickerPriceContainer>
 									<MainHeaderChartTickerPriceContainer>
 										<MainHeaderChartTickerDescr>Date from: </MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{currentDateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+										
+											<MainHeaderChartTickerDescr>{dateFrom.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 									</MainHeaderChartTickerPriceContainer>
 								</MainHeaderChartTickerDescrWrapper>
 
@@ -64,7 +77,8 @@ const LightWeightChartHeader = ({ data, isClickedOnCompareTwoStocksButton }: Pro
 									</MainHeaderChartTickerPriceContainer>
 									<MainHeaderChartTickerPriceContainer>
 										<MainHeaderChartTickerDescr>Date to: </MainHeaderChartTickerDescr>
-										<MainHeaderChartTickerDescr>{currentDateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
+									
+											<MainHeaderChartTickerDescr>{dateTo.split("-").reverse().join("-")}</MainHeaderChartTickerDescr>
 									</MainHeaderChartTickerPriceContainer>
 								</MainHeaderChartTickerDescrWrapper>
 							</MainHeaderChartTickerDescrContainer>
@@ -91,8 +105,7 @@ const LightWeightChartHeader = ({ data, isClickedOnCompareTwoStocksButton }: Pro
 								desktopL={2.5} desktopLOffset={3.5}
 							>
 								{(simpleIncome.data.length > 0 || volatility.data.length > 0 || sharpRatio.data.length > 0) &&
-									<HeaderItemDataDescription />
-								}
+									<HeaderItemDataDescription />}
 							</Grid>
 						</Grid>
 					)}

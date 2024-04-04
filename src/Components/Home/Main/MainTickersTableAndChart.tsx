@@ -12,15 +12,20 @@ import { putSymbolCompanyName, putSymbolName } from '../../../Reducers/selectedS
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { getDataInInterval } from '../../../Functions/utilsFunctions';
 import { createCandlesData, createHistogramLineAreaData } from '../../../Functions/dataProcessingFunctions';
+import CircularProgressForChart from '../../GeneralComponents/CircularProgressForChart';
+import { putDataInterval } from '../../../Reducers/intervalDataReducer';
+import { IntervalsAbbreviation } from '../../../Enums/Enums';
 
 const MainTickersTableAndChart = () => {
 	const historicalData = useAppSelector(state => state.historicalDataReducer.dataStock);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const { symbolName } = useAppSelector(state => state.selectedSymbolReducer);
+	const openModalForCircularProgress = useAppSelector(state => state.generalAppReducer.flagToCircularProgressInChart);
 	const [data, setData] = useState('');
 	const [tickerData, setTickerData] = useState<Array<TickerDataType>>([]);
 	const [tickerVolume, setTickerVolume] = useState<Array<TickerDataVolumeType> | undefined>([]);
 	const [isLoading, setIsLoading] = useState(false);
+
 	const dispatch = useAppDispatch();
 
 	const handleChangeData = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +33,7 @@ const MainTickersTableAndChart = () => {
 	};
 
 	const handleRowClick = (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => {
+		dispatch(putDataInterval(IntervalsAbbreviation.Daily));
 		dispatch(putSymbolName(event.currentTarget.childNodes[0].firstChild?.nodeValue!));
 		dispatch(putSymbolCompanyName(event.currentTarget.childNodes[1].firstChild?.nodeValue!));
 	};
@@ -50,7 +56,6 @@ const MainTickersTableAndChart = () => {
 	}, [isLoading, data, interval, symbolName, historicalData, getDataInInterval(historicalData, interval).length > 0]);
 
 	return (
-
 		<MainTickersTableAndChartContainer>
 			<MainTickersTableAndChartBackgroundColor>
 				<Box>
@@ -69,7 +74,7 @@ const MainTickersTableAndChart = () => {
 											laptopL={4} laptopLOffset={0.5}
 										>
 											<MainTickersTable
-												data={data}
+												searchedSymbol={data}
 												handleRowClick={handleRowClick}
 											/>
 										</Grid>
@@ -81,7 +86,8 @@ const MainTickersTableAndChart = () => {
 											<LightWeightChartHeader
 												data={getDataInInterval(historicalData, interval)}
 											/>
-											<LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume!} />
+											{openModalForCircularProgress ?
+												<CircularProgressForChart/> : <LightWeightChart tickerData={tickerData} tickerVolume={tickerVolume!} />}
 										</Grid>
 									</Grid>
 								</MainTickersTableWrapper>

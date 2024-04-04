@@ -12,14 +12,14 @@ export enum ChartSeriesNames {
 }
 
 export enum IntervalsAbbreviation {
-    Dayily = "1D",
+    Daily = "1D",
     Weekly = "1W",
     Monthly = "1M",
     Yearly = "1Y",
 }
 
 export enum IntervalsFullName {
-    Dayily = "Dayily",
+    Daily = "Daily",
     Weekly = "Weekly",
     Monthly = "Monthly",
     Yearly = "Yearly",

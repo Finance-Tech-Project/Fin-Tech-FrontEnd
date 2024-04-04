@@ -52,7 +52,7 @@ export const MainFindTickerTextFieldContainer = styled(Box)(({ theme }) => ({
 
 export const MainFindTickerTableContainer = styled(TableContainer)(({ theme }) => ({
     width: '100%',
-    minHeight: '685px',
+    minHeight: '691.5px',
     backgroundColor: '#2c0951',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderBottom: 'none'

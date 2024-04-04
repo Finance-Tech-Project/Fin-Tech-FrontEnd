@@ -20,9 +20,12 @@ const dateDataSlice = createSlice({
         },
         putCurrentDateTo(state, action: PayloadAction<string>) {
             state.currentDateTo = action.payload;
+        },
+        setDefaultDate() {
+            return initialDateData;
         }
     }
 });
 
-export const { putCurrentDateFrom, putCurrentDateTo } = dateDataSlice.actions;
+export const { putCurrentDateFrom, putCurrentDateTo, setDefaultDate } = dateDataSlice.actions;
 export const dateDataReducer = dateDataSlice.reducer;

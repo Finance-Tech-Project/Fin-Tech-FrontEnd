@@ -1,11 +1,21 @@
 import { DEFAULT_DATE_FROM, DEFAULT_DATE_TO, FetchConstants } from "../Enums/Enums";
-import { putMovAvgData, putSharpRatioData, putSharpRatioDataToCompare, putSimpleIncomeData, putSimpleIncomeDataToCompare, putVolatilityData, putVolatilityDataToCompare } from "../Reducers/analyticIterfaceReducer";
+import { 
+    putMovAvgData, 
+    putSharpRatioData, 
+    putSharpRatioDataToCompare, 
+    putSimpleIncomeData, 
+    putSimpleIncomeDataToCompare, 
+    putVolatilityData, 
+    putVolatilityDataToCompare 
+} from "../Reducers/analyticIterfaceReducer";
+import { putFlagToCircularProgressInChart } from "../Reducers/generalAppReducer";
 import { putDailyData, putMonthlyData, putWeeklyData, putYearlyData } from "../Reducers/historicalDataReducer";
 import { TickerDataType, TickerDataVolumeType } from "../Types/TickersTypes";
 import { AppDispatch } from "../app/store"
 
 export const getSymbolDataForDefaultPeriod = (tickerSymbol: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.QUOTE_HISTORY +
@@ -38,11 +48,13 @@ export const getSymbolDataForDefaultPeriod = (tickerSymbol: string) => {
         } catch (error) {
 
         }
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 }
 
 export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.QUOTE_HISTORY +
@@ -73,11 +85,13 @@ export const getSymbolDataForPeriodRange = (tickerSymbol: string, dateFrom: stri
         } catch (error) {
 
         }
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 }
 
 export const getDataForAnalyticCharMovAvg = (symbolName: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         try {
             const response = await fetch(`${FetchConstants.BASE_URL +
                 FetchConstants.ANALYTICS +
@@ -94,11 +108,13 @@ export const getDataForAnalyticCharMovAvg = (symbolName: string, period: number,
         } catch (error) {
 
         }
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 };
 
 export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         let data: TickerDataVolumeType[] = [];
         let dataToCompare: TickerDataVolumeType[] = [];
         try {
@@ -137,11 +153,13 @@ export const getDataForAnalyticChartSimpleIncome = (symbolName: string, symbolNa
         }
         dispatch(putSimpleIncomeData(data));
         dispatch(putSimpleIncomeDataToCompare(dataToCompare));
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 };
 
 export const getDataForAnalyticChartVolatility = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         let data: TickerDataVolumeType[] = [];
         let dataToCompare: TickerDataVolumeType[] = [];
         try {
@@ -174,11 +192,13 @@ export const getDataForAnalyticChartVolatility = (symbolName: string, symbolName
         }
         dispatch(putVolatilityData(data));
         dispatch(putVolatilityDataToCompare(dataToCompare));
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 }
 
 export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolNameToCompare: string, period: number, dateFrom: string, dateTo: string) => {
     return async (dispatch: AppDispatch) => {
+        dispatch(putFlagToCircularProgressInChart(true));
         let data: TickerDataVolumeType[] = [];
         let dataToCompare: TickerDataVolumeType[] = [];
         try {
@@ -211,5 +231,6 @@ export const getDataForAnalyticChartSharpRatio = (symbolName: string, symbolName
         }
         dispatch(putSharpRatioData(data));
         dispatch(putSharpRatioDataToCompare(dataToCompare));
+        dispatch(putFlagToCircularProgressInChart(false));
     }
 };

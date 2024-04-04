@@ -3,7 +3,7 @@ import { Backdrop, Box, Fade, Modal, Paper, Table, TableBody, TableCell, TableCo
 import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
-import { transformTextForWatchListTable } from '../../Functions/utilsFunctions';
+import { initialMapForWatchListPortfolioCreate, transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer, WatchListModalPortfolioCreateContainerStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
@@ -29,24 +29,10 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
 	const [page, setPage] = React.useState(0);
 	const dispatch = useAppDispatch();
-
-	const initialMap = () => {
-		if (selected && selected.length > 0) {
-			const res: Map<string, number> = new Map<string, number>();
-			selected.forEach((item) => {
-				res.set(item.symbolName, 1);
-			});
-			return res;
-		} else {
-			return new Map<string, number>();
-		}
-	};
-
-	const [amountOfStocks, setAmountOfStocks] = useState<Map<string, number>>(initialMap());
+	const [amountOfStocks, setAmountOfStocks] = useState<Map<string, number>>(initialMapForWatchListPortfolioCreate(selected));
 	const [portfolioName, setPortfolioName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
-
 
 	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage);
@@ -141,7 +127,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 													backgroundColor: '#190033',
 													color: 'white'
 												}
-											}} key={column.id}>{transformTextForWatchListTable(column.label)}</TableCell>
+											}} key={column.id}>{transformTextForTableColumnHeadings(column.label)}</TableCell>
 										);
 									})}
 								</TableRow>

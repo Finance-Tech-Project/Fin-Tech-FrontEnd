@@ -18,7 +18,8 @@ const checkStorages = () => {
 const initialGeneralApp: GeneralApp = {
     displaySize: window.screen.width,
     isMobile: false,
-    passwordSymbols: checkStorages()
+    passwordSymbols: checkStorages(),
+    flagToCircularProgressInChart: false
 };
 
 const generalAppSlice = createSlice({
@@ -35,9 +36,12 @@ const generalAppSlice = createSlice({
             if (action.payload !== "") {
                 state.passwordSymbols = action.payload;
             }
+        },
+        putFlagToCircularProgressInChart(state, action: PayloadAction<boolean>) {
+            state.flagToCircularProgressInChart = action.payload;
         }
     }
 });
 
-export const { putDisplaySize, putDesktopMobile, putPasswordSymbols } = generalAppSlice.actions;
+export const { putDisplaySize, putDesktopMobile, putPasswordSymbols, putFlagToCircularProgressInChart } = generalAppSlice.actions;
 export const generalAppReducer = generalAppSlice.reducer;

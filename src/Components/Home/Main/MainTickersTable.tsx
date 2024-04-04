@@ -1,26 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Table, TableBody, TableCell, TableHead, TablePagination, TableRow } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MainFindTickerTableContainer } from '../../../Styles/MainStyles/MainFindTickerStyle';
 import { TickerColumnType, TickerType } from '../../../Types/TickersTypes';
 import { TabelCellTicker } from '../../../Styles/TickersStyles/TickersStyles';
 import { getTikersForMainPage } from '../../../Actions/fetchActions';
-import { transformFirstLetterToUpperCase } from '../../../Functions/utilsFunctions';
 import { theme } from '../../../Constants/MaterialConstants/theme';
 import { CreatingColumnsForTables } from '../../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../../Classes/CreatingRowsForTables';
+import { findSymbolsInRows } from '../../../Functions/dataProcessingFunctions';
+import { transformTextForTableColumnHeadings } from '../../../Functions/utilsFunctions';
 
 interface Props {
-    data: string,
+    searchedSymbol: string,
     handleRowClick: (event: React.MouseEvent<HTMLTableRowElement, MouseEvent>) => void,
 }
 
-const MainTickersTable = ({ data, handleRowClick }: Props) => {
+const MainTickersTable = ({ searchedSymbol, handleRowClick }: Props) => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = useState<Array<TickerType>>([]);
     const [columns, setColumns] = useState<Array<TickerColumnType>>([]);
-
+   
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -32,22 +33,17 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
 
     const getTickers = async () => {
         const allTickers: Array<TickerType> | undefined = await getTikersForMainPage();
-        return allTickers;
+        setColumns(new CreatingColumnsForTables().createColumnsForStartPage(allTickers));
+        setRows(new CreatingRowsForTables().createRowsForStartPage(allTickers));
     };
 
-    const allTickers = useMemo(() => {
-        return getTickers();
+    useEffect(() => {
+        getTickers();
     }, []);
 
-    useEffect(() => {
-        setTimeout(async () => {
-            setColumns(new CreatingColumnsForTables().createColumnsForStartPage(await allTickers));
-            setRows(new CreatingRowsForTables().createRowsForStartPage(data, await allTickers));
-        }, 0);
-    }, [data]);
-
     return (
-        <Box sx={{ boxShadow: '5px 5px 30px 0px rgba(65, 6, 240, 0.79)',
+        <Box sx={{
+            boxShadow: '5px 5px 30px 0px rgba(65, 6, 240, 0.79)',
             [theme.breakpoints.down('laptopL')]: {
                 marginBottom: '50px',
             }
@@ -57,14 +53,13 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
                     <TableHead >
                         <TableRow>
                             {columns.map((column: TickerColumnType) => {
-                                const columnName = column.id.replace('symbol', 'Symbol').replace('name', 'Name');
                                 return (
                                     <TableCell component="th" sx={{
                                         '&.MuiTableCell-root': {
                                             backgroundColor: '#190033',
                                             color: 'white'
                                         }
-                                    }} key={column.index}>{transformFirstLetterToUpperCase(columnName).replace("CompanyName", "Company Name")}</TableCell>
+                                    }} key={column.index}>{transformTextForTableColumnHeadings(column.id)}</TableCell>
                                 );
                             })}
                         </TableRow>
@@ -72,6 +67,9 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
                     <TableBody>
                         {rows
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            //Ticker search by letters entered in the text field by symbol and company name
+                            .filter((symbol) => findSymbolsInRows(symbol.symbolName, searchedSymbol) 
+                                            || findSymbolsInRows(symbol.companyName, searchedSymbol))
                             .map((row) => {
                                 return (
                                     <TableRow onClick={event => handleRowClick(event)} key={row.index} hover role="checkbox" >
@@ -94,7 +92,7 @@ const MainTickersTable = ({ data, handleRowClick }: Props) => {
             </MainFindTickerTableContainer>
 
             <TablePagination
-                sx={{ width: '100%', border: '2px solid rgba(70, 75, 114, 0.8)' }}
+                sx={{ width: '100%', border: '2px solid rgba(70, 75, 114, 0.8)', borderTop: 'none' }}
                 component={"div"}
                 rowsPerPageOptions={[10, 100, 1000]}
                 count={rows.length}

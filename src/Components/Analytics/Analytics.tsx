@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Box, ThemeProvider } from '@mui/material'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Home/Header/Header'
 import LightWeightChartHeader from '../TradingViewLightWeightChart/LightWeightChartHeader'
 import LightWeightChartForAnalytics from '../TradingViewLightWeightChart/LightWeightChartForAnalytics'
@@ -34,12 +34,14 @@ import { Symbols } from '../../Types/DataReducerTypes'
 import { AnalyticInterface } from '../../Types/AnalyticTypes'
 import Footer from '../Footer/Footer'
 import AnalyticTitle from './AnalyticTitle'
+import CircularProgressForChart from '../GeneralComponents/CircularProgressForChart'
 
 const Analytics = () => {
 	const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
 	const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
 	const movAvg: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.movAvg);
 	const data = useAppSelector(state => state.historicalDataReducer.dataStock);
+	const openModalForCircularProgress = useAppSelector(state => state.generalAppReducer.flagToCircularProgressInChart);
 	const { currentDateFrom, currentDateTo } = useAppSelector(state => state.dateDataReducer);
 	const interval = useAppSelector(state => state.intervalDataReducer);
 	const displaySize = useAppSelector(state => state.generalAppReducer.displaySize);
@@ -149,24 +151,29 @@ const Analytics = () => {
 										/>
 									</AnalyticDateAndIntervalPickersContainer>
 								</Grid>
-								<Grid container width="100%" >
+								<Grid container width="100%"  >
+
 									<Grid
 										laptop={11} laptopOffset={0.5}
 										laptopL={8} laptopLOffset={0.5}
 										desktop={8} desktopOffset={0.5}
 										desktopL={8.5} desktopLOffset={0.5}
 									>
-										<Box>
-											<LightWeightChartHeader isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} data={getDataInInterval(data, interval)} />
-											{displaySize < theme.breakpoints.values.laptopL - 1 
-												&& <AnalyticChartInteface 
-														isClickedOnCompareButton={isClickedOnCompareButton} 
-														isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />}
-											<LightWeightChartForAnalytics
+										<Box sx={{ boxShadow: '5px 5px 10px 0px rgba(65, 6, 240, 0.79)' }}>
+											<LightWeightChartHeader 
+												isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} 
+												data={getDataInInterval(data, interval)} 
+											/>
+											{displaySize < theme.breakpoints.values.laptopL - 1
+												&& <AnalyticChartInteface
+													isClickedOnCompareButton={isClickedOnCompareButton}
+													isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />}
+											{openModalForCircularProgress ? <CircularProgressForChart/> :
+												<LightWeightChartForAnalytics
 												tickerData={tickerData}
 												tickerVolume={tickerVolume}
 												isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton}
-											/>
+											/>}
 										</Box>
 									</Grid>
 
@@ -176,10 +183,11 @@ const Analytics = () => {
 											desktop={3}
 											desktopL={2.5}
 										>
-											<AnalyticChartInteface 
-												isClickedOnCompareButton={isClickedOnCompareButton} 
+											<AnalyticChartInteface
+												isClickedOnCompareButton={isClickedOnCompareButton}
 												isClickedOnCompareTwoStocksButton={isClickedOnCompareTwoStocksButton} />
 										</Grid>}
+
 								</Grid>
 							</AnalyticChartContainer>
 						</Grid>

@@ -1,19 +1,20 @@
 export enum TickerColumnIdType {
-	name = "name",
+	symbolName = "symbolName",
     companyName = "companyName"
 }
 
 export interface TickerType {
-    name: string,
+    symbolName: string | "name",
     companyName : string,
     industryCategory?: string,
     type?: string,
     exchange?: string,
-    index?: number
+    index?: number,
+    name?: "name"
 }
 
 export interface TickerColumnType {
-    id: 'name',
+    id: 'symbolName',
     label: string,
     index?: number
 }

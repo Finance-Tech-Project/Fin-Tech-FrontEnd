@@ -21,13 +21,15 @@ export const StocksHistoricalTableContainerStyle = (theme: Theme) => ({
     minHeight: '687px',
     maxHeight: '690px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
-    borderBottom: 'none'
+    borderBottom: 'none',
+    boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
 });
 
 export const StocksHistoricalTablePaginationStyle = (theme: Theme) => ({
     width: '100%',
     border: '2px solid rgba(70, 75, 114, 0.8)',
     borderTop: 'none',
+    boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
     [theme.breakpoints.between('mobileL', 'laptopL')]: {
         overflow: 'hidden'
     }
@@ -71,6 +73,7 @@ export const StocksHistoricalTableApplyButton = styled(Button)(({ theme }) => ({
     zIndex: 1,
     color: 'white',
     borderRadius: '6px',
+    boxShadow: '5px 5px 7.5px 1px rgba(255, 98, 181, 0.79)',
     [theme.breakpoints.up('mobileS')]: {
         marginBottom: '20px'
     },

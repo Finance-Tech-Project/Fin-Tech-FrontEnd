@@ -12,7 +12,7 @@ import { TickerDataType } from '../../Types/TickersTypes'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { putDataInterval } from '../../Reducers/intervalDataReducer'
 import { getSymbolDataForDefaultPeriod, getSymbolDataForPeriodRange } from '../../Actions/fetchDispatchActions'
-import { getMinDateForHistory, getPeriod } from '../../Functions/getPeriod'
+import { getMinDateForHistory } from '../../Functions/getPeriod'
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer'
 import { GeneralDatePicker, GeneralDatePickerDesktopPaperStyle, GeneralDatePickerLayoutStyle, GeneralStocksBlocksTitle, SelectStyle, GeneralDatePickerPopperStyle } from '../../Styles/AreCommonStyles/AreCommonStyles'
 import { getDataInInterval, transformFirstLetterToUpperCase } from '../../Functions/utilsFunctions'
@@ -38,11 +38,11 @@ const StocksHistoricalTable = () => {
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === IntervalsFullName.Dayily
-            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly
+        const interval = event.target.value === IntervalsFullName.Daily
+            ? IntervalsAbbreviation.Daily : event.target.value === IntervalsFullName.Weekly
                 ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly
                     ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
-                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
+                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Daily;
         dispatch(putDataInterval(interval as string));
     };
 
@@ -75,8 +75,6 @@ const StocksHistoricalTable = () => {
 
     const removeValuesInUnmounted = () => {
         setIsMounted(false);
-        dispatch(putCurrentDateFrom(getPeriod(2)[0]));
-        dispatch(putCurrentDateTo(getPeriod(2)[1]));
         !isMounted && dispatch(getSymbolDataForDefaultPeriod(symbolName));
     };
 
@@ -85,9 +83,10 @@ const StocksHistoricalTable = () => {
         if (getDataInInterval(data, interval).length > 0) {
             setSymbolData();
         }
+        
         return () => removeValuesInUnmounted();
     }, [symbolName, data, interval, isMounted, getDataInInterval(data, interval).length > 0]);
-
+    
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <StocksHistoricalTableContainer>
@@ -100,7 +99,7 @@ const StocksHistoricalTable = () => {
                             mobileS={12}
                             laptop={2.5}
                         >
-                            <GeneralDatePicker
+                            <GeneralDatePicker 
                                 slotProps={{
                                     popper: {
                                         sx: () => GeneralDatePickerPopperStyle(theme, ComponentName.Stocks, isMobile)
@@ -114,8 +113,9 @@ const StocksHistoricalTable = () => {
                                 }}
                                 label="Date from"
                                 minDate={dayjs(getMinDateForHistory())}
-                                value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                                value={dayjs(dateFrom as string)}
                                 onChange={(newDate) => setDateFrom(newDate)}
+                                format='DD-MM-YYYY'
                             />
                         </Grid>
 
@@ -136,8 +136,9 @@ const StocksHistoricalTable = () => {
                                     }
                                 }}
                                 label="Date to"
-                                value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                                value={dayjs(dateTo as string)}
                                 onChange={(newDate) => setDateTo(newDate)}
+                                format='DD-MM-YYYY'
                             />
                         </Grid>
 
@@ -151,7 +152,8 @@ const StocksHistoricalTable = () => {
                                     MenuProps={{
                                         sx: {
                                             '& .MuiList-root': {
-                                                bgcolor: "rgba(44, 9, 81, 1)",
+                                                border: '2px solid rgba(70, 75, 114, 0.8)',
+                                                bgcolor: 'rgba(44, 9, 81, 1)',
                                                 color: 'white'
                                             }
                                         }

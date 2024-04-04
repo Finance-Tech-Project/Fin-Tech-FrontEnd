@@ -8,7 +8,7 @@ import { Box, Divider, Paper, TextField, Typography } from '@mui/material';
 import { GeneralAutocomplete } from '../../Styles/AreCommonStyles/AreCommonStyles';
 
 interface AutocompleteOption {
-    name: string,
+    symbolName: string,
     companyName: string
 }
 
@@ -27,7 +27,7 @@ const AnalyticOneStockAutocomplete = () => {
                 dispatch(putSymbolCompanyName("Apple Inc."));
             }
             autocompleteTickers.forEach((ticker) => {
-                if (ticker.name === event.currentTarget.childNodes[0].childNodes[0].textContent) {
+                if (ticker.symbolName === event.currentTarget.childNodes[0].childNodes[0].textContent) {
                     dispatch(putSymbolCompanyName(ticker.companyName));
                 }
             })
@@ -39,7 +39,7 @@ const AnalyticOneStockAutocomplete = () => {
         if (allTickers) {
             const res: AutocompleteOption[] | undefined = allTickers?.map((ticker) => {
                 const autocompleteTickers: AutocompleteOption = {
-                    name: ticker.name,
+                    symbolName: ticker.symbolName,
                     companyName: ticker.companyName
                 }
                 return autocompleteTickers;
@@ -72,20 +72,22 @@ const AnalyticOneStockAutocomplete = () => {
             componentsProps={{
                 paper: {
                     sx: {
+                        boxShadow: '3px 3px 15px 0px rgba(65, 6, 240, 0.79)',
+                        border: '2px solid rgba(70, 75, 114, 0.8)',
                         bgcolor: "rgba(44, 9, 81, 1)",
                         color: 'white'
                     }
                 }
             }}
             disablePortal={true}
-            getOptionLabel={(option: any) => (option.name || option.companyName) ?? option}
-            isOptionEqualToValue={(option: any) => option.name || option.companyName}
+            getOptionLabel={(option: any) => (option.symbolName || option.companyName) ?? option}
+            isOptionEqualToValue={(option: any) => option.symbolName || option.companyName}
             options={autocompleteTickers}
             noOptionsText={<Typography sx={{ color: 'white' }}>No tickers found</Typography>}
             renderOption={(props, option: any) => (
-                <Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.name}>
+                <Box component="li" sx={{ width: '100%', display: 'flex', flexDirection: 'column' }} {...props} key={option.symbolName}>
                     <Box sx={{ width: '100%', paddingBottom: '10px' }} >
-                        <Typography>{option.name}</Typography>
+                        <Typography>{option.symbolName}</Typography>
                         <Typography>{option.companyName}</Typography>
                         <Divider sx={{ backgroundColor: '#966fbd', borderStyle: 'solid', borderWidth: '1px', marginTop: '5px' }} />
                     </Box>

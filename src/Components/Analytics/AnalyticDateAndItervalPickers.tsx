@@ -1,11 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { getMinDateForHistory } from '../../Functions/getPeriod';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { putCurrentDateFrom, putCurrentDateTo } from '../../Reducers/dateDataReducer';
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { GeneralDatePicker, GeneralDatePickerDesktopPaperStyle, GeneralDatePickerLayoutStyle, SelectStyle, GeneralDatePickerPopperStyle } from '../../Styles/AreCommonStyles/AreCommonStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { putDataInterval } from '../../Reducers/intervalDataReducer';
@@ -25,7 +25,11 @@ interface Props {
     setIsClickedOnCompareButton: (React.Dispatch<React.SetStateAction<boolean>>)
 }
 
-const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleClickAnalyticChart, isClickedOnCompareTwoStocksButton, setIsClickedOnCompareButton }: Props) => {
+const AnalyticDateAndIntervalPickers = ({ 
+        handleClickTwoStocksCompare, 
+        handleClickAnalyticChart, 
+        isClickedOnCompareTwoStocksButton, 
+        setIsClickedOnCompareButton }: Props) => {
     const seriesName: ChartSeriesNames = useAppSelector(state => state.chartSeriesReducer.seriesName);
     const symbolName: Symbols = useAppSelector(state => state.selectedSymbolReducer);
     const simpleIncome: AnalyticInterface = useAppSelector(state => state.analyticInterfaceReducer.simpleIncome);
@@ -40,12 +44,12 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
 
     const handleChangePeriod = (event: SelectChangeEvent) => {
         setPeriod(event.target.value as string);
-        const interval = event.target.value === IntervalsFullName.Dayily
-            ? IntervalsAbbreviation.Dayily : event.target.value === IntervalsFullName.Weekly
+        const interval = event.target.value === IntervalsFullName.Daily
+            ? IntervalsAbbreviation.Daily : event.target.value === IntervalsFullName.Weekly
                 ? IntervalsAbbreviation.Weekly : event.target.value === IntervalsFullName.Monthly
                     ? IntervalsAbbreviation.Monthly : event.target.value === IntervalsFullName.Yearly
-                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Dayily;
-        dispatch(putDataInterval(interval as string))
+                        ? IntervalsAbbreviation.Yearly : IntervalsAbbreviation.Daily;
+        dispatch(putDataInterval(interval as string));
     };
 
     const handleClickOnApplyButton = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -140,8 +144,9 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                             }}
                             label="Date from"
                             minDate={dayjs(getMinDateForHistory())}
-                            value={dayjs(dateFrom as string, 'YYYY-MM-DD')}
+                            value={dayjs(dateFrom as string)}
                             onChange={(newDate) => setDateFrom(newDate)}
+                            format='DD-MM-YYYY'
                         />
                     </Grid>
                 }
@@ -166,8 +171,9 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                             }
                         }}
                             label="Date to"
-                            value={dayjs(dateTo as string, 'YYYY-MM-DD')}
+                            value={dayjs(dateTo as string)}
                             onChange={(newDate) => setDateTo(newDate)}
+                            format='DD-MM-YYYY'
                         />
                     </Grid>
                 }
@@ -185,6 +191,7 @@ const AnalyticDateAndIntervalPickers = ({ handleClickTwoStocksCompare, handleCli
                                 MenuProps={{
                                     sx: {
                                         '& .MuiList-root': {
+                                            border: '2px solid rgba(70, 75, 114, 0.8)',
                                             bgcolor: "rgba(44, 9, 81, 1)",
                                             color: 'white'
                                         }

@@ -13,29 +13,19 @@ and returns that object in array or if recived data was undefined, will return a
 
 export class CreatingRowsForTables<T> {
 
-    public createRowsForStartPage = (param: string, data: Array<TickerType> | undefined): Array<TickerType> => {
-        if (data !== undefined) {
-            const tickersData: Array<TickerType> = data.map((ticker, index) => {
-                const row: TickerType = {
-                    name: ticker.name,
-                    companyName: ticker.companyName,
-                    index: index
-                }
-                return row;
-            });
-
-            //Ticker search by letters entered in the text field by symbol and company name
-            if (param) {
-                return tickersData.filter((ticker) => (ticker.name.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined)
-                    || (ticker.companyName.toLowerCase().includes(param.toLowerCase()) ? ticker : undefined));
+    public createRowsForStartPage = (data: Array<TickerType> | undefined): Array<TickerType> => {
+        return data ? data.map((ticker, index) => {
+            const row: TickerType = {
+                symbolName: ticker.symbolName,
+                companyName: ticker.companyName,
+                index: index
             }
-            return tickersData;
-        }
-        return new Array<TickerType>();
+            return row;
+        }) : new Array<TickerType>();
     };
 
     public createRowsForHistoricalTable = (data: Array<TickerDataType> | undefined): Array<HistoricalTableType> => {
-        return data !== undefined ? data.map((data) => {
+        return data ? data.map((data) => {
             const row: HistoricalTableType = {
                 date: transformDate(data.time),
                 open: data.open,
@@ -64,7 +54,7 @@ export class CreatingRowsForTables<T> {
     };
 
     public createRowsForWatchList = (data: Array<WatchListType> | undefined): Array<WatchListType> => {
-        return data !== undefined ? data.map((item, index) => {
+        return data ? data.map((item, index) => {
             const row: WatchListType = {
                 symbolName: item.symbolName,
                 companyName: item.companyName,
@@ -79,7 +69,7 @@ export class CreatingRowsForTables<T> {
     };
 
     public createRowsForWatchListPortfolioCreate = (data: Array<WatchListCreatePortfolioType> | undefined): Array<WatchListCreatePortfolioType> => {
-        return data !== undefined ? data.map((item) => {
+        return data ? data.map((item) => {
             const row: WatchListCreatePortfolioType = {
                 symbolName: item.symbolName,
                 companyName: item.companyName,
