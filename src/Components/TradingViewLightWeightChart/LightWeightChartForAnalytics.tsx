@@ -119,7 +119,7 @@ const LightWeightChartForAnalytics = ({ tickerData, tickerVolume, isClickedOnCom
 		sharpRatio.period,
 		movAvgData.data
 	]);
-
+	
 	return (
 		<ChartContainer ref={chartContainerRef} >
 			<LightWeightChartButtonsForAnalytics isClickedToCompare={isClickedOnCompareTwoStocksButton} />

@@ -24,6 +24,7 @@ export const TwoStocksHeaderItem = styled(Box)(({ theme }) => ({
 
 export const TwoStocksHeaderItemGridContainerStyle = (theme: Theme) => ({
     width: '100%', 
+    height: '100%',
     display: 'flex', 
     alignItems: 'flex-end'
 });
