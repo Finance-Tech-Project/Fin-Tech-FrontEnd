@@ -6,7 +6,7 @@ import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } fro
 import { initialMapForWatchListPortfolioCreate, transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
-import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainer, WatchListModalPortfolioCreateContainerStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
+import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainerStyle, WatchListModalPortfolioCreateGridStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
 import { PortfolioType } from '../../Types/PortfolioTypes';
@@ -15,6 +15,7 @@ import { createPortfolio } from '../../Actions/fetchWatchListActions';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
 import ModalCircularProgress from '../GeneralComponents/ModalCircularProgress';
 import { putUserException } from '../../Reducers/userExeptionsReducer';
+import Grid from '@mui/material/Unstable_Grid2/Grid2';
 
 interface Props {
 	selected: WatchListCreatePortfolioType[],
@@ -100,89 +101,99 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			}}
 		>
 			<Fade in={open}>
-				<WatchListModalPortfolioCreateContainer>
-					{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
-					<ModalFetchResponses/>
-					<Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-						<LoginRegisterTextField
-							label='Enter portfolio name'
-							widthForModalPortfolioCreate
-							onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPortfolioName(e.target.value)}
-							value={portfolioName}
-						></LoginRegisterTextField>
+				<Grid container>
+					<Grid mobileS={8} laptopL={9}
+						sx={() => WatchListModalPortfolioCreateGridStyle(theme)}
+					>
+						{openModalForCircularProgress && <ModalCircularProgress openCloseModal={openModalForCircularProgress} />}
+						<ModalFetchResponses />
+						<Box sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							[theme.breakpoints.down('laptop')]: {
+							    flexDirection: 'column'
+							},
+						}}>
+							<LoginRegisterTextField
+								label='Enter portfolio name'
+								widthForModalPortfolioCreate
+								onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPortfolioName(e.target.value)}
+								value={portfolioName}
+							></LoginRegisterTextField>
 
-						<WatchListModalPortfolioCreateButtons onClick={handleCreatePortfolio}>Create portfolio</WatchListModalPortfolioCreateButtons>
-					</Box>
+							<WatchListModalPortfolioCreateButtons marginTop
+								 onClick={handleCreatePortfolio}>Create portfolio</WatchListModalPortfolioCreateButtons>
+						</Box>
 
+						<TableContainer component={Paper}
+							sx={() => WatchListModalPortfolioCreateContainerStyle(theme)}>
+							<Table stickyHeader aria-label="sticky table">
+								<TableHead>
+									<TableRow sx={{ backgroundColor: '#190033' }}>
+										{columns?.map((column) => {
+											return (
+												<TableCell component="th" sx={{
+													'&.MuiTableCell-root': {
+														backgroundColor: '#190033',
+														color: 'white'
+													}
+												}} key={column.id}>{transformTextForTableColumnHeadings(column.label)}</TableCell>
+											);
+										})}
+									</TableRow>
+								</TableHead>
 
-					<TableContainer component={Paper}
-						sx={() => WatchListModalPortfolioCreateContainerStyle(theme)}>
-						<Table stickyHeader aria-label="sticky table">
-							<TableHead>
-								<TableRow sx={{ backgroundColor: '#190033' }}>
-									{columns?.map((column) => {
-										return (
-											<TableCell component="th" sx={{
-												'&.MuiTableCell-root': {
-													backgroundColor: '#190033',
-													color: 'white'
-												}
-											}} key={column.id}>{transformTextForTableColumnHeadings(column.label)}</TableCell>
-										);
-									})}
-								</TableRow>
-							</TableHead>
-
-							<TableBody>
-								{rows
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((row) => {
-										return (
-											<TableRow key={row.symbolName}>
-												{columns.map((column) => {
-													const value = row[column.id];
-													return (
-														<TabelCellTicker key={column.id}>
-															{value}
-															{column.id === 'amountOfStocks' &&
-																<LoginRegisterTextField
-																	id="standard-number"
-																	type="number"
-																	widthForTableModalPortfolioCreate
-																	defaultValue='1'
-																	onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-																		setAmountOfStocks((prev) => prev.set(row.symbolName, +e.target.value))}
-																></LoginRegisterTextField>
-															}
-															{column.id === 'removeSymbol' &&
-																<WatchListModalPortfolioCreateButtons widthForTable
-																	onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}
-																>Remove</WatchListModalPortfolioCreateButtons>
-															}
-														</TabelCellTicker>
-													);
-												})}
-											</TableRow>
-										);
-									})}
-							</TableBody>
-						</Table>
-					</TableContainer>
-					<TablePagination
-						sx={{
-							width: '99.75%',
-							border: '2px solid rgba(70, 75, 114, 0.8)',
-							borderTop: 'none'
-						}}
-						rowsPerPageOptions={[10, 100, 1000]}
-						component="div"
-						count={rows.length}
-						rowsPerPage={rowsPerPage}
-						page={page}
-						onPageChange={handleChangePage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
-				</WatchListModalPortfolioCreateContainer>
+								<TableBody>
+									{rows
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row) => {
+											return (
+												<TableRow key={row.symbolName}>
+													{columns.map((column) => {
+														const value = row[column.id];
+														return (
+															<TabelCellTicker key={column.id}>
+																{value}
+																{column.id === 'amountOfStocks' &&
+																	<LoginRegisterTextField
+																		id="standard-number"
+																		type="number"
+																		widthForTableModalPortfolioCreate
+																		defaultValue='1'
+																		onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+																			setAmountOfStocks((prev) => prev.set(row.symbolName, +e.target.value))}
+																	></LoginRegisterTextField>
+																}
+																{column.id === 'removeSymbol' &&
+																	<WatchListModalPortfolioCreateButtons widthForTable
+																		onClick={() => removeFromModalTablePortfolioCreate(row.symbolName)}
+																	>Remove</WatchListModalPortfolioCreateButtons>
+																}
+															</TabelCellTicker>
+														);
+													})}
+												</TableRow>
+											);
+										})}
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							sx={{
+								width: '99.75%',
+								border: '2px solid rgba(70, 75, 114, 0.8)',
+								borderTop: 'none'
+							}}
+							rowsPerPageOptions={[10, 100, 1000]}
+							component="div"
+							count={rows.length}
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</Grid>
+				</Grid>
 			</Fade>
 		</Modal>
 	)

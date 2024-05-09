@@ -257,7 +257,6 @@ const Watchlist = () => {
                                 <WatchListButtons onClick={(event: React.MouseEvent<HTMLElement>) => handleRemoveSymbolsFromWatchList(event)}
                                 >Remove from watchlist</WatchListButtons>
                             </Grid>
-
                         </WatchListButtonsContainer>
                     </WatchListWrapper>
                 </Grid>

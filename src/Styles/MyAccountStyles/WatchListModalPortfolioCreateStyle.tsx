@@ -1,27 +1,33 @@
-import { Box, Button, Theme, styled } from "@mui/material";
+import { Button, Theme, styled } from "@mui/material";
 
-export const WatchListModalPortfolioCreateContainer = styled(Box)(({ theme }) => ({
+export const WatchListModalPortfolioCreateGridStyle = (theme: Theme) => ({
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 1000,
     backgroundColor: '#2c0951',
     border: '2px solid rgba(37, 59, 227, 0.8)',
     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-    padding: '20px'
-}));
+    padding: '20px',
+    [theme.breakpoints.down('laptop')]: {
+        height: '700px',
+    }
+});
 
 export const WatchListModalPortfolioCreateButtons = styled(Button, {
-    shouldForwardProp: prop => prop !== 'widthForTable'
-})<any>(({ theme, widthForTable }) => ({
+    shouldForwardProp: prop => prop !== 'widthForTable' && prop !== 'marginTop'
+})<any>(({ theme, widthForTable, marginTop }) => ({
     width: '250px',
     height: '56px',
     border: '1.5px solid rgba(37, 59, 227, 0.8)',
     backgroundColor: 'rgba(1, 17, 36, 0.8)',
     color: 'white',
     boxShadow: '5px 5px 25px 0px rgba(65, 6, 240, 0.8)',
-    ...(widthForTable && { width: '100%' })
+    ...(widthForTable && { width: '100%' }),
+    [theme.breakpoints.down('laptop')]: {
+        width: '100%',
+        ...(marginTop && { marginTop: '20px' })
+    }
 }));
 
 export const WatchListModalPortfolioCreateContainerStyle = (theme: Theme) => ({
@@ -30,6 +36,9 @@ export const WatchListModalPortfolioCreateContainerStyle = (theme: Theme) => ({
     width: '99.75%',
     marginTop: '30px',
     border: '2px solid rgba(70, 75, 114, 0.8)',
-    borderBottom: 'none'
+    borderBottom: 'none',
+    [theme.breakpoints.down('laptop')]: {
+        height: '430px'
+    }
 });
 
