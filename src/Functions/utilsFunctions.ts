@@ -4,6 +4,7 @@ import { AnalyticInterface } from "../Types/AnalyticTypes";
 import { SymbolData } from "../Types/DataReducerTypes";
 import { TickerDataType } from "../Types/TickersTypes";
 import { WatchListCreatePortfolioType } from "../Types/WatchListModalCreatePortfolioType";
+import { PortfolioStocks } from "../Types/PortfolioTypes";
 
 export const transformTextForStatistics = (word: string | undefined) => {
     if (word) {
@@ -236,14 +237,20 @@ export const transformTextForTableColumnHeadings = (text: string) => {
     });
 };
 
-export const initialMapForWatchListPortfolioCreate = (selectedSymbols: Array<WatchListCreatePortfolioType>) => {
+export const initialListForWatchListPortfolioCreate = (selectedSymbols: Array<WatchListCreatePortfolioType>) => {
     if (selectedSymbols && selectedSymbols.length > 0) {
-        const res: Map<string, number> = new Map<string, number>();
-        selectedSymbols.forEach((item) => {
-            res.set(item.symbolName, 1);
-        });
+        const res: Array<PortfolioStocks> = selectedSymbols.map(symbol => {
+            const stock: PortfolioStocks = {
+                symbolName: symbol.symbolName,
+                companyName: symbol.companyName,
+                close: 0,
+                amountOfStocksForUserPortfolio: 1,
+                sumOfAmountOfStocks: 0
+            }
+            return stock;
+        })
         return res;
     } else {
-        return new Map<string, number>();
+        return new Array<PortfolioStocks>();
     }
 };

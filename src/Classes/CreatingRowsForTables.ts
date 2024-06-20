@@ -1,5 +1,6 @@
 import { transformDate, transformVolume } from "../Functions/utilsFunctions";
 import { HistoricalTableType } from "../Types/HistoricalTableTypes";
+import { PortfolioColumnsType, PortfolioRowsType, PortfolioType } from "../Types/PortfolioTypes";
 import { StatisticsRows } from "../Types/StatisticsTypes";
 import { TickerDataType, TickerType } from "../Types/TickersTypes";
 import { WatchListCreatePortfolioType } from "../Types/WatchListModalCreatePortfolioType";
@@ -78,5 +79,17 @@ export class CreatingRowsForTables<T> {
             };
             return row;
         }) : new Array<WatchListCreatePortfolioType>();
+    };
+
+    public createRowsForPortfolio = (data: Array<PortfolioType> | undefined) => {
+        return data ? data.map((item) => {
+            const row: PortfolioRowsType = {
+                portfolioName: item.portfolioName,
+                portfolioDate: item.portfolioDate,
+                portfolioPrice: item.stocks.reduce((acc, item) => { return acc += item.sumOfAmountOfStocks }, 0),
+                removePortfolio: null
+            };
+            return row;
+        }) : new Array<PortfolioRowsType>();
     };
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { HistoricalTableColumnType } from "../Types/HistoricalTableTypes";
+import { PortfolioColumnsType, PortfolioType } from "../Types/PortfolioTypes";
 import { Statistics, StatisticsColumnType } from "../Types/StatisticsTypes";
 import { TickerColumnType } from "../Types/TickersTypes";
 import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioIdType } from "../Types/WatchListModalCreatePortfolioType";
@@ -82,5 +83,10 @@ export class CreatingColumnsForTables<T> {
                     WatchListCreatePortfolioIdType.removeSymbol
                 ]
             ) as Array<WatchListCreatePortfolioColumnsType>;
+    };
+
+    public createColumnsForPortfolio = (data: Array<T> | undefined) => {
+        return data && data.length > 0 ? 
+            this.getKeys(data).map((item, index) => this.createColumnObject(item, index) as PortfolioColumnsType) : new Array<PortfolioColumnsType>();
     };
 }

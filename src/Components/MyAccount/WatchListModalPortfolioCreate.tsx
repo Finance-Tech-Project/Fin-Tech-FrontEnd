@@ -3,13 +3,13 @@ import { Backdrop, Box, Fade, Modal, Paper, Table, TableBody, TableCell, TableCo
 import React, { useEffect, useState } from 'react'
 import { LoginRegisterTextField } from '../../Styles/LoginRegisterStyles/LoginRegisterStyle';
 import { WatchListCreatePortfolioColumnsType, WatchListCreatePortfolioType } from '../../Types/WatchListModalCreatePortfolioType';
-import { initialMapForWatchListPortfolioCreate, transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
+import { initialListForWatchListPortfolioCreate, transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
 import { CreatingColumnsForTables } from '../../Classes/CreatingColumnsForTables';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
 import { WatchListModalPortfolioCreateButtons, WatchListModalPortfolioCreateContainerStyle, WatchListModalPortfolioCreateGridStyle } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
 import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
 import { theme } from '../../Constants/MaterialConstants/theme';
-import { PortfolioType } from '../../Types/PortfolioTypes';
+import { PortfolioStocks, PortfolioType } from '../../Types/PortfolioTypes';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { createPortfolio } from '../../Actions/fetchWatchListActions';
 import ModalFetchResponses from '../GeneralComponents/ModalFetchResponses';
@@ -30,7 +30,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const [rows, setRows] = useState<Array<WatchListCreatePortfolioType>>([]);
 	const [page, setPage] = React.useState(0);
 	const dispatch = useAppDispatch();
-	const [amountOfStocks, setAmountOfStocks] = useState<Map<string, number>>(initialMapForWatchListPortfolioCreate(selected));
+	const [stocks, setStocks] = useState<Array<PortfolioStocks>>(initialListForWatchListPortfolioCreate(selected));
 	const [portfolioName, setPortfolioName] = useState('');
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 	const [openModalForCircularProgress, setOpenModalForCircularProgress] = useState(false);
@@ -56,12 +56,12 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 			portfolio.userLogin = login;
 			portfolio.portfolioName = portfolioName;
 			portfolio.portfolioDate = new Date().toISOString().split("T").splice(0, 1)[0];
-			portfolio.stocks = Object.fromEntries(amountOfStocks);
+			portfolio.stocks = stocks;
 			const responseStatus = await dispatch(createPortfolio(token!, portfolio));
 			setOpenModalForCircularProgress(false);
 			if (responseStatus && (responseStatus === 200 || responseStatus === 201)) {
 				selected.splice(0, selected.length);
-				amountOfStocks.clear();
+				setStocks(new Array<PortfolioStocks>());
 				setPortfolioName('');
 			}
 		}
@@ -77,7 +77,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 	const removeFromModalTablePortfolioCreate = (symbolName: string) => {
 		const index = selected.findIndex(item => item.symbolName === symbolName);
 		selected.splice(index, 1);
-		amountOfStocks.delete(symbolName);
+		setStocks(stocks.filter(p => p.symbolName !== symbolName));
 		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected.length === 0 || !selected ? new Array<WatchListCreatePortfolioType>() : selected));
 	};
 
@@ -85,7 +85,7 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 		setColumns(new CreatingColumnsForTables().createColumnsForWatchListPortfolioCreate(selected));
 		setRows(new CreatingRowsForTables().createRowsForWatchListPortfolioCreate(selected));
 	}, []);
-
+	
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
@@ -160,8 +160,13 @@ const WatchListModalPortfolioCreate = ({ setOpenModalForCreatePortfolio, selecte
 																		type="number"
 																		widthForTableModalPortfolioCreate
 																		defaultValue='1'
-																		onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-																			setAmountOfStocks((prev) => prev.set(row.symbolName, +e.target.value))}
+																		onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+																			stocks.forEach((stock) => {
+																				if (stock.symbolName === row.symbolName) {
+																					stock.amountOfStocksForUserPortfolio = +e.target.value;
+																				}
+																			})
+																		}}
 																	></LoginRegisterTextField>
 																}
 																{column.id === 'removeSymbol' &&
