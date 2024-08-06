@@ -1,6 +1,6 @@
 import { transformDate, transformVolume } from "../Functions/utilsFunctions";
 import { HistoricalTableType } from "../Types/HistoricalTableTypes";
-import { PortfolioColumnsType, PortfolioRowsType, PortfolioType } from "../Types/PortfolioTypes";
+import { PortfolioRowsType, PortfolioType } from "../Types/PortfolioTypes";
 import { StatisticsRows } from "../Types/StatisticsTypes";
 import { TickerDataType, TickerType } from "../Types/TickersTypes";
 import { WatchListCreatePortfolioType } from "../Types/WatchListModalCreatePortfolioType";

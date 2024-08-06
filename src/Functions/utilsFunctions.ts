@@ -232,7 +232,7 @@ export const validationEmail = (email: string) => {
 
 export const transformTextForTableColumnHeadings = (text: string) => {
     const uppercaseLetterRegex = /[A-Z]/g;
-    return !uppercaseLetterRegex.test(text) ? transformFirstLetterToUpperCase(text) : text.split('').map((letter, index) => {
+    return !uppercaseLetterRegex.test(text) && text ? transformFirstLetterToUpperCase(text) : text && text.split('').map((letter, index) => {
         return index === 0 ? letter.toUpperCase() : uppercaseLetterRegex.test(letter) ? ' ' + letter.toLowerCase() : letter; 
     });
 };

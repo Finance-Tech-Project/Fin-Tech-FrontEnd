@@ -5,7 +5,7 @@ import { GeneralAccountTitleContainer, GeneralAccountsTitleHeader } from '../../
 import { MyAccountPanelInterfaceToolbarArrowRight } from '../../Styles/MyAccountStyles/MyAccountPanelInterfaceStyle';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { setOpenColseToolbar } from '../../Reducers/accountInterfaceReducer';
-import { Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { Box, Divider, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { getAllUserPortfolios } from '../../Actions/fetchPortfoliosActions';
 import { WatchLisTableContainerStyle } from '../../Styles/MyAccountStyles/WatchListStyle';
 import { theme } from '../../Constants/MaterialConstants/theme';
@@ -15,6 +15,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { transformTextForTableColumnHeadings } from '../../Functions/utilsFunctions';
 import { CreatingRowsForTables } from '../../Classes/CreatingRowsForTables';
+import { TabelCellTicker } from '../../Styles/TickersStyles/TickersStyles';
+import { WatchListModalPortfolioCreateButtons } from '../../Styles/MyAccountStyles/WatchListModalPortfolioCreateStyle';
 
 const Portfolio = () => {
     const login = useAppSelector(state => state.userReducer?.login);
@@ -50,13 +52,18 @@ const Portfolio = () => {
             }
         })
         setColumns(new CreatingColumnsForTables().createColumnsForPortfolio(portfolioColumnsObject));
+        setColumns((prev) => {
+            prev?.unshift({} as PortfolioColumnsType);
+            return prev;
+        });
         setRows(new CreatingRowsForTables().createRowsForPortfolio(portfolios));
     };
 
     useEffect(() => {
         fetchUserPortfolios();
     }, []);
-    console.log(rows);
+
+    console.log(columns);
     return (
         <PortfolioContainer>
             <Grid container>
@@ -90,15 +97,48 @@ const Portfolio = () => {
                                                         textAlign: 'center'
                                                     }
                                                 }}>
-                                                   {transformTextForTableColumnHeadings(column.id)}
-                                                </TableCell> 
+                                                    {transformTextForTableColumnHeadings(column.id)}
+                                                </TableCell>
                                             )
                                         })}
                                     </TableRow>
                                 </TableHead>
 
                                 <TableBody>
+                                    {rows && rows
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row) => {
+                                            return (
+                                                <React.Fragment>
+                                                    <TableRow key={row.portfolioName}>
+                                                        {columns?.map((column, index) => {
+                                                            const value = row[column.id];
+                                                            return (
+                                                                <TabelCellTicker key={column.id} sx={{textAlign: 'center'}}>
+                                                                    {index === 0 &&
+                                                                        <IconButton
+                                                                            sx={{ textAlign: 'start' }}
+                                                                            aria-label="expand row"
+                                                                            size="small"
+                                                                            onClick={() => setOpen(!open)}
+                                                                        >
+                                                                            {open ? <KeyboardArrowUpIcon sx={{ color: 'white' }} />
+                                                                                : <KeyboardArrowDownIcon sx={{ color: 'white' }} />}
+                                                                        </IconButton>
+                                                                    }
+                                                                    {value}
+                                                                    {column.id === 'removePortfolio' && 
+                                                                        <WatchListModalPortfolioCreateButtons>Remove</WatchListModalPortfolioCreateButtons>
+                                                                    }
+                                                                </TabelCellTicker>
+                                                            )
+                                                        })}
+                                                    </TableRow>
+                                                </React.Fragment>
 
+                                            )
+                                        })
+                                    }
                                 </TableBody>
                             </Table>
                         </TableContainer>
